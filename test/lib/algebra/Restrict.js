@@ -211,7 +211,7 @@ describe('Restrict class', function(){
 
         describe('When giving super complex predicates', function(){
 
-            it.only('Should return only tuples where the condition holds', function(done){
+            it('Should return only tuples where the condition holds', function(done){
 
                 var rel1 = new affinity.Relation([
                     {id: { type: affinity.Integer}},
