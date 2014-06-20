@@ -101,35 +101,28 @@ describe('Join class', function(){
             it('Should return the combinations of those tuples where there are common attribute values', function(done){
 
                 var rel1 = new affinity.Relation([
-                    {a : {type : affinity.Integer}},
-                    {b : {type : affinity.Integer}},
-                    {c : {type : affinity.Integer}}
+                    {firstName : {type : affinity.String}},
+                    {lastName : {type : affinity.String}},
+                    {deptId : {type : affinity.Integer}}
                 ],[
-                    [1, 1, 3],
-                    [2, 2, 3],
-                    [3, 3, 2],
-                    [4, 4, 2],
-                    [5, 5, 2],
-                    [5, 1, 4],
-                    [5, 2, 4],
-                    [5, 3, 4]
+                    ['John', 'Cage', 1],
+                    ['U', '2', 2],
+                    ['Lady', 'Gaga', 2],
+                    ['Paul', 'McCartney', 3],
+                    ['Django', 'Reinhart', 3],
                 ]);
 
                 var rel2 = new affinity.Relation([
-                    {c : {type : affinity.Integer}},
-                    {d : {type : affinity.Integer}}
+                    {deptId : {type : affinity.Integer}},
+                    {deptName : {type : affinity.String}}
                 ],[
-                    [2, 1],
-                    [2, 2],
-                    [2, 3],
-                    [3, 1],
-                    [3, 2],
-                    [3, 3]
+                    [1, 'Doodles'],
+                    [2, 'Gingles']
                 ]);
 
                 var rel3 = rel1.join(rel2);
 
-                rel3.elements().should.be.an.Array.and.have.length(15);
+                rel3.elements().should.be.an.Array.and.have.length(3);
 
                 rel3.print();
 
@@ -144,24 +137,25 @@ describe('Join class', function(){
             it('Should return the combinations of those tuples where there are common attribute values', function(done){
 
                 var rel1 = new affinity.Relation([
-                    {a : {type : affinity.Integer}},
-                    {b : {type : affinity.Integer}},
-                    {c : {type : affinity.Integer}}
+                    {firstName : {type : affinity.String}},
+                    {lastName : {type : affinity.String}},
+                    {deptId : {type : affinity.Integer}}
                 ],[
-                    [1, 1, 3],
-                    [2, 2, 3],
-                    [3, 3, 2],
-                    [4, 4, 2],
-                    [5, 5, 2]
+                    ['John', 'Cage', 1],
+                    ['U', '2', 2],
+                    ['Lady', 'Gaga', 2],
+                    ['Paul', 'McCartney', 3],
+                    ['Django', 'Reinhart', 3],
                 ]);
 
                 var rel2 = new affinity.Relation([
-                    {b : {type : affinity.Integer}},
-                    {c : {type : affinity.Integer}}
+                    {firstName : {type : affinity.String}},
+                    {lastName : {type : affinity.String}},
+                    {category : {type : affinity.String}}
                 ],[
-                    [1, 3],
-                    [2, 3],
-                    [3, 2]
+                    ['John', 'Cage', 'Doodles'],
+                    ['John', 'Cage', 'Bimbles'],
+                    ['Paul', 'McCartney', 'Dandiddles']
                 ]);
 
                 var rel3 = rel1.join(rel2);

@@ -47,7 +47,7 @@ describe('Projection Class', function(){
                 ]);
 
                 should(function () {
-                    var rel = rel1.project(['a', 'b', 'c', 'd', 'e']);
+                    var rel = rel1.project(['a', 'b', 'c', 'd', 'e']).compute();
                 }).throw();
 
                 done();

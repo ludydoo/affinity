@@ -198,7 +198,12 @@ describe('Relation class', function () {
                             tuple3
                         ];
 
-                var header = new affinity.Header({a: affinity.Integer, b: affinity.Integer, c: affinity.Integer});
+                var header = new affinity.Header([
+                    {a : {type : affinity.Integer}},
+                    {b : {type : affinity.Integer}},
+                    {c : {type : affinity.Integer}}
+                ]);
+
 
                 should(function () {
                     var relation = new affinity.Relation(header, data);
@@ -225,7 +230,11 @@ describe('Relation class', function () {
                             tuple3
                         ];
 
-                var header = new affinity.Header({a: affinity.Integer, b: affinity.Integer, c: affinity.Integer});
+                var header = new affinity.Header([
+                    {a : {type : affinity.Integer}},
+                    {b : {type : affinity.Integer}},
+                    {c : {type : affinity.Integer}}
+                ]);
 
                 should(function () {
                     var relation = new affinity.Relation(header, data);
@@ -248,7 +257,11 @@ describe('Relation class', function () {
                             [6, 7, 8]
                         ];
 
-                var header = new affinity.Header({a: affinity.Integer, b: affinity.Integer, c: affinity.Integer});
+                var header = new affinity.Header({
+                    a : {type : affinity.Integer},
+                    b : {type : affinity.Integer},
+                    c: {type: affinity.Integer}
+                });
 
                 should(function () {
                     var relation = new affinity.Relation(header, data);
@@ -297,7 +310,11 @@ describe('Relation class', function () {
 
             it('Should throw', function(done){
 
-                var header = new affinity.Header({a : affinity.Integer, b : affinity.Integer, c : affinity.Integer});
+                var header = new affinity.Header([
+                    {a : {type : affinity.Integer}},
+                    {b : {type : affinity.Integer}},
+                    {c : {type : affinity.Integer}}
+                ]);
 
                 var tuple = new affinity.Tuple({a : 1, b : 2, c : 3, d : 4});
 
@@ -344,7 +361,11 @@ describe('Relation class', function () {
 
             it('Should throw', function(done){
 
-                var header = new affinity.Header({a : affinity.Integer, b : affinity.Integer, c : affinity.Integer});
+                var header = new affinity.Header([
+                    {a : {type : affinity.Integer}},
+                    {b : {type : affinity.Integer}},
+                    {c : {type : affinity.Integer}}
+                ]);
 
                 var tuple = {a : 1, b : 2, c : 3, d : 4};
 

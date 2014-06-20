@@ -28,30 +28,16 @@ describe('Header Class', function () {
                 var attribute1 = new affinity.Attribute({type : affinity.String});
                 var attribute2 = new affinity.Attribute({type : affinity.Integer});
 
-                var header = new affinity.Header({attribute1 : attribute1, attribute2 : attribute2});
+                var header = new affinity.Header([
+                        {attribute1 : attribute1},
+                        {attribute2 : attribute2}
+                    ]);
 
                 header.count().should.be.equal(2);
                 header.elements().should.be.an.Array.and.have.length(2);
 
                 header.get('attribute1').should.equal(attribute1);
                 header.get('attribute2').should.equal(attribute2);
-
-                done();
-
-            });
-
-        });
-
-        describe('When called with invalid format of attributes', function(){
-
-            it('Should throw an error', function(done){
-
-                var attribute1 = {type : Object};
-                var attribute2 = {type : Array};
-
-                should(function(){
-                    var header = new affinity.Header({attribute1 : attribute1, attribute2 : attribute2});
-                }).throw();
 
                 done();
 
@@ -126,9 +112,9 @@ describe('Header Class', function () {
 
             it('Should return a projected operation on those headers', function(done){
 
-                var attribute1 = new affinity.Attribute(affinity.Integer),
-                    attribute2 = new affinity.Attribute(affinity.Integer),
-                    attribute3 = new affinity.Attribute(affinity.Integer);
+                var attribute1 = new affinity.Attribute({type : affinity.Integer}),
+                    attribute2 = new affinity.Attribute({type : affinity.Integer}),
+                    attribute3 = new affinity.Attribute({type : affinity.Integer});
 
                 var header = new affinity.Header({
                     attribute1 : attribute1,
@@ -153,9 +139,9 @@ describe('Header Class', function () {
 
             it('Should return a projected header on those attributes', function(done){
 
-                var attribute1 = new affinity.Attribute(affinity.Integer),
-                    attribute2 = new affinity.Attribute(affinity.Integer),
-                    attribute3 = new affinity.Attribute(affinity.Integer);
+                var attribute1 = new affinity.Attribute({type:affinity.Integer}),
+                    attribute2 = new affinity.Attribute({type:affinity.Integer}),
+                    attribute3 = new affinity.Attribute({type:affinity.Integer});
 
                 var header = new affinity.Header({
                     attribute1 : attribute1,
@@ -182,9 +168,9 @@ describe('Header Class', function () {
 
            it('Should throw an error', function(done){
 
-               var attribute1 = new affinity.Attribute(affinity.Integer),
-                   attribute2 = new affinity.Attribute(affinity.Integer),
-                   attribute3 = new affinity.Attribute(affinity.Integer);
+               var attribute1 = new affinity.Attribute({type:affinity.Integer}),
+                   attribute2 = new affinity.Attribute({type:affinity.Integer}),
+                   attribute3 = new affinity.Attribute({type:affinity.Integer});
 
                var header = new affinity.Header({
                    attribute1 : attribute1,
@@ -205,8 +191,8 @@ describe('Header Class', function () {
 
             it('Should throw an error', function(done){
 
-                var attribute1 = new affinity.Attribute(affinity.Integer),
-                    attribute2 = new affinity.Attribute(affinity.Integer);
+                var attribute1 = new affinity.Attribute({type:affinity.Integer}),
+                    attribute2 = new affinity.Attribute({type:affinity.Integer});
 
                 var header = new affinity.Header({
                     attribute1 : attribute1,
@@ -231,9 +217,9 @@ describe('Header Class', function () {
 
             it('Should remove these attributes from the resulting header', function(done){
 
-                var attribute1 = new affinity.Attribute(affinity.Integer);
-                var attribute2 = new affinity.Attribute(affinity.Integer);
-                var attribute3 = new affinity.Attribute(affinity.Integer);
+                var attribute1 = new affinity.Attribute({type:affinity.Integer});
+                var attribute2 = new affinity.Attribute({type:affinity.Integer});
+                var attribute3 = new affinity.Attribute({type:affinity.Integer});
 
                 var header = new affinity.Header({attribute1 : attribute1, attribute2: attribute2, attribute3: attribute3});
 
@@ -256,9 +242,9 @@ describe('Header Class', function () {
 
             it('Should remove these attributes from the resulting header', function(done){
 
-                var attribute1 = new affinity.Attribute(affinity.Integer);
-                var attribute2 = new affinity.Attribute(affinity.Integer);
-                var attribute3 = new affinity.Attribute(affinity.Integer);
+                var attribute1 = new affinity.Attribute({type:affinity.Integer});
+                var attribute2 = new affinity.Attribute({type:affinity.Integer});
+                var attribute3 = new affinity.Attribute({type:affinity.Integer});
 
                 var header = new affinity.Header({attribute1 : attribute1, attribute2: attribute2, attribute3: attribute3});
 
@@ -281,9 +267,9 @@ describe('Header Class', function () {
 
             it('Should remove this attribute from the resulting header', function(done){
 
-                var attribute1 = new affinity.Attribute(affinity.Integer);
-                var attribute2 = new affinity.Attribute(affinity.Integer);
-                var attribute3 = new affinity.Attribute(affinity.Integer);
+                var attribute1 = new affinity.Attribute({type:affinity.Integer});
+                var attribute2 = new affinity.Attribute({type:affinity.Integer});
+                var attribute3 = new affinity.Attribute({type:affinity.Integer});
 
                 var header = new affinity.Header({attribute1 : attribute1, attribute2: attribute2, attribute3: attribute3});
 
@@ -308,9 +294,9 @@ describe('Header Class', function () {
 
             it('Should remove this attribute from the resulting header', function(done){
 
-                var attribute1 = new affinity.Attribute(affinity.Integer);
-                var attribute2 = new affinity.Attribute(affinity.Integer);
-                var attribute3 = new affinity.Attribute(affinity.Integer);
+                var attribute1 = new affinity.Attribute({type:affinity.Integer});
+                var attribute2 = new affinity.Attribute({type:affinity.Integer});
+                var attribute3 = new affinity.Attribute({type:affinity.Integer});
 
                 var header = new affinity.Header({attribute1 : attribute1, attribute2: attribute2, attribute3: attribute3});
 
@@ -335,9 +321,9 @@ describe('Header Class', function () {
 
             it('Should remove these attributes from the resulting header', function(done){
 
-                var attribute1 = new affinity.Attribute(affinity.Integer);
-                var attribute2 = new affinity.Attribute(affinity.Integer);
-                var attribute3 = new affinity.Attribute(affinity.Integer);
+                var attribute1 = new affinity.Attribute({type:affinity.Integer});
+                var attribute2 = new affinity.Attribute({type:affinity.Integer});
+                var attribute3 = new affinity.Attribute({type:affinity.Integer});
 
                 var header = new affinity.Header({attribute1 : attribute1, attribute2: attribute2, attribute3: attribute3});
 
@@ -360,10 +346,10 @@ describe('Header Class', function () {
 
             it('Should throw', function(done){
 
-                var attribute1 = new affinity.Attribute(affinity.Integer);
-                var attribute2 = new affinity.Attribute(affinity.Integer);
-                var attribute3 = new affinity.Attribute(affinity.Integer);
-                var attribute4 = new affinity.Attribute(affinity.Integer);
+                var attribute1 = new affinity.Attribute({type:affinity.Integer});
+                var attribute2 = new affinity.Attribute({type:affinity.Integer});
+                var attribute3 = new affinity.Attribute({type:affinity.Integer});
+                var attribute4 = new affinity.Attribute({type:affinity.Integer});
 
                 var header = new affinity.Header({attribute1 : attribute1, attribute2: attribute2, attribute3: attribute3});
 
@@ -381,10 +367,10 @@ describe('Header Class', function () {
 
             it('Should throw', function(done){
 
-                var attribute1 = new affinity.Attribute(affinity.Integer);
-                var attribute2 = new affinity.Attribute(affinity.Integer);
-                var attribute3 = new affinity.Attribute(affinity.Integer);
-                var attribute4 = new affinity.Attribute(affinity.Integer);
+                var attribute1 = new affinity.Attribute({type:affinity.Integer});
+                var attribute2 = new affinity.Attribute({type:affinity.Integer});
+                var attribute3 = new affinity.Attribute({type:affinity.Integer});
+                var attribute4 = new affinity.Attribute({type:affinity.Integer});
 
                 var header = new affinity.Header({attribute1 : attribute1, attribute2: attribute2, attribute3: attribute3});
 
@@ -402,10 +388,10 @@ describe('Header Class', function () {
 
             it('Should throw', function(done){
 
-                var attribute1 = new affinity.Attribute(affinity.Integer);
-                var attribute2 = new affinity.Attribute(affinity.Integer);
-                var attribute3 = new affinity.Attribute(affinity.Integer);
-                var attribute4 = new affinity.Attribute(affinity.Integer);
+                var attribute1 = new affinity.Attribute({type:affinity.Integer});
+                var attribute2 = new affinity.Attribute({type:affinity.Integer});
+                var attribute3 = new affinity.Attribute({type:affinity.Integer});
+                var attribute4 = new affinity.Attribute({type:affinity.Integer});
 
                 var header = new affinity.Header({attribute1 : attribute1, attribute2: attribute2, attribute3: attribute3});
 
@@ -423,10 +409,10 @@ describe('Header Class', function () {
 
             it('Should throw', function(done){
 
-                var attribute1 = new affinity.Attribute(affinity.Integer);
-                var attribute2 = new affinity.Attribute(affinity.Integer);
-                var attribute3 = new affinity.Attribute(affinity.Integer);
-                var attribute4 = new affinity.Attribute(affinity.Integer);
+                var attribute1 = new affinity.Attribute({type:affinity.Integer});
+                var attribute2 = new affinity.Attribute({type:affinity.Integer});
+                var attribute3 = new affinity.Attribute({type:affinity.Integer});
+                var attribute4 = new affinity.Attribute({type:affinity.Integer});
 
                 var header = new affinity.Header({attribute1 : attribute1, attribute2: attribute2, attribute3: attribute3});
 
@@ -448,9 +434,9 @@ describe('Header Class', function () {
 
             it('Should rename these attributes only', function(done){
 
-                var attribute1 = new affinity.Attribute(affinity.Integer);
-                var attribute2 = new affinity.Attribute(affinity.Integer);
-                var attribute3 = new affinity.Attribute(affinity.Integer);
+                var attribute1 = new affinity.Attribute({type:affinity.Integer});
+                var attribute2 = new affinity.Attribute({type:affinity.Integer});
+                var attribute3 = new affinity.Attribute({type:affinity.Integer});
 
                 var header = new affinity.Header({attribute1 : attribute1, attribute2: attribute2, attribute3 : attribute3});
 
@@ -483,9 +469,9 @@ describe('Header Class', function () {
 
             it('Should rename all attributes', function(done){
 
-                var attribute1 = new affinity.Attribute(affinity.Integer);
-                var attribute2 = new affinity.Attribute(affinity.Integer);
-                var attribute3 = new affinity.Attribute(affinity.Integer);
+                var attribute1 = new affinity.Attribute({type:affinity.Integer});
+                var attribute2 = new affinity.Attribute({type:affinity.Integer});
+                var attribute3 = new affinity.Attribute({type:affinity.Integer});
 
                 var header = new affinity.Header({attribute1 : attribute1, attribute2: attribute2, attribute3 : attribute3});
 
@@ -518,9 +504,9 @@ describe('Header Class', function () {
 
             it('Should rename nothing', function(done){
 
-                var attribute1 = new affinity.Attribute(affinity.Integer);
-                var attribute2 = new affinity.Attribute(affinity.Integer);
-                var attribute3 = new affinity.Attribute(affinity.Integer);
+                var attribute1 = new affinity.Attribute({type:affinity.Integer});
+                var attribute2 = new affinity.Attribute({type:affinity.Integer});
+                var attribute3 = new affinity.Attribute({type:affinity.Integer});
 
                 var header = new affinity.Header({attribute1 : attribute1, attribute2: attribute2, attribute3 : attribute3});
 
@@ -553,9 +539,9 @@ describe('Header Class', function () {
 
             it('Should throw', function(done){
 
-                var attribute1 = new affinity.Attribute(affinity.Integer);
-                var attribute2 = new affinity.Attribute(affinity.Integer);
-                var attribute3 = new affinity.Attribute(affinity.Integer);
+                var attribute1 = new affinity.Attribute({type:affinity.Integer});
+                var attribute2 = new affinity.Attribute({type:affinity.Integer});
+                var attribute3 = new affinity.Attribute({type:affinity.Integer});
 
                 var header = new affinity.Header({attribute1 : attribute1, attribute2: attribute2, attribute3 : attribute3});
 
@@ -573,9 +559,9 @@ describe('Header Class', function () {
 
             it('Should throw', function(done){
 
-                var attribute1 = new affinity.Attribute(affinity.Integer);
-                var attribute2 = new affinity.Attribute(affinity.Integer);
-                var attribute3 = new affinity.Attribute(affinity.Integer);
+                var attribute1 = new affinity.Attribute({type:affinity.Integer});
+                var attribute2 = new affinity.Attribute({type:affinity.Integer});
+                var attribute3 = new affinity.Attribute({type:affinity.Integer});
 
                 var header = new affinity.Header({attribute1 : attribute1, attribute2: attribute2, attribute3 : attribute3});
 
@@ -593,9 +579,9 @@ describe('Header Class', function () {
 
             it('Should do it but warn in console', function(done){
 
-                var attribute1 = new affinity.Attribute(affinity.Integer);
-                var attribute2 = new affinity.Attribute(affinity.Integer);
-                var attribute3 = new affinity.Attribute(affinity.Integer);
+                var attribute1 = new affinity.Attribute({type:affinity.Integer});
+                var attribute2 = new affinity.Attribute({type:affinity.Integer});
+                var attribute3 = new affinity.Attribute({type:affinity.Integer});
 
                 var header = new affinity.Header({attribute1 : attribute1, attribute2: attribute2, attribute3 : attribute3});
 
@@ -628,9 +614,9 @@ describe('Header Class', function () {
 
             it('Should throw', function(done){
 
-                var attribute1 = new affinity.Attribute(affinity.Integer);
-                var attribute2 = new affinity.Attribute(affinity.Integer);
-                var attribute3 = new affinity.Attribute(affinity.Integer);
+                var attribute1 = new affinity.Attribute({type:affinity.Integer});
+                var attribute2 = new affinity.Attribute({type:affinity.Integer});
+                var attribute3 = new affinity.Attribute({type:affinity.Integer});
 
                 var header = new affinity.Header({attribute1 : attribute1, attribute2: attribute2, attribute3 : attribute3});
 
@@ -702,6 +688,50 @@ describe('Header Class', function () {
 
         })
 
-    })
+    });
+
+    describe('Header.fromRelation', function(){
+
+        describe('When passed a relation with good header', function(){
+
+            it('Should return a header', function(done){
+
+                var relation = new affinity.Relation([
+                    { name : {type : affinity.String}},
+                    { type : {type : affinity.Type} }
+                ],[
+
+                    ['firstName', affinity.String],
+                    ['lastName', affinity.String],
+                    ['age', affinity.Integer]
+
+                ]);
+
+                var header = affinity.Header.fromRelation(relation);
+
+                header.count().should.be.equal(3);
+                header.get('firstName').should.be.instanceof(affinity.Attribute);
+                header.get('lastName').should.be.instanceof(affinity.Attribute);
+                header.get('age').should.be.instanceof(affinity.Attribute);
+
+                done();
+
+            })
+
+        })
+
+    });
+
+    describe('Header.equal', function(){
+
+
+
+    });
+
+    describe('Header.coerce', function(){
+
+
+
+    });
 
 });
