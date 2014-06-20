@@ -1,10 +1,10 @@
 {
   "name": "affinity",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Relational algebra library",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/mocha/bin/_mocha --recursive --timeout 259200000 --ui bdd ./test",
     "jsdoc": "./node_modules/.bin/jsdoc -c jsdoc.json"
   },
   "author": "Ludovic Cleroux",
