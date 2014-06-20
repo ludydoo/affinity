@@ -9,9 +9,6 @@ Axiom  https://github.com/dkubb/axiom
 
 DEE    http://www.quicksort.co.uk
 
-Relational Algebra is the foundation of SQL implementations. To further my understanding of it, I wanted to implement
-a relational algebra library in javascript.
-
 ##Installation##
 
 ```
@@ -19,7 +16,33 @@ npm install('affinity')
 var affinity = require('affinity');
 ```
 
+##Documentation##
+
+For Documentation, install the library with `npm install affinity` and access `<install_dir>/docs/index.html` in your browser
+
 ##Basics##
+
+Relational Algebra and Set Theory are the foundation of SQL implementations. The well known SELECT * WHERE ... are relational algebra 
+operations. Though, Relational Algebra (being a superset of Set Theory) is more strict than many SQL implementations. 
+For example, it does not allow NULL values nor duplicates. 
+
+Simply put, a Relation may be viewed as a database table. A table has columns and rows. A Relation has a header and tuples.
+It is basically the same thing. 
+
+This is a representation of a relation : 
+```
++---------------+---------------------+--------------------+------------------+----------------+
+| id : TInteger | firstName : TString | lastName : TString | alive : TBoolean | age : TInteger |
++===============+=====================+====================+==================+================+
+| 0             | John                | Doe                | true             | 34             |
++---------------+---------------------+--------------------+------------------+----------------+
+| 1             | Mary                | Poppins            | false            | 95             |
++---------------+---------------------+--------------------+------------------+----------------+
+| 2             | Mark                | Clinton            | true             | 2              |
++---------------+---------------------+--------------------+------------------+----------------+
+| 3             | Hopty               | Duddy              | false            | 10             |
++---------------+---------------------+--------------------+------------------+----------------+
+```
 
 A Set is a collection of distinct objects (no duplicates)
 
@@ -34,6 +57,8 @@ A Type can be anything (String, Boolean, Object, Vector, Array, even Tuple, Func
 A Body is a Set of Tuples having the same Attributes as the Relation.
 
 A Tuple is a single entry in a Relation. It is an ordered set (attribute1 : value, attribute2 : value...)
+
+
 
 ##Class List##
 
