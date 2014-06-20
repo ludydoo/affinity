@@ -82,7 +82,7 @@ describe('Header Class', function () {
                 clonedHeader.count().should.be.equal(2);
                 Object.keys(clonedHeader.elements()).should.be.an.Array.and.have.length(2);
 
-                clonedHeader.should.be.instanceOf(affinity.Header);
+                (clonedHeader instanceof affinity.Header).should.be.true;
 
                 clonedHeader._attributes.should.have.property('attribute1');
                 clonedHeader._attributes.should.have.property('attribute2');
