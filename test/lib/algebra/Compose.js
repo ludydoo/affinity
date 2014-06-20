@@ -36,10 +36,54 @@ describe('Compose Class', function(){
                 composed.header().count().should.be.equal(3);
                 composed.count().should.be.equal(3);
 
+                composed.equal(relationA.join(relationB).project(['firstName', 'lastName', 'condition'])).should.be.true;
+
+                composed.print();
+
                 done();
 
 
-            })
+            });
+
+
+            it('Should be able to do a compose operator when there is multiple attributes in common', function(done){
+
+                var rel1 = new affinity.Relation([
+                    {firstName : {type : affinity.String}},
+                    {lastName : {type : affinity.String}},
+                    {deptId : {type : affinity.Integer}}
+                ],[
+                    ['John', 'Cage', 1],
+                    ['U', '2', 2],
+                    ['Lady', 'Gaga', 2],
+                    ['Paul', 'McCartney', 3],
+                    ['Django', 'Reinhart', 3],
+                ]);
+
+                var rel2 = new affinity.Relation([
+                    {firstName : {type : affinity.String}},
+                    {lastName : {type : affinity.String}},
+                    {category : {type : affinity.String}}
+                ],[
+                    ['John', 'Cage', 'Doodles'],
+                    ['John', 'Cage', 'Bimbles'],
+                    ['Paul', 'McCartney', 'Dandiddles']
+                ]);
+
+                var rel3 = rel1.compose(rel2);
+
+                rel3.count().should.be.equal(3);
+                rel3.header().count().should.be.equal(2);
+
+                rel3.equal(rel1.join(rel2).project(['deptId', 'category'])).should.be.true;
+
+                rel3.print();
+
+                done();
+
+            });
+
+
 
         })
 
