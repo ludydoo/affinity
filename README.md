@@ -45,18 +45,49 @@ This is a representation of a relation :
 ```
 
 A Set is a collection of distinct objects (no duplicates)
+```
+[1, 2, 3, 4, ...]
+['a', 'b', 'c', ...]
+[{Object1},{Object2},{Object3},...]
+```
 
 A Relation is composed of a Header and a Body.
 
-A Header is a Set of Attributes.
+A Header is a Set of Attributes:
+```
++---------------+---------------------+--------------------+------------------+----------------+
+| id : TInteger | firstName : TString | lastName : TString | alive : TBoolean | age : TInteger |
++===============+=====================+====================+==================+================+
+```
 
-An Attribute is a pair (name, type)
+An Attribute is a pair (name, type):
+```
++---------------+
+| id : TInteger |
++===============+
+```
 
 A Type can be anything (String, Boolean, Object, Vector, Array, even Tuple, Function, Relation, Set, Header...)
 
-A Body is a Set of Tuples having the same Attributes as the Relation.
+A Body is a Set of Tuples having the same Attributes as the Relation:
+```
++===============+=====================+====================+==================+================+
+| 0             | John                | Doe                | true             | 34             |
++---------------+---------------------+--------------------+------------------+----------------+
+| 1             | Mary                | Poppins            | false            | 95             |
++---------------+---------------------+--------------------+------------------+----------------+
+| 2             | Mark                | Clinton            | true             | 2              |
++---------------+---------------------+--------------------+------------------+----------------+
+| 3             | Hopty               | Duddy              | false            | 10             |
++---------------+---------------------+--------------------+------------------+----------------+
+```
 
-A Tuple is a single entry in a Relation. It is an ordered set (attribute1 : value, attribute2 : value...)
+A Tuple is a single entry in a Relation. It is an ordered set (attribute1 : value, attribute2 : value...):
+```
++---------------+---------------------+--------------------+------------------+----------------+
+| 1             | Mary                | Poppins            | false            | 95             |
++---------------+---------------------+--------------------+------------------+----------------+
+```
 
 
 
