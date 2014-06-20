@@ -1,13 +1,13 @@
 var affinity = require('./../../../index.js');
 var should = require('should');
 
-describe('Compose Class', function(){
+describe('Group Class', function(){
 
-    describe('Compose#constructor', function(){
+    describe('Group#constructor', function(){
 
-        describe('When provided multiple grouping attributes', function(){
+        describe('When provided one grouping attributes', function(){
 
-            it('Should be able to do a grouping', function(done){
+            it.only('Should be able to do a grouping', function(done){
 
 
                 var relationA = new affinity.Relation([
@@ -33,6 +33,8 @@ describe('Compose Class', function(){
                 var testRel = relationA.restrict(relationA.get('age').equals(23)).project(['firstName', 'lastName']).compute();
 
                 relationB.exists({age : 23, name : testRel}).should.be.true;
+
+                relationB.print();
 
                 done();
 
