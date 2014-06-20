@@ -29,6 +29,10 @@ For example, it does not allow NULL values nor duplicates.
 Simply put, a Relation may be viewed as a database table. A table has columns and rows. A Relation has a header and tuples.
 It is basically the same thing. 
 
+###Relation###
+
+A Relation is composed of a Header and a Body.
+
 This is a representation of a relation : 
 ```
 +---------------+---------------------+--------------------+------------------+----------------+
@@ -44,6 +48,7 @@ This is a representation of a relation :
 +---------------+---------------------+--------------------+------------------+----------------+
 ```
 
+###Set###
 A Set is a collection of distinct objects (no duplicates)
 ```
 [1, 2, 3, 4, ...]
@@ -51,8 +56,7 @@ A Set is a collection of distinct objects (no duplicates)
 [{Object1},{Object2},{Object3},...]
 ```
 
-A Relation is composed of a Header and a Body.
-
+###Header###
 A Header is a Set of Attributes:
 ```
 +---------------+---------------------+--------------------+------------------+----------------+
@@ -60,6 +64,7 @@ A Header is a Set of Attributes:
 +===============+=====================+====================+==================+================+
 ```
 
+###Attribute###
 An Attribute is a pair (name, type):
 ```
 +---------------+
@@ -69,6 +74,7 @@ An Attribute is a pair (name, type):
 
 A Type can be anything (String, Boolean, Object, Vector, Array, even Tuple, Function, Relation, Set, Header...)
 
+###Body###
 A Body is a Set of Tuples having the same Attributes as the Relation:
 ```
 +===============+=====================+====================+==================+================+
@@ -82,14 +88,13 @@ A Body is a Set of Tuples having the same Attributes as the Relation:
 +---------------+---------------------+--------------------+------------------+----------------+
 ```
 
+###Tuple###
 A Tuple is a single entry in a Relation. It is an ordered set (attribute1 : value, attribute2 : value...):
 ```
 +---------------+---------------------+--------------------+------------------+----------------+
 | 1             | Mary                | Poppins            | false            | 95             |
 +---------------+---------------------+--------------------+------------------+----------------+
 ```
-
-
 
 ##Class List##
 
