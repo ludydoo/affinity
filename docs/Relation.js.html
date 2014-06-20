@@ -128,11 +128,23 @@
 						</li>
 						
 						<li>
+							<a href="RCompose.html">RCompose</a>
+						</li>
+						
+						<li>
 							<a href="RDifference.html">RDifference</a>
 						</li>
 						
 						<li>
 							<a href="Relation.html">Relation</a>
+						</li>
+						
+						<li>
+							<a href="RExtend.html">RExtend</a>
+						</li>
+						
+						<li>
+							<a href="RGroup.html">RGroup</a>
 						</li>
 						
 						<li>
@@ -160,7 +172,27 @@
 						</li>
 						
 						<li>
+							<a href="RSemiDifference.html">RSemiDifference</a>
+						</li>
+						
+						<li>
+							<a href="RSemiJoin.html">RSemiJoin</a>
+						</li>
+						
+						<li>
+							<a href="RUngroup.html">RUngroup</a>
+						</li>
+						
+						<li>
 							<a href="RUnion.html">RUnion</a>
+						</li>
+						
+						<li>
+							<a href="RUnwrap.html">RUnwrap</a>
+						</li>
+						
+						<li>
+							<a href="RWrap.html">RWrap</a>
 						</li>
 						
 						<li>
@@ -950,7 +982,6 @@ var Relation = Set.extend(
          */
         print: function () {
 
-            return;
             debug.relation.trace('#print');
 
             console.log(this.getPrintString());
@@ -1069,8 +1100,10 @@ var Relation = Set.extend(
 
                 for (var k = 0; k &lt; attributes.length; k++) {
 
-                    maxWidth = attributeWidths[attribute.name];
                     attribute = attributes[k];
+
+                    var mw = attributeWidths[attribute.name];
+
 
                     for (b = 0; b &lt; hSpacing; b++) {
                         result += ' ';
@@ -1082,7 +1115,7 @@ var Relation = Set.extend(
 
                     result += tupleString;
 
-                    for (b = 0; b &lt; maxWidth - tupleLength + 2 * hSpacing - 1; b++) {
+                    for (b = 0; b &lt; mw - tupleLength + 2*hSpacing-1; b++) {
                         result += ' ';
                     }
 

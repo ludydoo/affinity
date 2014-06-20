@@ -128,11 +128,23 @@
 						</li>
 						
 						<li>
+							<a href="RCompose.html">RCompose</a>
+						</li>
+						
+						<li>
 							<a href="RDifference.html">RDifference</a>
 						</li>
 						
 						<li>
 							<a href="Relation.html">Relation</a>
+						</li>
+						
+						<li>
+							<a href="RExtend.html">RExtend</a>
+						</li>
+						
+						<li>
+							<a href="RGroup.html">RGroup</a>
 						</li>
 						
 						<li>
@@ -160,7 +172,27 @@
 						</li>
 						
 						<li>
+							<a href="RSemiDifference.html">RSemiDifference</a>
+						</li>
+						
+						<li>
+							<a href="RSemiJoin.html">RSemiJoin</a>
+						</li>
+						
+						<li>
+							<a href="RUngroup.html">RUngroup</a>
+						</li>
+						
+						<li>
 							<a href="RUnion.html">RUnion</a>
+						</li>
+						
+						<li>
+							<a href="RUnwrap.html">RUnwrap</a>
+						</li>
+						
+						<li>
+							<a href="RWrap.html">RWrap</a>
 						</li>
 						
 						<li>
@@ -353,69 +385,42 @@ the tuples have the same value for their common attributes.</p></div>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var rel1 = new affinity.Relation([
-                   {a : {type : affinity.Integer}},
-                   {b : {type : affinity.Integer}},
-                   {c : {type : affinity.Integer}}
-               ],[
-                   [1, 1, 3],
-                   [2, 2, 3],
-                   [3, 3, 2],
-                   [4, 4, 2],
-                   [5, 5, 2],
-                   [5, 1, 4],
-                   [5, 2, 4],
-                   [5, 3, 4]
+    <pre class="sunlight-highlight-javascript">var relationA = new affinity.Relation([
+         {characterId: { type: affinity.Integer}},
+         {firstName: { type: affinity.String}},
+         {lastName: { type: affinity.String}}
+     ],[
+         [1, &#x27;John&#x27;, &#x27;Doe&#x27;],
+         [2, &#x27;Mary&#x27;, &#x27;Poppins&#x27;],
+         [3, &#x27;Lucky&#x27;, &#x27;Luke&#x27;]
+     ]);
 
-               ]);
+var relationB = new affinity.Relation([
+         {characterId: { type: affinity.Integer}},
+         {fan: { type: affinity.String}}
+     ],[
+         [1, &#x27;Mr X&#x27;],
+         [1, &#x27;Miss Dibble&#x27;],
+         [2, &#x27;Nat Bibble&#x27;]
+     ]);
 
-               var rel2 = new affinity.Relation([
-                   {c : {type : affinity.Integer}},
-                   {d : {type : affinity.Integer}}
-               ],[
-                   [2, 1],
-                   [2, 2],
-                   [2, 3],
-                   [3, 1],
-                   [3, 2],
-                   [3, 3]
-               ]);
+var relationC = relationA.join(relationB);
 
-               var rel3 = rel1.join(rel2);
+// or
 
-// +--------------+--------------+--------------+--------------+
-// | a : TInteger | b : TInteger | c : TInteger | d : TInteger |
-// +==============+==============+==============+==============+
-// | 1            | 1            | 3            | 1            |
-// +--------------+--------------+--------------+--------------+
-// | 1            | 1            | 3            | 2            |
-// +--------------+--------------+--------------+--------------+
-// | 1            | 1            | 3            | 3            |
-// +--------------+--------------+--------------+--------------+
-// | 2            | 2            | 3            | 1            |
-// +--------------+--------------+--------------+--------------+
-// | 2            | 2            | 3            | 2            |
-// +--------------+--------------+--------------+--------------+
-// | 2            | 2            | 3            | 3            |
-// +--------------+--------------+--------------+--------------+
-// | 3            | 3            | 2            | 1            |
-// +--------------+--------------+--------------+--------------+
-// | 3            | 3            | 2            | 2            |
-// +--------------+--------------+--------------+--------------+
-// | 3            | 3            | 2            | 3            |
-// +--------------+--------------+--------------+--------------+
-// | 4            | 4            | 2            | 1            |
-// +--------------+--------------+--------------+--------------+
-// | 4            | 4            | 2            | 2            |
-// +--------------+--------------+--------------+--------------+
-// | 4            | 4            | 2            | 3            |
-// +--------------+--------------+--------------+--------------+
-// | 5            | 5            | 2            | 1            |
-// +--------------+--------------+--------------+--------------+
-// | 5            | 5            | 2            | 2            |
-// +--------------+--------------+--------------+--------------+
-// | 5            | 5            | 2            | 3            |
-// +--------------+--------------+--------------+--------------+</pre>
+var relationC = new affinity.Join(relationA, relationB)
+
+// &lt;---COMMON ATTRIBUTE----&gt;
+// +------------------------+---------------------+--------------------+---------------+
+// | characterId : TInteger | firstName : TString | lastName : TString | fan : TString |
+// +========================+=====================+====================+===============+
+// | 1                      | John                | Doe                | Mr X          |
+// +------------------------+---------------------+--------------------+---------------+
+// | 2                      | John                | Doe                | Miss Dibble   |
+// +------------------------+---------------------+--------------------+---------------+
+// | 3                      | Mary                | Poppins            | Nat Bibble    |
+// +------------------------+---------------------+--------------------+---------------+
+//</pre>
 
 
     
@@ -2794,7 +2799,7 @@ console.log(relation.getAt(0).get(&#x27;firstName&#x27;)) // John</pre>
 		<ul class="dummy">
 			<li>
 				<a href="relation.js.html">relation.js</a>,
-				 <a href="relation.js.html#sunlight-1-line-764">line 764</a>
+				 <a href="relation.js.html#sunlight-1-line-763">line 763</a>
 			</li>
 		</ul>
 	</dd>

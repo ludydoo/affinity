@@ -128,11 +128,23 @@
 						</li>
 						
 						<li>
+							<a href="RCompose.html">RCompose</a>
+						</li>
+						
+						<li>
 							<a href="RDifference.html">RDifference</a>
 						</li>
 						
 						<li>
 							<a href="Relation.html">Relation</a>
+						</li>
+						
+						<li>
+							<a href="RExtend.html">RExtend</a>
+						</li>
+						
+						<li>
+							<a href="RGroup.html">RGroup</a>
 						</li>
 						
 						<li>
@@ -160,7 +172,27 @@
 						</li>
 						
 						<li>
+							<a href="RSemiDifference.html">RSemiDifference</a>
+						</li>
+						
+						<li>
+							<a href="RSemiJoin.html">RSemiJoin</a>
+						</li>
+						
+						<li>
+							<a href="RUngroup.html">RUngroup</a>
+						</li>
+						
+						<li>
 							<a href="RUnion.html">RUnion</a>
+						</li>
+						
+						<li>
+							<a href="RUnwrap.html">RUnwrap</a>
+						</li>
+						
+						<li>
+							<a href="RWrap.html">RWrap</a>
 						</li>
 						
 						<li>
@@ -347,6 +379,37 @@
     
     
     
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var relationA = new affinity.Relation([
+         {characterId: { type: affinity.Integer}},
+         {firstName: { type: affinity.String}},
+         {lastName: { type: affinity.String}}
+     ],[
+         [1, &#x27;John&#x27;, &#x27;Doe&#x27;],
+         [2, &#x27;Mary&#x27;, &#x27;Poppins&#x27;],
+         [3, &#x27;Lucky&#x27;, &#x27;Luke&#x27;]
+     ]);
+
+var relationB = relationA.rename({&#x27;firstName&#x27;:&#x27;familyName&#x27;})
+
+// or
+
+var relationC = new affinity.Projection(relationA, {&#x27;lastName&#x27;:&#x27;familyName&#x27;});
+
+//                                                &lt;--RENAMED ATTRIBUTE---&gt;
+// +------------------------+---------------------+----------------------+
+// | characterId : TInteger | firstName : TString | familyName : TString |
+// +========================+=====================+======================+
+// | 1                      | John                | Doe                  |
+// +------------------------+---------------------+----------------------+
+// | 2                      | Mary                | Poppins              |
+// +------------------------+---------------------+----------------------+
+// | 3                      | Lucky               | Luke                 |
+// +------------------------+---------------------+----------------------+</pre>
+
+
     
 </dd>
 
@@ -2723,7 +2786,7 @@ console.log(relation.getAt(0).get(&#x27;firstName&#x27;)) // John</pre>
 		<ul class="dummy">
 			<li>
 				<a href="relation.js.html">relation.js</a>,
-				 <a href="relation.js.html#sunlight-1-line-764">line 764</a>
+				 <a href="relation.js.html#sunlight-1-line-763">line 763</a>
 			</li>
 		</ul>
 	</dd>

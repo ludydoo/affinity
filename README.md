@@ -18,7 +18,9 @@ var affinity = require('affinity');
 
 ##Documentation##
 
-For Documentation, install the library with `npm install affinity` and access `<install_dir>/docs/index.html` in your browser
+For Documentation, install the library with `npm install affinity` and access `<install_dir>/docs/index.html` in your browser.
+
+Alternatively, the source is extensively documented.
 
 ##Basics##
 

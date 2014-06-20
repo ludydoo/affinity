@@ -128,11 +128,23 @@
 						</li>
 						
 						<li>
+							<a href="RCompose.html">RCompose</a>
+						</li>
+						
+						<li>
 							<a href="RDifference.html">RDifference</a>
 						</li>
 						
 						<li>
 							<a href="Relation.html">Relation</a>
+						</li>
+						
+						<li>
+							<a href="RExtend.html">RExtend</a>
+						</li>
+						
+						<li>
+							<a href="RGroup.html">RGroup</a>
 						</li>
 						
 						<li>
@@ -160,7 +172,27 @@
 						</li>
 						
 						<li>
+							<a href="RSemiDifference.html">RSemiDifference</a>
+						</li>
+						
+						<li>
+							<a href="RSemiJoin.html">RSemiJoin</a>
+						</li>
+						
+						<li>
+							<a href="RUngroup.html">RUngroup</a>
+						</li>
+						
+						<li>
 							<a href="RUnion.html">RUnion</a>
+						</li>
+						
+						<li>
+							<a href="RUnwrap.html">RUnwrap</a>
+						</li>
+						
+						<li>
+							<a href="RWrap.html">RWrap</a>
 						</li>
 						
 						<li>
@@ -210,6 +242,51 @@ var RUnion = Relation.extend(
          * @param {Relation} relationA
          * @param {Relation} relationB
          * @augments Relation
+         * @example
+         *
+         * var relationA = new affinity.Relation([
+         *          {characterId: { type: affinity.Integer}},
+         *          {firstName: { type: affinity.String}},
+         *          {lastName: { type: affinity.String}}
+         *      ],[
+         *          [1, 'John', 'Doe'],
+         *          [2, 'Mary', 'Poppins'],
+         *          [3, 'Lucky', 'Luke']
+         *      ]);
+         *
+         *
+         * var relationB = new affinity.Relation([
+         *          {characterId: { type: affinity.Integer}},
+         *          {firstName: { type: affinity.String}},
+         *          {lastName: { type: affinity.String}}
+         *      ],[
+         *          [1, 'Mr', 'X'],
+         *          [2, 'Lady', 'Gaga'],
+         *          [3, 'Bo', 'Vril']
+         *      ]);
+         *
+         * var relationC = relationA.union(relationB)
+         *
+         * // or
+         *
+         * var relationC = new affinity.Union(relationA, relationB);
+         *
+         * // +------------------------+---------------------+--------------------+
+         * // | characterId : TInteger | firstName : TString | lastName : TString |
+         * // +========================+=====================+====================+   -
+         * // | 1                      | John                | Doe                |    |
+         * // +------------------------+---------------------+--------------------+    | RelationA
+         * // | 2                      | Mary                | Poppins            |    |
+         * // +------------------------+---------------------+--------------------+    |
+         * // | 3                      | Lucky               | Luke               |    |
+         * // +------------------------+---------------------+--------------------+   -
+         * // | 1                      | Mr                  | X                  |    |
+         * // +------------------------+---------------------+--------------------+    |
+         * // | 2                      | Lady                | Gaga               |    | RelationB
+         * // +------------------------+---------------------+--------------------+    |
+         * // | 3                      | Bo                  | Vril               |    |
+         * // +------------------------+---------------------+--------------------+   -
+         *
          */
         constructor: function (relationA, relationB) {
             this.rels = [relationA, relationB];
@@ -218,11 +295,15 @@ var RUnion = Relation.extend(
 
         bindEvents: function () {
 
+            debug.union.trace('#bindEvents');
+
             RUnion.__super__.bindEvents.call(this);
 
             var that = this;
 
             that.ee.once('beforeGetBody', function () {
+
+                debug.union.trace('beforeGetBody');
 
                 _.forEach(that.rels, function (relation) {
 
@@ -237,6 +318,8 @@ var RUnion = Relation.extend(
             });
 
             that.ee.once('beforeGetHeader', function () {
+
+                debug.union.trace('beforeGetHeader');
 
                 if (!that.rels[0].header().equal(that.rels[1].header())) {
                     throw new Error('Relations are not union compatible');

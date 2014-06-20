@@ -128,11 +128,23 @@
 						</li>
 						
 						<li>
+							<a href="RCompose.html">RCompose</a>
+						</li>
+						
+						<li>
 							<a href="RDifference.html">RDifference</a>
 						</li>
 						
 						<li>
 							<a href="Relation.html">Relation</a>
+						</li>
+						
+						<li>
+							<a href="RExtend.html">RExtend</a>
+						</li>
+						
+						<li>
+							<a href="RGroup.html">RGroup</a>
 						</li>
 						
 						<li>
@@ -160,7 +172,27 @@
 						</li>
 						
 						<li>
+							<a href="RSemiDifference.html">RSemiDifference</a>
+						</li>
+						
+						<li>
+							<a href="RSemiJoin.html">RSemiJoin</a>
+						</li>
+						
+						<li>
+							<a href="RUngroup.html">RUngroup</a>
+						</li>
+						
+						<li>
 							<a href="RUnion.html">RUnion</a>
+						</li>
+						
+						<li>
+							<a href="RUnwrap.html">RUnwrap</a>
+						</li>
+						
+						<li>
+							<a href="RWrap.html">RWrap</a>
 						</li>
 						
 						<li>
@@ -211,6 +243,44 @@ var RProjection = Relation.extend(
          * @param {Relation} relation
          * @param {String[]} args
          * @augments Relation
+         * @example
+         *
+         * var relationA = new affinity.Relation([
+         *          {characterId: { type: affinity.Integer}},
+         *          {firstName: { type: affinity.String}},
+         *          {lastName: { type: affinity.String}}
+         *      ],[
+         *          [1, 'John', 'Doe'],
+         *          [2, 'Mary', 'Poppins'],
+         *          [3, 'Lucky', 'Luke']
+         *      ]);
+         *
+         * // +------------------------+---------------------+--------------------+
+         * // | characterId : TInteger | firstName : TString | lastName : TString |
+         * // +========================+=====================+====================+
+         * // | 1                      | John                | Doe                |
+         * // +------------------------+---------------------+--------------------+
+         * // | 2                      | Mary                | Poppins            |
+         * // +------------------------+---------------------+--------------------+
+         * // | 3                      | Lucky               | Luke               |
+         * // +------------------------+---------------------+--------------------+
+         *
+         * var relationB = relationA.project(['firstName']);
+         *
+         * // or
+         *
+         * var relationC = new affinity.Projection(relationA, ['firstName']);
+         *
+         * // +---------------------+
+         * // | firstName : TString |
+         * // +=====================+
+         * // | John                |
+         * // +---------------------+
+         * // | Mary                |
+         * // +---------------------+
+         * // | Lucky               |
+         * // +---------------------+
+         *
          */
         constructor: function (relation, args) {
 
@@ -223,11 +293,15 @@ var RProjection = Relation.extend(
 
         bindEvents: function () {
 
+            debug.projection.trace('#bindEvents');
+
             RProjection.__super__.bindEvents.call(this);
 
             var that = this;
 
             that.ee.once('beforeGetBody', function () {
+
+                debug.projection.trace('beforeGetBody');
 
                 that.rel.each(function (tuple) {
 
@@ -246,6 +320,8 @@ var RProjection = Relation.extend(
             });
 
             that.ee.once('beforeGetHeader', function () {
+
+                debug.projection.trace('beforeGetHeader');
 
                 that.header(that.rel.header().project(that.args));
 
