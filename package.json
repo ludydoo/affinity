@@ -1,6 +1,6 @@
 {
   "name": "affinity",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Relational algebra library",
   "main": "index.js",
   "scripts": {
