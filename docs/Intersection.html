@@ -1,0 +1,2332 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Documentation Class: Intersection</title>
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+    <link type="text/css" rel="stylesheet" href="styles/site.simplex.css">
+
+</head>
+
+<body>
+<div class="container-fluid">
+<div class="navbar navbar-fixed-top ">
+    <div class="navbar-inner">
+        <a class="brand" href="index.html">Documentation</a>
+        <ul class="nav">
+
+            <li class="dropdown">
+                <a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
+                        class="caret"></b></a>
+
+                <ul class="dropdown-menu ">
+
+                    <li>
+                        <a href="Attribute.html">Attribute</a>
+                    </li>
+
+                    <li>
+                        <a href="Difference.html">Difference</a>
+                    </li>
+
+                    <li>
+                        <a href="FEqual.html">FEqual</a>
+                    </li>
+
+                    <li>
+                        <a href="FLargerThan.html">FLargerThan</a>
+                    </li>
+
+                    <li>
+                        <a href="FLargerThanEqual.html">FLargerThanEqual</a>
+                    </li>
+
+                    <li>
+                        <a href="FSmallerThan.html">FSmallerThan</a>
+                    </li>
+
+                    <li>
+                        <a href="FSmallerThanEqual.html">FSmallerThanEqual</a>
+                    </li>
+
+                    <li>
+                        <a href="Function.html">Function</a>
+                    </li>
+
+                    <li>
+                        <a href="Header.html">Header</a>
+                    </li>
+
+                    <li>
+                        <a href="Intersection.html">Intersection</a>
+                    </li>
+
+                    <li>
+                        <a href="Join.html">Join</a>
+                    </li>
+
+                    <li>
+                        <a href="Product_constructor.html">constructor</a>
+                    </li>
+
+                    <li>
+                        <a href="Projection.html">Projection</a>
+                    </li>
+
+                    <li>
+                        <a href="Relation.html">Relation</a>
+                    </li>
+
+                    <li>
+                        <a href="Rename.html">Rename</a>
+                    </li>
+
+                    <li>
+                        <a href="Restriction.html">Restriction</a>
+                    </li>
+
+                    <li>
+                        <a href="Set.html">Set</a>
+                    </li>
+
+                    <li>
+                        <a href="Tuple.html">Tuple</a>
+                    </li>
+
+                    <li>
+                        <a href="Type.html">Type</a>
+                    </li>
+
+                    <li>
+                        <a href="Union.html">Union</a>
+                    </li>
+
+
+                </ul>
+            </li>
+
+        </ul>
+    </div>
+</div>
+
+<div class="row-fluid">
+
+
+<div class="span8">
+
+<div id="main">
+
+
+<h1 class="page-title">Class: Intersection</h1>
+<section>
+
+<header>
+    <h2>
+        Intersection
+    </h2>
+
+    <div class="class-description"><p>The intersection creates a new relation with tuples common in relationA and
+        relationB</p></div>
+
+</header>
+
+<article>
+<div class="container-overview">
+
+
+    <dt>
+    <h4 class="name" id="Intersection"><span class="type-signature"></span>new Intersection<span class="signature">(relationA, relationB)</span><span
+            class="type-signature"></span></h4>
+
+
+    </dt>
+    <dd>
+
+
+        <h5>Parameters:</h5>
+
+
+        <table class="params table table-striped">
+            <thead>
+            <tr>
+
+                <th>Name</th>
+
+
+                <th>Type</th>
+
+
+                <th class="last">Description</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+
+            <tr>
+
+                <td class="name"><code>relationA</code></td>
+
+
+                <td class="type">
+
+
+                    <span class="param-type"><a href="Relation.html">Relation</a></span>
+
+
+                </td>
+
+
+                <td class="description last"></td>
+            </tr>
+
+
+            <tr>
+
+                <td class="name"><code>relationB</code></td>
+
+
+                <td class="type">
+
+
+                    <span class="param-type"><a href="Relation.html">Relation</a></span>
+
+
+                </td>
+
+
+                <td class="description last"></td>
+            </tr>
+
+
+            </tbody>
+        </table>
+
+
+        <dl class="details">
+
+
+        </dl>
+
+
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var rel1 = new ra.Relation([
+      {a: { type: ra.Integer}},
+      {b: { type: ra.Integer}},
+      {c: { type: ra.Integer}}
+  ], [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9]
+  ]);
+
+var rel2 = new ra.Relation([
+     {a: { type: ra.Integer}},
+     {b: { type: ra.Integer}},
+     {c: { type: ra.Integer}}
+ ], [
+     [1, 2, 3]
+ ]);
+
+var rel3 = new ra.Intersection(rel1, rel2);
+
+// +--------------+--------------+--------------+
+// | a : TInteger | b : TInteger | c : TInteger |
+// +==============+==============+==============+
+// | 1            | 2            | 3            |
+// +--------------+--------------+--------------+</pre>
+
+
+    </dd>
+
+
+</div>
+
+
+<h3 class="subsection-title">Extends</h3>
+
+<ul>
+    <li><a href="Relation.html">Relation</a></li>
+</ul>
+
+
+<h3 class="subsection-title">Methods</h3>
+
+<dl>
+
+<dt>
+<h4 class="name" id="add"><span class="type-signature"></span>add<span class="signature">(tuple)</span><span
+        class="type-signature"> &rarr; {boolean}</span></h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Adds a tuple to the relation</p>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params table table-striped">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>tuple</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type"><a href="Tuple.html">Tuple</a></span>
+                |
+
+                <span class="param-type">Object</span>
+
+
+            </td>
+
+
+            <td class="description last"><p>The tuple to be added</p></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#add">Relation#add</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+    <h5>Returns:</h5>
+
+
+    <div class="param-desc">
+        <p>True if the tuple was added, false otherwise</p>
+    </div>
+
+
+    <dl>
+        <dt>
+            Type
+        </dt>
+        <dd>
+
+            <span class="param-type">boolean</span>
+
+
+        </dd>
+    </dl>
+
+
+    <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">// You can add a raw tuple like this
+
+relation.add({attribute1 : value1, attribute2 : value2})
+
+// You can add a Tuple object
+
+var tuple = new ra.Tuple({attribute1 : value1, attribute2 : value2});
+relation.add(tuple);</pre>
+
+    <pre class="sunlight-highlight-javascript">var relation = new ra.Relation({ a : {type : ra.Integer}, b : {type : ra.Integer}})
+
+var data = [
+     {a : 1, b : 2},
+     {a : 2, b : 2},
+     {a : 1, b : 3},
+     {a : 1, b : 4}
+    ]
+
+for(var a = 0; a &lt; data.length; a++){
+     relation.add(data[a])
+}</pre>
+
+
+</dd>
+
+
+<dt>
+<h4 class="name" id="compute"><span class="type-signature"></span>compute<span class="signature">()</span><span
+        class="type-signature"></span></h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Calculates the relation. Because the relations are only calculated when their header or their tuples
+            are requested, you must explicitly call compute() if you want to calculate a relation.</p>
+
+        <p>You should not need to use this function. Calling tuples() or header() calculates the relation
+            automatically</p>
+    </div>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#compute">Relation#compute</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+    <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var product = relation1.product(relation2);
+
+// At this point, nothing has been calculated.
+
+product.header() // Because we requested the header, it is calculated
+
+product.tuples() // Because we requested the tuples, it is calculated
+
+var product2 = relation1.product(relation2);
+
+product2.compute(); // Calculates the header and the tuples;</pre>
+
+
+</dd>
+
+
+<dt>
+<h4 class="name" id="difference"><span class="type-signature"></span>difference<span class="signature">(relation)</span><span
+        class="type-signature"> &rarr; {<a href="Difference.html">Difference</a>}</span></h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Shortcut to create a Difference relation based on this relation and the specified one</p>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params table table-striped">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>relation</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type"><a href="Relation.html">Relation</a></span>
+
+
+            </td>
+
+
+            <td class="description last"><p>The relation to compute difference against</p></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#difference">Relation#difference</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+    <h5>Returns:</h5>
+
+
+    <div class="param-desc">
+        <p>The resulting relation</p>
+    </div>
+
+
+    <dl>
+        <dt>
+            Type
+        </dt>
+        <dd>
+
+            <span class="param-type"><a href="Difference.html">Difference</a></span>
+
+
+        </dd>
+    </dl>
+
+
+</dd>
+
+
+<dt>
+<h4 class="name" id="each"><span class="type-signature"></span>each<span
+        class="signature">(callback, context)</span><span class="type-signature"></span></h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Iterator function</p>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params table table-striped">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>callback</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type">function</span>
+
+
+            </td>
+
+
+            <td class="description last"><p>Callback on each element. function(element, index)</p></td>
+        </tr>
+
+
+        <tr>
+
+            <td class="name"><code>context</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type">Object</span>
+
+
+            </td>
+
+
+            <td class="description last"><p>&quot;this&quot; context for callback</p></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#each">Relation#each</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+</dd>
+
+
+<dt>
+<h4 class="name" id="equal"><span class="type-signature"></span>equal<span class="signature">(relation)</span><span
+        class="type-signature"> &rarr; {boolean}</span></h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Tests if the relation is equal to another one</p>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params table table-striped">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>relation</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type"><a href="Relation.html">Relation</a></span>
+
+
+            </td>
+
+
+            <td class="description last"><p>The relation to compare to</p></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#equal">Relation#equal</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+    <h5>Returns:</h5>
+
+
+    <div class="param-desc">
+        <p>If the relations are equal or not</p>
+    </div>
+
+
+    <dl>
+        <dt>
+            Type
+        </dt>
+        <dd>
+
+            <span class="param-type">boolean</span>
+
+
+        </dd>
+    </dl>
+
+
+</dd>
+
+
+<dt>
+<h4 class="name" id="find"><span class="type-signature"></span>find<span class="signature">(tuple)</span><span
+        class="type-signature"> &rarr; {null|<a href="Tuple.html">Tuple</a>}</span></h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Find a tuple</p>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params table table-striped">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>tuple</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type"><a href="Tuple.html">Tuple</a></span>
+                |
+
+                <span class="param-type">Object</span>
+
+
+            </td>
+
+
+            <td class="description last"><p>Tuple to find</p></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#find">Relation#find</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+    <h5>Returns:</h5>
+
+
+    <dl>
+        <dt>
+            Type
+        </dt>
+        <dd>
+
+            <span class="param-type">null</span>
+            |
+
+            <span class="param-type"><a href="Tuple.html">Tuple</a></span>
+
+
+        </dd>
+    </dl>
+
+
+</dd>
+
+
+<dt>
+<h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(attribute)</span><span
+        class="type-signature"> &rarr; {*|null}</span></h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Gets the specified attribute object by name</p>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params table table-striped">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>attribute</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type">String</span>
+
+
+            </td>
+
+
+            <td class="description last"><p>Attribute name</p></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#get">Relation#get</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+    <h5>Returns:</h5>
+
+
+    <div class="param-desc">
+        <p>The attribute or null if not found</p>
+    </div>
+
+
+    <dl>
+        <dt>
+            Type
+        </dt>
+        <dd>
+
+            <span class="param-type">*</span>
+            |
+
+            <span class="param-type">null</span>
+
+
+        </dd>
+    </dl>
+
+
+</dd>
+
+
+<dt>
+<h4 class="name" id="getAt"><span class="type-signature"></span>getAt<span class="signature">(index)</span><span
+        class="type-signature"> &rarr; {*|null}</span></h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Get the tuple at the given index</p>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params table table-striped">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>index</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type">int</span>
+
+
+            </td>
+
+
+            <td class="description last"><p>The index of the tuple</p></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#getAt">Relation#getAt</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+    <h5>Returns:</h5>
+
+
+    <dl>
+        <dt>
+            Type
+        </dt>
+        <dd>
+
+            <span class="param-type">*</span>
+            |
+
+            <span class="param-type">null</span>
+
+
+        </dd>
+    </dl>
+
+
+</dd>
+
+
+<dt>
+<h4 class="name" id="header"><span class="type-signature"></span>header<span class="signature">(<span class="optional">header</span>)</span><span
+        class="type-signature"> &rarr; {null|Object}</span></h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Gets or sets the relation's header</p>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params table table-striped">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th>Argument</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>header</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type"><a href="Header.html">Header</a></span>
+
+
+            </td>
+
+
+            <td class="attributes">
+
+                &lt;optional><br>
+
+
+            </td>
+
+
+            <td class="description last"></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#header">Relation#header</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+    <h5>Returns:</h5>
+
+
+    <dl>
+        <dt>
+            Type
+        </dt>
+        <dd>
+
+            <span class="param-type">null</span>
+            |
+
+            <span class="param-type">Object</span>
+
+
+        </dd>
+    </dl>
+
+
+</dd>
+
+
+<dt>
+<h4 class="name" id="index"><span class="type-signature"></span>index<span class="signature">(tuple)</span><span
+        class="type-signature"> &rarr; {null|int}</span></h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Get index of given tuple/object</p>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params table table-striped">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>tuple</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type">Object</span>
+                |
+
+                <span class="param-type"><a href="Tuple.html">Tuple</a></span>
+
+
+            </td>
+
+
+            <td class="description last"></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#index">Relation#index</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+    <h5>Returns:</h5>
+
+
+    <div class="param-desc">
+        <p>Null if not found. Index of tuple if found.</p>
+    </div>
+
+
+    <dl>
+        <dt>
+            Type
+        </dt>
+        <dd>
+
+            <span class="param-type">null</span>
+            |
+
+            <span class="param-type">int</span>
+
+
+        </dd>
+    </dl>
+
+
+</dd>
+
+
+<dt>
+<h4 class="name" id="intersect"><span class="type-signature"></span>intersect<span
+        class="signature">(relation)</span><span class="type-signature"> &rarr; {<a href="Intersection.html">Intersection</a>}</span>
+</h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Shortcut to create an Intersect relation based on this relation and the specified one</p>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params table table-striped">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>relation</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type"><a href="Relation.html">Relation</a></span>
+
+
+            </td>
+
+
+            <td class="description last"><p>The relation to compute intersection against</p></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#intersect">Relation#intersect</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+    <h5>Returns:</h5>
+
+
+    <div class="param-desc">
+        <p>The resulting relation</p>
+    </div>
+
+
+    <dl>
+        <dt>
+            Type
+        </dt>
+        <dd>
+
+            <span class="param-type"><a href="Intersection.html">Intersection</a></span>
+
+
+        </dd>
+    </dl>
+
+
+</dd>
+
+
+<dt>
+<h4 class="name" id="isCompatible"><span class="type-signature"></span>isCompatible<span
+        class="signature">(tuple)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Check if a tuple is compatible with the relation</p>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params table table-striped">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>tuple</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type"><a href="Tuple.html">Tuple</a></span>
+                |
+
+                <span class="param-type">Object</span>
+
+
+            </td>
+
+
+            <td class="description last"></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#isCompatible">Relation#isCompatible</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+    <h5>Returns:</h5>
+
+
+    <dl>
+        <dt>
+            Type
+        </dt>
+        <dd>
+
+            <span class="param-type">boolean</span>
+
+
+        </dd>
+    </dl>
+
+
+</dd>
+
+
+<dt>
+<h4 class="name" id="join"><span class="type-signature"></span>join<span class="signature">(relation)</span><span
+        class="type-signature"> &rarr; {<a href="Join.html">Join</a>}</span></h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Shortcut to create a Join relation based on this relation and the specified one</p>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params table table-striped">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>relation</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type"><a href="Relation.html">Relation</a></span>
+
+
+            </td>
+
+
+            <td class="description last"><p>The relation to compute the join against</p></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#join">Relation#join</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+    <h5>Returns:</h5>
+
+
+    <div class="param-desc">
+        <p>The resulting relation</p>
+    </div>
+
+
+    <dl>
+        <dt>
+            Type
+        </dt>
+        <dd>
+
+            <span class="param-type"><a href="Join.html">Join</a></span>
+
+
+        </dd>
+    </dl>
+
+
+</dd>
+
+
+<dt>
+<h4 class="name" id="print"><span class="type-signature"></span>print<span class="signature">()</span><span
+        class="type-signature"></span></h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Prints the Relation to console in table format</p>
+    </div>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#print">Relation#print</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+</dd>
+
+
+<dt>
+<h4 class="name" id="product"><span class="type-signature"></span>product<span class="signature">(relation)</span><span
+        class="type-signature"> &rarr; {Product}</span></h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Shortcut to create a Product relation based on this relation and the specified one</p>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params table table-striped">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>relation</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type"><a href="Relation.html">Relation</a></span>
+
+
+            </td>
+
+
+            <td class="description last"><p>The relation to compute product against</p></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#product">Relation#product</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+    <h5>Returns:</h5>
+
+
+    <div class="param-desc">
+        <p>The resulting relation</p>
+    </div>
+
+
+    <dl>
+        <dt>
+            Type
+        </dt>
+        <dd>
+
+            <span class="param-type">Product</span>
+
+
+        </dd>
+    </dl>
+
+
+</dd>
+
+
+<dt>
+<h4 class="name" id="project"><span class="type-signature"></span>project<span class="signature">(attributeNames)</span><span
+        class="type-signature"> &rarr; {Project}</span></h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Shortcut to create a Project relation based on this relation</p>
+
+        <p>
+
+        <p>The attributeNames parameter must be in the format : </p></p>
+<pre><code>
+
+    relation.project(['argument1', 'argument2']);
+
+</code></pre>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params table table-striped">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>attributeNames</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type">Array.&lt;String></span>
+
+
+            </td>
+
+
+            <td class="description last"><p>The relation to compute intersection against</p></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#project">Relation#project</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+    <h5>Returns:</h5>
+
+
+    <div class="param-desc">
+        <p>The resulting relation</p>
+    </div>
+
+
+    <dl>
+        <dt>
+            Type
+        </dt>
+        <dd>
+
+            <span class="param-type">Project</span>
+
+
+        </dd>
+    </dl>
+
+
+</dd>
+
+
+<dt>
+<h4 class="name" id="remove"><span class="type-signature"></span>remove<span
+        class="signature">(tupleToRemove)</span><span class="type-signature"></span></h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Removes a tuple from the relation</p>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params table table-striped">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>tupleToRemove</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type"><a href="Tuple.html">Tuple</a></span>
+                |
+
+                <span class="param-type">Object</span>
+
+
+            </td>
+
+
+            <td class="description last"><p>The tuple to be removed</p></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#remove">Relation#remove</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+</dd>
+
+
+<dt>
+<h4 class="name" id="rename"><span class="type-signature"></span>rename<span class="signature">(newNames)</span><span
+        class="type-signature"> &rarr; {<a href="Rename.html">Rename</a>}</span></h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Shortcut to create a Rename relation based on this relation</p>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params table table-striped">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>newNames</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type">Object</span>
+
+
+            </td>
+
+
+            <td class="description last"><p>An object containing the new attribute names.</p></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#rename">Relation#rename</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+    <h5>Returns:</h5>
+
+
+    <div class="param-desc">
+        <p>The resulting relation</p>
+    </div>
+
+
+    <dl>
+        <dt>
+            Type
+        </dt>
+        <dd>
+
+            <span class="param-type"><a href="Rename.html">Rename</a></span>
+
+
+        </dd>
+    </dl>
+
+
+    <h5>Example</h5>
+
+    <pre class="sunlight-highlight-javascript">relation.rename({ attributeName1 : attributeNewName1, attributeName2 : attributeNewName2})</pre>
+
+
+</dd>
+
+
+<dt>
+<h4 class="name" id="restrict"><span class="type-signature"></span>restrict<span
+        class="signature">(predicate)</span><span class="type-signature"> &rarr; {<a
+        href="Restriction.html">Restriction</a>}</span></h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Shortcut to create a Restrict relation based on this relation</p>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params table table-striped">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>predicate</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type">function</span>
+
+
+            </td>
+
+
+            <td class="description last"><p>The predicate to test the tuples against</p></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#restrict">Relation#restrict</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+    <h5>Returns:</h5>
+
+
+    <div class="param-desc">
+        <p>The resulting relation</p>
+    </div>
+
+
+    <dl>
+        <dt>
+            Type
+        </dt>
+        <dd>
+
+            <span class="param-type"><a href="Restriction.html">Restriction</a></span>
+
+
+        </dd>
+    </dl>
+
+
+    <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">// Multiple ways to build a predicate:
+
+// Compare with static value
+relation.restrict(relation.get(&#x27;attr1&#x27;).equal(2));
+
+// Compare two attributes
+relation.restrict(relation.get(&#x27;attr1&#x27;).not(equal(relation.get(&#x27;attr2&#x27;)));
+
+// Combine with and, or, not
+relation.restrict(
+     relation.get(&#x27;attr1&#x27;).not(equal(relation.get(&#x27;attr2&#x27;))
+     .and(
+     relation.get(&#x27;attr1&#x27;).equal(relation.get(&#x27;attr3&#x27;));</pre>
+
+
+</dd>
+
+
+<dt>
+<h4 class="name" id="tuples"><span class="type-signature"></span>tuples<span class="signature">(<span class="optional">tuples</span>)</span><span
+        class="type-signature"> &rarr; {<a href="Set.html">Set</a>|<a href="Relation.html">Relation</a>}</span></h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Getter/Setter for the tuple property</p>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params table table-striped">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th>Argument</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>tuples</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type"><a href="Set.html">Set</a></span>
+
+
+            </td>
+
+
+            <td class="attributes">
+
+                &lt;optional><br>
+
+
+            </td>
+
+
+            <td class="description last"><p>The new set of tuples</p></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#tuples">Relation#tuples</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+    <h5>Returns:</h5>
+
+
+    <div class="param-desc">
+        <p>The tuples/null if getter, this if setter</p>
+    </div>
+
+
+    <dl>
+        <dt>
+            Type
+        </dt>
+        <dd>
+
+            <span class="param-type"><a href="Set.html">Set</a></span>
+            |
+
+            <span class="param-type"><a href="Relation.html">Relation</a></span>
+
+
+        </dd>
+    </dl>
+
+
+</dd>
+
+
+<dt>
+<h4 class="name" id="union"><span class="type-signature"></span>union<span class="signature">(relation)</span><span
+        class="type-signature"> &rarr; {<a href="Union.html">Union</a>}</span></h4>
+
+
+</dt>
+<dd>
+
+
+    <div class="description">
+        <p>Shortcut to create a Union relation based on this relation and the specified one</p>
+    </div>
+
+
+    <h5>Parameters:</h5>
+
+
+    <table class="params table table-striped">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+
+
+            <th>Type</th>
+
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+
+        <tr>
+
+            <td class="name"><code>relation</code></td>
+
+
+            <td class="type">
+
+
+                <span class="param-type"><a href="Relation.html">Relation</a></span>
+
+
+            </td>
+
+
+            <td class="description last"><p>The relation to perform Union with</p></td>
+        </tr>
+
+
+        </tbody>
+    </table>
+
+
+    <dl class="details">
+
+
+        <dt class="inherited-from">Inherited From:</dt>
+        <dd class="inherited-from">
+            <ul class="dummy">
+                <li>
+                    <a href="Relation.html#union">Relation#union</a>
+                </li>
+            </ul>
+        </dd>
+
+
+    </dl>
+
+
+    <h5>Returns:</h5>
+
+
+    <div class="param-desc">
+        <p>The resulting relation</p>
+    </div>
+
+
+    <dl>
+        <dt>
+            Type
+        </dt>
+        <dd>
+
+            <span class="param-type"><a href="Union.html">Union</a></span>
+
+
+        </dd>
+    </dl>
+
+
+</dd>
+
+</dl>
+
+
+</article>
+
+</section>
+
+
+</div>
+
+<div class="clearfix"></div>
+<footer>
+					
+					
+		<span class="jsdoc-message">
+		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha8</a>
+		on 2014-06-18T12:42:21-04:00 using the <a
+                href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
+		</span>
+</footer>
+</div>
+
+
+<div class="span3">
+    <div id="toc"></div>
+</div>
+
+<br clear="both">
+</div>
+
+</div>
+<!--<script src="scripts/sunlight.js"></script>-->
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/bootstrap-dropdown.js"></script>
+<script src="scripts/toc.js"></script>
+
+<script>
+    $(function () {
+        $("#toc").toc({
+            anchorName: function (i, heading, prefix) {
+                return $(heading).attr("id") || ( prefix + i );
+            },
+            selectors: "h1,h2,h3,h4",
+            showAndHide: false,
+            scrollTo: 60
+        });
+        $("#toc>ul").addClass("nav nav-pills nav-stacked");
+        $("#main span[id^='toc']").addClass("toc-shim");
+        $('.dropdown-toggle').dropdown();
+//			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
+
+        $(".tutorial-section pre, .readme-section pre").each(function () {
+            var $this = $(this);
+
+            var example = $this.find("code");
+            exampleText = example.html();
+            var lang = /{@lang (.*?)}/.exec(exampleText);
+            if (lang && lang[1]) {
+                exampleText = exampleText.replace(lang[0], "");
+                example.html(exampleText);
+                lang = lang[1];
+            } else {
+                lang = "javascript";
+            }
+
+            if (lang) {
+
+                $this
+                        .addClass("sunlight-highlight-" + lang)
+                        .addClass("linenums")
+                        .html(example.html());
+
+            }
+        });
+
+        Sunlight.highlightAll({
+            lineNumbers: false,
+            showMenu: true,
+            enableDoclinks: true
+        });
+    });
+
+</script>
+
+<!--Google Analytics-->
+
+
+<!--Navigation and Symbol Display-->
+
+
+</body>
+</html>

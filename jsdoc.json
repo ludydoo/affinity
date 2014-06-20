@@ -1,0 +1,41 @@
+{
+    "tags": {
+        "allowUnknownTags": true
+    },
+
+    "source": {
+        "include": ["lib", "README.md"]
+    },
+
+
+    "plugins": [ "plugins/markdown" ],
+
+    "opts": {
+        "destination": "docs",
+        "recurse": true,
+        "verbose": true,
+        "template": "./node_modules/ink-docstrap/template/"
+    },
+
+    "templates" : {
+        "cleverLinks"           : false,
+        "monospaceLinks"        : false,
+        "dateFormat"            : "ddd MMM Do YYYY",
+        "outputSourceFiles"     : true,
+        "outputSourcePath"      : true,
+        "systemName"            : "Affinity",
+        "footer"                : "",
+        "copyright"             : "Ludovic Cléroux © 2012-2014.",
+        "navType"               : "vertical",
+        "theme"                 : "journal",
+        "linenums"              : true,
+        "collapseSymbols"       : false,
+        "inverseNav"            : true,
+        "highlightTutorialCode" : true
+    },
+
+    "markdown"  : {
+        "parser"   : "gfm",
+        "hardwrap" : true
+    }
+}

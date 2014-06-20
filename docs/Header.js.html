@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Affinity Source: header.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.journal.css">
+
+</head>
+
+<body>
+<div class="container-fluid">
+	<div class="navbar navbar-fixed-top navbar-inverse">
+		<div class="navbar-inner">
+			<a class="brand" href="index.html">Affinity</a>
+			<ul class="nav">
+				
+				<li class="dropdown">
+					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="Attribute.html">Attribute</a>
+						</li>
+						
+						<li>
+							<a href="FAbsolute.html">FAbsolute</a>
+						</li>
+						
+						<li>
+							<a href="FAnd.html">FAnd</a>
+						</li>
+						
+						<li>
+							<a href="FCeil.html">FCeil</a>
+						</li>
+						
+						<li>
+							<a href="FCos.html">FCos</a>
+						</li>
+						
+						<li>
+							<a href="FDivision.html">FDivision</a>
+						</li>
+						
+						<li>
+							<a href="FEqual.html">FEqual</a>
+						</li>
+						
+						<li>
+							<a href="FExp.html">FExp</a>
+						</li>
+						
+						<li>
+							<a href="FLargerThan.html">FLargerThan</a>
+						</li>
+						
+						<li>
+							<a href="FLargerThanEqual.html">FLargerThanEqual</a>
+						</li>
+						
+						<li>
+							<a href="FMinus.html">FMinus</a>
+						</li>
+						
+						<li>
+							<a href="FModulo.html">FModulo</a>
+						</li>
+						
+						<li>
+							<a href="FMultiplication.html">FMultiplication</a>
+						</li>
+						
+						<li>
+							<a href="FNot.html">FNot</a>
+						</li>
+						
+						<li>
+							<a href="FOr.html">FOr</a>
+						</li>
+						
+						<li>
+							<a href="FPlus.html">FPlus</a>
+						</li>
+						
+						<li>
+							<a href="FPow.html">FPow</a>
+						</li>
+						
+						<li>
+							<a href="FRound.html">FRound</a>
+						</li>
+						
+						<li>
+							<a href="FSin.html">FSin</a>
+						</li>
+						
+						<li>
+							<a href="FSmallerThan.html">FSmallerThan</a>
+						</li>
+						
+						<li>
+							<a href="FSmallerThanEqual.html">FSmallerThanEqual</a>
+						</li>
+						
+						<li>
+							<a href="FSquareRoot.html">FSquareRoot</a>
+						</li>
+						
+						<li>
+							<a href="FTan.html">FTan</a>
+						</li>
+						
+						<li>
+							<a href="Function.html">Function</a>
+						</li>
+						
+						<li>
+							<a href="Header.html">Header</a>
+						</li>
+						
+						<li>
+							<a href="RDifference.html">RDifference</a>
+						</li>
+						
+						<li>
+							<a href="Relation.html">Relation</a>
+						</li>
+						
+						<li>
+							<a href="RIntersection.html">RIntersection</a>
+						</li>
+						
+						<li>
+							<a href="RJoin.html">RJoin</a>
+						</li>
+						
+						<li>
+							<a href="RProduct.html">RProduct</a>
+						</li>
+						
+						<li>
+							<a href="RProjection.html">RProjection</a>
+						</li>
+						
+						<li>
+							<a href="RRename.html">RRename</a>
+						</li>
+						
+						<li>
+							<a href="RRestriction.html">RRestriction</a>
+						</li>
+						
+						<li>
+							<a href="RUnion.html">RUnion</a>
+						</li>
+						
+						<li>
+							<a href="Set.html">Set</a>
+						</li>
+						
+						<li>
+							<a href="Tuple.html">Tuple</a>
+						</li>
+						
+						<li>
+							<a href="Type.html">Type</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+			</ul>
+		</div>
+	</div>
+
+	<div class="row-fluid">
+
+		
+			<div class="span12">
+				
+				<div id="main">
+					
+
+
+		<h1 class="page-title">Source: header.js</h1>
+    
+<section>
+	<article>
+		<pre
+			class="sunlight-highlight-javascript linenums">var Attribute = require('./Attribute.js');
+var Tuple = require('./Tuple.js');
+var Set = require('./Set.js');
+var _ = require('lodash');
+var TString = require('./types/String');
+var TType = require('./types/Type');
+var debug = require('./helpers/debug.js');
+
+var Header = Set.extend(
+    /** @lends Header.prototype */
+    {
+
+        /**
+         * Constructor for the Header object
+         *
+         * @class Header
+         * @augments Set
+         * @param attributes
+         * @throws {TypeError} If the attributes are not passed in Array format
+         * @classdesc
+         *
+         * A {@link Header} is one of the two main parts of a {@link Relation}, along with the Body (which is a {@link Set}).
+         *
+         * It is a {@link Set} of {@link Attribute}s. It defines the structure of the{@link Tuple}s that will be part
+         * of the body of the {@link Relation}. Each {@link Tuple} in a {@link Relation} must match its {@link Header}
+         *
+         * @example
+         *
+         * var header = new affinity.Header([
+         *      {firstName : {type : affinity.String}},
+         *      {lastName : {type : affinity.String}}
+         * ])
+         *
+         * var relation = new affinity.Relation(); // Create an empty relation without a header and without body
+         *
+         * relation.header(header); // Sets the relation's header
+         *
+         * relation.add({firstName : 'John', lastName : 'Doe'}); // Add a tuple in the Relation that matches the header
+         *
+         */
+        constructor: function (attributes) {
+
+            debug.header.trace('#constructor');
+
+            var result = [];
+            this._attributes = {};
+            var that = this;
+
+            if (attributes) {
+
+                if (!_.isObject(attributes)) {
+                    throw new TypeError('Attributes must be in object format');
+                }
+
+                _.forEach(attributes, function (attribute, key) {
+                    attribute.name = key;
+                    result.push(attribute);
+                })
+
+            } else {
+                result = []
+            }
+
+            Set.call(this, {type: Attribute, elements: result});
+
+        },
+
+        bindEvents: function () {
+
+            debug.header.trace('#bindEvents');
+
+            var that = this;
+
+            this.ee.on('beforeAdd', function (element) {
+                if (that._attributes.hasOwnProperty(element.name)) {
+                    throw new Error('Attribute with name ' + element.name + ' already exists in header');
+                }
+            });
+
+            this.ee.on('afterAdd', function (element, index) {
+                that._attributes[element.name] = index;
+            });
+
+            this.ee.on('afterRemove', function (element, index) {
+                delete that._attributes[element.name];
+                that.refreshAttributes();
+            });
+        },
+
+        refreshAttributes: function () {
+
+            debug.header.trace('#refreshAttributes');
+
+            this._attributes = {};
+
+            this.each(function (element, index) {
+
+                this._attributes[element.name] = index;
+            }, this)
+
+        },
+
+        get: function (key) {
+
+            debug.header.trace('#get');
+
+            if (!this._attributes.hasOwnProperty(key)) {
+                return null;
+            }
+
+            return this.elements()[this._attributes[key]];
+
+        },
+
+        getIndex: function (name) {
+
+            debug.header.trace('#getIndex');
+
+            if (!this._attributes.hasOwnProperty(name)) {
+                return null;
+            }
+
+            return this._attributes[name];
+
+        },
+
+        attributes: function (attributes) {
+
+            debug.header.trace('#attributes');
+
+            if (attributes) {
+
+                return this.elements(attributes);
+
+            } else {
+
+                return this.elements();
+
+            }
+
+        },
+
+        /**
+         * Clone a header and its attributes
+         * @returns {Header}
+         */
+        clone: function () {
+
+            debug.header.trace('#clone');
+
+            var newHeader = new this.constructor();
+
+            this.each(function (element) {
+                newHeader.add(element.clone(), false);
+            });
+
+            return newHeader;
+
+        },
+
+        /**
+         * Project operation on Header object
+         * @param {String[]|Attribute[]} projectedAttributes
+         * @returns {Header}
+         */
+        project: function (projectedAttributes) {
+
+            debug.header.trace('#project');
+
+            var resultAttributes = {},
+                a;
+
+            a = projectedAttributes.length;
+
+            while (a--) {
+
+                var projectedAttribute = projectedAttributes[a];
+
+                // If string given, find the attribute with this name
+                if (_.isString(projectedAttribute)) {
+
+                    var attributeName = projectedAttribute;
+
+                    projectedAttribute = this.get(attributeName);
+
+                    if (projectedAttribute === null) {
+                        throw new ReferenceError('Attribute with name ' + attributeName + ' not found in header');
+                    }
+
+                } else if (projectedAttribute instanceof Attribute) {
+
+                    // Find attribute in the header
+
+                    var found = _.find(this.elements(), function (attribute) {
+                        return attribute === projectedAttribute;
+                    });
+
+                    if (!found) {
+                        throw new ReferenceError('Attribute not found in the header');
+                    }
+
+                } else {
+                    throw new TypeError('Wrong format given for attributes in Header project operation');
+                }
+
+                resultAttributes[projectedAttribute.name] = projectedAttribute.clone();
+            }
+
+            return new Header(resultAttributes);
+        },
+
+
+        /**
+         * Perform a removal operation on the header
+         * @param {Attribute[]|String[]|Attribute|String} attributesToRemove attributes to remove from the header
+         * @return {Header} the resulting header
+         */
+        remove: function (attributesToRemove) {
+
+            debug.header.trace('#remove');
+
+            var resultHeader = this.clone(),
+                a,
+                attribute,
+                attributeName;
+
+            // Coerce the arguments to an array
+            if (_.isString(attributesToRemove) || attributesToRemove instanceof Attribute) {
+
+                attributesToRemove = [attributesToRemove];
+
+            } else if (!_.isArray(attributesToRemove)) {
+
+                throw new TypeError('Wrong argument type for removal operation');
+
+            }
+
+            a = attributesToRemove.length;
+
+            // Loop through each given attributes to remove
+
+            while (a--) {
+
+                // Check that given attributesToRemove are in the header
+
+                if (_.isString(attributesToRemove[a])) {
+
+                    attributeName = attributesToRemove[a];
+
+                    attribute = attributesToRemove[a] = this.get(attributeName);
+
+                    if (attribute === null) {
+                        throw new ReferenceError('Attribute with name ' + attributeName + ' not found in header');
+                    }
+
+                } else {
+
+                    attribute = attributesToRemove[a];
+                    attributeName = attribute.name;
+
+                    if (!this._attributes.hasOwnProperty(attributeName)) {
+                        throw new ReferenceError('Attribute with name ' + attributeName + ' not found in header');
+                    } else if (this.get(attributeName) !== attribute) {
+                        throw new ReferenceError('Attribute object is not in the header');
+                    }
+
+                }
+
+                // Delete the found attributes from the resulting header
+
+                resultHeader.removeAt(this.getIndex(attributeName));
+
+            }
+
+            return resultHeader;
+        },
+
+        rename: function (attributes) {
+
+            debug.header.trace('#rename');
+
+            var resultHeader = this.clone(),
+                key;
+
+            if (_.isObject(attributes)) {
+
+                for (key in attributes) {
+
+                    if (attributes.hasOwnProperty(key)) {
+
+                        var newName = attributes[key];
+
+                        // Check if the specified name is a string
+                        if (!_.isString(newName)) {
+                            throw new TypeError('New name for attribute ' + key + ' must be a string');
+                        }
+
+                        var targetAttribute = this.get(key);
+
+                        // Check if the key exists in the current header
+                        if (targetAttribute === null) {
+                            throw new ReferenceError('Attribute with name ' + key + ' doesn\'t exist in header');
+                        }
+
+                        // Check if the renamed operation does not overwrite an existing key in the header
+                        if (this._attributes.hasOwnProperty(newName) &amp;&amp; newName !== key) {
+                            throw new ReferenceError('New attribute name ' + newName + ' already exists in the header');
+                        }
+
+                        // Check if the new name is not the same as the old name
+                        if (newName === key) {
+                            debug.header.warn('Useless renaming operations : ' + key + ' -> ' + newName);
+                        }
+
+                        // Check if two renamed attributes don't have the same target name
+                        for (var a in attributes) {
+                            if (attributes.hasOwnProperty(a) &amp;&amp; a !== key) {
+                                if (newName === attributes[a]) {
+                                    throw new ReferenceError('Two renamed attributes have the same target name');
+                                }
+                            }
+                        }
+
+                        resultHeader._attributes[newName] = resultHeader._attributes[key];
+
+                        if (key !== newName) {
+                            delete resultHeader._attributes[key];
+                        }
+
+                        resultHeader.get(newName).name = newName;
+
+                    }
+                }
+
+            } else {
+
+                throw new TypeError('Wrong argument type for rename operation');
+            }
+
+            return resultHeader;
+
+        },
+
+        toRelation: function () {
+
+            debug.header.trace('#toRelation');
+
+            var rel = new (require('./Relation.js'))([
+                {name: {type: TString}},
+                {type: {type: TType}}
+            ]);
+
+            this.each(function (attribute) {
+                rel.add({name: attribute.name, type: attribute.type});
+            });
+
+            return rel;
+
+        }
+
+
+
+
+
+    }, {
+
+        equal: function (header1, header2) {
+
+            debug.header.trace('Header.equal');
+
+            if (Object.keys(header1._attributes).length !== Object.keys(header2._attributes).length) {
+                return false;
+            }
+
+            var mismatch = false;
+
+            header1.each(function (attribute1) {
+
+                var attribute1Name = attribute1.name;
+
+                if (!header2._attributes.hasOwnProperty(attribute1Name)) {
+                    mismatch = true;
+                    return false;
+                }
+
+                if (!Attribute.equal(attribute1, header2.get(attribute1.name))) {
+                    mismatch = true;
+                    return false;
+                }
+
+
+            });
+
+            return !mismatch;
+
+        },
+
+        disjoint: function (header1, header2) {
+
+            debug.header.trace('Header.disjoint');
+
+
+            // Check that header have no common attribute names
+            header1.each(function (attribute1) {
+
+                var attributeName = attribute1;
+
+                if (header2.get(attributeName) !== null) {
+                    return false;
+                }
+
+            });
+
+            return true;
+
+        }
+
+    });
+
+module.exports = Header;</pre>
+	</article>
+</section>
+
+
+
+
+
+				</div>
+
+				<div class="clearfix"></div>
+				<footer>
+					
+					
+		<span class="copyright">
+		Ludovic Cléroux © 2012-2014.
+		</span>
+					<br />
+					
+		<span class="jsdoc-message">
+		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha8</a>
+		on Thu Jun 19th 2014 using the <a
+			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
+		</span>
+				</footer>
+			</div>
+
+			
+			<br clear="both">
+		</div>
+
+	</div>
+	<!--<script src="scripts/sunlight.js"></script>-->
+	<script src="scripts/docstrap.lib.js"></script>
+	<script src="scripts/bootstrap-dropdown.js"></script>
+	<script src="scripts/toc.js"></script>
+
+	<script>
+		$( function () {
+			$( "#toc" ).toc( {
+				anchorName  : function ( i, heading, prefix ) {
+					return $( heading ).attr( "id" ) || ( prefix + i );
+				},
+				selectors   : "h1,h2,h3,h4",
+				showAndHide : false,
+				scrollTo    : 60
+			} );
+			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+			$('.dropdown-toggle').dropdown();
+//			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
+
+			$( ".tutorial-section pre, .readme-section pre" ).each( function () {
+				var $this = $( this );
+
+				var example = $this.find("code" );
+				exampleText = example.html();
+				var lang = /{@lang (.*?)}/.exec( exampleText );
+				if ( lang && lang[1] ) {
+					exampleText = exampleText.replace( lang[0], "" );
+					example.html(exampleText);
+					lang = lang[1];
+				} else {
+					lang = "javascript";
+				}
+
+				if ( lang ) {
+
+					$this
+						.addClass( "sunlight-highlight-" + lang )
+						.addClass( "linenums" )
+						.html( example.html() );
+
+				}
+			} );
+
+			Sunlight.highlightAll( {
+				lineNumbers : true,
+				showMenu:true,
+				enableDoclinks:true
+		} );
+		} );
+
+	</script>
+
+	<!--Google Analytics-->
+	
+
+	<!--Navigation and Symbol Display-->
+	
+
+</body>
+</html>
