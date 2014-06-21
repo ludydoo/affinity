@@ -40,71 +40,65 @@ A Tuple is a single entry in a Relation. It is an ordered set (attribute1 : valu
 
 | **Operation** | **Shortcut**  | **Class**            |
 |:--------------|:--------------|:---------------------|
-| Base Relation | N/A           | Relation             |
-| Compose       | `compose`     | Compose              |
-| Difference    | `difference`  | Difference           |
-| Extend        | `extend`      | Extend               |
-| Group         | `group`       | Group                |
-| Intersection  | `intersect`   | Intersection         |
-| Join          | `join`        | Join                 |
-| Product       | `product`     | CrossProduct         |
-| Projection    | `project`     | Projection           |
-| Rename        | `rename`      | Rename               |
-| Restriction   | `restrict`    | Restriction          |
-| SemiDifference| `sdifference` | Restriction          |
-| SemiJoin      | `sjoin`       | Restriction          |
-| UnGroup       | `ungroup`     | Ungroup              |
-| Union         | `union`       | Union                |
-| UnWrap        | `unwrap`      | Restriction          |
-| Wrap          | `wrap`        | Wrap                 |
+| Base Relation | N/A           |{@link Relation}      |
+| Compose       | `compose`     |{@link Compose}       |
+| Difference    | `difference`  |{@link Difference}    |
+| Extend        | `extend`      |{@link Extend}        |
+| Group         | `group`       |{@link Group}         |
+| Intersection  | `intersect`   |{@link Intersection}  |
+| Join          | `join`        |{@link Join}          |
+| Product       | `product`     |{@link CrossProduct}  |
+| Projection    | `project`     |{@link Projection}    |
+| Rename        | `rename`      |{@link Rename}        |
+| Restriction   | `restrict`    |{@link Restriction}   |
+| SemiDifference| `sdifference` |{@link Restriction}   |
+| SemiJoin      | `sjoin`       |{@link Restriction}   |
+| UnGroup       | `ungroup`     |{@link Ungroup}       |
+| Union         | `union`       |{@link Union}         |
+| UnWrap        | `unwrap`      |{@link Restriction}   |
+| Wrap          | `wrap`        |{@link Wrap}          |
+
+
 
 **Functions**
 -------------
 
-They are used to build predicates for Restriction or Extend operation, such as
-
-```
-
-var restriction = relation.restrict(attr1.eq(attr2).or(attr2.gt(attr4));
-
-var extension = relation.extend([{'calculated' : attr1.plus(attr2)}]);
-
-```
-
-| **Function**            | **Shortcut**  | **Class**                  |
-|:------------------------|:--------------|:---------------------------|
-|**Connectives**                                                     |||
-|And                      |`and`          |And                         |
-|Or                       |`or`           |Or                          |
-|Not                      |`not`          |Not                         |
-|**Comparison**                                                      |||
-|Equal                    |`eq`           |Equal                       |
-|Greater Than             |`gt`           |GreaterThan                 |
-|Greater Than or Equal    |`gte`          |GreaterThanEqual            |
-|Smaller Than             |`st`           |SmallerThan                 |
-|Smaller Than or Equal    |`ste`          |SmallerThanEqual            |
-|**Numeric Functions**                                               |||
-|Absolute                 |`abs`          |Absolute                    |
-|Ceil                     |`ceil`         |Ceil                        |
-|Cosine                   |`cos`          |Cosine                      |
-|Division                 |`div`          |Division                    |
-|Exponential              |`exp`          |Exponential                 |
-|Minus                    |`minus`        |Minus                       |
-|Modulo                   |`mod`          |Modulo                      |
-|Multiplication           |`times`        |Multiplication              |
-|Plus                     |`plus`         |Plus                        |
-|Power                    |`pow`          |Pow                         |
-|Roof                     |`roof`         |Roof                        |
-|Round                    |`round`        |Round                       |
-|Sine                     |`sine`         |Sine                        |
-|Square Root              |`sqrt`         |Sqrt                        |
-|**Date Functions**                                                  |||
-|Day of Month             |`monthDay`     |MonthDay                    |
-|Day of Week              |`weekDay`      |WeekDay                     |
-|Day of Year              |`yearDay`      |YearDay                     |
-|Month                    |`month`        |Month                       |
-|Timestamp                |`ts`           |TimeStamp                   |
-|Week of Year             |`yearWeek`     |YearWeek                    |
+| **Function**         | **Shortcut**  | **Class**               |
+|:---------------------|:--------------|:------------------------|
+|**Connectives**                                               |||
+|And                   |`and`       |{@link And}                 |
+|Or                    |`or`        |{@link Or}                  |
+|Not                   |`not`       |{@link Not}                 |
+|**Comparison**                                                |||
+|Equal                 |`eq`        |{@link Equal}               |
+|Larger Than           |`lt`        |{@link LargerThan}          |
+|Larger Than or Equal  |`lte`       |{@link LargerThanEqual}     |
+|Smaller Than          |`st`        |{@link SmallerThan}         |
+|Smaller Than or Equal |`ste`       |{@link SmallerThanEqual}    |
+|**Numeric Functions**                                         |||
+|Absolute              |`abs`       |{@link Absolute}            |
+|Ceil                  |`ceil`      |{@link Ceil}                |
+|Cosine                |`cos`       |{@link Cosine}              |
+|Division              |`div`       |{@link Division}            |
+|Exponential           |`exp`       |{@link Exponential}         |
+|Minus                 |`minus`     |{@link Minus}               |
+|Modulo                |`mod`       |{@link Modulo}              |
+|Multiplication        |`times`     |{@link Multiplication}      |
+|Plus                  |`plus`      |{@link Plus}                |
+|Power                 |`pow`       |{@link Pow}                 |
+|Roof                  |`roof`      |{@link Roof}                |
+|Round                 |`round`     |{@link Round}               |
+|Sine                  |`sine`      |{@link Sine}                |
+|Square Root           |`sqrt`      |{@link Sqrt}                |
+|Unary Minus           |`uminus`    |{@link UnaryMinus}          |
+|Unary Plus            |`uplus`     |{@link UnaryPlus}           |
+|**Date Functions**                                            |||
+|Day of Month          |`monthDay`  |{@link MonthDay}            |
+|Day of Week           |`weekDay`   |{@link WeekDay}             |
+|Day of Year           |`yearDay`   |{@link YearDay}             |
+|Month                 |`month`     |{@link Month}               |
+|Timestamp             |`ts`        |{@link TimeStamp}           |
+|Week of Year          |`yearWeek`  |{@link YearWeek}            |
 
 ##Usage##
                 
