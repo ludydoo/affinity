@@ -31,7 +31,6 @@ describe.only('SemiJoin class', function(){
 
                 done();
 
-
             })
 
         });
