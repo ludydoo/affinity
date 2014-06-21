@@ -7,7 +7,7 @@ describe('Group Class', function(){
 
         describe('When provided one grouping attributes', function(){
 
-            it.only('Should be able to do a grouping', function(done){
+            it('Should be able to do a grouping', function(done){
 
 
                 var relationA = new affinity.Relation([
@@ -34,13 +34,14 @@ describe('Group Class', function(){
 
                 relationB.exists({age : 23, name : testRel}).should.be.true;
 
+                relationA.print();
                 relationB.print();
 
                 done();
 
             });
 
-        })
+        });
 
     })
 
