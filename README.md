@@ -110,25 +110,25 @@ A Tuple is a single entry in a Relation. It is an ordered set (attribute1 : valu
 
 ###Relational Operators###
 
-| **Operation** | **Shortcut**  | **Class**            |
-|:--------------|:--------------|:---------------------|
-| Base Relation | N/A           | Relation             |
-| Compose       | `compose`     | Compose              |
-| Difference    | `difference`  | Difference           |
-| Extend        | `extend`      | Extend               |
-| Group         | `group`       | Group                |
-| Intersection  | `intersect`   | Intersection         |
-| Join          | `join`        | Join                 |
-| Product       | `product`     | CrossProduct         |
-| Projection    | `project`     | Projection           |
-| Rename        | `rename`      | Rename               |
-| Restriction   | `restrict`    | Restriction          |
-| SemiDifference| `sdifference` | Restriction          |
-| SemiJoin      | `sjoin`       | Restriction          |
-| UnGroup       | `ungroup`     | Ungroup              |
-| Union         | `union`       | Union                |
-| UnWrap        | `unwrap`      | Restriction          |
-| Wrap          | `wrap`        | Wrap                 |
+| **Operation** | **Shortcut**  |
+|:--------------|:--------------|
+| Base Relation | N/A           |
+| Compose       | `compose`     |
+| Difference    | `difference`  |
+| Extend        | `extend`      |
+| Group         | `group`       |
+| Intersection  | `intersect`   |
+| Join          | `join`        |
+| Product       | `product`     |
+| Projection    | `project`     |
+| Rename        | `rename`      |
+| Restriction   | `restrict`    |
+| SemiDifference| `sdifference` |
+| SemiJoin      | `sjoin`       |
+| UnGroup       | `ungroup`     |
+| Union         | `union`       |
+| UnWrap        | `unwrap`      |
+| Wrap          | `wrap`        |
 
 **Functions**
 -------------
