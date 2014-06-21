@@ -246,7 +246,7 @@
     RWrap
     </h2>
     
-        <div class="class-description"><p>The Wrap will gather multiple attributes into a single one, converting them to a tuple-valued attribute</p></div>
+        <div class="class-description"><p>The Wrap will gather multiple wrappedAttributes into a single one, converting them to a tuple-valued attribute</p></div>
     
 </header>
 
@@ -257,7 +257,7 @@
     
         
 <dt>
-    <h4 class="name" id="RWrap"><span class="type-signature"></span>new RWrap<span class="signature">(relationA, wrappedAttributeName, attributes)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="RWrap"><span class="type-signature"></span>new RWrap<span class="signature">(relationA, wrappingAttributeName, wrappedAttributes)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -318,7 +318,7 @@
 
         <tr>
             
-                <td class="name"><code>wrappedAttributeName</code></td>
+                <td class="name"><code>wrappingAttributeName</code></td>
             
 
             <td class="type">
@@ -341,16 +341,13 @@
 
         <tr>
             
-                <td class="name"><code>attributes</code></td>
+                <td class="name"><code>wrappedAttributes</code></td>
             
 
             <td class="type">
             
                 
 <span class="param-type">Array.&lt;String></span>
-|
-
-<span class="param-type">Array.&lt;<a href="Attribute.html">Attribute</a>></span>
 
 
             
@@ -360,7 +357,7 @@
 
             
 
-            <td class="description last"><p>The attributes to wrap</p></td>
+            <td class="description last"><p>The wrappedAttributes to wrap</p></td>
         </tr>
 
 	
@@ -397,7 +394,7 @@
 		<ul class="dummy">
 			<li>
 				<a href="wrap.js.html">algebra/wrap.js</a>,
-				 <a href="wrap.js.html#sunlight-1-line-10">line 10</a>
+				 <a href="wrap.js.html#sunlight-1-line-13">line 13</a>
 			</li>
 		</ul>
 	</dd>
@@ -653,7 +650,7 @@ verification if you are sure the element is not in the set</p></td>
 		<ul class="dummy">
 			<li>
 				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-127">line 127</a>
+				 <a href="set.js.html#sunlight-1-line-128">line 128</a>
 			</li>
 		</ul>
 	</dd>
@@ -810,7 +807,7 @@ verification if you are sure the element is not in the set</p></td>
 		<ul class="dummy">
 			<li>
 				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-290">line 290</a>
+				 <a href="set.js.html#sunlight-1-line-286">line 286</a>
 			</li>
 		</ul>
 	</dd>
@@ -1112,7 +1109,7 @@ console.log(relation.body() === set) // true</pre>
 		<ul class="dummy">
 			<li>
 				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-508">line 508</a>
+				 <a href="set.js.html#sunlight-1-line-504">line 504</a>
 			</li>
 		</ul>
 	</dd>
@@ -1343,7 +1340,7 @@ product2.compute(); // Calculates the header and the body;</pre>
 		<ul class="dummy">
 			<li>
 				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-336">line 336</a>
+				 <a href="set.js.html#sunlight-1-line-332">line 332</a>
 			</li>
 		</ul>
 	</dd>
@@ -1730,7 +1727,7 @@ var diff = relation1.difference(relation2);
 		<ul class="dummy">
 			<li>
 				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-112">line 112</a>
+				 <a href="set.js.html#sunlight-1-line-113">line 113</a>
 			</li>
 		</ul>
 	</dd>
@@ -1876,7 +1873,7 @@ var diff = relation1.difference(relation2);
 		<ul class="dummy">
 			<li>
 				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-57">line 57</a>
+				 <a href="set.js.html#sunlight-1-line-58">line 58</a>
 			</li>
 		</ul>
 	</dd>
@@ -2216,7 +2213,7 @@ var diff = relation1.difference(relation2);
 		<ul class="dummy">
 			<li>
 				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-322">line 322</a>
+				 <a href="set.js.html#sunlight-1-line-318">line 318</a>
 			</li>
 		</ul>
 	</dd>
@@ -2373,7 +2370,7 @@ var diff = relation1.difference(relation2);
 		<ul class="dummy">
 			<li>
 				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-303">line 303</a>
+				 <a href="set.js.html#sunlight-1-line-299">line 299</a>
 			</li>
 		</ul>
 	</dd>
@@ -2784,114 +2781,6 @@ console.log(relation.getAt(0).get(&#x27;firstName&#x27;)) // John</pre>
         
             
 <dt>
-    <h4 class="name" id="getPrintString"><span class="type-signature"></span>getPrintString<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Gets the</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-	<dt class="inherited-from">Inherited From:</dt>
-	<dd class="inherited-from">
-		<ul class="dummy">
-			<li>
-				<a href="Relation.html#getPrintString">Relation#getPrintString</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="relation.js.html">relation.js</a>,
-				 <a href="relation.js.html#sunlight-1-line-649">line 649</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>The string print representation of the relation</p>
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">String</span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
     <h4 class="name" id="header"><span class="type-signature"></span>header<span class="signature">(<span class="optional">header</span>)</span><span class="type-signature"> &rarr; {null|Object}</span></h4>
     
     
@@ -3164,7 +3053,7 @@ console.log(relation.getAt(0).get(&#x27;firstName&#x27;)) // John</pre>
 		<ul class="dummy">
 			<li>
 				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-269">line 269</a>
+				 <a href="set.js.html#sunlight-1-line-265">line 265</a>
 			</li>
 		</ul>
 	</dd>
@@ -3804,7 +3693,7 @@ var join = relation1.join(relation2);
 		<ul class="dummy">
 			<li>
 				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-346">line 346</a>
+				 <a href="set.js.html#sunlight-1-line-342">line 342</a>
 			</li>
 		</ul>
 	</dd>
@@ -3912,7 +3801,7 @@ var join = relation1.join(relation2);
 		<ul class="dummy">
 			<li>
 				<a href="relation.js.html">relation.js</a>,
-				 <a href="relation.js.html#sunlight-1-line-638">line 638</a>
+				 <a href="relation.js.html#sunlight-1-line-686">line 686</a>
 			</li>
 		</ul>
 	</dd>
@@ -4612,7 +4501,7 @@ relation.remove(tuple) // false, it was already removed</pre>
 		<ul class="dummy">
 			<li>
 				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-197">line 197</a>
+				 <a href="set.js.html#sunlight-1-line-198">line 198</a>
 			</li>
 		</ul>
 	</dd>
@@ -5130,7 +5019,7 @@ relation.restrict( (relation.get(&#x27;firstName&#x27;).not().equal(&#x27;John&#
 		<ul class="dummy">
 			<li>
 				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-387">line 387</a>
+				 <a href="set.js.html#sunlight-1-line-383">line 383</a>
 			</li>
 		</ul>
 	</dd>
@@ -5283,7 +5172,7 @@ relation.restrict( (relation.get(&#x27;firstName&#x27;).not().equal(&#x27;John&#
 		<ul class="dummy">
 			<li>
 				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-439">line 439</a>
+				 <a href="set.js.html#sunlight-1-line-435">line 435</a>
 			</li>
 		</ul>
 	</dd>
@@ -5440,7 +5329,7 @@ relation.restrict( (relation.get(&#x27;firstName&#x27;).not().equal(&#x27;John&#
 		<ul class="dummy">
 			<li>
 				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-411">line 411</a>
+				 <a href="set.js.html#sunlight-1-line-407">line 407</a>
 			</li>
 		</ul>
 	</dd>
@@ -5593,7 +5482,7 @@ relation.restrict( (relation.get(&#x27;firstName&#x27;).not().equal(&#x27;John&#
 		<ul class="dummy">
 			<li>
 				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-463">line 463</a>
+				 <a href="set.js.html#sunlight-1-line-459">line 459</a>
 			</li>
 		</ul>
 	</dd>
@@ -5750,7 +5639,7 @@ relation.restrict( (relation.get(&#x27;firstName&#x27;).not().equal(&#x27;John&#
 		<ul class="dummy">
 			<li>
 				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-357">line 357</a>
+				 <a href="set.js.html#sunlight-1-line-353">line 353</a>
 			</li>
 		</ul>
 	</dd>
@@ -5789,6 +5678,114 @@ relation.restrict( (relation.get(&#x27;firstName&#x27;).not().equal(&#x27;John&#
 	<dd>
 		
 <span class="param-type"><a href="Set.html">Set</a></span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="toString"><span class="type-signature"></span>toString<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Gets the</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+	<dt class="inherited-from">Inherited From:</dt>
+	<dd class="inherited-from">
+		<ul class="dummy">
+			<li>
+				<a href="Relation.html#toString">Relation#toString</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="relation.js.html">relation.js</a>,
+				 <a href="relation.js.html#sunlight-1-line-697">line 697</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>The string print representation of the relation</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">String</span>
 
 
 	</dd>
@@ -5919,7 +5916,7 @@ relation.restrict( (relation.get(&#x27;firstName&#x27;).not().equal(&#x27;John&#
 		<ul class="dummy">
 			<li>
 				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-95">line 95</a>
+				 <a href="set.js.html#sunlight-1-line-96">line 96</a>
 			</li>
 		</ul>
 	</dd>
@@ -6151,7 +6148,7 @@ relation.restrict( (relation.get(&#x27;firstName&#x27;).not().equal(&#x27;John&#
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha8</a>
-		on Fri Jun 20th 2014 using the <a
+		on Sat Jun 21st 2014 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>

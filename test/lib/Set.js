@@ -508,7 +508,7 @@ describe('Set Class', function () {
 
                 set3.each(function(element){
 
-                    element.should.be.instanceOf(affinity.Tuple);
+                    (element instanceof affinity.Tuple).should.be.true;
 
                 });
 

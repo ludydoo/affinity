@@ -244,7 +244,6 @@
 	<article>
 		<pre
 			class="sunlight-highlight-javascript linenums">var Attribute = require('./Attribute.js');
-var Tuple = require('./Tuple.js');
 var Set = require('./Set.js');
 var _ = require('lodash');
 var TString = require('./types/String');
@@ -382,11 +381,29 @@ var Header = Set.extend(
 
             debug.header.trace('#get');
 
-            if (!this._attributes.hasOwnProperty(key)) {
-                return null;
-            }
+            if(key instanceof Attribute){
 
-            return this.elements()[this._attributes[key]];
+                if (!this._attributes.hasOwnProperty(key.name)) {
+                    return null;
+                }
+
+                var attr = this.get(key.name);
+
+                if(!attr.equals(key)){
+                    return null;
+                } else {
+                    return attr;
+                }
+
+            } else if (_.isString(key)){
+
+                if (!this._attributes.hasOwnProperty(key)) {
+                    return null;
+                }
+
+                return this.elements()[this._attributes[key]];
+
+            }
 
         },
 
@@ -668,20 +685,150 @@ var Header = Set.extend(
 
         },
 
-        copy : function(header){
+        copy : function(header, attributesArgument, exclude){
 
             var that = this;
 
-            header.each(function(attribute){
+            if(exclude !== true &amp;&amp; exclude !== false){
+                exclude = false;
+            }
 
-                that.add(attribute.clone());
+            if (attributesArgument){
 
-            })
+                // Coerce the attributesArgument arguments to a header argument
+
+                if(!(attributesArgument instanceof Header)){
+
+                    var tempHeader = new Header();
+
+                    if(attributesArgument instanceof Set){
+
+                        attributesArgument.each(function(attribute){
+                            if((attribute instanceof String)){
+                                tempHeader.add(header.get(attribute));
+                            } else if(attribute instanceof Attribute) {
+                                tempHeader.add(Attribute.clone());
+                            }
+                        })
+
+                    } else if (attributesArgument instanceof Array){
+
+                        _.forEach(attributesArgument, function(attribute){
+                            if(_.isString(attribute)){
+                                tempHeader.add(header.get(attribute));
+                            } else if(attribute instanceof Attribute) {
+                                tempHeader.add(Attribute.clone());
+                            }
+                        })
+
+                    } else if (_.isString(attributesArgument)){
+                        tempHeader.add(header.get(attribute));
+                    }
+
+                    attributesArgument = tempHeader;
+
+                }
+
+            }
+
+            if (exclude &amp;&amp; attributesArgument){
+
+                header.each(function(attribute){
+
+                    var isExcluded = false;
+
+                    attributesArgument.each(function(excludedAttribute){
+                        if(attribute.equal(excludedAttribute)){
+                            isExcluded = true;
+                        }
+                    }, this);
+
+                    if(!isExcluded){
+                        this.add(attribute.clone());
+                    }
+
+                }, this)
+
+
+            } else if (!exclude &amp;&amp; attributesArgument){
+
+                attributesArgument.each(function(includedAttribute){
+
+                    this.add(header.get(includedAttribute.name).clone());
+
+                }, this)
+
+            } else {
+
+                header.each(function(attribute){
+                    this.add(attribute.clone());
+                },this)
+            }
 
         }
 
 
     }, {
+
+        assertAttributesExist : function(header, attributes){
+
+            var mismatch = false;
+
+            _.forEach(attributes, function(attribute){
+
+                if(_.isString(attribute)){
+                    if(header.get(attribute) === null){
+                        throw new Error('Attribute with name ' + attribute + ' does not exist in the header');
+                    }
+                } else if (attribute instanceof Attribute){
+                    if(!header.exists(attribute)){
+                        throw new Error('Attribute with name ' + attribute.name + ' does not exist in the header');
+                    }
+                } else {
+                    throw new Error('Attribute is of wrong type');
+                }
+
+            });
+
+        },
+
+        assertSameNameSameType : function(header1, header2){
+
+            header1.each(function(attribute1){
+
+                header2.each(function(attribute2){
+
+                    if(attribute1.name === attribute2.name &amp;&amp; attribute1.type !== attribute2.type){
+                        throw new Error('Headers must have same type on attributes of same naem');
+                    }
+
+                })
+
+            })
+
+        },
+
+        assertUnionCompatible : function(header1, header2){
+
+            if (!this.equal(header1, header2)) {
+                throw new Error('Relations are not union compatible');
+            }
+
+        },
+
+        assertDisjoint : function(header1, header2){
+
+            if(!this.disjoint(header1, header2)){
+                throw new Error('Headers must be disjoint');
+            }
+
+        },
+
+        commonAttributes : function(header1, header2){
+
+            return header1.setIntersection(header2);
+
+        },
 
         /**
          * Converts a relation into a header.
@@ -780,7 +927,7 @@ module.exports = Header;</pre>
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha8</a>
-		on Fri Jun 20th 2014 using the <a
+		on Sat Jun 21st 2014 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>

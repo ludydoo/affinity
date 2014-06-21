@@ -243,15 +243,21 @@
 <section>
 	<article>
 		<pre
-			class="sunlight-highlight-javascript linenums">var Base = require('./base.js');
+			class="sunlight-highlight-javascript linenums">var Type = require('./Type.js');
+var Header = require('./Type.js');
+var TString = require('./types/String.js');
+var Attribute = require('./Attribute.js');
 var _ = require('lodash');
-var Tuple = Base.extend(
+var equal = require('./helpers/equal');
+var Set = require('./Set.js');
+var Tuple = Type.extend(
     /** @lends Tuple.prototype */
     {
 
         /**
          * @class Tuple
          * @param attributes
+         * @augments Type
          */
         constructor: function (attributes) {
 
@@ -274,7 +280,97 @@ var Tuple = Base.extend(
                 }
             }
 
-            Base.apply(this, arguments);
+            Type.apply(this, arguments);
+
+        },
+
+
+        /**
+         * Iterator function that loops through each of the tuple attributes
+         * @param {Function} callback Callback function
+         * @param {Object} context Execution context of the callback
+         */
+        each : function(callback, context){
+            _.forIn(this.attributes, callback, context);
+        },
+
+        copy : function(tuple, attributesArgument, exclude){
+
+            if (exclude !== true &amp;&amp; exclude !== false){
+                exclude = false;
+            }
+
+            if (!_.isUndefined(attributesArgument) &amp;&amp; !_.isNull(attributesArgument)) {
+
+                var result = new Set({type: TString});
+
+                // Coerce the attributes argument to Set of string
+                if (attributesArgument instanceof Header) {
+                    attributesArgument.each(function (attribute) {
+                        result.add(attribute.name);
+                    })
+                } else if (attributesArgument instanceof Set) {
+                    attributesArgument.each(function (attributeArgument) {
+
+                        if (attributeArgument instanceof Attribute) {
+                            result.add(attributeArgument.name);
+                        } else if (_.isString(attributeArgument)) {
+                            result.add(attributeArgument);
+                        }
+
+                    })
+                } else if (_.isArray(attributesArgument)) {
+                    _.forEach(attributesArgument, function (attributeArgument) {
+                        if (attributeArgument instanceof Attribute) {
+                            result.add(attributeArgument.name);
+                        } else if (_.isString(attributeArgument)) {
+                            result.add(attributeArgument);
+                        }
+                    })
+                } else if (_.isString(attributesArgument)) {
+                    result.add(attributesArgument);
+                }
+
+                attributesArgument = result;
+
+            }
+
+            if(attributesArgument &amp;&amp; exclude === false){
+
+                attributesArgument.each(function(copiedAttribute){
+
+                    this.set(copiedAttribute.valueOf(), tuple.get(copiedAttribute.valueOf()));
+
+                }, this)
+
+            } else {
+
+                _.forEach(tuple.attributes, function (tupleAttribute, tupleAttributeKey) {
+
+                    if (attributesArgument &amp;&amp; exclude === true){
+
+                        var isExcludedAttribute = false;
+
+                        attributesArgument.each(function(excludedAttribute){
+
+                            if (equal(TString, excludedAttribute, tupleAttributeKey)){
+                                isExcludedAttribute = true;
+                                return false;
+                            }
+
+                        });
+
+                        if(!isExcludedAttribute){
+                           this.set(tupleAttributeKey, tupleAttribute);
+                        }
+
+                    } else {
+                        this.set(tupleAttributeKey, tupleAttribute);
+                    }
+
+                }, this)
+
+            }
 
         },
 
@@ -298,11 +394,13 @@ var Tuple = Base.extend(
 
         /**
          * Gets and attribute value
-         * @param {String} attributeName Name of the attribute
+         * @param {Attribute|String} attributeName Name of the attribute
          * @returns {*}
          */
         get: function (attributeName) {
+
             return this.attributes[attributeName];
+
         },
 
         /**
@@ -336,11 +434,41 @@ var Tuple = Base.extend(
 
             return newTuple;
 
+        },
+
+        toString : function(){
+
+            var count = 0;
+
+            var attrLength = Object.keys(this.attributes).length
+            var attrs = ['Tuple({'];
+
+            this.each(function(attribute, key){
+
+                attrs.push(key.toString()+ ' : ' + attribute.toString());
+
+                if(count !== attrLength-1){
+                    attrs.push(', ')
+                }
+
+                count++;
+
+            },this);
+
+            attrs.push('})')
+
+            return attrs.join('');
+
         }
+
 
     }, {
 
         type: 'Tuple',
+
+        toString: function () {
+            return 'Tuple'
+        },
 
         /**
          * Test for equality between two tuples
@@ -358,14 +486,43 @@ var Tuple = Base.extend(
                 throw new Error('Provided tuples are of the wrong type');
             }
 
-            for (key in tuple1.attributes) {
-                if (tuple1.attributes.hasOwnProperty(key)) {
-                    if ((!tuple2.attributes.hasOwnProperty(key)) || (tuple1.attributes[key] !== tuple2.attributes[key]))
-                        return false;
-                }
-            }
+            var match = true;
 
-            return true;
+            tuple1.each(function(attr, key){
+
+                if(tuple2.get(key) === null){
+                    match = false;
+                    return false;
+                }
+
+                if(!equal(null, attr, tuple2.get(key))){
+                    match = false;
+                    return false;
+                }
+
+            });
+
+            return match;
+
+        },
+
+        matchOnAttributes : function(tuple1, tuple2, attributes){
+
+            var match = true;
+
+            attributes.each(function(attribute){
+
+               var attributeName = attribute.name;
+
+                if(!equal(null, tuple1.get(attributeName), tuple2.get(attributeName))){
+                    match = false;
+                    return false;
+                }
+
+            });
+
+            return match;
+
         },
 
         /**
@@ -470,7 +627,7 @@ module.exports = Tuple;</pre>
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha8</a>
-		on Fri Jun 20th 2014 using the <a
+		on Sat Jun 21st 2014 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>

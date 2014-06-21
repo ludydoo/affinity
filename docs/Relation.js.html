@@ -243,9 +243,9 @@
 <section>
 	<article>
 		<pre
-			class="sunlight-highlight-javascript linenums">var Base = require('./base.js');
-var Header = require('./Header.js');
+			class="sunlight-highlight-javascript linenums">var Header = require('./Header.js');
 var Tuple = require('./Tuple.js');
+var Type = require('./type.js');
 var _ = require('lodash');
 var Set = require('./Set');
 var debug = require('./helpers/debug');
@@ -877,6 +877,54 @@ var Relation = Set.extend(
 
         },
 
+        group : function(groupingAttributeName, groupedAttributeNames){
+
+            debug.relation.trace('#group');
+
+            return new (require('./algebra/Group'))(this, groupingAttributeName, groupedAttributeNames);
+
+        },
+
+        ungroup : function(groupedAttributeNames){
+
+            debug.relation.trace('#ungroup');
+
+            return new (require('./algebra/Ungroup'))(this, groupedAttributeNames);
+
+        },
+
+        sdifference : function(relation){
+
+            debug.relation.trace('#sdifference');
+
+            return new (require('./algebra/SemiDifference'))(this, relation);
+
+        },
+
+        sjoin : function(relation){
+
+            debug.relation.trace('#sjoin');
+
+            return new (require('./algebra/SemiJoin'))(this, relation);
+
+        },
+
+        wrap : function(wrappingAttributeName, wrappedAttributes){
+
+            debug.relation.trace('#wrap');
+
+            return new (require('./algebra/Wrap'))(this, wrappingAttributeName, wrappedAttributes);
+
+        },
+
+        unwrap : function(wrappedAttributeNames){
+
+            debug.relation.trace('#unwrap');
+
+            return new (require('./algebra/Unwrap'))(this, wrappedAttributeNames);
+
+        },
+
         /**
          * Prints the printable representation of the Relation to console
          */
@@ -884,174 +932,235 @@ var Relation = Set.extend(
 
             debug.relation.trace('#print');
 
-            console.log(this.getPrintString());
+            console.log(this.toString());
         },
 
         /**
          * Gets the
          * @returns {String} The string print representation of the relation
          */
-        getPrintString: function () {
+        toString: function () {
+
+            var hspacing = 1,
+                vspacing = 1,
+                arr = this.arr = [],
+                headerRow = [],
+                maxWidths = [],
+                maxHeights = [];
 
             debug.relation.trace('#getPrintString');
 
             this.compute();
 
-            var attributeWidths = {};
-            var attributes = [];
-            var hSpacing = 1;
-            var vSpacing = 1;
+            this.header().each(function(attribute){
 
-            this.header().each(function (attribute) {
+                headerRow.push({ width : null, height : null, lines : null, attribute : attribute, string : attribute.toString()})
 
-                var attributeName = attribute.name;
-                var maxWidth = attribute.toString().length;
+            },this);
 
-                attributes.push(attribute);
+            // [ {width, height, lines, string},{width, height, lines, string},... ] ]
 
-                this.each(function (tuple) {
+            arr.push(headerRow);
 
-                    var tupleWidth = tuple.get(attributeName).toString().length;
+            this.each(function(tuple){
 
-                    if (tupleWidth > maxWidth) {
-                        maxWidth = tupleWidth;
-                    }
+                var tupleRow = [];
 
-                });
+                _.forEach(headerRow, function(attr){
+                    tupleRow.push({ width : null, height : null, lines : null, string : tuple.get(attr.attribute.name).toString()})
+                },this);
 
-                attributeWidths[attributeName] = maxWidth;
+                arr.push(tupleRow);
 
-            }, this);
+            },this);
 
-            var result = '';
-            var attribute;
-            var maxWidth;
-            var width;
-            var a, b;
+            function findHeight(string){
 
-            for (a = 0; a &lt; attributes.length; a++) {
-
-                attribute = attributes[a];
-                maxWidth = attributeWidths[attribute.name];
-
-                if (a == 0)
-                    result += '+';
-
-                for (b = 0; b &lt; maxWidth + 2 * hSpacing; b++) {
-                    result += '-';
-                }
-
-                result += '+';
+                return string.split("\n").length;
 
             }
 
+            function findWidth(string){
+
+                var lines = string.split('\n'),
+                    max = 0;
+
+                _.forEach(lines, function(line){
+
+                    var lineLength = line.length;
+
+                    if (lineLength > max)
+                        max = lineLength;
+
+                },this);
+
+                return max;
+
+            }
+
+            function findMaxWidth(arr){
+
+                var max = 0;
+
+                _.forEach(arr, function(obj){
+
+                    var lineWidth = obj.width;
+
+                    if(lineWidth>max)
+                        max = lineWidth;
+
+                },this);
+
+                return max;
+            }
+
+            function findMaxHeight(arr){
+
+                var max = 0;
+
+                _.forEach(arr, function(obj){
+
+                    var lineHeight = obj.height;
+
+                    if(lineHeight>max)
+                        max = lineHeight;
+
+                },this);
+
+                return max;
+
+            }
+
+            function parseLines(string){
+                return string.split("\n");
+            }
+
+            // [
+            //   [{width, height, lines, string},{width, height, lines, string},... ],
+            //   [{width, height, lines, string},{width, height, lines, string},... ],
+            //   [{width, height, lines, string},{width, height, lines, string},... ],
+            //   ...
+            // ]
+
+
+
+            _.forEach(arr, function(row, rowIndex){
+
+                _.forEach(row, function(col, colIndex){
+
+                    col.width = findWidth(col.string);
+                    col.height = findHeight(col.string);
+                    col.lines = parseLines(col.string);
+
+                    if(!maxWidths[colIndex] || maxWidths[colIndex] &lt; col.width){
+                        maxWidths[colIndex] = col.width;
+                    }
+
+                    if(!maxHeights[rowIndex] || maxHeights[rowIndex] &lt; col.height){
+                        maxHeights[rowIndex] = col.height;
+                    }
+
+                },this);
+
+            },this);
+
+            var result = '\n';
+
+
+            // Printing the top border
+
+            result += '+';
+
+            _.forEach(maxWidths, function(maxWidth, index){
+
+                for(var a = 0 ; a &lt; maxWidths[index] + hspacing*2 + 2; a++){
+                    result += '-'
+                }
+
+                result += '+'
+
+            },this);
+
             result += '\n';
 
-            for (a = 0; a &lt; attributes.length; a++) {
+            // Printing the attributes
 
-                attribute = attributes[a];
-                width = attribute.toString().length;
-                maxWidth = attributeWidths[attribute.name];
+            _.forEach(arr, function(row, rowIndex){
 
-                if (a == 0)
+                var maxHeight = maxHeights[rowIndex];
+
+                for(var a = 0; a &lt; maxHeight; a++){
+
                     result += '|';
 
-                for (b = 0; b &lt; hSpacing; b++) {
-                    result += ' ';
-                }
+                    _.forEach(row, function(col, colIndex){
 
-                result += attribute.toString();
+                        var maxWidth = maxWidths[colIndex];
 
-                for (b = 0; b &lt; hSpacing; b++) {
-                    result += ' ';
-                }
+                        var line = col.lines[a];
 
-                for (b = 0; b &lt; maxWidth - width; b++) {
-                    result += ' ';
-                }
+                        if(!line) line = '';
 
-                result += '|';
+                        for(var i = 0; i &lt; hspacing; i++){
+                            result += ' ';
+                        }
 
-            }
+                        var lineLength = line.length;
 
-            result += '\n';
+                        result += line;
 
-            for (a = 0; a &lt; attributes.length; a++) {
+                        for(var k = 0; k &lt; hspacing; k++){
+                            result += ' ';
+                        }
 
-                attribute = attributes[a];
-                maxWidth = attributeWidths[attribute.name];
+                        for(var b = 0; b &lt; maxWidth - lineLength + 2*hspacing; b++){
+                            result += ' ';
+                        }
 
-                if (a == 0)
-                    result += '+';
+                        result += '|';
 
-                for (b = 0; b &lt; maxWidth + 2 * hSpacing; b++) {
-                    result += '=';
+                    },this);
+
+                    result += '\n';
+
                 }
 
                 result += '+';
 
-            }
+                _.forEach(maxWidths, function(maxWidth, index){
 
-            result += '\n';
+                    for(var a = 0 ; a &lt; maxWidths[index] + hspacing*2 + 2; a++){
+                        if(rowIndex === 0){
+                            result += '='
+                        } else {
+                            result += '-'
+                        }
 
-            this.each(function (tuple) {
-
-                result += '|';
-
-                for (var k = 0; k &lt; attributes.length; k++) {
-
-                    attribute = attributes[k];
-
-                    var mw = attributeWidths[attribute.name];
-
-
-                    for (b = 0; b &lt; hSpacing; b++) {
-                        result += ' ';
                     }
 
-                    var tupleAttribute = tuple.get(attribute.name);
-                    var tupleString = tupleAttribute.toString();
-                    var tupleLength = tupleString.length;
+                    result += '+'
 
-                    result += tupleString;
-
-                    for (b = 0; b &lt; mw - tupleLength + 2*hSpacing-1; b++) {
-                        result += ' ';
-                    }
-
-                    result += '|'
-
-                }
-
-                result += '\n';
+                },this);
 
 
-                for (a = 0; a &lt; attributes.length; a++) {
 
-                    attribute = attributes[a];
-                    maxWidth = attributeWidths[attribute.name];
-
-                    if (a == 0)
-                        result += '+';
-
-                    for (b = 0; b &lt; maxWidth + 2 * hSpacing; b++) {
-                        result += '-';
-                    }
-
-                    result += '+';
-
-                }
-
-                result += '\n';
+                if(rowIndex != arr.length-1) result += '\n';
 
 
-            }, this);
+
+            },this);
 
             return result;
 
         }
 
     }, {
+
+        toString: function () {
+            return 'Relation'
+        },
+
+        type : 'Relation',
 
         equal: function (rel1, rel2) {
 
@@ -1095,7 +1204,7 @@ module.exports = Relation;
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha8</a>
-		on Fri Jun 20th 2014 using the <a
+		on Sat Jun 21st 2014 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>

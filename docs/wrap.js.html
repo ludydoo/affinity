@@ -244,11 +244,14 @@
 	<article>
 		<pre
 			class="sunlight-highlight-javascript linenums">var Relation = require('./../Relation.js');
+var Set = require('./../Set.js');
 var Header = require('./../Header.js');
+var Attribute = require('./../Attribute.js');
+var Tuple = require('./../Tuple.js');
 var _ = require('lodash');
 var debug = require('./../helpers/debug');
 
-var RWrap = Relation.wrap(
+var RWrap = Relation.extend(
     /** @lends RWrap.prototype */
     {
 
@@ -256,10 +259,10 @@ var RWrap = Relation.wrap(
          * @class RWrap
          * @augments Relation
          * @param {Relation} relationA The relation to wrap
-         * @param {String} wrappedAttributeName The name of the wrapping attribute
-         * @param {String[]|Attribute[]} attributes The attributes to wrap
+         * @param {String} wrappingAttributeName The name of the wrapping attribute
+         * @param {String[]} wrappedAttributes The wrappedAttributes to wrap
          * @classdesc
-         * The Wrap will gather multiple attributes into a single one, converting them to a tuple-valued attribute
+         * The Wrap will gather multiple wrappedAttributes into a single one, converting them to a tuple-valued attribute
          * @example
          *
          * var relationA = new affinity.Relation([
@@ -301,13 +304,28 @@ var RWrap = Relation.wrap(
          * //
          *
          */
-        constructor: function (relationA, wrappedAttributeName, attributes) {
+        constructor: function (relationA, wrappingAttributeName, wrappedAttributes) {
 
             debug.wrap.trace('#constructor');
 
-            this.rel = relationA;
-            this.wrappedAttributeName = wrappedAttributeName;
-            this.attributes = attributes;
+            this.relation = relationA;
+
+            Attribute.assertValidName(wrappingAttributeName);
+
+            if(!_.isArray(wrappedAttributes) &amp;&amp; !(wrappedAttributes instanceof Set)){
+                throw new Error('Wrapped attributes must be an array or set of attributes / attribute names');
+            }
+
+            if(_.isArray(wrappedAttributes) &amp;&amp; wrappedAttributes.length &lt;= 0){
+                throw new Error('There must be at least one attribute to wrap');
+            }
+
+            if(wrappedAttributes instanceof Set &amp;&amp; wrappedAttributes.count() &lt;= 0){
+                throw new Error('There must be at least one attribute to wrap');
+            }
+
+            this.wrappedAttributeName = wrappingAttributeName;
+            this.wrappedAttributes = wrappedAttributes;
 
             Relation.call(this);
 
@@ -320,23 +338,67 @@ var RWrap = Relation.wrap(
             // Calling the parent bindEvents
             RWrap.__super__.bindEvents.call(this);
 
-            // BeforeGetBody
-            this.ee.once('beforeGetBody', function () {
-
-                debug.wrap.trace('beforeGetBody');
-
-                // Add Wrap build header code here
-
-            });
+            var that = this;
 
             // BeforeGetHeader
             this.ee.once('beforeGetHeader', function () {
 
                 debug.wrap.trace('beforeGetHeader');
 
-                // Add Wrap build tuples code here
+                // Check that the passed attributes exist in the base header
+                Header.assertAttributesExist(that.relation, that.wrappedAttributes);
+
+
+                // Extract the wrapped attributes, convert them to a Header instance
+                var wrappedAttributes = new Header();
+                wrappedAttributes.copy(that.relation.header(), that.wrappedAttributes);
+                that.wrappedAttributes = wrappedAttributes;
+
+
+                // Extract the non wrapped attributes in another variable, and
+                // copy the attributes in this header
+                that.nonWrappedAttributes = new Header();
+                that.nonWrappedAttributes.copy(that.relation.header(), that.wrappedAttributes, true);
+                that.header().copy(that.nonWrappedAttributes);
+
+
+                // Add the wrapping attribute
+                that.header().add(new Attribute({name : that.wrappedAttributeName, type : Tuple}));
 
             });
+
+
+            // BeforeGetBody
+            this.ee.once('beforeGetBody', function () {
+
+                debug.wrap.trace('beforeGetBody');
+
+                that.relation.each(function(tuple){
+
+                    // Create the tuple we will later insert
+                    var newTuple = new Tuple();
+
+                    // Copy the value of the non-wrapped attributes
+                    newTuple.copy(tuple, that.nonWrappedAttributes);
+
+                    // Create the nested tuple
+                    var nestedTuple = new Tuple();
+
+                    // Copy the values of the wrapped attributes in the nested tuple
+                    nestedTuple.copy(tuple, that.wrappedAttributes);
+
+                    // Add the nested tuple to the containing tuple
+                    newTuple.set(that.wrappedAttributeName, nestedTuple);
+
+                    that.add(newTuple);
+
+                })
+
+
+
+            });
+
+
 
         }
 
@@ -363,7 +425,7 @@ module.exports = RWrap;</pre>
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha8</a>
-		on Fri Jun 20th 2014 using the <a
+		on Sat Jun 21st 2014 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>
