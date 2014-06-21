@@ -1,7 +1,7 @@
 var affinity = require('./../../../index.js');
 var should = require('should');
 
-describe.only('SemiJoin class', function(){
+describe('SemiJoin class', function(){
 
     describe('SemiJoin#constructor', function(){
 
