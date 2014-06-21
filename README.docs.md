@@ -79,8 +79,8 @@ var extension = relation.extend([{'calculated' : attr1.plus(attr2)}]);
 |Not                      |`not`          |Not                         |
 |**Comparison**                                                      |||
 |Equal                    |`eq`           |Equal                       |
-|Larger Than              |`lt`           |LargerThan                  |
-|Larger Than or Equal     |`lte`          |LargerThanEqual             |
+|Greater Than             |`gt`           |GreaterThan                 |
+|Greater Than or Equal    |`gte`          |GreaterThanEqual            |
 |Smaller Than             |`st`           |SmallerThan                 |
 |Smaller Than or Equal    |`ste`          |SmallerThanEqual            |
 |**Numeric Functions**                                               |||
@@ -98,8 +98,6 @@ var extension = relation.extend([{'calculated' : attr1.plus(attr2)}]);
 |Round                    |`round`        |Round                       |
 |Sine                     |`sine`         |Sine                        |
 |Square Root              |`sqrt`         |Sqrt                        |
-|Unary Minus              |`uminus`       |UnaryMinus                  |
-|Unary Plus               |`uplus`        |UnaryPlus                   |
 |**Date Functions**                                                  |||
 |Day of Month             |`monthDay`     |MonthDay                    |
 |Day of Week              |`weekDay`      |WeekDay                     |
