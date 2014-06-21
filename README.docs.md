@@ -11,6 +11,14 @@ DEE    http://www.quicksort.co.uk
 Relational Algebra is the foundation of SQL implementations. To further my understanding of it, I wanted to implement
 a relational algebra library in javascript.
 
+##To-do list for 0.1.0##
+
+* [ ] Implement Extend operation
+* [ ] Implement Summarize operation
+* [ ] Implement comparison operators (lt, gt, eq, ...)
+* [ ] Implement date, string and numeric functions (cos, sin, ...)
+* [ ] More tests
+
 ##Installation##
 
 ```
