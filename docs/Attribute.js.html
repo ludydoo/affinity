@@ -361,11 +361,16 @@ var Attribute = Base.extend(
          *
          */
         clone: function () {
+
             var attr = new this.constructor({type: this.type, name: this.name});
 
             if (this.relationHeader) {
                 attr.relationHeader = this.relationHeader;
 ;           }
+
+            if (this.wrappedAttributes){
+                attr.wrappedAttributes = this.wrappedAttributes;
+            }
 
             return attr;
         },

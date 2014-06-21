@@ -704,28 +704,77 @@ var Header = Set.extend(
                     if(attributesArgument instanceof Set){
 
                         attributesArgument.each(function(attribute){
-                            if((attribute instanceof String)){
+                            if(_.isString(attribute)){
+
+
+                                var attr = header.get(attribute);
+
+
+                                if(attr === null){
+                                    throw new Error('Attribute with name "' + attribute + '" not found in the header');
+                                }
+
                                 tempHeader.add(header.get(attribute));
+
+
                             } else if(attribute instanceof Attribute) {
-                                tempHeader.add(Attribute.clone());
+
+                                if(header.get(attribute.name) === null){
+                                    throw new Error('Attribute with name "' + attribute.name + '" not found in the header');
+                                }
+
+                                tempHeader.add(attribute.clone());
+
                             }
                         })
 
-                    } else if (attributesArgument instanceof Array){
+                    } else if (_.isArray(attributesArgument)){
 
                         _.forEach(attributesArgument, function(attribute){
                             if(_.isString(attribute)){
-                                tempHeader.add(header.get(attribute));
+
+                                var attr = header.get(attribute);
+
+                                if(attr === null){
+                                    throw new Error('Attribute with name "' + attribute + '" not found in the header');
+                                }
+
+                                tempHeader.add(attr);
+
                             } else if(attribute instanceof Attribute) {
-                                tempHeader.add(Attribute.clone());
+
+                                if(header.get(attribute.name) === null){
+                                    throw new Error('Attribute with name "' + attribute.name + '" not found in the header');
+                                }
+
+                                tempHeader.add(attribute.clone());
+
                             }
                         })
 
                     } else if (_.isString(attributesArgument)){
-                        tempHeader.add(header.get(attribute));
+
+                        var attr = header.get(attributesArgument);
+
+                        if(attr === null){
+                            throw new Error('Attribute with name ' + attributesArgument + ' not found in the header');
+                        }
+
+                        tempHeader.add(attr);
+
                     }
 
                     attributesArgument = tempHeader;
+
+                } else {
+
+                    attributesArgument.each(function(attribute){
+
+                        if(header.get(attribute.name) === null){
+                            throw new Error('Attribute with name ' + attribute.name + ' not found in the header');
+                        }
+
+                    })
 
                 }
 

@@ -258,7 +258,7 @@ the attributes of the tuples.</p></div>
     
         
 <dt>
-    <h4 class="name" id="RUnwrap"><span class="type-signature"></span>new RUnwrap<span class="signature">(relationA, attributeName)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="RUnwrap"><span class="type-signature"></span>new RUnwrap<span class="signature">(relation, attributeNames)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -296,7 +296,7 @@ the attributes of the tuples.</p></div>
 
         <tr>
             
-                <td class="name"><code>relationA</code></td>
+                <td class="name"><code>relation</code></td>
             
 
             <td class="type">
@@ -319,13 +319,22 @@ the attributes of the tuples.</p></div>
 
         <tr>
             
-                <td class="name"><code>attributeName</code></td>
+                <td class="name"><code>attributeNames</code></td>
             
 
             <td class="type">
             
                 
+<span class="param-type">Array.&lt;String></span>
+|
+
 <span class="param-type">String</span>
+|
+
+<span class="param-type"><a href="Set.html">Set</a></span>
+|
+
+<span class="param-type"><a href="Header.html">Header</a></span>
 
 
             
@@ -335,7 +344,7 @@ the attributes of the tuples.</p></div>
 
             
 
-            <td class="description last"><p>The name of the wrapped attribute to unwrap</p></td>
+            <td class="description last"><p>The name of the wrapped attributes to unwrap</p></td>
         </tr>
 
 	
@@ -372,7 +381,7 @@ the attributes of the tuples.</p></div>
 		<ul class="dummy">
 			<li>
 				<a href="unwrap.js.html">algebra/unwrap.js</a>,
-				 <a href="unwrap.js.html#sunlight-1-line-10">line 10</a>
+				 <a href="unwrap.js.html#sunlight-1-line-13">line 13</a>
 			</li>
 		</ul>
 	</dd>
@@ -1091,7 +1100,7 @@ console.log(relation.body() === set) // true</pre>
 		<ul class="dummy">
 			<li>
 				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-504">line 504</a>
+				 <a href="set.js.html#sunlight-1-line-534">line 534</a>
 			</li>
 		</ul>
 	</dd>

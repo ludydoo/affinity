@@ -16,6 +16,7 @@ DEE    http://www.quicksort.co.uk
 * [ ] Implement comparison operators (lt, gt, eq, ...)
 * [ ] Implement date, string and numeric functions (cos, sin, ...)
 * [ ] More tests
+* [ ] Review documentation
 
 ##Installation##
 
