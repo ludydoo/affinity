@@ -9,6 +9,14 @@ Axiom  https://github.com/dkubb/axiom
 
 DEE    http://www.quicksort.co.uk
 
+##To-do list for 0.1.0##
+
+* [ ] Implement Extend operation
+* [ ] Implement Summarize operation
+* [ ] Implement comparison operators (lt, gt, eq, ...)
+* [ ] Implement date, string and numeric functions (cos, sin, ...)
+* [ ] More tests
+
 ##Installation##
 
 ```
