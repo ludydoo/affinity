@@ -27,6 +27,8 @@ describe('Ungroup Class', function(){
 
                 relationC.equal(relationA).should.be.true;
 
+                relationC.print();
+
                 done();
 
             });
@@ -51,8 +53,10 @@ describe('Ungroup Class', function(){
 
                 var relationB = relationA.group('name', ['firstName', 'lastName', 'age']).compute();
 
+                relationB.print();
 
                 relationB.ungroup(['name']).equal(relationA).should.be.true;
+
 
                 done();
 
@@ -78,11 +82,7 @@ describe('Ungroup Class', function(){
 
                 var relationB = relationA.group('fn', ['firstName']).compute();
 
-                //relationB.print();
-
                 var relationC = relationB.group('name', ['fn', 'lastName']).compute();
-
-                //relationC.print();
 
                 var relationD = relationC.ungroup(['name']).compute();
 
@@ -90,7 +90,7 @@ describe('Ungroup Class', function(){
 
                 var relationE = relationD.ungroup(['fn']).compute();
 
-                //relationE.print();
+                relationE.print();
 
 
                 done();
