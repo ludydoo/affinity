@@ -1,275 +1,140 @@
 var affinity = require('./../../../index.js');
 var should = require('should');
+var debug = require('./../../../lib/helpers/debug');
 
-describe('Restrict class', function(){
+var employees = new affinity.Relation([
+    {id: {type: affinity.Integer}},
+    {firstName: {type: affinity.String}},
+    {lastName: {type: affinity.String}},
+    {dept: {type: affinity.Integer}}
+], [
 
-    describe('Restrict#constructor', function(){
+    [1, 'Mary', 'Louise', 1],
+    [2, 'Nicolas', 'McDibbins', 2],
+    [3, 'Nancy', 'Bibble', 2],
+    [4, 'Mark', 'Clinton', 3],
+    [5, 'Doodle', 'Nibble', 3],
+    [6, 'Dong', 'Dong', 1],
+    [7, 'Boy', 'Black', 3]
 
-        describe('When applying a simple restrict condition', function(){
+]);
 
-            it('Should return only tuples where the condition holds', function(done){
+var employees_empty = new affinity.Relation([
+    {id: {type: affinity.Integer}},
+    {firstName: {type: affinity.String}},
+    {lastName: {type: affinity.String}},
+    {dept: {type: affinity.Integer}}
+], [
 
-                var rel1 = new affinity.Relation([
-                    {a: { type: affinity.Integer}},
-                    {b: { type: affinity.Integer}},
-                    {c: { type: affinity.Integer}}
-                ], [
-                    [1, 2, 3],
-                    [4, 5, 6],
-                    [7, 8, 7]
-                ]);
+]);
 
-                var a = rel1.get('a');
-                var b = rel1.get('b');
-                var c = rel1.get('c');
+var id = employees.get('id');
+var firstName = employees.get('firstName');
+var lastName = employees.get('lastName');
+var dept = employees.get('dept');
 
-                var rel2 = rel1.restrict(a.equals(1));
+describe('Restrict class', function () {
 
-                rel2.compute();
+    describe('When given a predicate linking to a single attribute', function () {
 
-                rel2.exists({a : 1, b : 2, c : 3}).should.be.true;
-                rel2.exists({a : 4, b : 5, c : 6}).should.not.be.true;
-                rel2.exists({a : 7, b : 8, c : 7}).should.not.be.true;
+        it('Should be able to perform the restrict operation', function (done) {
 
-                rel2.print();
+            var restricted = employees.restrict(dept.eq(1));
 
-                done();
+            restricted.count().should.be.equal(2);
 
-            });
+            debug.reldump.debug(restricted.toString());
 
-        });
-
-        describe('When applying a restrict condition with an Or', function(){
-
-            it('Should return only tuples where the condition holds', function(done){
-
-                var rel1 = new affinity.Relation([
-                    {a: { type: affinity.Integer}},
-                    {b: { type: affinity.Integer}},
-                    {c: { type: affinity.Integer}}
-                ], [
-                    [1, 2, 3],
-                    [4, 5, 6],
-                    [7, 8, 7]
-                ]);
-
-                var a = rel1.get('a');
-                var b = rel1.get('b');
-                var c = rel1.get('c');
-
-                var rel2 = rel1.restrict(a.equals(1).or(a.equals(c)));
-
-                rel2.compute();
-
-                rel2.exists({a : 1, b : 2, c : 3}).should.be.true;
-                rel2.exists({a : 4, b : 5, c : 6}).should.not.be.true;
-                rel2.exists({a : 7, b : 8, c : 7}).should.be.true;
-
-                rel2.print();
-
-                done();
-
-            });
+            done();
 
         });
 
-        describe('When applying a restrict condition with an And', function(){
+        it('Should throw if restrict operation links to an undefined attribute', function (done) {
 
-            it('Should return only tuples where the condition holds', function(done){
+            should(function () {
+                var restricted = employees.restrict(employees.get('unexisting').eq(1)).compute();
+            }).throw();
 
-                var rel1 = new affinity.Relation([
-                    {a: { type: affinity.Integer}},
-                    {b: { type: affinity.Integer}},
-                    {c: { type: affinity.Integer}}
-                ], [
-                    [1, 2, 3],
-                    [4, 5, 6],
-                    [7, 8, 7]
-                ]);
-
-                var a = rel1.get('a');
-                var b = rel1.get('b');
-                var c = rel1.get('c');
-
-                var rel2 = rel1.restrict(a.equals(1).and(c.equals(3)));
-
-                rel2.compute();
-
-                rel2.exists({a : 1, b : 2, c : 3}).should.be.true;
-                rel2.exists({a : 4, b : 5, c : 6}).should.not.be.true;
-                rel2.exists({a : 7, b : 8, c : 7}).should.not.be.true;
-
-                rel2.print();
-
-                done();
-
-            });
+            done();
 
         });
 
-        describe('When applying a restrict condition with a Not', function(){
+        it('Should return the whole relation if the expression is always true', function (done) {
 
-            it('Should return only tuples where the condition holds', function(done){
+            var restricted = employees.restrict(affinity.eq(true, true));
 
-                var rel1 = new affinity.Relation([
-                    {a: { type: affinity.Integer}},
-                    {b: { type: affinity.Integer}},
-                    {c: { type: affinity.Integer}}
-                ], [
-                    [1, 2, 3],
-                    [4, 5, 6],
-                    [7, 8, 7]
-                ]);
+            restricted.equal(employees).should.be.equal(true);
 
-                var a = rel1.get('a');
-                var b = rel1.get('b');
-                var c = rel1.get('c');
+            debug.reldump.debug(restricted.toString());
 
-                var rel2 = rel1.restrict(a.not().equals(1));
-
-                rel2.compute();
-
-                rel2.exists({a : 1, b : 2, c : 3}).should.be.not.true;
-                rel2.exists({a : 4, b : 5, c : 6}).should.be.true;
-                rel2.exists({a : 7, b : 8, c : 7}).should.be.true;
-
-                rel2.print();
-
-                done();
-
-            });
+            done();
 
         });
 
-        describe('When applying a restrict condition with Nots and And', function(){
+        it('Should return an empty relation if the expression is always false', function (done) {
 
-            it('Should return only tuples where the condition holds', function(done){
+            var restricted = employees.restrict(affinity.eq(true, false));
 
-                var rel1 = new affinity.Relation([
-                    {a: { type: affinity.Integer}},
-                    {b: { type: affinity.Integer}},
-                    {c: { type: affinity.Integer}}
-                ], [
-                    [1, 2, 3],
-                    [4, 5, 6],
-                    [7, 8, 7]
-                ]);
+            restricted.header().equal(employees.header()).should.be.equal(true);
 
-                var a = rel1.get('a');
-                var b = rel1.get('b');
-                var c = rel1.get('c');
+            restricted.count().should.be.equal(0);
 
-                var rel2 = rel1.restrict(a.not().equals(1).and(b.not().equals(5)));
+            debug.reldump.debug(restricted.toString());
 
-                rel2.compute();
-
-                rel2.exists({a : 1, b : 2, c : 3}).should.not.be.true;
-                rel2.exists({a : 4, b : 5, c : 6}).should.not.be.true;
-                rel2.exists({a : 7, b : 8, c : 7}).should.be.true;
-
-                rel2.print();
-
-                done();
-
-            });
+            done();
 
         });
 
-        describe('When applying multiple nots and non-nots on the same attribute', function(){
+    });
 
-            it('Should return only tuples where the condition holds', function(done){
+    describe('When links to multiple attributes exists', function () {
 
-                var rel1 = new affinity.Relation([
-                    {a: { type: affinity.Integer}},
-                    {b: { type: affinity.Integer}},
-                    {c: { type: affinity.Integer}}
-                ], [
-                    [1, 2, 3],
-                    [4, 5, 6],
-                    [7, 8, 7]
-                ]);
+        it('Should be able to do calculations with these attributes', function (done) {
 
-                var a = rel1.get('a');
-                var b = rel1.get('b');
-                var c = rel1.get('c');
+            var restricted = employees.restrict(id.eq(1).and(dept.eq(1)));
 
-                var rel2 = rel1.restrict(a.not().equals(1).and(a.equals(4)));
+            restricted.count().should.be.equal(1);
 
-                rel2.compute();
+            restricted.header().equal(employees.header()).should.be.equal(true);
 
-                rel2.exists({a : 1, b : 2, c : 3}).should.not.be.true;
-                rel2.exists({a : 4, b : 5, c : 6}).should.be.true;
-                rel2.exists({a : 7, b : 8, c : 7}).should.not.be.true;
+            debug.reldump.debug(restricted.toString());
 
-                rel2.print();
-
-                done();
-
-            });
+            done();
 
         });
 
-        describe('When giving super complex predicates', function(){
+        it('Should throw if there exists links to unexisting attributes', function (done) {
 
-            it('Should return only tuples where the condition holds', function(done){
+            should(function () {
+                var restricted = employees.restrict(employees.get('hey').eq(2).and(id.eq(1))).compute();
+            }).throw();
 
-                var rel1 = new affinity.Relation([
-                    {id: { type: affinity.Integer}},
-                    {firstName: { type: affinity.String}},
-                    {lastName: { type: affinity.String}},
-                    {alive: { type: affinity.Boolean}},
-                    {age: { type: affinity.Integer}}
-                ], [
-                    [0, 'John', 'Doe', true, 34],
-                    [1, 'Mary', 'Poppins', false, 95],
-                    [2, 'Mark', 'Clinton', true, 2],
-                    [3, 'Hopty', 'Duddy', false, 10],
-                    [4, 'Hootenanny', 'Wilson', false, 23],
-                    [5, 'Jesus', 'Christ', true, 2014],
-                    [6, 'Voo-Doo', 'Nilson', false, 12]
-                ]);
+            done();
 
-                var id = rel1.get('id');
-                var firstName = rel1.get('firstName');
-                var lastName = rel1.get('lastName');
-                var alive = rel1.get('alive');
-                var age = rel1.get('age');
+        });
 
-                var rel2 = rel1.restrict(id.equals(0).or(firstName.equals('Mary')).or(lastName.equals('Clinton')).or(age.abs().equals(10)));
+    });
 
-                rel2.exists({id : 0, firstName : 'John', lastName : 'Doe', alive : true, age : 34}).should.be.true;
-                rel2.exists({id : 1, firstName : 'Mary', lastName : 'Poppins', alive : false, age : 95}).should.be.true;
-                rel2.exists({id : 2, firstName : 'Mark', lastName : 'Clinton', alive : true, age : 2}).should.be.true;
-                rel2.exists({id : 3, firstName : 'Hopty', lastName : 'Duddy', alive : false, age : 10}).should.be.true;
+    describe('When the expression is a user defined function', function () {
 
-                var rel3 = rel1.restrict(id.equals(0).and(
-                    firstName.equals('John').and(
-                        lastName.equals('Doe').and(
-                            alive.equals(true).and(
-                                age.equals(34)
-                    )))));
+        it('Should be able to evaluate the user function', function (done) {
 
-                rel3.count().should.be.equal(1);
+            var restricted = employees.restrict(function (tuple) {
 
-                rel2.print();
+                (tuple instanceof affinity.Tuple).should.be.equal(true);
 
-                done();
+                return (tuple.get('id') === 1);
 
             });
+
+            restricted.count().should.be.equal(1);
+
+            debug.reldump.debug(restricted.toString());
+
+            done();
 
         });
 
     });
 
 });
-/**
-
- age.abs().equals(10);
-
- Attribute -> abs()
-
- Absolute(Attribute) -> equals()
-
-
-
- */

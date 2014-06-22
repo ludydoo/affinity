@@ -1,6 +1,7 @@
 var affinity = require('./../../index.js');
 var should = require('should');
 var _ = require('lodash');
+var debug = require('./../../lib/helpers/debug');
 
 describe('Relation class', function () {
 
@@ -19,9 +20,9 @@ describe('Relation class', function () {
 
                 var relation = new affinity.Relation(
                     [
-                        {attr1: {type : affinity.Integer}},
-                        {attr2: {type : affinity.Integer}},
-                        {attr3: {type : affinity.Integer}}
+                        {attr1: {type: affinity.Integer}},
+                        {attr2: {type: affinity.Integer}},
+                        {attr3: {type: affinity.Integer}}
                     ],
                     data
                 );
@@ -40,7 +41,7 @@ describe('Relation class', function () {
 
                 relation.header().elements().should.be.an.Array.and.have.length(3);
 
-                relation.print();
+                debug.reldump.debug(relation.toString());
 
                 done();
 
@@ -63,7 +64,7 @@ describe('Relation class', function () {
                             tuple3
                         ];
 
-                var header = new affinity.Header({a: {type : affinity.Integer}, b: {type : affinity.Integer}, c: {type : affinity.Integer}});
+                var header = new affinity.Header({a: {type: affinity.Integer}, b: {type: affinity.Integer}, c: {type: affinity.Integer}});
 
                 var relation = new affinity.Relation(header, data);
 
@@ -77,7 +78,7 @@ describe('Relation class', function () {
                 relation.getAt(1).should.be.equal(data[1]);
                 relation.getAt(2).should.be.equal(data[2]);
 
-                relation.print();
+                debug.reldump.debug(relation.toString());
 
                 done();
 
@@ -101,9 +102,9 @@ describe('Relation class', function () {
                         ];
 
                 var header = [
-                    {a: {type : affinity.Integer}},
-                    {b: {type : affinity.Integer}},
-                    {c: {type : affinity.Integer}}
+                    {a: {type: affinity.Integer}},
+                    {b: {type: affinity.Integer}},
+                    {c: {type: affinity.Integer}}
                 ];
 
                 var relation = new affinity.Relation(header, data);
@@ -119,7 +120,7 @@ describe('Relation class', function () {
                 relation.getAt(1).should.be.equal(data[1]);
                 relation.getAt(2).should.be.equal(data[2]);
 
-                relation.print();
+                debug.reldump.debug(relation.toString());
 
                 done();
 
@@ -141,9 +142,9 @@ describe('Relation class', function () {
                 should(function () {
                     new affinity.Relation(
                         [
-                            {attr1: {type : affinity.Integer}},
-                            {attr2: {type : affinity.Integer}},
-                            {attr3: {type : affinity.Integer}}
+                            {attr1: {type: affinity.Integer}},
+                            {attr2: {type: affinity.Integer}},
+                            {attr3: {type: affinity.Integer}}
                         ],
                         data
                     );
@@ -199,9 +200,9 @@ describe('Relation class', function () {
                         ];
 
                 var header = new affinity.Header([
-                    {a : {type : affinity.Integer}},
-                    {b : {type : affinity.Integer}},
-                    {c : {type : affinity.Integer}}
+                    {a: {type: affinity.Integer}},
+                    {b: {type: affinity.Integer}},
+                    {c: {type: affinity.Integer}}
                 ]);
 
 
@@ -231,9 +232,9 @@ describe('Relation class', function () {
                         ];
 
                 var header = new affinity.Header([
-                    {a : {type : affinity.Integer}},
-                    {b : {type : affinity.Integer}},
-                    {c : {type : affinity.Integer}}
+                    {a: {type: affinity.Integer}},
+                    {b: {type: affinity.Integer}},
+                    {c: {type: affinity.Integer}}
                 ]);
 
                 should(function () {
@@ -258,8 +259,8 @@ describe('Relation class', function () {
                         ];
 
                 var header = new affinity.Header({
-                    a : {type : affinity.Integer},
-                    b : {type : affinity.Integer},
+                    a: {type: affinity.Integer},
+                    b: {type: affinity.Integer},
                     c: {type: affinity.Integer}
                 });
 
@@ -275,19 +276,19 @@ describe('Relation class', function () {
 
     });
 
-    describe('Relation#add', function(){
+    describe('Relation#add', function () {
 
-        describe('When provided with a union compatible tuple', function(){
+        describe('When provided with a union compatible tuple', function () {
 
-            it('Should add the tuple to the relation', function(done){
+            it('Should add the tuple to the relation', function (done) {
 
                 var header = new affinity.Header({
-                    a : {type : affinity.Integer},
-                    b : {type : affinity.Integer},
-                    c : {type : affinity.Integer}
+                    a: {type: affinity.Integer},
+                    b: {type: affinity.Integer},
+                    c: {type: affinity.Integer}
                 });
 
-                var tuple = new affinity.Tuple({a : 1, b : 2, c : 3});
+                var tuple = new affinity.Tuple({a: 1, b: 2, c: 3});
 
                 var relation = new affinity.Relation(header);
 
@@ -298,7 +299,7 @@ describe('Relation class', function () {
 
                 relation.getAt(0).should.be.equal(tuple);
 
-                relation.print();
+                debug.reldump.debug(relation.toString());
 
                 done();
 
@@ -306,21 +307,21 @@ describe('Relation class', function () {
 
         });
 
-        describe('When provided with a non union compatible tuple', function(){
+        describe('When provided with a non union compatible tuple', function () {
 
-            it('Should throw', function(done){
+            it('Should throw', function (done) {
 
                 var header = new affinity.Header([
-                    {a : {type : affinity.Integer}},
-                    {b : {type : affinity.Integer}},
-                    {c : {type : affinity.Integer}}
+                    {a: {type: affinity.Integer}},
+                    {b: {type: affinity.Integer}},
+                    {c: {type: affinity.Integer}}
                 ]);
 
-                var tuple = new affinity.Tuple({a : 1, b : 2, c : 3, d : 4});
+                var tuple = new affinity.Tuple({a: 1, b: 2, c: 3, d: 4});
 
                 var relation = new affinity.Relation(header);
 
-                should(function(){
+                should(function () {
                     relation.add(tuple);
                 }).throw();
 
@@ -330,17 +331,17 @@ describe('Relation class', function () {
 
         });
 
-        describe('When provided with a union compatible raw tuple', function(){
+        describe('When provided with a union compatible raw tuple', function () {
 
-            it('Should coerce it to tuple object and add it to the body', function(done){
+            it('Should coerce it to tuple object and add it to the body', function (done) {
 
                 var header = new affinity.Header({
-                    a : {type : affinity.Integer},
-                    b : {type : affinity.Integer},
-                    c : {type : affinity.Integer}
+                    a: {type: affinity.Integer},
+                    b: {type: affinity.Integer},
+                    c: {type: affinity.Integer}
                 });
 
-                var tuple = {a : 1, b : 2, c : 3};
+                var tuple = {a: 1, b: 2, c: 3};
 
                 var relation = new affinity.Relation(header);
 
@@ -349,7 +350,7 @@ describe('Relation class', function () {
                 relation.count().should.be.equal(1);
                 relation.header().count().should.be.equal(3);
 
-                relation.print();
+                debug.reldump.debug(relation.toString());
 
                 done();
 
@@ -357,21 +358,21 @@ describe('Relation class', function () {
 
         });
 
-        describe('When provided with a non union-compatible raw tuple', function(){
+        describe('When provided with a non union-compatible raw tuple', function () {
 
-            it('Should throw', function(done){
+            it('Should throw', function (done) {
 
                 var header = new affinity.Header([
-                    {a : {type : affinity.Integer}},
-                    {b : {type : affinity.Integer}},
-                    {c : {type : affinity.Integer}}
+                    {a: {type: affinity.Integer}},
+                    {b: {type: affinity.Integer}},
+                    {c: {type: affinity.Integer}}
                 ]);
 
-                var tuple = {a : 1, b : 2, c : 3, d : 4};
+                var tuple = {a: 1, b: 2, c: 3, d: 4};
 
                 var relation = new affinity.Relation(header);
 
-                should(function(){
+                should(function () {
                     relation.add(tuple);
                 }).throw();
 
@@ -381,18 +382,18 @@ describe('Relation class', function () {
 
         });
 
-        describe('When provided with a duplicate raw tuple', function(){
+        describe('When provided with a duplicate raw tuple', function () {
 
-            it('Should not add it', function(done){
+            it('Should not add it', function (done) {
 
                 var header = new affinity.Header({
-                    a : {type : affinity.Integer},
-                    b : {type : affinity.Integer},
-                    c : {type : affinity.Integer}
+                    a: {type: affinity.Integer},
+                    b: {type: affinity.Integer},
+                    c: {type: affinity.Integer}
                 });
 
-                var tuple1 = {a : 1, b : 2, c : 3};
-                var tuple2 = {a : 1, b : 2, c : 3};
+                var tuple1 = {a: 1, b: 2, c: 3};
+                var tuple2 = {a: 1, b: 2, c: 3};
 
                 var relation = new affinity.Relation(header);
 
@@ -402,7 +403,7 @@ describe('Relation class', function () {
                 relation.count().should.be.equal(1);
                 relation.header().count().should.be.equal(3);
 
-                relation.print();
+                debug.reldump.debug(relation.toString());
 
                 done();
 
@@ -410,18 +411,18 @@ describe('Relation class', function () {
 
         });
 
-        describe('When provided with a duplicate instance tuple', function(){
+        describe('When provided with a duplicate instance tuple', function () {
 
-            it('Should not add it', function(done){
+            it('Should not add it', function (done) {
 
                 var header = new affinity.Header({
-                    a : {type : affinity.Integer},
-                    b : {type : affinity.Integer},
-                    c : {type : affinity.Integer}
+                    a: {type: affinity.Integer},
+                    b: {type: affinity.Integer},
+                    c: {type: affinity.Integer}
                 });
 
-                var tuple1 = new affinity.Tuple({a : 1, b : 2, c : 3});
-                var tuple2 = new affinity.Tuple({a : 1, b : 2, c : 3});
+                var tuple1 = new affinity.Tuple({a: 1, b: 2, c: 3});
+                var tuple2 = new affinity.Tuple({a: 1, b: 2, c: 3});
 
                 var relation = new affinity.Relation(header);
 
@@ -431,7 +432,7 @@ describe('Relation class', function () {
                 relation.count().should.be.equal(1);
                 relation.header().count().should.be.equal(3);
 
-                relation.print();
+                debug.reldump.debug(relation.toString());
 
                 done();
 

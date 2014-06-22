@@ -1,12 +1,12 @@
 var affinity = require('./../../../../index.js');
 
-describe('Equal class', function(){
+describe('Equal class', function () {
 
-    describe('Equal.eval', function(){
+    describe('Equal.eval', function () {
 
-        describe('When provided with not equal arguments', function(){
+        describe('When provided with not equal arguments', function () {
 
-            it('Should return a falsey boolean', function(done){
+            it('Should return a falsey boolean', function (done) {
 
                 var bool1 = false;
                 var bool2 = true;
@@ -21,9 +21,9 @@ describe('Equal class', function(){
 
         });
 
-        describe('When provided with equal arguments', function(){
+        describe('When provided with equal arguments', function () {
 
-            it('Should return a truey boolean', function(done){
+            it('Should return a truey boolean', function (done) {
 
                 var bool1 = new affinity.Boolean(false);
                 var bool2 = new affinity.Boolean(false);

@@ -19,11 +19,11 @@ describe('TString class', function () {
 
     });
 
-    describe('TString.equal', function(){
+    describe('TString.equal', function () {
 
-        describe('When two strings are equal', function(){
+        describe('When two strings are equal', function () {
 
-            it('Should return a truey TBoolean', function(done){
+            it('Should return a truey TBoolean', function (done) {
 
                 var str1 = new affinity.String('abc');
                 var str2 = new affinity.String('abc');
@@ -38,9 +38,9 @@ describe('TString class', function () {
 
         });
 
-        describe('When two strings are not equal', function(){
+        describe('When two strings are not equal', function () {
 
-            it('Should return a falsey TBoolean', function(done){
+            it('Should return a falsey TBoolean', function (done) {
 
                 var str1 = new affinity.String('abc');
                 var str2 = new affinity.String('def');

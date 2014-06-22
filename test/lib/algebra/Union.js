@@ -1,5 +1,6 @@
 var affinity = require('./../../../index.js');
 var should = require('should');
+var debug = require('./../../../lib/helpers/debug');
 
 describe('Union class', function () {
 
@@ -11,30 +12,30 @@ describe('Union class', function () {
 
                 var rel1 = new affinity.Relation(
                     new affinity.Header({
-                        a : {type : affinity.Integer},
-                        b : {type : affinity.Integer},
-                        c : {type : affinity.Integer}
+                        a: {type: affinity.Integer},
+                        b: {type: affinity.Integer},
+                        c: {type: affinity.Integer}
                     }),
                     [
-                        new affinity.Tuple({a : 1, b : 2, c : 3}),
-                        new affinity.Tuple({a : 1, b : 2, c : 4}),
-                        new affinity.Tuple({a : 1, b : 2, c : 5}),
-                        new affinity.Tuple({a : 1, b : 2, c : 6})
+                        new affinity.Tuple({a: 1, b: 2, c: 3}),
+                        new affinity.Tuple({a: 1, b: 2, c: 4}),
+                        new affinity.Tuple({a: 1, b: 2, c: 5}),
+                        new affinity.Tuple({a: 1, b: 2, c: 6})
                     ]
                 );
 
 
                 var rel2 = new affinity.Relation(
                     new affinity.Header({
-                        a : {type : affinity.Integer},
-                        b : {type : affinity.Integer},
-                        c : {type : affinity.Integer}
+                        a: {type: affinity.Integer},
+                        b: {type: affinity.Integer},
+                        c: {type: affinity.Integer}
                     }),
                     [
-                        new affinity.Tuple({a : 1, b : 2, c : 7}),
-                        new affinity.Tuple({a : 1, b : 2, c : 8}),
-                        new affinity.Tuple({a : 1, b : 2, c : 9}),
-                        new affinity.Tuple({a : 1, b : 2, c : 10})
+                        new affinity.Tuple({a: 1, b: 2, c: 7}),
+                        new affinity.Tuple({a: 1, b: 2, c: 8}),
+                        new affinity.Tuple({a: 1, b: 2, c: 9}),
+                        new affinity.Tuple({a: 1, b: 2, c: 10})
                     ]
                 );
 
@@ -47,7 +48,7 @@ describe('Union class', function () {
 
                 rel3.body().should.be.an.Array.and.have.length(8);
 
-                rel3.print();
+                debug.reldump.debug(rel3.toString());
 
                 done();
 
@@ -60,31 +61,31 @@ describe('Union class', function () {
             it('Should throw', function (done) {
 
                 var rel1 = new affinity.Relation(new affinity.Header({
-                    a : {
+                    a: {
                         type: affinity.Integer
                     },
-                    b : {
+                    b: {
                         type: affinity.Integer
                     },
-                    c : {
+                    c: {
                         type: affinity.Integer
                     }
                 }));
 
 
                 var rel2 = new affinity.Relation(new affinity.Header({
-                    a : {
+                    a: {
                         type: affinity.Integer
                     },
-                    b : {
+                    b: {
                         type: affinity.Integer
                     },
-                    d : {
+                    d: {
                         type: affinity.Integer
                     }
                 }));
 
-                should(function(){
+                should(function () {
                     var rel3 = new affinity.Union(rel1, rel2);
                     rel3.header();
                 }).throw();

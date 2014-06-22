@@ -1,71 +1,168 @@
 var affinity = require('./../../../index.js');
 var should = require('should');
+var debug = require('./../../../lib/helpers/debug');
 
-describe('Rename class', function () {
+var employees = new affinity.Relation([
+    {id: {type: affinity.Integer}},
+    {firstName: {type: affinity.String}},
+    {lastName: {type: affinity.String}},
+    {dept: {type: affinity.Integer}}
+], [
 
-    describe('Rename constructor', function () {
+    [1, 'Mary', 'Louise', 1],
+    [2, 'Nicolas', 'McDibbins', 2],
+    [3, 'Nancy', 'Bibble', 2],
+    [4, 'Mark', 'Clinton', 3],
+    [5, 'Doodle', 'Nibble', 3],
+    [6, 'Dong', 'Dong', 1],
+    [7, 'Boy', 'Black', 3]
 
-        describe('When given valid renaming arguments', function () {
+]);
 
-            it('Should perform a renaming on specified attributes', function (done) {
 
-                var rel1 = new affinity.Relation(
-                    new affinity.Header({
-                        a : {type : affinity.Integer},
-                        b : {type : affinity.Integer},
-                        c : {type : affinity.Integer}}
-                    ),
-                    [
-                        new affinity.Tuple({a : 1, b : 2, c : 3}),
-                        new affinity.Tuple({a : 1, b : 2, c : 4}),
-                        new affinity.Tuple({a : 1, b : 2, c : 5}),
-                        new affinity.Tuple({a : 1, b : 2, c : 6})
-                    ]
-                );
+var relation1 = new affinity.Relation([
+    { id: { type: affinity.Integer} }
+], [
+    [ 1 ],
+    [ 2 ],
+    [ 3 ]
+]);
 
-                var rel3 = new affinity.Rename(rel1, {a : 'd'});
+var employees_empty = new affinity.Relation([
+    {id: {type: affinity.Integer}},
+    {firstName: {type: affinity.String}},
+    {lastName: {type: affinity.String}},
+    {dept: {type: affinity.Integer}}
+]);
 
-                rel3.header().elements().should.be.an.Array.and.have.length(3);
-                rel3.header()._attributes.should.have.property('d');
-                rel3.header()._attributes.should.not.have.property('a');
-                rel3.header().should.not.be.equal(rel1.header());
-                rel3.body().should.be.an.Array.and.have.length(4);
+describe('Rename Class', function () {
 
-                rel3.print();
+    describe('When given only one attribute to rename', function () {
 
-                done();
+        it('Should be able to rename that attrbute', function (done) {
 
-            });
+            var renamed = employees.rename({ firstName: 'fn'});
+
+            (renamed.header().get('fn') instanceof affinity.Attribute).should.be.equal(true);
+
+            renamed.header().count().should.be.equal(4);
+
+            debug.reldump.debug(renamed.toString());
+
+            done();
 
         });
 
-        describe('When ordered to rename an unexisting attribute', function () {
+        it('Should throw if the renamed attribute will overwrite and existing attribute', function (done) {
 
-            it('Should throw', function (done) {
+            should(function () {
+                employees.rename({firstName: 'lastName'}).compute();
+            }).throw();
 
-                var rel1 = new affinity.Relation(
-                    new affinity.Header({
-                        a : {type : affinity.Integer},
-                        b : {type : affinity.Integer},
-                        c : {type : affinity.Integer}
-                    }),
-                    [
-                        new affinity.Tuple({a : 1, b : 2, c : 3}),
-                        new affinity.Tuple({a : 1, b : 2, c : 4}),
-                        new affinity.Tuple({a : 1, b : 2, c : 5}),
-                        new affinity.Tuple({a : 1, b : 2, c : 6})
-                    ]
-                );
+            done();
 
-                should(function(){
-                    var rel3 = new affinity.Rename({d : 'a'});
-                    rel3.header();
-                    rel3.body();
-                }).throw();
+        });
 
-                done();
+        it('Should throw if the attribute does not exist', function (done) {
 
-            });
+            should(function () {
+                employees.rename({ unexisting: 'hello'}).compute();
+            }).throw();
+
+            done();
+
+        });
+
+        it('Should be able to rename an attribute even if it is the only one in the header', function (done) {
+
+            var renamed = relation1.rename({id: 'newId'});
+
+            renamed.header().count().should.be.equal(1);
+
+            (renamed.header().get('newId') instanceof affinity.Attribute).should.be.equal(true);
+
+            debug.reldump.debug(renamed.toString());
+
+            done();
+
+        });
+
+        it('Should be able to rename an attribute to its own name', function (done) {
+
+            var renamed = employees.rename({firstName: 'firstName'});
+
+            renamed.equal(employees).should.be.equal(true);
+
+            debug.reldump.debug(renamed.toString());
+
+            done();
+
+        });
+
+    });
+
+
+    describe('When passing multiple renaming attributes', function () {
+
+        it('Should be able to rename all attributes of a header', function (done) {
+
+            var renamed = employees.rename({id: 'newId', firstName: 'newFirstName', lastName: 'newLastName', dept: 'newDept'});
+
+            (renamed.header().get('newId') instanceof affinity.Attribute).should.be.equal(true);
+            (renamed.header().get('newFirstName') instanceof affinity.Attribute).should.be.equal(true);
+            (renamed.header().get('newLastName') instanceof affinity.Attribute).should.be.equal(true);
+            (renamed.header().get('newDept') instanceof affinity.Attribute).should.be.equal(true);
+
+            renamed.header().count().should.be.equal(4);
+
+            var revert = renamed.rename({newId: 'id', newFirstName: 'firstName', newLastName: 'lastName', newDept: 'dept'});
+
+            revert.equal(employees).should.be.equal(true);
+
+            debug.reldump.debug(renamed.toString());
+
+            done();
+
+        });
+
+        it('Should be able to rename part of the attributes of a header', function (done) {
+
+            var renamed = employees.rename({id: 'newId', firstName: 'newFirstName', lastName: 'newLastName'});
+
+            (renamed.header().get('newId') instanceof affinity.Attribute).should.be.equal(true);
+            (renamed.header().get('newFirstName') instanceof affinity.Attribute).should.be.equal(true);
+            (renamed.header().get('newLastName') instanceof affinity.Attribute).should.be.equal(true);
+            (renamed.header().get('dept') instanceof affinity.Attribute).should.be.equal(true);
+
+            renamed.header().count().should.be.equal(4);
+
+            var revert = renamed.rename({newId: 'id', newFirstName: 'firstName', newLastName: 'lastName'});
+
+            revert.equal(employees).should.be.equal(true);
+
+            debug.reldump.debug(renamed.toString());
+
+            done();
+
+        });
+
+        it('Should throw if two renamed attributes would have the same name after the operation', function (done) {
+
+            should(function () {
+                var renamed = employees.rename({firstName: 'name', lastName: 'name'}).compute();
+            }).throw();
+
+            done();
+
+        });
+
+        it('Should throw if a renamed operation tries to rename another rename operation', function (done) {
+
+            should(function () {
+                var renamed = employees.rename({firstName: 'fn', fn: 'firstName'}).compute();
+            }).throw();
+
+            done();
 
         });
 

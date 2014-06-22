@@ -9,10 +9,10 @@ describe('Set Class', function () {
 
             it('Should build an empty set and register the type', function (done) {
 
-                var set1 = new affinity.Set({type : affinity.String});
+                var set1 = new affinity.Set({type: affinity.String});
 
                 set1.type().should.be.equal(affinity.String);
-                set1.equal(new affinity.Set({type : affinity.String})).should.be.true;
+                set1.equal(new affinity.Set({type: affinity.String})).should.be.true;
 
                 done();
 
@@ -38,7 +38,7 @@ describe('Set Class', function () {
 
             it('Should build a set containing those elements and register the type', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3, 4]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3, 4]});
 
                 set1.type().should.be.equal(affinity.Integer);
                 set1.elements().should.be.an.Array;
@@ -54,8 +54,8 @@ describe('Set Class', function () {
 
             it('Should throw', function (done) {
 
-                should(function(){
-                    var set1 = new affinity.Set({type:null,elements: [1, 2, 3, 4]});
+                should(function () {
+                    var set1 = new affinity.Set({type: null, elements: [1, 2, 3, 4]});
                 });
 
                 done();
@@ -88,7 +88,7 @@ describe('Set Class', function () {
             it('Should throw', function (done) {
 
                 var set1 = new affinity.Set();
-                should(function(){
+                should(function () {
                     set1.elements([1, 2, 3, 4]);
                 }).throw();
 
@@ -104,7 +104,7 @@ describe('Set Class', function () {
 
         it('Should iterate over every element of the set', function (done) {
 
-            var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3, 4]});
+            var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3, 4]});
 
             var count = 0;
 
@@ -120,7 +120,7 @@ describe('Set Class', function () {
 
         it('Should not bother if the set is empty', function (done) {
 
-            var set1 = new affinity.Set({type:Number,elements: []});
+            var set1 = new affinity.Set({type: Number, elements: []});
 
             var count = 0;
 
@@ -143,7 +143,7 @@ describe('Set Class', function () {
 
             it('Should add nothing and return false', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: []});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: []});
                 set1.add().should.be.equal(false);
                 set1.elements().should.be.an.Array.and.have.length(0);
 
@@ -158,7 +158,7 @@ describe('Set Class', function () {
 
             it('Should add it and return true', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: []});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: []});
                 set1.add(1).should.be.equal(true);
                 set1.elements().should.be.an.Array.and.have.length(1);
 
@@ -173,7 +173,7 @@ describe('Set Class', function () {
 
             it('Should not add it and return false', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1]});
 
                 set1.add(1).should.be.equal(false);
                 set1.elements().should.be.an.Array.and.have.length(1);
@@ -193,7 +193,7 @@ describe('Set Class', function () {
 
             it('Should remove it and return true', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
 
                 set1.remove(1).should.be.true;
                 set1.elements().should.be.an.Array.and.have.length(2);
@@ -208,7 +208,7 @@ describe('Set Class', function () {
 
             it('Should remove nothing and return false', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
 
                 set1.remove(4).should.be.false;
                 set1.elements().should.be.an.Array.and.have.length(3);
@@ -231,7 +231,7 @@ describe('Set Class', function () {
 
                 var obj1 = new Object();
 
-                var set1 = new affinity.Set({type:Object,elements: [obj1]});
+                var set1 = new affinity.Set({type: Object, elements: [obj1]});
 
                 set1._indexByReference(obj1).should.be.equal(0);
 
@@ -247,7 +247,7 @@ describe('Set Class', function () {
 
                 var obj1 = new Object();
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
 
                 (set1._indexByReference(obj1) === null).should.be.true;
 
@@ -265,7 +265,7 @@ describe('Set Class', function () {
 
             it('Should return its index', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1]});
 
                 set1._indexByEquality(new affinity.Integer(1)).should.be.equal(0);
 
@@ -279,7 +279,7 @@ describe('Set Class', function () {
 
             it('Should return null', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1]});
 
                 (set1._indexByEquality(2) === null).should.be.true;
 
@@ -295,11 +295,11 @@ describe('Set Class', function () {
     describe('Set#index', function () {
 
 
-        describe('When provided with an element that exists in the set', function(){
+        describe('When provided with an element that exists in the set', function () {
 
-            it('Should return its index', function(done){
+            it('Should return its index', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
 
                 set1.index(1).should.be.equal(0);
                 set1.index(2).should.be.equal(1);
@@ -311,13 +311,13 @@ describe('Set Class', function () {
 
         });
 
-        describe('When provided with an element that does not exists in the set', function(){
+        describe('When provided with an element that does not exists in the set', function () {
 
-            it('Should return null', function(done){
+            it('Should return null', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
 
-                (set1.index(4)===null).should.be.true;
+                (set1.index(4) === null).should.be.true;
 
                 done();
 
@@ -330,15 +330,15 @@ describe('Set Class', function () {
 
     describe('Set#find', function () {
 
-        describe('When provided with an element that exists in the set', function(){
+        describe('When provided with an element that exists in the set', function () {
 
-            it('Should return that element', function(done){
+            it('Should return that element', function (done) {
 
 
-                var obj1 = new Object({a : 1});
-                var obj2 = new Object({a : 2});
+                var obj1 = new Object({a: 1});
+                var obj2 = new Object({a: 2});
 
-                var set1 = new affinity.Set({type:Object,elements: [obj1, obj2]});
+                var set1 = new affinity.Set({type: Object, elements: [obj1, obj2]});
 
                 set1.find(obj1).should.be.equal(obj1);
                 set1.find(obj1).should.not.be.equal(obj2);
@@ -352,18 +352,18 @@ describe('Set Class', function () {
 
         });
 
-        describe('When provided with an element that does not exist in the set', function(){
+        describe('When provided with an element that does not exist in the set', function () {
 
-            it('Should return null', function(done){
+            it('Should return null', function (done) {
 
 
-                var obj1 = new Object({a : 1});
-                var obj2 = new Object({a : 2});
-                var obj3 = new Object({a : 3});
+                var obj1 = new Object({a: 1});
+                var obj2 = new Object({a: 2});
+                var obj3 = new Object({a: 3});
 
-                var set1 = new affinity.Set({type:Object,elements: [obj1, obj2]});
+                var set1 = new affinity.Set({type: Object, elements: [obj1, obj2]});
 
-                (set1.find(obj3)===null).should.be.true;
+                (set1.find(obj3) === null).should.be.true;
 
                 done();
 
@@ -376,11 +376,11 @@ describe('Set Class', function () {
 
     describe('Set#exists', function () {
 
-        describe('When provided with an element that exists in the set', function(){
+        describe('When provided with an element that exists in the set', function () {
 
-            it('Should return true', function(done){
+            it('Should return true', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
 
                 set1.exists(1).should.be.true;
 
@@ -390,11 +390,11 @@ describe('Set Class', function () {
 
         });
 
-        describe('When provided with an element that does not exists in the set', function(){
+        describe('When provided with an element that does not exists in the set', function () {
 
-            it('Should return false', function(done){
+            it('Should return false', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
 
                 set1.exists(4).should.be.false;
 
@@ -408,12 +408,12 @@ describe('Set Class', function () {
 
     describe('Set#union', function () {
 
-        describe('When provided with two sets', function(){
+        describe('When provided with two sets', function () {
 
-            it('Should combine the two sets into a new set', function(done){
+            it('Should combine the two sets into a new set', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
-                var set2 = new affinity.Set({type:affinity.Integer,elements: [4, 5, 6]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
+                var set2 = new affinity.Set({type: affinity.Integer, elements: [4, 5, 6]});
 
                 var set3 = set1.setUnion(set2);
 
@@ -437,12 +437,12 @@ describe('Set Class', function () {
 
     describe('Set#difference', function () {
 
-        describe('When provided with two sets', function(){
+        describe('When provided with two sets', function () {
 
-            it('Should return the elements of the first set without those of the second', function(done){
+            it('Should return the elements of the first set without those of the second', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
-                var set2 = new affinity.Set({type:affinity.Integer,elements: [3, 4, 5]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
+                var set2 = new affinity.Set({type: affinity.Integer, elements: [3, 4, 5]});
 
                 var set3 = set1.setDifference(set2);
 
@@ -457,12 +457,12 @@ describe('Set Class', function () {
 
         });
 
-        describe('When provided with two identical sets', function(){
+        describe('When provided with two identical sets', function () {
 
-            it('Should return an empty set', function(done){
+            it('Should return an empty set', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
-                var set2 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
+                var set2 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
 
                 var set3 = set1.setDifference(set2);
 
@@ -474,12 +474,12 @@ describe('Set Class', function () {
 
         });
 
-        describe('When provided with two sets with no common attributes', function(){
+        describe('When provided with two sets with no common attributes', function () {
 
-            it('Should return a set equal to the first', function(done){
+            it('Should return a set equal to the first', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
-                var set2 = new affinity.Set({type:affinity.Integer,elements: [4, 5, 6]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
+                var set2 = new affinity.Set({type: affinity.Integer, elements: [4, 5, 6]});
 
                 var set3 = set1.setDifference(set2);
 
@@ -495,18 +495,18 @@ describe('Set Class', function () {
 
     describe('Set#product', function () {
 
-        describe('Wen provided with two sets', function(){
+        describe('Wen provided with two sets', function () {
 
-            it('Should return the product of those two sets', function(done){
+            it('Should return the product of those two sets', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
-                var set2 = new affinity.Set({type:affinity.Integer,elements: [3, 4, 5]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
+                var set2 = new affinity.Set({type: affinity.Integer, elements: [3, 4, 5]});
 
                 var set3 = set1.setProduct(set2);
 
                 set3.elements().should.be.an.Array.and.have.length(9);
 
-                set3.each(function(element){
+                set3.each(function (element) {
 
                     (element instanceof affinity.Tuple).should.be.true;
 
@@ -523,12 +523,12 @@ describe('Set Class', function () {
 
     describe('Set#intersection', function () {
 
-        describe('When provided with two sets', function(){
+        describe('When provided with two sets', function () {
 
-            it('Should return the elements common to the two sets', function(done){
+            it('Should return the elements common to the two sets', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
-                var set2 = new affinity.Set({type:affinity.Integer,elements: [3, 4, 5]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
+                var set2 = new affinity.Set({type: affinity.Integer, elements: [3, 4, 5]});
 
                 var set3 = set1.setIntersection(set2);
 
@@ -542,12 +542,12 @@ describe('Set Class', function () {
 
         });
 
-        describe('When provided with two sets that have no common attributes', function(){
+        describe('When provided with two sets that have no common attributes', function () {
 
-            it('Should return an empty set', function(done){
+            it('Should return an empty set', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
-                var set2 = new affinity.Set({type:affinity.Integer,elements: [4, 5, 6]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
+                var set2 = new affinity.Set({type: affinity.Integer, elements: [4, 5, 6]});
 
                 var set3 = set1.setIntersection(set2);
 
@@ -559,12 +559,12 @@ describe('Set Class', function () {
 
         });
 
-        describe('When provided with two identical sets', function(){
+        describe('When provided with two identical sets', function () {
 
-            it('Should return a set equal to those sets', function(done){
+            it('Should return a set equal to those sets', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
-                var set2 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
+                var set2 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
 
                 var set3 = set1.setIntersection(set2);
 
@@ -581,12 +581,12 @@ describe('Set Class', function () {
 
     describe('Set#symmetricDifference', function () {
 
-        describe('When provided with sets that have attributes in common', function(){
+        describe('When provided with sets that have attributes in common', function () {
 
-            it('Should return a set containing all values but those that sets had in common', function(done){
+            it('Should return a set containing all values but those that sets had in common', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3, 4]});
-                var set2 = new affinity.Set({type:affinity.Integer,elements: [3, 4, 5, 6]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3, 4]});
+                var set2 = new affinity.Set({type: affinity.Integer, elements: [3, 4, 5, 6]});
 
                 var set3 = set1.setSymmetricDifference(set2);
 
@@ -603,12 +603,12 @@ describe('Set Class', function () {
 
         });
 
-        describe('When provided with sets that have no attributes in common', function(){
+        describe('When provided with sets that have no attributes in common', function () {
 
-            it('Should return the same as an union on those sets', function(done){
+            it('Should return the same as an union on those sets', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3, 4]});
-                var set2 = new affinity.Set({type:affinity.Integer,elements: [5, 6, 7, 8]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3, 4]});
+                var set2 = new affinity.Set({type: affinity.Integer, elements: [5, 6, 7, 8]});
 
                 var set3 = set1.setSymmetricDifference(set2);
 
@@ -620,16 +620,16 @@ describe('Set Class', function () {
 
         });
 
-        describe('When provided with two equal sets', function(){
+        describe('When provided with two equal sets', function () {
 
-            it('Should return en empty set', function(done){
+            it('Should return en empty set', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3, 4]});
-                var set2 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3, 4]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3, 4]});
+                var set2 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3, 4]});
 
                 var set3 = set1.setSymmetricDifference(set2);
 
-                set3.equal(new affinity.Set({type : affinity.Integer})).should.be.true;
+                set3.equal(new affinity.Set({type: affinity.Integer})).should.be.true;
 
                 done();
 
@@ -641,12 +641,12 @@ describe('Set Class', function () {
 
     describe('Set.equal', function () {
 
-        describe('When provided two equal sets', function(){
+        describe('When provided two equal sets', function () {
 
-            it('Should return true', function(done){
+            it('Should return true', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
-                var set2 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
+                var set2 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
 
                 set1.equal(set2).should.be.true;
 
@@ -656,12 +656,12 @@ describe('Set Class', function () {
 
         });
 
-        describe('When provided two different sets', function(){
+        describe('When provided two different sets', function () {
 
-            it('Should return true', function(done){
+            it('Should return true', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
-                var set2 = new affinity.Set({type:affinity.Integer,elements: [4, 5, 6]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
+                var set2 = new affinity.Set({type: affinity.Integer, elements: [4, 5, 6]});
 
                 set1.equal(set2).should.be.false;
 
@@ -671,12 +671,12 @@ describe('Set Class', function () {
 
         });
 
-        describe('When provided two slightly different sets', function(){
+        describe('When provided two slightly different sets', function () {
 
-            it('Should return true', function(done){
+            it('Should return true', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
-                var set2 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 4]});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
+                var set2 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 4]});
 
                 set1.equal(set2).should.be.false;
 
@@ -686,12 +686,12 @@ describe('Set Class', function () {
 
         });
 
-        describe('When provided two empty sets', function(){
+        describe('When provided two empty sets', function () {
 
-            it('Should return true', function(done){
+            it('Should return true', function (done) {
 
-                var set1 = new affinity.Set({type : affinity.Integer});
-                var set2 = new affinity.Set({type : affinity.Integer});
+                var set1 = new affinity.Set({type: affinity.Integer});
+                var set2 = new affinity.Set({type: affinity.Integer});
 
                 set1.equal(set2).should.be.true;
 
@@ -701,12 +701,12 @@ describe('Set Class', function () {
 
         });
 
-        describe('When provided two sets with different types', function(){
+        describe('When provided two sets with different types', function () {
 
-            it('Should return false', function(done){
+            it('Should return false', function (done) {
 
-                var set1 = new affinity.Set({type : affinity.Integer});
-                var set2 = new affinity.Set({type : Object});
+                var set1 = new affinity.Set({type: affinity.Integer});
+                var set2 = new affinity.Set({type: Object});
 
                 set1.equal(set2).should.be.false;
                 set2.equal(set1).should.be.false;
@@ -717,12 +717,12 @@ describe('Set Class', function () {
 
         });
 
-        describe('When provided with an empty set and another non empty set', function(){
+        describe('When provided with an empty set and another non empty set', function () {
 
-            it('Should return false', function(done){
+            it('Should return false', function (done) {
 
-                var set1 = new affinity.Set({type:affinity.Integer,elements: [1, 2, 3]});
-                var set2 = new affinity.Set({type:affinity.Integer});
+                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
+                var set2 = new affinity.Set({type: affinity.Integer});
 
                 set1.equal(set2).should.be.false;
                 set2.equal(set1).should.be.false;

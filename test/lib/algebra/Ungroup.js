@@ -1,20 +1,21 @@
 var affinity = require('./../../../index.js');
 var should = require('should');
+var debug = require('./../../../lib/helpers/debug');
 
-describe('Ungroup Class', function(){
+describe('Ungroup Class', function () {
 
-    describe('Ungroup#constructor', function(){
+    describe('Ungroup#constructor', function () {
 
-        describe('When provided one ungrouping attribute', function(){
+        describe('When provided one ungrouping attribute', function () {
 
-            it('Should be able to do the ungrouping', function(done){
+            it('Should be able to do the ungrouping', function (done) {
 
 
                 var relationA = new affinity.Relation([
-                    {firstName : {type : affinity.String}},
-                    {lastName : {type : affinity.String}},
-                    {age : {type : affinity.Integer}}
-                ],[
+                    {firstName: {type: affinity.String}},
+                    {lastName: {type: affinity.String}},
+                    {age: {type: affinity.Integer}}
+                ], [
                     ['Maybelline', 'Durocher', 23],
                     ['Danella', 'Barbara', 23],
                     ['Daniel', 'Bandy', 87],
@@ -25,9 +26,9 @@ describe('Ungroup Class', function(){
 
                 var relationC = relationB.ungroup(['name']).compute();
 
-                relationC.equal(relationA).should.be.true;
+                relationC.equal(relationA).should.be.equal(true);
 
-                relationC.print();
+                debug.reldump.debug(relationC.toString());
 
                 done();
 
@@ -35,16 +36,16 @@ describe('Ungroup Class', function(){
 
         });
 
-        describe('When ungrouping a grouped relation that has no non grouped header', function(){
+        describe('When ungrouping a grouped relation that has no non grouped header', function () {
 
-            it('Should be able to do a grouping', function(done){
+            it('Should be able to do a grouping', function (done) {
 
 
                 var relationA = new affinity.Relation([
-                    {firstName : {type : affinity.String}},
-                    {lastName : {type : affinity.String}},
-                    {age : {type : affinity.Integer}}
-                ],[
+                    {firstName: {type: affinity.String}},
+                    {lastName: {type: affinity.String}},
+                    {age: {type: affinity.Integer}}
+                ], [
                     ['Maybelline', 'Durocher', 23],
                     ['Danella', 'Barbara', 23],
                     ['Daniel', 'Bandy', 87],
@@ -53,7 +54,7 @@ describe('Ungroup Class', function(){
 
                 var relationB = relationA.group('name', ['firstName', 'lastName', 'age']).compute();
 
-                relationB.print();
+                debug.reldump.debug(relationB.toString());
 
                 relationB.ungroup(['name']).equal(relationA).should.be.true;
 
@@ -64,16 +65,16 @@ describe('Ungroup Class', function(){
 
         });
 
-        describe('When ungrouping a nested grouped relation that has no non grouped header', function(){
+        describe('When ungrouping a nested grouped relation that has no non grouped header', function () {
 
-            it('Should be able to do a grouping', function(done){
+            it('Should be able to do a grouping', function (done) {
 
 
                 var relationA = new affinity.Relation([
-                    {firstName : {type : affinity.String}},
-                    {lastName : {type : affinity.String}},
-                    {age : {type : affinity.Integer}}
-                ],[
+                    {firstName: {type: affinity.String}},
+                    {lastName: {type: affinity.String}},
+                    {age: {type: affinity.Integer}}
+                ], [
                     ['Maybelline', 'Durocher', 23],
                     ['Danella', 'Barbara', 23],
                     ['Daniel', 'Bandy', 87],
@@ -86,11 +87,11 @@ describe('Ungroup Class', function(){
 
                 var relationD = relationC.ungroup(['name']).compute();
 
-                relationD.print();
+                debug.reldump.debug(relationD.toString());
 
                 var relationE = relationD.ungroup(['fn']).compute();
 
-                relationE.print();
+                debug.reldump.debug(relationE.toString());
 
 
                 done();

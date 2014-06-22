@@ -21,11 +21,11 @@ describe('TType class', function () {
 
     });
 
-    describe('TType.equal', function(){
+    describe('TType.equal', function () {
 
-        describe('When two types are equal', function(){
+        describe('When two types are equal', function () {
 
-            it('Should return a truey TBoolean', function(done){
+            it('Should return a truey TBoolean', function (done) {
 
                 var type1 = new affinity.Type(String);
                 var type2 = new affinity.Type(String);
@@ -40,9 +40,9 @@ describe('TType class', function () {
 
         });
 
-        describe('When two types are not equal', function(){
+        describe('When two types are not equal', function () {
 
-            it('Should return a falsey TBoolean', function(done){
+            it('Should return a falsey TBoolean', function (done) {
 
                 var type1 = new affinity.Type(String);
                 var type2 = new affinity.Type(Array);

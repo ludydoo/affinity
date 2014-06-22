@@ -1,12 +1,12 @@
 var affinity = require('./../../../../index.js');
 
-describe('And class', function(){
+describe('And class', function () {
 
-    describe('And.valueOf', function(){
+    describe('And.valueOf', function () {
 
-        describe('When provided with falsey arguments', function(){
+        describe('When provided with falsey arguments', function () {
 
-            it('Should return a falsey boolean', function(done){
+            it('Should return a falsey boolean', function (done) {
 
                 var bool1 = false;
                 var bool2 = true;
@@ -21,9 +21,9 @@ describe('And class', function(){
 
         });
 
-        describe('When provided with a falsey function', function(){
+        describe('When provided with a falsey function', function () {
 
-            it('Should return a falsey boolean', function(done){
+            it('Should return a falsey boolean', function (done) {
 
                 var bool1 = true;
                 var bool2 = true;
@@ -41,9 +41,9 @@ describe('And class', function(){
 
         });
 
-        describe('When provided with a truey function', function(){
+        describe('When provided with a truey function', function () {
 
-            it('Should return a falsey boolean', function(done){
+            it('Should return a falsey boolean', function (done) {
 
                 var bool1 = new affinity.Boolean(true);
                 var bool2 = new affinity.Boolean(true);

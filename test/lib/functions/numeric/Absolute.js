@@ -1,13 +1,13 @@
 var affinity = require('./../../../../index.js');
 var should = require('should');
 
-describe('FAbsolute Class', function(){
+describe('FAbsolute Class', function () {
 
 
-    describe('When provided with a negative integer', function(){
+    describe('When provided with a negative integer', function () {
 
 
-        it('Should return a positive integer if the provided integer is negative', function(done){
+        it('Should return a positive integer if the provided integer is negative', function (done) {
 
             var abs = new affinity.Absolute(-10);
 
@@ -17,7 +17,7 @@ describe('FAbsolute Class', function(){
 
         });
 
-        it('Should return a positive integer if the provided integer is positive', function(done){
+        it('Should return a positive integer if the provided integer is positive', function (done) {
 
             var abs = new affinity.Absolute(10);
 
@@ -30,10 +30,10 @@ describe('FAbsolute Class', function(){
     });
 
 
-    describe('When provided with a decimal', function(){
+    describe('When provided with a decimal', function () {
 
 
-        it('Should return a positive decimal if the provided decimal is negative', function(done){
+        it('Should return a positive decimal if the provided decimal is negative', function (done) {
 
             var abs = new affinity.Absolute(-10.2);
 
@@ -43,7 +43,7 @@ describe('FAbsolute Class', function(){
 
         });
 
-        it('Should return a positive decimal if the provided decimal is positive', function(done){
+        it('Should return a positive decimal if the provided decimal is positive', function (done) {
 
             var abs = new affinity.Absolute(10.2);
 
@@ -55,10 +55,10 @@ describe('FAbsolute Class', function(){
 
     });
 
-    describe('When provided with an hexadecimal', function(){
+    describe('When provided with an hexadecimal', function () {
 
 
-        it('Should return a positive hex if the provided hex is negative', function(done){
+        it('Should return a positive hex if the provided hex is negative', function (done) {
 
             var abs = new affinity.Absolute(-0x02);
 
@@ -68,7 +68,7 @@ describe('FAbsolute Class', function(){
 
         });
 
-        it('Should return a positive hex if the provided hex is positive', function(done){
+        it('Should return a positive hex if the provided hex is positive', function (done) {
 
             var abs = new affinity.Absolute(0x02);
 
@@ -80,10 +80,10 @@ describe('FAbsolute Class', function(){
 
     });
 
-    describe('When provided with an exp', function(){
+    describe('When provided with an exp', function () {
 
 
-        it('Should return a positive exp if the provided exp is negative', function(done){
+        it('Should return a positive exp if the provided exp is negative', function (done) {
 
             var abs = new affinity.Absolute(-10e-2);
 
@@ -93,7 +93,7 @@ describe('FAbsolute Class', function(){
 
         });
 
-        it('Should return a positive exp if the provided exp is positive', function(done){
+        it('Should return a positive exp if the provided exp is positive', function (done) {
 
             var abs = new affinity.Absolute(10e2);
 

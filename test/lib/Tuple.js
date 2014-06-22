@@ -1,13 +1,13 @@
 var affinity = require('./../../index.js');
 var should = require('should');
 
-describe('Tuple Class', function(){
+describe('Tuple Class', function () {
 
-    describe('Tuple()', function(){
+    describe('Tuple()', function () {
 
-        describe('When provided with no attributes', function(){
+        describe('When provided with no attributes', function () {
 
-            it('Should create an empty tuple', function(done){
+            it('Should create an empty tuple', function (done) {
 
                 var tuple = new affinity.Tuple();
 
@@ -19,11 +19,11 @@ describe('Tuple Class', function(){
 
         });
 
-        describe('When provided with hash attributes', function(){
+        describe('When provided with hash attributes', function () {
 
-            it('Should register those attributes', function(done){
+            it('Should register those attributes', function (done) {
 
-                var tuple = new affinity.Tuple({a : 0, b : 1});
+                var tuple = new affinity.Tuple({a: 0, b: 1});
 
                 Object.keys(tuple.attributes).should.be.an.Array.and.have.length(2);
 
@@ -36,9 +36,9 @@ describe('Tuple Class', function(){
 
         });
 
-        describe('When provided with associative array attributes', function(){
+        describe('When provided with associative array attributes', function () {
 
-            it('Should register those attributes', function(done){
+            it('Should register those attributes', function (done) {
 
                 var arr = [];
                 arr['a'] = 0;
@@ -56,11 +56,11 @@ describe('Tuple Class', function(){
 
         });
 
-        describe('When provided with unsupported attribute type', function(){
+        describe('When provided with unsupported attribute type', function () {
 
-            it('Should throw an error', function(done){
+            it('Should throw an error', function (done) {
 
-                should(function(){
+                should(function () {
                     var tuple = new affinity.Tuple(5);
                 }).throw();
 
@@ -73,14 +73,14 @@ describe('Tuple Class', function(){
 
     });
 
-    describe('Tuple.equal', function(){
+    describe('Tuple.equal', function () {
 
-        describe('When provided with two identical tuples', function(){
+        describe('When provided with two identical tuples', function () {
 
-            it('Should return true', function(done){
+            it('Should return true', function (done) {
 
-                var tuple1 = new affinity.Tuple({a : 1, b : 2});
-                var tuple2 = new affinity.Tuple({a : 1, b : 2});
+                var tuple1 = new affinity.Tuple({a: 1, b: 2});
+                var tuple2 = new affinity.Tuple({a: 1, b: 2});
 
                 affinity.Tuple.equal(tuple1, tuple2).should.be.true;
 
@@ -90,27 +90,12 @@ describe('Tuple Class', function(){
 
         });
 
-        describe('When provided with slightly different tuples', function(){
+        describe('When provided with slightly different tuples', function () {
 
-            it('Should return false', function(done){
+            it('Should return false', function (done) {
 
-                var tuple1 = new affinity.Tuple({a : 1, b : 2});
-                var tuple2 = new affinity.Tuple({a : 1, b : 1});
-
-                affinity.Tuple.equal(tuple1, tuple2).should.be.false;
-
-                done();
-
-            });
-
-        });
-
-        describe('When provided with completely different tuples', function(){
-
-            it('Should return false', function(done){
-
-                var tuple1 = new affinity.Tuple({a : 1, b : 2});
-                var tuple2 = new affinity.Tuple({c : 1, d : 1});
+                var tuple1 = new affinity.Tuple({a: 1, b: 2});
+                var tuple2 = new affinity.Tuple({a: 1, b: 1});
 
                 affinity.Tuple.equal(tuple1, tuple2).should.be.false;
 
@@ -120,13 +105,28 @@ describe('Tuple Class', function(){
 
         });
 
-        describe('When provided with only one tuple', function(){
+        describe('When provided with completely different tuples', function () {
 
-            it('Should return true', function(done){
+            it('Should return false', function (done) {
 
-                var tuple1 = new affinity.Tuple({a : 1, b : 2});
+                var tuple1 = new affinity.Tuple({a: 1, b: 2});
+                var tuple2 = new affinity.Tuple({c: 1, d: 1});
 
-                should(function(){
+                affinity.Tuple.equal(tuple1, tuple2).should.be.false;
+
+                done();
+
+            });
+
+        });
+
+        describe('When provided with only one tuple', function () {
+
+            it('Should return true', function (done) {
+
+                var tuple1 = new affinity.Tuple({a: 1, b: 2});
+
+                should(function () {
                     affinity.Tuple.equal(tuple1)
                 }).throw();
 
@@ -136,11 +136,11 @@ describe('Tuple Class', function(){
 
         });
 
-        describe('When provided with nothing', function(){
+        describe('When provided with nothing', function () {
 
-            it('Should return true', function(done){
+            it('Should return true', function (done) {
 
-                should(function(){
+                should(function () {
                     affinity.Tuple.equal()
                 }).throw();
 
@@ -150,14 +150,14 @@ describe('Tuple Class', function(){
 
         });
 
-        describe('When not even provided with tuples', function(){
+        describe('When not even provided with tuples', function () {
 
-            it('Should throw', function(done){
+            it('Should throw', function (done) {
 
                 var tuple1 = 1;
-                var tuple2 = new affinity.Tuple({c : 1, d : 1});
+                var tuple2 = new affinity.Tuple({c: 1, d: 1});
 
-                should(function(){
+                should(function () {
                     affinity.Tuple.equal(tuple1, tuple2)
                 }).throw();
 

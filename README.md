@@ -142,8 +142,8 @@ A Tuple is a single entry in a Relation. It is an ordered set (attribute1 : valu
 |Not                   |`not`          |Not              |
 |**Comparison**                                        |||
 |Equal                 |`eq`           |Equal            |
-|Larger Than           |`lt`           |LargerThan       |
-|Larger Than or Equal  |`lte`          |LargerThanEqual  |
+|Greater Than          |`gt`           |GreaterThan      |
+|Greater Than or Equal |`gte`          |GreaterThanEqual |
 |Smaller Than          |`st`           |SmallerThan      |
 |Smaller Than or Equal |`ste`          |SmallerThanEqual |
 |**Numeric Functions**                                 |||
@@ -159,16 +159,20 @@ A Tuple is a single entry in a Relation. It is an ordered set (attribute1 : valu
 |Power                 |`pow`          |Pow              |
 |Roof                  |`roof`         |Roof             |
 |Round                 |`round`        |Round            |
-|Sine                  |`sine`         |Sine             |
+|Sine                  |`sin`          |Sine             |
 |Square Root           |`sqrt`         |Sqrt             |
-|Unary Minus           |`uminus`       |UnaryMinus       |
-|Unary Plus            |`uplus`        |UnaryPlus        |
+|**String Functions**                                  |||
+|Length                |`length`       |Length           |
+|Lowercase             |`lowercase`    |Lowercase        |
+|Matching              |`matching`     |Matching         |
+|Substring             |`substr`       |Substring        |
+|Uppercase             |`uppercase`    |Uppercase        |
 |**Date Functions**                                    |||
 |Day of Month          |`monthDay`     |MonthDay         |
 |Day of Week           |`weekDay`      |WeekDay          |
 |Day of Year           |`yearDay`      |YearDay          |
 |Month                 |`month`        |Month            |
-|Timestamp             |`ts`           |TimeStamp        |
+|Timestamp             |`timestamp`    |TimeStamp        |
 |Week of Year          |`yearWeek`     |YearWeek         |
 
 ##Usage##
@@ -425,7 +429,10 @@ var people = new affinity.Relation([
                     [3, 'Marie',    true ]
                 ]);
                 
-var restricted = people.restrict(relation.get('exists).equal(true));
+var exists = relation.get('exists');
+var name = relation.get('name')
+
+var restricted = people.restrict(exists.eq(true).and(name.not().eq('')));
 ```
 
 Result : 
@@ -484,12 +491,27 @@ weekOfYear // Week of the year
 
 Example : 
 
-relation.restrict(
-    (relation.get('count1').plus(relation.get('count2')))
-    .equals(relation.get('count3').div(relation.get('count4')))
-)
+var count1 = relation.get('count1');
+var count2 = relation.get('count2');
+var count3 = relation.get('count3');
+var count4 = relation.get('count4');
+
+relation.restrict(count1.plus(cunt2).eq(count3.div(count4)));
 
 // (count1 + count2 == count3 / count4)
+
+// Or with user-defined functions
+
+relation.restrict(function(tuple){
+
+    var count1 = tuple.get('count1');
+    var count2 = tuple.get('count2');
+    var count3 = tuple.get('count3');
+    var count4 = tuple.get('count4');
+    
+    return (count1+count2) === (count3/count4);
+    
+})
 
 ```
 
@@ -541,3 +563,7 @@ Result :
 |  3   | Andreanne |   true   |
 +------+-----------+----------+
 </pre>
+
+To be documented : 
+
+Compose, Extend, Group, SemiDifference, SemiJoin, Ungroup, Unwrap, Wrap

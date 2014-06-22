@@ -1,251 +1,236 @@
 var affinity = require('./../../../index.js');
-var should = require('should');
-
-describe('Join class', function(){
-
-    describe('Join#constructor', function(){
-
-        describe('When given two relations with headers that have attributes in common', function(){
-
-            it('Should result in the union of these headers', function(done){
-
-                var rel1 = new affinity.Relation([
-                    {a : {type : affinity.Integer}},
-                    {b : {type : affinity.Integer}},
-                    {c : {type : affinity.Integer}}
-                ]);
-
-                var rel2 = new affinity.Relation([
-                    {b : {type : affinity.Integer}},
-                    {c : {type : affinity.Integer}},
-                    {d : {type : affinity.Integer}}
-                ]);
-
-                var rel3 = rel1.join(rel2);
-
-                rel3.header().attributes().should.be.an.Array.and.have.length(4);
-
-                rel3.print();
-
-                done();
+var should = require('should')
+var debug = require('./../../../lib/helpers/debug');
 
 
+var employees = new affinity.Relation([
+    {id: {type: affinity.Integer}},
+    {firstName: {type: affinity.String}},
+    {lastName: {type: affinity.String}},
+    {dept: {type: affinity.Integer}}
+], [
 
-            })
+    [1, 'Mary', 'Louise', 1],
+    [2, 'Nicolas', 'McDibbins', 2],
+    [3, 'Nancy', 'Bibble', 2],
+    [4, 'Mark', 'Clinton', 3],
+    [5, 'Doodle', 'Nibble', 3],
+    [6, 'Dong', 'Dong', 1],
+    [7, 'Boy', 'Black', 3]
+
+]);
+
+var employees_2 = new affinity.Relation([
+    {id: {type: affinity.Integer}},
+    {firstName: {type: affinity.String}},
+    {lastName: {type: affinity.String}},
+    {dept: {type: affinity.Integer}}
+], [
+
+    [1, 'Mary', 'Louise', 1],
+    [2, 'Nicolas', 'McDibbins', 2],
+    [3, 'Nancy', 'Bibble', 2],
+    [4, 'Mark', 'Clinton', 3]
+
+]);
+
+var employees_changed_attribute = new affinity.Relation([
+    {id: {type: affinity.Integer}},
+    {firstName: {type: affinity.String}},
+    {lastName: {type: affinity.String}},
+    {dept: {type: affinity.String}}
+], [
+
+    [1, 'Mary', 'Louise', "1"],
+    [2, 'Nicolas', 'McDibbins', "1"],
+    [3, 'Nancy', 'Bibble', "1"],
+    [4, 'Mark', 'Clinton', "1"]
+
+]);
+
+var scores = new affinity.Relation([
+    {firstName: {type: affinity.String}},
+    {lastName: {type: affinity.String}},
+    {score: {type: affinity.Integer}}
+], [
+    ['Mary', 'Louise', 56],
+    ['Nicolas', 'McDibbins', 87],
+    ['Mark', 'Clinton', 20],
+    ['Boy', 'Black', 12],
+    ['Gingo', 'Binder', 12]
+]);
+
+var depts = new affinity.Relation([
+    {dept: {type: affinity.Integer}},
+    {deptName: {type: affinity.Integer}},
+    {opened: {type: affinity.Boolean}}
+], [
+    [1, 'Communication', true],
+    [2, 'Sales', true],
+    [3, 'R&D', true],
+    [4, 'Snazzles', false],
+    [5, 'Dizzles', false]
+]);
+
+var depts2 = new affinity.Relation([
+    {deptName: {type: affinity.String}},
+    {dept: {type: affinity.String}},
+    {opened: {type: affinity.Boolean}}
+]);
+
+var pets = new affinity.Relation([
+    {name: {type: affinity.String}},
+    {alive: {type: affinity.Boolean}},
+    {animal: {type: affinity.String}}
+], [
+    ['Tommy 1', 'Dog', false],
+    ['Tommy 2', 'Dog', false],
+    ['Zoé', 'Dog', true],
+    ['Max', 'Dog', false],
+    ['Maurice', 'Cat', true],
+    ['Chat', 'Cat', true],
+    ['Bernard', 'Cat', true],
+    ['Henri', 'Hamster', false]
+]);
+
+var animals = new affinity.Relation([
+    {animal: {type: affinity.String}},
+    {legNumber: {type: affinity.Integer}},
+    {height: {type: affinity.Integer}}
+], [
+    ['Dog', 4, 60],
+    ['Cat', 4, 30],
+    ['Hamster', 4, 8],
+    ['Bird', 2, 15],
+    ['Bear', 4, 120],
+    ['Giraffe', 2, 800]
+]);
+
+describe('Join class', function () {
+
+    describe('When given two relations that have attribute in common', function () {
+
+        it('Should be able to join the attributes if there are only one attribute in common', function (done) {
+
+            var joined = employees.join(depts).compute();
+
+            joined.header().count().should.be.equal(employees.header().count() + depts.header().count() - 1);
+
+            joined.count().should.be.equal(7);
+
+            var resultHeader = employees.header().clone().copy(depts.header(), 'dept', true);
+
+            joined.header().equal(resultHeader).should.be.equal(true);
+
+            debug.reldump.debug(joined.toString());
+
+            done();
 
         });
 
-        describe('When given two relations no common attributes', function(){
+        it('Should be able to join the relations if they have more than one attributes in common', function (done) {
 
-            it('Should result in the union of these headers', function(done){
+            var joined = employees.join(scores);
 
-                var rel1 = new affinity.Relation([
-                    {a : {type : affinity.Integer}},
-                    {b : {type : affinity.Integer}},
-                    {c : {type : affinity.Integer}}
-                ]);
+            joined.header().count().should.be.equal(employees.header().count() + scores.header().count() - 2);
 
-                var rel2 = new affinity.Relation([
-                    {d : {type : affinity.Integer}},
-                    {e : {type : affinity.Integer}},
-                    {f : {type : affinity.Integer}}
-                ]);
+            var resultHeader = employees.header().clone().copy(scores.header(), ['firstName', 'lastName'], true);
 
-                var rel3 = rel1.join(rel2);
+            joined.header().equal(resultHeader).should.be.equal(true);
 
-                rel3.header().attributes().should.be.an.Array.and.have.length(6);
+            debug.reldump.debug(joined.toString());
 
-                rel3.print();
-
-                done();
-
-            })
+            done();
 
         });
 
-        describe('When given two relations that have common attribute names but of different type', function(){
+        it('Should be able to join the relations if they have all attributes in common', function (done) {
 
+            var joined = employees.join(employees_2);
 
-            it('Should throw', function(done){
+            joined.header().equal(employees.header()).should.be.equal(true);
 
+            joined.header().count().should.be.equal(employees_2.count());
 
-                var rel1 = new affinity.Relation([
-                    {a : {type : affinity.Integer}},
-                    {b : {type : affinity.Integer}},
-                    {c : {type : affinity.Integer}}
-                ]);
+            debug.reldump.debug(joined.toString());
 
-                var rel2 = new affinity.Relation([
-                    {c : {type : affinity.String}},
-                    {d : {type : affinity.Integer}},
-                    {e : {type : affinity.Integer}}
-                ]);
+            done();
 
-                should(function(){
-                    var rel3 = rel1.join(rel2);
-                    rel3.compute();
-                }).throw();
+        });
 
-                done();
+        it('Should throw if an attribute in A has the same name in B but not of the same type', function (done) {
 
-            });
+            should(function () {
+                var joined = employees.join(employees_changed_attribute).compute();
+            }).throw();
+
+            done();
 
         });
 
     });
 
-    describe('Join#buildTuples', function(){
+    describe('When given relations that have no attributes in common', function () {
 
-        describe('When given tuples that have same values for one common attribute', function(){
+        it('Should return the cross product of A and B', function (done) {
 
-            it('Should return the combinations of those tuples where there are common attribute values', function(done){
+            var joined = employees.join(pets);
 
-                var rel1 = new affinity.Relation([
-                    {firstName : {type : affinity.String}},
-                    {lastName : {type : affinity.String}},
-                    {deptId : {type : affinity.Integer}}
-                ],[
-                    ['John', 'Cage', 1],
-                    ['U', '2', 2],
-                    ['Lady', 'Gaga', 2],
-                    ['Paul', 'McCartney', 3],
-                    ['Django', 'Reinhart', 3],
-                ]);
+            joined.equal(employees.product(pets)).should.be.equal(true);
 
-                var rel2 = new affinity.Relation([
-                    {deptId : {type : affinity.Integer}},
-                    {deptName : {type : affinity.String}}
-                ],[
-                    [1, 'Doodles'],
-                    [2, 'Gingles']
-                ]);
+            debug.reldump.debug(joined.toString());
 
-                var rel3 = rel1.join(rel2);
-
-                rel3.elements().should.be.an.Array.and.have.length(3);
-
-                rel3.print();
-
-                done();
-
-            });
+            done();
 
         });
 
-        describe('When given tuples that have same values for more than one common attribute', function(){
+        it('Should return relationA if it is joined by TABLE_DEE', function (done) {
 
-            it('Should return the combinations of those tuples where there are common attribute values', function(done){
+            var joined = employees.join(affinity.TABLE_DEE);
 
-                var rel1 = new affinity.Relation([
-                    {firstName : {type : affinity.String}},
-                    {lastName : {type : affinity.String}},
-                    {deptId : {type : affinity.Integer}}
-                ],[
-                    ['John', 'Cage', 1],
-                    ['U', '2', 2],
-                    ['Lady', 'Gaga', 2],
-                    ['Paul', 'McCartney', 3],
-                    ['Django', 'Reinhart', 3],
-                ]);
+            joined.equal(employees).should.be.equal(true);
 
-                var rel2 = new affinity.Relation([
-                    {firstName : {type : affinity.String}},
-                    {lastName : {type : affinity.String}},
-                    {category : {type : affinity.String}}
-                ],[
-                    ['John', 'Cage', 'Doodles'],
-                    ['John', 'Cage', 'Bimbles'],
-                    ['Paul', 'McCartney', 'Dandiddles']
-                ]);
+            debug.reldump.debug(joined.toString());
 
-                var rel3 = rel1.join(rel2);
-
-                rel3.body().should.be.an.Array.and.have.length(3);
-
-                rel3.print();
-
-                done();
-
-            });
+            done();
 
         });
 
-        describe('When given tuples that have no common attribute', function(){
+        it('Should return empty relationA if it is joined by TABLE_DUM', function (done) {
 
-            it('Should return a cross product', function(done){
+            var joined = employees.join(affinity.TABLE_DUM);
 
-                var rel1 = new affinity.Relation([
-                    {a : {type : affinity.Integer}},
-                    {b : {type : affinity.Integer}},
-                    {c : {type : affinity.Integer}}
-                ],[
-                    [1, 1, 3],
-                    [2, 2, 3],
-                    [3, 3, 2],
-                    [4, 4, 2],
-                    [5, 5, 2]
-                ]);
+            joined.header().equal(employees.header()).should.be.equal(true);
 
-                var rel2 = new affinity.Relation([
-                    {d : {type : affinity.Integer}},
-                    {e : {type : affinity.Integer}}
-                ],[
-                    [1, 3],
-                    [2, 3],
-                    [3, 2]
-                ]);
+            joined.count().should.be.equal(0);
 
-                var rel3 = rel1.join(rel2);
+            debug.reldump.debug(joined.toString());
 
-                var crossProduct = rel1.product(rel2);
-
-                rel3.equal(crossProduct).should.be.true;
-
-                rel3.print();
-
-                done();
-
-            });
+            done();
 
         });
 
-        describe('When given tuples that have all common attribute', function(){
+    });
 
-            it('Should return an intersection', function(done){
+    describe('When given invalid arguments', function () {
 
-                var rel1 = new affinity.Relation([
-                    {a : {type : affinity.Integer}},
-                    {b : {type : affinity.Integer}},
-                    {c : {type : affinity.Integer}}
-                ],[
-                    [1, 1, 3],
-                    [2, 2, 3],
-                    [3, 3, 2],
-                    [4, 4, 2],
-                    [5, 5, 2]
-                ]);
+        it('Should throw if relation A is not specified', function (done) {
 
-                var rel2 = new affinity.Relation([
-                    {a : {type : affinity.Integer}},
-                    {b : {type : affinity.Integer}},
-                    {c : {type : affinity.Integer}}
-                ],[
-                    [1, 1, 3],
-                    [2, 2, 3],
-                    [3, 3, 2]
-                ]);
+            should(function () {
+                var joined = new affinity.Join(undefined, employees).compute();
+            }).throw();
 
-                var rel3 = rel1.join(rel2);
+            done();
 
-                var intersection = rel1.intersect(rel2);
+        });
 
-                rel3.equal(intersection).should.be.true;
+        it('Should throw if relation B is not specified', function (done) {
 
-                rel3.print();
+            should(function () {
+                var joined = new affinity.Join(employees, undefined).compute();
+            }).throw();
 
-                done();
-
-            });
+            done();
 
         });
 

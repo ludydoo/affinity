@@ -1,10 +1,10 @@
 {
     "name": "affinity",
-    "version": "0.0.12",
+    "version": "0.0.13",
     "description": "Relational algebra library",
     "main": "index.js",
     "scripts": {
-        "test": "./node_modules/.bin/_mocha --recursive --ui bdd test",
+        "test": "./node_modules/.bin/_mocha --recursive --reporter list --ui bdd test",
         "jsdoc": "./node_modules/.bin/jsdoc -c jsdoc.json"
     },
     "author": "Ludovic Cleroux <ludydoo@gmail.com>",
