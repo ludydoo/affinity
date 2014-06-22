@@ -13,7 +13,7 @@ describe('Equal class', function(){
 
                 var equal = new affinity.Equal(bool1, bool2);
 
-                (equal == false).should.be.true;
+                equal.value().should.be.equal(false);
 
                 done();
 
@@ -30,7 +30,7 @@ describe('Equal class', function(){
 
                 var equal = new affinity.Equal(bool1, bool2);
 
-                (equal==true).should.be.true;
+                equal.value().should.be.equal(true);
 
                 done();
 

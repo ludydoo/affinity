@@ -9,7 +9,6 @@ describe('Group Class', function(){
 
             it('Should be able to do a grouping', function(done){
 
-
                 var relationA = new affinity.Relation([
                     {firstName : {type : affinity.String}},
                     {lastName : {type : affinity.String}},

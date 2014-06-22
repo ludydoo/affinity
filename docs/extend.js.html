@@ -257,51 +257,98 @@ var RExtend = Relation.extend(
          * @property {Function} expression The expression to evaluate when setting the attribute value
          */
 
-        /**
-         * @class RExtend
-         * @augments Relation
-         * @param {Relation} relationA The relation from which to remove the tuples
-         * @param {extendParameter[]} parameters The arguments from which to calculate the new attribute value. It is an array of
-         * @classdesc
-         * The Extend operation allows the addition of calculated {@link Header} {@link Attribute}s
-         * @example
-         *
-         * var relationA = new affinity.Relation([
-         *          {name: { type: affinity.String}},
-         *          {born: { type: affinity.Integer}},
-         *          {died: { type: affinity.Integer}}
-         *      ],[
-         *          ['Aristotle', -384, -322],
-         *          ['Plato',     -428, -348],
-         *          ['Socrates',  -470, -399]
-         *      ]);
-         *
-         * var born = relationA.get('born')
-         * var died = relationA.get('died')
-         *
-         * var relationB = relationA.extend([{ lived : died.minus(born) }]);
-         *
-         * //or
-         *
-         * var relationB = new affinity.Extend(relationA, [{ lived : died.minus(born) }]);
-         *
-         * //                                                       &lt;-EXTENDED ATTR-->
-         * // +----------------+-----------------+-----------------+------------------+
-         * // | name : TString | born : TInteger | died : TInteger | lived : TInteger |
-         * // +================+=================+=================+==================+
-         * // | Aristotle      | -384            | -322            | 62               |
-         * // +----------------+-----------------+-----------------+------------------+
-         * // | Plato          | -428            | -348            | 80               |
-         * // +----------------+-----------------+-----------------+------------------+
-         * // | Socrates       | -470            | -399            | 71               |
-         * // +----------------+-----------------+-----------------+------------------+
-         * //
-         */
-        constructor: function (relationA, parameters) {
+        constructor: function (relation, expression) {
+            /**
+             * @class RExtend
+             * @augments Relation
+             * @param {Relation} relation The relation from which to remove the tuples
+             * @param {extendParameter[]} expression The arguments from which to calculate the new attribute value. It is an array of
+             * @classdesc
+             * The Extend operation allows the addition of calculated {@link Header} {@link Attribute}s
+             * @example
+             *
+             * var relationA = new affinity.Relation([
+             *          {name: { type: affinity.String}},
+             *          {born: { type: affinity.Integer}},
+             *          {died: { type: affinity.Integer}}
+             *      ],[
+             *          ['Aristotle', -384, -322],
+             *          ['Plato',     -428, -348],
+             *          ['Socrates',  -470, -399]
+             *      ]);
+             *
+             * var born = relationA.get('born')
+             * var died = relationA.get('died')
+             *
+             * var relationB = relationA.extend([{ lived : died.minus(born) }]);
+             *
+             * //or
+             *
+             * // LIVED = DIED - BORN
+             *
+             * var relationB = new affinity.Extend(relationA, [{ lived : died.minus(born) }]);
+             *
+             * //                                                       &lt;-EXTENDED ATTR-->
+             * // +----------------+-----------------+-----------------+------------------+
+             * // | name : TString | born : TInteger | died : TInteger | lived : TInteger |
+             * // +================+=================+=================+==================+
+             * // | Aristotle      | -384            | -322            | 62               |
+             * // +----------------+-----------------+-----------------+------------------+
+             * // | Plato          | -428            | -348            | 80               |
+             * // +----------------+-----------------+-----------------+------------------+
+             * // | Socrates       | -470            | -399            | 71               |
+             * // +----------------+-----------------+-----------------+------------------+
+             * //
+             *
+             *
+             * // Possible to add multiple attributes in one call :
+             *
+             * // LIVED = DIED - BORN, SINCE = YEAR(NOW())-DIED
+             *
+             * var relationB = new affinity.Extend(relationA, [
+             *      { lived : died.minus(born) },
+             *      { since: affinity.year(affinity.now()).minus(died) }
+             * ]);
+             *
+             * //                                                       &lt;-EXTENDED ATTR--> &lt;-EXTENDED ATTR-->
+             * // +----------------+-----------------+-----------------+------------------+------------------+
+             * // | name : TString | born : TInteger | died : TInteger | lived : TInteger | since : TInteger |
+             * // +================+=================+=================+==================+==================+
+             * // | Aristotle      | -384            | -322            | 62               | 2335             |
+             * // +----------------+-----------------+-----------------+------------------+------------------+
+             * // | Plato          | -428            | -348            | 80               | 2362             |
+             * // +----------------+-----------------+-----------------+------------------+------------------+
+             * // | Socrates       | -470            | -399            | 71               | 2413             |
+             * // +----------------+-----------------+-----------------+------------------+------------------+
+             * //
+             *
+             * // Possible to have custom defined functions
+             * // Beware though to return the right data type (divisions by zero, tan(π/2), ...)
+             *
+             * // You may as well use this feature, but since affinity will later be a SQL parser too,
+             * // it will obviously not support the translation of custom defined functions into SQL code.
+             * // If you plan have use of affinity's future SQL parser, beware that these custom functions
+             * // will only run in javascript. I would have loved javascript to support overloading of
+             * // operators, but that won't happen anytime soon.
+             *
+             * var relationB = relation.extend([
+             *
+             *      {'lived' : {function(tuple){
+             *          return tuple.get('died')-tuple.get('born');
+             *      }, affinity.Integer},
+             *
+             *      {'died' : {function(tuple){
+             *          return 2014-tuple.get('died')
+             *      }, affinity.Integer},
+             *
+             * ])
+             *
+             */
 
             debug.extend.trace('#constructor');
 
-            this.rels = [relationA, relationB];
+            this.relation = relation;
+            this.expression = expression;
 
             Relation.call(this);
 

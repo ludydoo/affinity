@@ -11,7 +11,7 @@ describe('FAbsolute Class', function(){
 
             var abs = new affinity.Absolute(-10);
 
-            (abs.valueOf()).should.be.equal(10);
+            (abs.value()).should.be.equal(10);
 
             done();
 
@@ -21,7 +21,7 @@ describe('FAbsolute Class', function(){
 
             var abs = new affinity.Absolute(10);
 
-            (abs.valueOf()).should.be.equal(10);
+            (abs.value()).should.be.equal(10);
 
             done();
 
@@ -37,7 +37,7 @@ describe('FAbsolute Class', function(){
 
             var abs = new affinity.Absolute(-10.2);
 
-            (abs.valueOf()).should.be.equal(10.2);
+            (abs.value()).should.be.equal(10.2);
 
             done();
 
@@ -47,7 +47,7 @@ describe('FAbsolute Class', function(){
 
             var abs = new affinity.Absolute(10.2);
 
-            (abs.valueOf()).should.be.equal(10.2);
+            (abs.value()).should.be.equal(10.2);
 
             done();
 
@@ -62,7 +62,7 @@ describe('FAbsolute Class', function(){
 
             var abs = new affinity.Absolute(-0x02);
 
-            (abs.valueOf()).should.be.equal(0x02);
+            (abs.value()).should.be.equal(0x02);
 
             done();
 
@@ -72,7 +72,7 @@ describe('FAbsolute Class', function(){
 
             var abs = new affinity.Absolute(0x02);
 
-            (abs.valueOf()).should.be.equal(0x02);
+            (abs.value()).should.be.equal(0x02);
 
             done();
 
@@ -87,7 +87,7 @@ describe('FAbsolute Class', function(){
 
             var abs = new affinity.Absolute(-10e-2);
 
-            (abs.valueOf()).should.be.equal(10e-2);
+            (abs.value()).should.be.equal(10e-2);
 
             done();
 
@@ -97,7 +97,7 @@ describe('FAbsolute Class', function(){
 
             var abs = new affinity.Absolute(10e2);
 
-            (abs.valueOf()).should.be.equal(10e2);
+            (abs.value()).should.be.equal(10e2);
 
             done();
 

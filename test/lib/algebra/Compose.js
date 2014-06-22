@@ -9,7 +9,6 @@ describe('Compose Class', function(){
 
             it('Should be able to do a compose operator when there is one attribute in common', function(done){
 
-
                 var relationA = new affinity.Relation([
                     {firstName : {type : affinity.String}},
                     {lastName : {type : affinity.String}},
@@ -28,7 +27,7 @@ describe('Compose Class', function(){
                     [23, 'Good'],
                     [30, 'Okay'],
                     [34, 'Mediocre'],
-                    [99, 'Bad'],
+                    [99, 'Bad']
                 ]);
 
                 var composed = relationA.compose(relationB);
@@ -36,9 +35,9 @@ describe('Compose Class', function(){
                 composed.header().count().should.be.equal(3);
                 composed.count().should.be.equal(3);
 
-                composed.equal(relationA.join(relationB).project(['firstName', 'lastName', 'condition'])).should.be.true;
-
                 composed.print();
+
+                composed.equal(relationA.join(relationB).project(['firstName', 'lastName', 'condition'])).should.be.true;
 
                 done();
 
@@ -57,7 +56,7 @@ describe('Compose Class', function(){
                     ['U', '2', 2],
                     ['Lady', 'Gaga', 2],
                     ['Paul', 'McCartney', 3],
-                    ['Django', 'Reinhart', 3],
+                    ['Django', 'Reinhart', 3]
                 ]);
 
                 var rel2 = new affinity.Relation([
@@ -82,8 +81,6 @@ describe('Compose Class', function(){
                 done();
 
             });
-
-
 
         })
 

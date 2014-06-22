@@ -11,7 +11,7 @@ describe('TType class', function () {
 
                 var type = new affinity.Type(String);
 
-                type.value.should.be.equal(String);
+                type.value().should.be.equal(String);
 
                 done();
 

@@ -13,7 +13,7 @@ describe('And class', function(){
 
                 var and = new affinity.And(bool1, bool2);
 
-                (and == false).should.be.true;
+                (and.value()).should.be.equal(false);
 
                 done();
 
@@ -33,7 +33,7 @@ describe('And class', function(){
 
                 var and = new affinity.And(new affinity.Equal(bool1, bool2), new affinity.Equal(bool3, bool4));
 
-                (and == true).should.be.true;
+                (and.value()).should.be.equal(true);
 
                 done();
 
@@ -53,7 +53,7 @@ describe('And class', function(){
 
                 var and = new affinity.And(new affinity.Equal(bool1, bool2), new affinity.Equal(bool3, bool4));
 
-                (and == true).should.be.true;
+                (and.value()).should.be.equal(true);
 
                 done();
 
