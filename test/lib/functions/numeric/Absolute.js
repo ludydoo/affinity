@@ -3,9 +3,7 @@ var should = require('should');
 
 describe('FAbsolute Class', function () {
 
-
     describe('When provided with a negative integer', function () {
-
 
         it('Should return a positive integer if the provided integer is negative', function (done) {
 

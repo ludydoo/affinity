@@ -4,6 +4,19 @@ var should = require('should');
 
 var debug = require('./../../../lib/helpers/debug');
 
+var family = new affinity.Relation([
+    {id : {type : affinity.Integer}},
+    {firstName : {type : affinity.String}},
+    {lastName : {type : affinity.String}},
+],[
+    [1, 'Raymond', 'Cléroux'],
+    [1, 'Michèle', 'Gaboury'],
+    [1, 'Andréanne', 'Cléroux'],
+    [1, 'Ludovic', 'Cléroux'],
+]);
+
+
+
 var employees = new affinity.Relation([
     {id: {type: affinity.Integer}},
     {firstName: {type: affinity.String}},

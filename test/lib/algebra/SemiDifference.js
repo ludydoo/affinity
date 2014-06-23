@@ -30,7 +30,6 @@ describe('SemiDifference class', function () {
 
                 done();
 
-
             })
 
         });

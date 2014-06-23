@@ -22,6 +22,20 @@
 			<ul class="nav">
 				
 				<li class="dropdown">
+					<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="module-affinity.html">affinity</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+				<li class="dropdown">
 					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
 						class="caret"></b></a>
 
@@ -132,11 +146,19 @@
 						</li>
 						
 						<li>
+							<a href="RCompose_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RDifference.html">RDifference</a>
 						</li>
 						
 						<li>
-							<a href="Relation.html">Relation</a>
+							<a href="RDifference_constructor.html">constructor</a>
+						</li>
+						
+						<li>
+							<a href="Relation_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -144,11 +166,23 @@
 						</li>
 						
 						<li>
+							<a href="RExtend_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RGroup.html">RGroup</a>
 						</li>
 						
 						<li>
-							<a href="RIntersection.html">RIntersection</a>
+							<a href="RGroup_constructor.html">constructor</a>
+						</li>
+						
+						<li>
+							<a href="RIntersection_constructor.html">constructor</a>
+						</li>
+						
+						<li>
+							<a href="RIntersection_constructor_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -156,7 +190,15 @@
 						</li>
 						
 						<li>
+							<a href="RJoin_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RProduct.html">RProduct</a>
+						</li>
+						
+						<li>
+							<a href="RProduct_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -164,7 +206,15 @@
 						</li>
 						
 						<li>
+							<a href="RProjection_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RRename.html">RRename</a>
+						</li>
+						
+						<li>
+							<a href="RRename_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -172,7 +222,15 @@
 						</li>
 						
 						<li>
+							<a href="RRestriction_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RSemiDifference.html">RSemiDifference</a>
+						</li>
+						
+						<li>
+							<a href="RSemiDifference_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -180,7 +238,15 @@
 						</li>
 						
 						<li>
+							<a href="RSemiJoin_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RUngroup.html">RUngroup</a>
+						</li>
+						
+						<li>
+							<a href="RUngroup_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -188,11 +254,23 @@
 						</li>
 						
 						<li>
+							<a href="RUnion_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RUnwrap.html">RUnwrap</a>
 						</li>
 						
 						<li>
+							<a href="RUnwrap_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RWrap.html">RWrap</a>
+						</li>
+						
+						<li>
+							<a href="RWrap_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -470,6 +548,13 @@ var relationC = new affinity.Unwrap(relationB, &#x27;unwrappedAttribute&#x27;);
     
 
     
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="RUnwrap_constructor.html">constructor</a></dt>
+            <dd></dd>
+        </dl>
+    
 
     
 
@@ -479,376 +564,6 @@ var relationC = new affinity.Unwrap(relationB, &#x27;unwrappedAttribute&#x27;);
         <h3 class="subsection-title">Methods</h3>
 
         <dl>
-            
-<dt>
-    <h4 class="name" id="add"><span class="type-signature"></span>add<span class="signature">(element, <span class="optional">checkDuplicate</span>)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Adds an element to the set</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-		<th>Argument</th>
-		
-
-		
-		<th>Default</th>
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>element</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>checkDuplicate</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    true
-                
-                </td>
-            
-
-            <td class="description last"><p>Tests for duplicate elements in the set. Set to false to skip this
-verification if you are sure the element is not in the set</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-	<dt class="inherited-from">Inherited From:</dt>
-	<dd class="inherited-from">
-		<ul class="dummy">
-			<li>
-				<a href="Set.html#add">Set#add</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-128">line 128</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>True if the element was added, false otherwise</p>
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">boolean</span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="atIndex"><span class="type-signature"></span>atIndex<span class="signature">(index)</span><span class="type-signature"> &rarr; {*}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Gets the element at the specified index</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>index</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">int</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The index of the element</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-	<dt class="inherited-from">Inherited From:</dt>
-	<dd class="inherited-from">
-		<ul class="dummy">
-			<li>
-				<a href="Set.html#atIndex">Set#atIndex</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-286">line 286</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>The resulting element</p>
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">*</span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-</dd>
-
-        
             
 <dt>
     <h4 class="name" id="body"><span class="type-signature"></span>body<span class="signature">(<span class="optional">tuples</span>)</span><span class="type-signature"> &rarr; {<a href="Set.html">Set</a>|<a href="Relation.html">Relation</a>}</span></h4>
@@ -1045,22 +760,67 @@ console.log(relation.body() === set) // true</pre>
         
             
 <dt>
-    <h4 class="name" id="clone"><span class="type-signature"></span>clone<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="Set.html">Set</a>}</span></h4>
+    <h4 class="name" id="compose"><span class="type-signature"></span>compose<span class="signature">(relation)</span><span class="type-signature"></span></h4>
     
     
 </dt>
 <dd>
     
     
-    <div class="description">
-        <p>Clones a set</p>
-    </div>
-    
 
     
     
     
     
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>relation</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Relation.html">Relation</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
     
     
     
@@ -1076,7 +836,7 @@ console.log(relation.body() === set) // true</pre>
 	<dd class="inherited-from">
 		<ul class="dummy">
 			<li>
-				<a href="Set.html#clone">Set#clone</a>
+				<a href="Relation.html#compose">Relation#compose</a>
 			</li>
 		</ul>
 	</dd>
@@ -1099,8 +859,8 @@ console.log(relation.body() === set) // true</pre>
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-534">line 534</a>
+				<a href="relation.js.html">relation.js</a>,
+				 <a href="relation.js.html#sunlight-1-line-632">line 632</a>
 			</li>
 		</ul>
 	</dd>
@@ -1123,25 +883,6 @@ console.log(relation.body() === set) // true</pre>
     
     
     
-    <h5>Returns:</h5>
-    
-            
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="Set.html">Set</a></span>
-
-
-	</dd>
-</dl>
-
-
-        
     
     
 </dd>
@@ -1270,114 +1011,6 @@ var product2 = relation1.product(relation2);
 product2.compute(); // Calculates the header and the body;</pre>
 
 
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="count"><span class="type-signature"></span>count<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Returns the number of elements in the set</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-	<dt class="inherited-from">Inherited From:</dt>
-	<dd class="inherited-from">
-		<ul class="dummy">
-			<li>
-				<a href="Set.html#count">Set#count</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-332">line 332</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>Number of elements in the set</p>
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">number</span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
     
 </dd>
 
@@ -1571,378 +1204,6 @@ var diff = relation1.difference(relation2);
         
             
 <dt>
-    <h4 class="name" id="each"><span class="type-signature"></span>each<span class="signature">(callback, <span class="optional">context</span>)</span><span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Iterator function for the set</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-		<th>Argument</th>
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>The callback function</p></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>context</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>The &quot;this&quot; context for the callback</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-	<dt class="inherited-from">Inherited From:</dt>
-	<dd class="inherited-from">
-		<ul class="dummy">
-			<li>
-				<a href="Set.html#each">Set#each</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-113">line 113</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="elements"><span class="type-signature"></span>elements<span class="signature">(<span class="optional">elements</span>)</span><span class="type-signature"> &rarr; {null|Array}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Will throw if the type of the Set has not been set</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-		<th>Argument</th>
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>elements</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>elements of the set</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-	<dt class="inherited-from">Inherited From:</dt>
-	<dd class="inherited-from">
-		<ul class="dummy">
-			<li>
-				<a href="Set.html#elements">Set#elements</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-58">line 58</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    <h5>Throws:</h5>
-    
-            
-
-<dl>
-    <dt>
-        <div class="param-desc">
-        Will throw if the type of the Set has not been set
-        </div>
-    </dt>
-    <dt>
-        <dl>
-            <dt>
-                Type
-            </dt>
-            <dd>
-                
-<span class="param-type">Error</span>
-
-
-            </dd>
-        </dl>
-    </dt>
-</dl>
-
-
-        
-    
-    
-    <h5>Returns:</h5>
-    
-            
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">null</span>
-|
-
-<span class="param-type">Array</span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
     <h4 class="name" id="equal"><span class="type-signature"></span>equal<span class="signature">(relation)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
     
     
@@ -2086,323 +1347,6 @@ var diff = relation1.difference(relation2);
 	<dd>
 		
 <span class="param-type">boolean</span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="exists"><span class="type-signature"></span>exists<span class="signature">(element)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Checks if an element exists in the set</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>element</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The element to check for</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-	<dt class="inherited-from">Inherited From:</dt>
-	<dd class="inherited-from">
-		<ul class="dummy">
-			<li>
-				<a href="Set.html#exists">Set#exists</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-318">line 318</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>True if the element exists, false if not</p>
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">boolean</span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="find"><span class="type-signature"></span>find<span class="signature">(element)</span><span class="type-signature"> &rarr; {null|*}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Finds an element</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>element</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The element to find</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-	<dt class="inherited-from">Inherited From:</dt>
-	<dd class="inherited-from">
-		<ul class="dummy">
-			<li>
-				<a href="Set.html#find">Set#find</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-299">line 299</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>the resulting element or null if not found</p>
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">null</span>
-|
-
-<span class="param-type">*</span>
 
 
 	</dd>
@@ -2772,6 +1716,159 @@ console.log(relation.getAt(0).get(&#x27;firstName&#x27;)) // John</pre>
         
             
 <dt>
+    <h4 class="name" id="group"><span class="type-signature"></span>group<span class="signature">(groupingAttributeName, groupedAttributeNames)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>groupingAttributeName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>groupedAttributeNames</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;String></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+	<dt class="inherited-from">Inherited From:</dt>
+	<dd class="inherited-from">
+		<ul class="dummy">
+			<li>
+				<a href="Relation.html#group">Relation#group</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+	<dt class="tag-source">Source:</dt>
+	<dd class="tag-source">
+		<ul class="dummy">
+			<li>
+				<a href="relation.js.html">relation.js</a>,
+				 <a href="relation.js.html#sunlight-1-line-644">line 644</a>
+			</li>
+		</ul>
+	</dd>
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
     <h4 class="name" id="header"><span class="type-signature"></span>header<span class="signature">(<span class="optional">header</span>)</span><span class="type-signature"> &rarr; {null|Object}</span></h4>
     
     
@@ -2940,167 +2037,7 @@ console.log(relation.getAt(0).get(&#x27;firstName&#x27;)) // John</pre>
         
             
 <dt>
-    <h4 class="name" id="index"><span class="type-signature"></span>index<span class="signature">(element)</span><span class="type-signature"> &rarr; {null|index}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Get the index of an element</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>element</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The element to search for</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-	<dt class="inherited-from">Inherited From:</dt>
-	<dd class="inherited-from">
-		<ul class="dummy">
-			<li>
-				<a href="Set.html#index">Set#index</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-265">line 265</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>The index of the element if found, false otherwise</p>
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">null</span>
-|
-
-<span class="param-type">index</span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="intersect"><span class="type-signature"></span>intersect<span class="signature">(relation)</span><span class="type-signature"> &rarr; {<a href="RIntersection.html">RIntersection</a>}</span></h4>
+    <h4 class="name" id="intersect"><span class="type-signature"></span>intersect<span class="signature">(relation)</span><span class="type-signature"> &rarr; {RIntersection}</span></h4>
     
     
 </dt>
@@ -3242,7 +2179,7 @@ console.log(relation.getAt(0).get(&#x27;firstName&#x27;)) // John</pre>
 	</dt>
 	<dd>
 		
-<span class="param-type"><a href="RIntersection.html">RIntersection</a></span>
+<span class="param-type">RIntersection</span>
 
 
 	</dd>
@@ -3545,7 +2482,7 @@ var intersection = relation1.intersect(relation2);
 		<ul class="dummy">
 			<li>
 				<a href="relation.js.html">relation.js</a>,
-				 <a href="relation.js.html#sunlight-1-line-431">line 431</a>
+				 <a href="relation.js.html#sunlight-1-line-433">line 433</a>
 			</li>
 		</ul>
 	</dd>
@@ -3629,114 +2566,6 @@ var join = relation1.join(relation2);
         
             
 <dt>
-    <h4 class="name" id="length"><span class="type-signature"></span>length<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Alias for <a href="Set.html#count">Set#count</a></p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-	<dt class="inherited-from">Inherited From:</dt>
-	<dd class="inherited-from">
-		<ul class="dummy">
-			<li>
-				<a href="Set.html#length">Set#length</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-342">line 342</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>Number of elements in the set</p>
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">number</span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
     <h4 class="name" id="print"><span class="type-signature"></span>print<span class="signature">()</span><span class="type-signature"></span></h4>
     
     
@@ -3792,7 +2621,7 @@ var join = relation1.join(relation2);
 		<ul class="dummy">
 			<li>
 				<a href="relation.js.html">relation.js</a>,
-				 <a href="relation.js.html#sunlight-1-line-686">line 686</a>
+				 <a href="relation.js.html#sunlight-1-line-707">line 707</a>
 			</li>
 		</ul>
 	</dd>
@@ -3926,7 +2755,7 @@ var join = relation1.join(relation2);
 		<ul class="dummy">
 			<li>
 				<a href="relation.js.html">relation.js</a>,
-				 <a href="relation.js.html#sunlight-1-line-478">line 478</a>
+				 <a href="relation.js.html#sunlight-1-line-480">line 480</a>
 			</li>
 		</ul>
 	</dd>
@@ -4127,7 +2956,7 @@ var product = relation1.product(relation2);
 		<ul class="dummy">
 			<li>
 				<a href="relation.js.html">relation.js</a>,
-				 <a href="relation.js.html#sunlight-1-line-520">line 520</a>
+				 <a href="relation.js.html#sunlight-1-line-522">line 522</a>
 			</li>
 		</ul>
 	</dd>
@@ -4388,140 +3217,6 @@ relation.remove(tuple) // false, it was already removed</pre>
         
             
 <dt>
-    <h4 class="name" id="removeAt"><span class="type-signature"></span>removeAt<span class="signature">(index)</span><span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Removes an element at the specified index</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>index</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The index at which to remove the element</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-	<dt class="inherited-from">Inherited From:</dt>
-	<dd class="inherited-from">
-		<ul class="dummy">
-			<li>
-				<a href="Set.html#removeAt">Set#removeAt</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-198">line 198</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-</dd>
-
-        
-            
-<dt>
     <h4 class="name" id="rename"><span class="type-signature"></span>rename<span class="signature">(newNames)</span><span class="type-signature"> &rarr; {Rename}</span></h4>
     
     
@@ -4626,7 +3321,7 @@ relation.remove(tuple) // false, it was already removed</pre>
 		<ul class="dummy">
 			<li>
 				<a href="relation.js.html">relation.js</a>,
-				 <a href="relation.js.html#sunlight-1-line-554">line 554</a>
+				 <a href="relation.js.html#sunlight-1-line-556">line 556</a>
 			</li>
 		</ul>
 	</dd>
@@ -4808,7 +3503,7 @@ var rename = relation1.rename({lastName : &#x27;Boogie&#x27;});
 		<ul class="dummy">
 			<li>
 				<a href="relation.js.html">relation.js</a>,
-				 <a href="relation.js.html#sunlight-1-line-608">line 608</a>
+				 <a href="relation.js.html#sunlight-1-line-610">line 610</a>
 			</li>
 		</ul>
 	</dd>
@@ -4906,783 +3601,6 @@ relation.restrict( (relation.get(&#x27;firstName&#x27;).not().equal(&#x27;John&#
         
             
 <dt>
-    <h4 class="name" id="setDifference"><span class="type-signature"></span>setDifference<span class="signature">(set2)</span><span class="type-signature"> &rarr; {<a href="Set.html">Set</a>}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Perform a difference between two sets</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>set2</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="Set.html">Set</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The set acting as apastry cutter</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-	<dt class="inherited-from">Inherited From:</dt>
-	<dd class="inherited-from">
-		<ul class="dummy">
-			<li>
-				<a href="Set.html#setDifference">Set#setDifference</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-383">line 383</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="Set.html">Set</a></span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="setIntersection"><span class="type-signature"></span>setIntersection<span class="signature">(set2)</span><span class="type-signature"> &rarr; {<a href="Set.html">Set</a>}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Performs an intersection with another set</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>set2</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="Set.html">Set</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The set to be intersected with</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-	<dt class="inherited-from">Inherited From:</dt>
-	<dd class="inherited-from">
-		<ul class="dummy">
-			<li>
-				<a href="Set.html#setIntersection">Set#setIntersection</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-435">line 435</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>The resulting set</p>
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="Set.html">Set</a></span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="setProduct"><span class="type-signature"></span>setProduct<span class="signature">(set2)</span><span class="type-signature"> &rarr; {<a href="Set.html">Set</a>}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Performs a product on two sets</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>set2</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="Set.html">Set</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The set to perform product with</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-	<dt class="inherited-from">Inherited From:</dt>
-	<dd class="inherited-from">
-		<ul class="dummy">
-			<li>
-				<a href="Set.html#setProduct">Set#setProduct</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-407">line 407</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="Set.html">Set</a></span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="setSymmetricDifference"><span class="type-signature"></span>setSymmetricDifference<span class="signature">(set2)</span><span class="type-signature"> &rarr; {<a href="Set.html">Set</a>}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Performs a symmetric difference</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>set2</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="Set.html">Set</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The set to peform symmetric difference against</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-	<dt class="inherited-from">Inherited From:</dt>
-	<dd class="inherited-from">
-		<ul class="dummy">
-			<li>
-				<a href="Set.html#setSymmetricDifference">Set#setSymmetricDifference</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-459">line 459</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>The resulting set</p>
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="Set.html">Set</a></span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="setUnion"><span class="type-signature"></span>setUnion<span class="signature">(set2)</span><span class="type-signature"> &rarr; {<a href="Set.html">Set</a>}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Unites two sets</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>set2</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="Set.html">Set</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The set to perform union with</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-	<dt class="inherited-from">Inherited From:</dt>
-	<dd class="inherited-from">
-		<ul class="dummy">
-			<li>
-				<a href="Set.html#setUnion">Set#setUnion</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-353">line 353</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>The resulting set</p>
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="Set.html">Set</a></span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
     <h4 class="name" id="toString"><span class="type-signature"></span>toString<span class="signature">()</span><span class="type-signature"> &rarr; {String}</span></h4>
     
     
@@ -5738,7 +3656,7 @@ relation.restrict( (relation.get(&#x27;firstName&#x27;).not().equal(&#x27;John&#
 		<ul class="dummy">
 			<li>
 				<a href="relation.js.html">relation.js</a>,
-				 <a href="relation.js.html#sunlight-1-line-697">line 697</a>
+				 <a href="relation.js.html#sunlight-1-line-718">line 718</a>
 			</li>
 		</ul>
 	</dd>
@@ -5791,16 +3709,12 @@ relation.restrict( (relation.get(&#x27;firstName&#x27;).not().equal(&#x27;John&#
         
             
 <dt>
-    <h4 class="name" id="type"><span class="type-signature"></span>type<span class="signature">(<span class="optional">type</span>)</span><span class="type-signature"> &rarr; {null|<a href="Type.html">Type</a>}</span></h4>
+    <h4 class="name" id="ungroup"><span class="type-signature"></span>ungroup<span class="signature">(groupedAttributeNames)</span><span class="type-signature"></span></h4>
     
     
 </dt>
 <dd>
     
-    
-    <div class="description">
-        <p>Getter/Setter for the type parameter</p>
-    </div>
     
 
     
@@ -5821,8 +3735,6 @@ relation.restrict( (relation.get(&#x27;firstName&#x27;).not().equal(&#x27;John&#
 		<th>Type</th>
 
 		
-		<th>Argument</th>
-		
 
 		
 
@@ -5835,33 +3747,23 @@ relation.restrict( (relation.get(&#x27;firstName&#x27;).not().equal(&#x27;John&#
 
         <tr>
             
-                <td class="name"><code>type</code></td>
+                <td class="name"><code>groupedAttributeNames</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="Type.html">Type</a></span>
+<span class="param-type">Array.&lt;String></span>
 
 
             
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last"><p>The type of the Set</p></td>
+            <td class="description last"></td>
         </tr>
 
 	
@@ -5883,7 +3785,7 @@ relation.restrict( (relation.get(&#x27;firstName&#x27;).not().equal(&#x27;John&#
 	<dd class="inherited-from">
 		<ul class="dummy">
 			<li>
-				<a href="Set.html#type">Set#type</a>
+				<a href="Relation.html#ungroup">Relation#ungroup</a>
 			</li>
 		</ul>
 	</dd>
@@ -5906,8 +3808,8 @@ relation.restrict( (relation.get(&#x27;firstName&#x27;).not().equal(&#x27;John&#
 	<dd class="tag-source">
 		<ul class="dummy">
 			<li>
-				<a href="set.js.html">set.js</a>,
-				 <a href="set.js.html#sunlight-1-line-96">line 96</a>
+				<a href="relation.js.html">relation.js</a>,
+				 <a href="relation.js.html#sunlight-1-line-655">line 655</a>
 			</li>
 		</ul>
 	</dd>
@@ -5930,28 +3832,6 @@ relation.restrict( (relation.get(&#x27;firstName&#x27;).not().equal(&#x27;John&#
     
     
     
-    <h5>Returns:</h5>
-    
-            
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">null</span>
-|
-
-<span class="param-type"><a href="Type.html">Type</a></span>
-
-
-	</dd>
-</dl>
-
-
-        
     
     
 </dd>
@@ -6063,7 +3943,7 @@ relation.restrict( (relation.get(&#x27;firstName&#x27;).not().equal(&#x27;John&#
 		<ul class="dummy">
 			<li>
 				<a href="relation.js.html">relation.js</a>,
-				 <a href="relation.js.html#sunlight-1-line-620">line 620</a>
+				 <a href="relation.js.html#sunlight-1-line-622">line 622</a>
 			</li>
 		</ul>
 	</dd>
@@ -6139,7 +4019,7 @@ relation.restrict( (relation.get(&#x27;firstName&#x27;).not().equal(&#x27;John&#
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha8</a>
-		on Sat Jun 21st 2014 using the <a
+		on Mon Jun 23rd 2014 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>

@@ -22,6 +22,20 @@
 			<ul class="nav">
 				
 				<li class="dropdown">
+					<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="module-affinity.html">affinity</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+				<li class="dropdown">
 					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
 						class="caret"></b></a>
 
@@ -132,11 +146,19 @@
 						</li>
 						
 						<li>
+							<a href="RCompose_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RDifference.html">RDifference</a>
 						</li>
 						
 						<li>
-							<a href="Relation.html">Relation</a>
+							<a href="RDifference_constructor.html">constructor</a>
+						</li>
+						
+						<li>
+							<a href="Relation_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -144,11 +166,23 @@
 						</li>
 						
 						<li>
+							<a href="RExtend_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RGroup.html">RGroup</a>
 						</li>
 						
 						<li>
-							<a href="RIntersection.html">RIntersection</a>
+							<a href="RGroup_constructor.html">constructor</a>
+						</li>
+						
+						<li>
+							<a href="RIntersection_constructor.html">constructor</a>
+						</li>
+						
+						<li>
+							<a href="RIntersection_constructor_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -156,7 +190,15 @@
 						</li>
 						
 						<li>
+							<a href="RJoin_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RProduct.html">RProduct</a>
+						</li>
+						
+						<li>
+							<a href="RProduct_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -164,7 +206,15 @@
 						</li>
 						
 						<li>
+							<a href="RProjection_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RRename.html">RRename</a>
+						</li>
+						
+						<li>
+							<a href="RRename_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -172,7 +222,15 @@
 						</li>
 						
 						<li>
+							<a href="RRestriction_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RSemiDifference.html">RSemiDifference</a>
+						</li>
+						
+						<li>
+							<a href="RSemiDifference_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -180,7 +238,15 @@
 						</li>
 						
 						<li>
+							<a href="RSemiJoin_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RUngroup.html">RUngroup</a>
+						</li>
+						
+						<li>
+							<a href="RUngroup_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -188,11 +254,23 @@
 						</li>
 						
 						<li>
+							<a href="RUnion_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RUnwrap.html">RUnwrap</a>
 						</li>
 						
 						<li>
+							<a href="RUnwrap_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RWrap.html">RWrap</a>
+						</li>
+						
+						<li>
+							<a href="RWrap_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -385,152 +463,6 @@ var Attribute = Base.extend(
             return this;
         },
 
-        /**
-         * Shortcut method for {@link FEqual}
-         *
-         * This method is used when building predicates for a {@link RRestriction} operation.
-         *
-         * @param {*} expression Predicate Expression
-         * @returns {FEqual|FNot} Function
-         * @example
-         *
-         * var relation = new affinity.Relation([
-         *          {'firstName' : {type : affinity.String}},
-         *          {'lastName' : {type : affinity.String}},
-         *      ],[
-         *          ['John', 'Doe'],
-         *          ['Mary', 'Poppins']
-         *      ])
-         *
-         * var firstName = relation.get('firstName');
-         *
-         * var restricted = relation.restrict(firstName.equals('John'));
-         *
-         */
-        equals: function (expression) {
-
-            return this.checkNegate(new (require('./functions/comparable/Equal.js'))(this, expression));
-
-        },
-
-        /**
-         * Shortcut method for {@link FLargerThan}
-         *
-         * This method is used when building predicates for {@link RRestriction} operations.
-         * @param {*} expression Predicate Expression
-         * @returns {FLargerThan|FNot}
-         * @example
-         *
-         * var relation = new affinity.Relation([
-         *          {'firstName' : {type : affinity.String}},
-         *          {'lastName' : {type : affinity.String}},
-         *          {'age', {type : affinity.Integer}}
-         *      ],[
-         *          ['John', 'Doe', 34],
-         *          ['Mary', 'Poppins', 98]
-         *      ])
-         *
-         * var age = relation.get('age');
-         *
-         * var restricted = relation.restrict(age.lt(50));
-         *
-         */
-        lt: function (expression) {
-
-            return this.checkNegate(new (require('./functions/comparable/LargerThan.js'))(this, expression));
-
-        },
-
-        /**
-         * Shortcut method for {@link FLargerThanEqual}
-         *
-         * This method is used when building predicates for {@link RRestriction} operations.
-         * @param {*} expression Predicate Expression
-         * @returns {FLargerThanEqual|FNot} Function
-         * @example
-         *
-         * var relation = new affinity.Relation([
-         *          {'firstName' : {type : affinity.String}},
-         *          {'lastName' : {type : affinity.String}},
-         *          {'age', {type : affinity.Integer}}
-         *      ],[
-         *          ['John', 'Doe', 34],
-         *          ['Mary', 'Poppins', 98]
-         *      ])
-         *
-         * var age = relation.get('age');
-         *
-         * var restricted = relation.restrict(age.lte(34));
-         *
-         */
-        lte: function (expression) {
-
-            return this.checkNegate(new (require('./functions/comparable/LargerThanEqual.js'))(this, expression));
-        },
-
-        /**
-         * Shortcut method for {@link FSmallerThan}
-         *
-         * This method is used when building predicates for {@link RRestriction} operations.
-         * @param {*} expression Predicate Expression
-         * @returns {FSmallerThan|FNot} Function
-         * @example
-         *
-         * var relation = new affinity.Relation([
-         *          {'firstName' : {type : affinity.String}},
-         *          {'lastName' : {type : affinity.String}},
-         *          {'age', {type : affinity.Integer}}
-         *      ],[
-         *          ['John', 'Doe', 34],
-         *          ['Mary', 'Poppins', 98]
-         *      ])
-         *
-         * var age = relation.get('age');
-         *
-         * var restricted = relation.restrict(age.st(50));
-         *
-         */
-        st: function (expression) {
-
-            return this.checkNegate(new (require('./functions/comparable/SmallerThan.js'))(this, expression));
-
-        },
-
-        /**
-         * Shortcut method for {@link FSmallerThanEqual}
-         *
-         * This method is used when building predicates for {@link RRestriction} operations.
-         * @param {*} expression Predicate Expression
-         * @returns {FSmallerThanEqual|FNot} Function
-         * @example
-         *
-         * var relation = new affinity.Relation([
-         *          {'firstName' : {type : affinity.String}},
-         *          {'lastName' : {type : affinity.String}},
-         *          {'age', {type : affinity.Integer}}
-         *      ],[
-         *          ['John', 'Doe', 34],
-         *          ['Mary', 'Poppins', 98]
-         *      ])
-         *
-         * var age = relation.get('age');
-         *
-         * var restricted = relation.restrict(age.st(50));
-         *
-         */
-        ste: function (expression) {
-
-            return this.checkNegate(new (require('./functions/comparable/SmallerThanEqual.js'))(this, expression));
-
-        },
-
-        /**
-         * Shortcut to Absolute operator
-         * @param attr
-         */
-        abs : function(attr){
-            return new (require('./functions/numeric/Absolute.js'))(this);
-        },
 
         checkNegate: function (expression) {
 
@@ -679,6 +611,10 @@ var Attribute = Base.extend(
 
     });
 
+Attribute.mixin(require('./mixins/comparable'));
+Attribute.mixin(require('./mixins/numeric'));
+Attribute.mixin(require('./mixins/size-comparable'));
+
 module.exports = Attribute;
 
 /*
@@ -715,7 +651,7 @@ module.exports = Attribute;
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha8</a>
-		on Sat Jun 21st 2014 using the <a
+		on Mon Jun 23rd 2014 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>

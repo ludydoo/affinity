@@ -39,9 +39,9 @@ describe('Restrict class', function () {
 
         it('Should be able to perform the restrict operation', function (done) {
 
-            var restricted = employees.restrict(dept.eq(1));
+            var restricted = employees.restrict(dept.gt(2));
 
-            restricted.count().should.be.equal(2);
+            restricted.count().should.be.equal(3);
 
             debug.reldump.debug(restricted.toString());
 

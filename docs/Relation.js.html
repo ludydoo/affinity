@@ -22,6 +22,20 @@
 			<ul class="nav">
 				
 				<li class="dropdown">
+					<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="module-affinity.html">affinity</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+				<li class="dropdown">
 					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
 						class="caret"></b></a>
 
@@ -132,11 +146,19 @@
 						</li>
 						
 						<li>
+							<a href="RCompose_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RDifference.html">RDifference</a>
 						</li>
 						
 						<li>
-							<a href="Relation.html">Relation</a>
+							<a href="RDifference_constructor.html">constructor</a>
+						</li>
+						
+						<li>
+							<a href="Relation_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -144,11 +166,23 @@
 						</li>
 						
 						<li>
+							<a href="RExtend_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RGroup.html">RGroup</a>
 						</li>
 						
 						<li>
-							<a href="RIntersection.html">RIntersection</a>
+							<a href="RGroup_constructor.html">constructor</a>
+						</li>
+						
+						<li>
+							<a href="RIntersection_constructor.html">constructor</a>
+						</li>
+						
+						<li>
+							<a href="RIntersection_constructor_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -156,7 +190,15 @@
 						</li>
 						
 						<li>
+							<a href="RJoin_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RProduct.html">RProduct</a>
+						</li>
+						
+						<li>
+							<a href="RProduct_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -164,7 +206,15 @@
 						</li>
 						
 						<li>
+							<a href="RProjection_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RRename.html">RRename</a>
+						</li>
+						
+						<li>
+							<a href="RRename_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -172,7 +222,15 @@
 						</li>
 						
 						<li>
+							<a href="RRestriction_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RSemiDifference.html">RSemiDifference</a>
+						</li>
+						
+						<li>
+							<a href="RSemiDifference_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -180,7 +238,15 @@
 						</li>
 						
 						<li>
+							<a href="RSemiJoin_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RUngroup.html">RUngroup</a>
+						</li>
+						
+						<li>
+							<a href="RUngroup_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -188,11 +254,23 @@
 						</li>
 						
 						<li>
+							<a href="RUnion_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RUnwrap.html">RUnwrap</a>
 						</li>
 						
 						<li>
+							<a href="RUnwrap_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RWrap.html">RWrap</a>
+						</li>
+						
+						<li>
+							<a href="RWrap_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -250,6 +328,7 @@ var _ = require('lodash');
 var Set = require('./Set');
 var debug = require('./helpers/debug');
 
+
 var Relation = Set.extend(
     /**
      * @lends Relation.prototype
@@ -262,12 +341,11 @@ var Relation = Set.extend(
          * A Relation is basically a {@link Set}, implementing the basic set operators (Union, Difference, Intersection, Product)
          * and adding more operators. It also has a {@link Header}, and adds constraints to the basic {@link Set} behavior.
          *
+         * @constructor
          * @param {Header|Object[]|Attribute[]} header Header of the Relation
          * @param {Tuple[]|Object[]} body Body of the Relation
          * @augments Set
          * @class Relation
-         *
-         *
          */
         constructor: function (header, body) {
 
@@ -637,7 +715,9 @@ var Relation = Set.extend(
 
             debug.relation.trace('#intersect');
 
-            return new (require('./algebra/Intersection'))(this, relation);
+            var Intersection = require('./algebra/Intersection');
+
+            return new Intersection(this, relation);
         },
 
         /**
@@ -869,6 +949,9 @@ var Relation = Set.extend(
             return new (require('./algebra/Union'))(this, relation);
         },
 
+        /**
+         * @param {Relation} relation
+         */
         compose : function(relation){
 
             debug.relation.trace('#compose');
@@ -877,6 +960,10 @@ var Relation = Set.extend(
 
         },
 
+        /**
+         * @param {String} groupingAttributeName
+         * @param {String[]} groupedAttributeNames
+         */
         group : function(groupingAttributeName, groupedAttributeNames){
 
             debug.relation.trace('#group');
@@ -885,6 +972,9 @@ var Relation = Set.extend(
 
         },
 
+        /**
+         * @param {String[]} groupedAttributeNames
+         */
         ungroup : function(groupedAttributeNames){
 
             debug.relation.trace('#ungroup');
@@ -924,6 +1014,15 @@ var Relation = Set.extend(
             return new (require('./algebra/Unwrap'))(this, wrappedAttributeNames);
 
         },
+
+        extend : function(expressions){
+
+            debug.relation.trace('#extend');
+
+            return new (require('./algebra/Extend'))(this, expressions);
+
+        },
+
 
         /**
          * Prints the printable representation of the Relation to console
@@ -1207,7 +1306,7 @@ module.exports = Relation;
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha8</a>
-		on Sat Jun 21st 2014 using the <a
+		on Mon Jun 23rd 2014 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>

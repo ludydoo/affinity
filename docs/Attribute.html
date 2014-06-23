@@ -22,6 +22,20 @@
 			<ul class="nav">
 				
 				<li class="dropdown">
+					<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="module-affinity.html">affinity</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+				<li class="dropdown">
 					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
 						class="caret"></b></a>
 
@@ -132,11 +146,19 @@
 						</li>
 						
 						<li>
+							<a href="RCompose_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RDifference.html">RDifference</a>
 						</li>
 						
 						<li>
-							<a href="Relation.html">Relation</a>
+							<a href="RDifference_constructor.html">constructor</a>
+						</li>
+						
+						<li>
+							<a href="Relation_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -144,11 +166,23 @@
 						</li>
 						
 						<li>
+							<a href="RExtend_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RGroup.html">RGroup</a>
 						</li>
 						
 						<li>
-							<a href="RIntersection.html">RIntersection</a>
+							<a href="RGroup_constructor.html">constructor</a>
+						</li>
+						
+						<li>
+							<a href="RIntersection_constructor.html">constructor</a>
+						</li>
+						
+						<li>
+							<a href="RIntersection_constructor_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -156,7 +190,15 @@
 						</li>
 						
 						<li>
+							<a href="RJoin_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RProduct.html">RProduct</a>
+						</li>
+						
+						<li>
+							<a href="RProduct_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -164,7 +206,15 @@
 						</li>
 						
 						<li>
+							<a href="RProjection_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RRename.html">RRename</a>
+						</li>
+						
+						<li>
+							<a href="RRename_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -172,7 +222,15 @@
 						</li>
 						
 						<li>
+							<a href="RRestriction_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RSemiDifference.html">RSemiDifference</a>
+						</li>
+						
+						<li>
+							<a href="RSemiDifference_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -180,7 +238,15 @@
 						</li>
 						
 						<li>
+							<a href="RSemiJoin_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RUngroup.html">RUngroup</a>
+						</li>
+						
+						<li>
+							<a href="RUngroup_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -188,11 +254,23 @@
 						</li>
 						
 						<li>
+							<a href="RUnion_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RUnwrap.html">RUnwrap</a>
 						</li>
 						
 						<li>
+							<a href="RUnwrap_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RWrap.html">RWrap</a>
+						</li>
+						
+						<li>
+							<a href="RWrap_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -601,7 +679,7 @@ var ln = new affinity.Attribute({name : &#x27;LastName&#x27;, type : &#x27;affin
 		<ul class="dummy">
 			<li>
 				<a href="attribute.js.html">attribute.js</a>,
-				 <a href="attribute.js.html#sunlight-1-line-372">line 372</a>
+				 <a href="attribute.js.html#sunlight-1-line-226">line 226</a>
 			</li>
 		</ul>
 	</dd>
@@ -672,7 +750,7 @@ affinity.Attribute.coerce(fn2).equal(fn1) // true</pre>
     
     <div class="description">
         <p>Tests for equality between two attributes</p>
-<p>Warning! This method is not the same as <a href="Attribute.html#equals">Attribute#equals</a></p>
+<p>Warning! This method is not the same as Attribute#equals</p>
 <p>This method returns a Boolean. It cannot be part of a predicate.</p>
     </div>
     
@@ -783,7 +861,7 @@ affinity.Attribute.coerce(fn2).equal(fn1) // true</pre>
 		<ul class="dummy">
 			<li>
 				<a href="attribute.js.html">attribute.js</a>,
-				 <a href="attribute.js.html#sunlight-1-line-348">line 348</a>
+				 <a href="attribute.js.html#sunlight-1-line-202">line 202</a>
 			</li>
 		</ul>
 	</dd>
@@ -825,126 +903,6 @@ affinity.Attribute.coerce(fn2).equal(fn1) // true</pre>
 
 
         
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="abs"><span class="type-signature"></span>abs<span class="signature">(attr)</span><span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Shortcut to Absolute operator</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>attr</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="attribute.js.html">attribute.js</a>,
-				 <a href="attribute.js.html#sunlight-1-line-286">line 286</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
     
     
 </dd>
@@ -1065,508 +1023,6 @@ ln.equal(fn) // false</pre>
         
             
 <dt>
-    <h4 class="name" id="equals"><span class="type-signature"></span>equals<span class="signature">(expression)</span><span class="type-signature"> &rarr; {<a href="FEqual.html">FEqual</a>|<a href="FNot.html">FNot</a>}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Shortcut method for <a href="FEqual.html">FEqual</a></p>
-<p>This method is used when building predicates for a <a href="RRestriction.html">RRestriction</a> operation.</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>expression</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Predicate Expression</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="attribute.js.html">attribute.js</a>,
-				 <a href="attribute.js.html#sunlight-1-line-165">line 165</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>Function</p>
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="FEqual.html">FEqual</a></span>
-|
-
-<span class="param-type"><a href="FNot.html">FNot</a></span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-        <h5>Example</h5>
-        
-    <pre class="sunlight-highlight-javascript">var relation = new affinity.Relation([
-         {&#x27;firstName&#x27; : {type : affinity.String}},
-         {&#x27;lastName&#x27; : {type : affinity.String}},
-     ],[
-         [&#x27;John&#x27;, &#x27;Doe&#x27;],
-         [&#x27;Mary&#x27;, &#x27;Poppins&#x27;]
-     ])
-
-var firstName = relation.get(&#x27;firstName&#x27;);
-
-var restricted = relation.restrict(firstName.equals(&#x27;John&#x27;));</pre>
-
-
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="lt"><span class="type-signature"></span>lt<span class="signature">(expression)</span><span class="type-signature"> &rarr; {<a href="FLargerThan.html">FLargerThan</a>|<a href="FNot.html">FNot</a>}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Shortcut method for <a href="FLargerThan.html">FLargerThan</a></p>
-<p>This method is used when building predicates for <a href="RRestriction.html">RRestriction</a> operations.</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>expression</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Predicate Expression</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="attribute.js.html">attribute.js</a>,
-				 <a href="attribute.js.html#sunlight-1-line-193">line 193</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="FLargerThan.html">FLargerThan</a></span>
-|
-
-<span class="param-type"><a href="FNot.html">FNot</a></span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-        <h5>Example</h5>
-        
-    <pre class="sunlight-highlight-javascript">var relation = new affinity.Relation([
-         {&#x27;firstName&#x27; : {type : affinity.String}},
-         {&#x27;lastName&#x27; : {type : affinity.String}},
-         {&#x27;age&#x27;, {type : affinity.Integer}}
-     ],[
-         [&#x27;John&#x27;, &#x27;Doe&#x27;, 34],
-         [&#x27;Mary&#x27;, &#x27;Poppins&#x27;, 98]
-     ])
-
-var age = relation.get(&#x27;age&#x27;);
-
-var restricted = relation.restrict(age.lt(50));</pre>
-
-
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="lte"><span class="type-signature"></span>lte<span class="signature">(expression)</span><span class="type-signature"> &rarr; {<a href="FLargerThanEqual.html">FLargerThanEqual</a>|<a href="FNot.html">FNot</a>}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Shortcut method for <a href="FLargerThanEqual.html">FLargerThanEqual</a></p>
-<p>This method is used when building predicates for <a href="RRestriction.html">RRestriction</a> operations.</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>expression</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Predicate Expression</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="attribute.js.html">attribute.js</a>,
-				 <a href="attribute.js.html#sunlight-1-line-221">line 221</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>Function</p>
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="FLargerThanEqual.html">FLargerThanEqual</a></span>
-|
-
-<span class="param-type"><a href="FNot.html">FNot</a></span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-        <h5>Example</h5>
-        
-    <pre class="sunlight-highlight-javascript">var relation = new affinity.Relation([
-         {&#x27;firstName&#x27; : {type : affinity.String}},
-         {&#x27;lastName&#x27; : {type : affinity.String}},
-         {&#x27;age&#x27;, {type : affinity.Integer}}
-     ],[
-         [&#x27;John&#x27;, &#x27;Doe&#x27;, 34],
-         [&#x27;Mary&#x27;, &#x27;Poppins&#x27;, 98]
-     ])
-
-var age = relation.get(&#x27;age&#x27;);
-
-var restricted = relation.restrict(age.lte(34));</pre>
-
-
-    
-</dd>
-
-        
-            
-<dt>
     <h4 class="name" id="not"><span class="type-signature"></span>not<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="Attribute.html">Attribute</a>}</span></h4>
     
     
@@ -1666,344 +1122,6 @@ var restricted = relation.restrict(age.lte(34));</pre>
         
             
 <dt>
-    <h4 class="name" id="st"><span class="type-signature"></span>st<span class="signature">(expression)</span><span class="type-signature"> &rarr; {<a href="FSmallerThan.html">FSmallerThan</a>|<a href="FNot.html">FNot</a>}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Shortcut method for <a href="FSmallerThan.html">FSmallerThan</a></p>
-<p>This method is used when building predicates for <a href="RRestriction.html">RRestriction</a> operations.</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>expression</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Predicate Expression</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="attribute.js.html">attribute.js</a>,
-				 <a href="attribute.js.html#sunlight-1-line-248">line 248</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>Function</p>
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="FSmallerThan.html">FSmallerThan</a></span>
-|
-
-<span class="param-type"><a href="FNot.html">FNot</a></span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-        <h5>Example</h5>
-        
-    <pre class="sunlight-highlight-javascript">var relation = new affinity.Relation([
-         {&#x27;firstName&#x27; : {type : affinity.String}},
-         {&#x27;lastName&#x27; : {type : affinity.String}},
-         {&#x27;age&#x27;, {type : affinity.Integer}}
-     ],[
-         [&#x27;John&#x27;, &#x27;Doe&#x27;, 34],
-         [&#x27;Mary&#x27;, &#x27;Poppins&#x27;, 98]
-     ])
-
-var age = relation.get(&#x27;age&#x27;);
-
-var restricted = relation.restrict(age.st(50));</pre>
-
-
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="ste"><span class="type-signature"></span>ste<span class="signature">(expression)</span><span class="type-signature"> &rarr; {<a href="FSmallerThanEqual.html">FSmallerThanEqual</a>|<a href="FNot.html">FNot</a>}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Shortcut method for <a href="FSmallerThanEqual.html">FSmallerThanEqual</a></p>
-<p>This method is used when building predicates for <a href="RRestriction.html">RRestriction</a> operations.</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>expression</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">*</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Predicate Expression</p></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-	<dt class="tag-source">Source:</dt>
-	<dd class="tag-source">
-		<ul class="dummy">
-			<li>
-				<a href="attribute.js.html">attribute.js</a>,
-				 <a href="attribute.js.html#sunlight-1-line-276">line 276</a>
-			</li>
-		</ul>
-	</dd>
-	
-
-	
-
-	
-
-	
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    <p>Function</p>
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="FSmallerThanEqual.html">FSmallerThanEqual</a></span>
-|
-
-<span class="param-type"><a href="FNot.html">FNot</a></span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-        <h5>Example</h5>
-        
-    <pre class="sunlight-highlight-javascript">var relation = new affinity.Relation([
-         {&#x27;firstName&#x27; : {type : affinity.String}},
-         {&#x27;lastName&#x27; : {type : affinity.String}},
-         {&#x27;age&#x27;, {type : affinity.Integer}}
-     ],[
-         [&#x27;John&#x27;, &#x27;Doe&#x27;, 34],
-         [&#x27;Mary&#x27;, &#x27;Poppins&#x27;, 98]
-     ])
-
-var age = relation.get(&#x27;age&#x27;);
-
-var restricted = relation.restrict(age.st(50));</pre>
-
-
-    
-</dd>
-
-        
-            
-<dt>
     <h4 class="name" id="toString"><span class="type-signature"></span>toString<span class="signature">()</span><span class="type-signature"></span></h4>
     
     
@@ -2051,7 +1169,7 @@ as a Unicode Table.</p>
 		<ul class="dummy">
 			<li>
 				<a href="attribute.js.html">attribute.js</a>,
-				 <a href="attribute.js.html#sunlight-1-line-307">line 307</a>
+				 <a href="attribute.js.html#sunlight-1-line-161">line 161</a>
 			</li>
 		</ul>
 	</dd>
@@ -2104,7 +1222,7 @@ as a Unicode Table.</p>
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha8</a>
-		on Sat Jun 21st 2014 using the <a
+		on Mon Jun 23rd 2014 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>

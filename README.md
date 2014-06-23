@@ -12,6 +12,8 @@ DEE    http://www.quicksort.co.uk
 ##To-do list for 0.1.0##
 
 * [ ] Implement Extend operation
+* [ ] Implement a DUPLICATE false/true for operators to choose between creating a new relation and only updating one. 
+Currently affinity always creates new relations on every operation.
 * [ ] Implement Summarize operation
 * [ ] Implement comparison operators (lt, gt, eq, ...)
 * [ ] Implement date, string and numeric functions (cos, sin, ...)

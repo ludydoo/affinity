@@ -22,6 +22,20 @@
 			<ul class="nav">
 				
 				<li class="dropdown">
+					<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="module-affinity.html">affinity</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+				<li class="dropdown">
 					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
 						class="caret"></b></a>
 
@@ -132,11 +146,19 @@
 						</li>
 						
 						<li>
+							<a href="RCompose_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RDifference.html">RDifference</a>
 						</li>
 						
 						<li>
-							<a href="Relation.html">Relation</a>
+							<a href="RDifference_constructor.html">constructor</a>
+						</li>
+						
+						<li>
+							<a href="Relation_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -144,11 +166,23 @@
 						</li>
 						
 						<li>
+							<a href="RExtend_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RGroup.html">RGroup</a>
 						</li>
 						
 						<li>
-							<a href="RIntersection.html">RIntersection</a>
+							<a href="RGroup_constructor.html">constructor</a>
+						</li>
+						
+						<li>
+							<a href="RIntersection_constructor.html">constructor</a>
+						</li>
+						
+						<li>
+							<a href="RIntersection_constructor_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -156,7 +190,15 @@
 						</li>
 						
 						<li>
+							<a href="RJoin_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RProduct.html">RProduct</a>
+						</li>
+						
+						<li>
+							<a href="RProduct_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -164,7 +206,15 @@
 						</li>
 						
 						<li>
+							<a href="RProjection_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RRename.html">RRename</a>
+						</li>
+						
+						<li>
+							<a href="RRename_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -172,7 +222,15 @@
 						</li>
 						
 						<li>
+							<a href="RRestriction_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RSemiDifference.html">RSemiDifference</a>
+						</li>
+						
+						<li>
+							<a href="RSemiDifference_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -180,7 +238,15 @@
 						</li>
 						
 						<li>
+							<a href="RSemiJoin_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RUngroup.html">RUngroup</a>
+						</li>
+						
+						<li>
+							<a href="RUngroup_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -188,11 +254,23 @@
 						</li>
 						
 						<li>
+							<a href="RUnion_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RUnwrap.html">RUnwrap</a>
 						</li>
 						
 						<li>
+							<a href="RUnwrap_constructor.html">constructor</a>
+						</li>
+						
+						<li>
 							<a href="RWrap.html">RWrap</a>
+						</li>
+						
+						<li>
+							<a href="RWrap_constructor.html">constructor</a>
 						</li>
 						
 						<li>
@@ -245,6 +323,8 @@
 		<pre
 			class="sunlight-highlight-javascript linenums">var Relation = require('./../Relation.js');
 var Header = require('./../Header.js');
+var Attribute = require('./../Attribute.js');
+var Tuple = require('./../Tuple.js');
 var _ = require('lodash');
 var debug = require('./../helpers/debug');
 
@@ -254,10 +334,10 @@ var RExtend = Relation.extend(
         /**
          * @typedef {Object} extendParameter
          * @property {String} name The name of the new attribute
-         * @property {Function} expression The expression to evaluate when setting the attribute value
+         * @property {Function} expressions The expressions to evaluate when setting the attribute value
          */
 
-        constructor: function (relation, expression) {
+        constructor: function (relation, expressions) {
             /**
              * @class RExtend
              * @augments Relation
@@ -277,8 +357,8 @@ var RExtend = Relation.extend(
              *          ['Socrates',  -470, -399]
              *      ]);
              *
-             * var born = relationA.get('born')
-             * var died = relationA.get('died')
+             * var born = relationA.get('born');
+             * var died = relationA.get('died');
              *
              * var relationB = relationA.extend([{ lived : died.minus(born) }]);
              *
@@ -299,7 +379,6 @@ var RExtend = Relation.extend(
              * // | Socrates       | -470            | -399            | 71               |
              * // +----------------+-----------------+-----------------+------------------+
              * //
-             *
              *
              * // Possible to add multiple attributes in one call :
              *
@@ -328,18 +407,20 @@ var RExtend = Relation.extend(
              * // You may as well use this feature, but since affinity will later be a SQL parser too,
              * // it will obviously not support the translation of custom defined functions into SQL code.
              * // If you plan have use of affinity's future SQL parser, beware that these custom functions
-             * // will only run in javascript. I would have loved javascript to support overloading of
-             * // operators, but that won't happen anytime soon.
+             * // will only run in javascript.
+             *
+             * // I would have loved javascript to support overloading of operators, but that won't
+             * // happen anytime soon.
              *
              * var relationB = relation.extend([
              *
              *      {'lived' : {function(tuple){
              *          return tuple.get('died')-tuple.get('born');
-             *      }, affinity.Integer},
+             *      }, type : affinity.Integer},
              *
              *      {'died' : {function(tuple){
              *          return 2014-tuple.get('died')
-             *      }, affinity.Integer},
+             *      }, type : affinity.Integer},
              *
              * ])
              *
@@ -348,7 +429,17 @@ var RExtend = Relation.extend(
             debug.extend.trace('#constructor');
 
             this.relation = relation;
-            this.expression = expression;
+            this.expressions = expressions;
+
+            // Coerce the argument to an array if it is not already
+
+            if(!_.isArray(this.expressions)){
+                this.expressions = [this.expressions];
+            }
+
+            if (this.expressions.length===0){
+                throw new Error('You must define expressions!');
+            }
 
             Relation.call(this);
 
@@ -361,21 +452,98 @@ var RExtend = Relation.extend(
             // Calling the parent bindEvents
             RExtend.__super__.bindEvents.call(this);
 
-            // BeforeGetBody
-            this.ee.once('beforeGetBody', function () {
+            var that = this;
 
-                debug.extend.trace('beforeGetBody');
+            /// BeforeGetHeader
 
-                // Add extend build header code here
-
-            });
-
-            // BeforeGetHeader
             this.ee.once('beforeGetHeader', function () {
 
                 debug.extend.trace('beforeGetHeader');
 
-                // Add extend build tuples code here
+                // Add the attributes of the base relation
+
+                that.header().copy(that.relation.header());
+
+
+                /// Parse extension attributes
+
+                _.forOwn(that.expressions, function(expression){
+
+                    // Expression must be an object
+                    if(!_.isObject(expression)){
+                        throw new TypeError('Wrong expression format')
+                    }
+
+                    var keys = Object.keys(expression);
+
+                    // Expression must have only one parameter
+                    if(keys.length !== 1){
+                        throw new SyntaxError('Unhandled expression declaration');
+                    }
+
+                    // This is the name of the attribute to add
+                    var extensionName = keys[0];
+
+                    // This is the expression
+                    var extensionParam = expression[extensionName];
+
+                    // Convert the attributes objects to functions that iterate through tuples
+                    extensionParam.convertAttributeToTuple();
+
+                    // Key must not already exist in the current header
+                    if(that.header().get(extensionName) !== null){
+                        throw new Error('Relation extension name already exists in the header');
+                    }
+
+                    // Get the return type of the expression
+                    var type = extensionParam.type();
+
+                    // Create the new header attribute
+                    var extensionAttribute = new Attribute({type : type, name : extensionName});
+
+                    // Add the attribute in the header
+                    that.header().add(extensionAttribute);
+
+                })
+
+            });
+
+
+            /// BeforeGetBody
+
+            this.ee.once('beforeGetBody', function () {
+
+                debug.extend.trace('beforeGetBody');
+
+                that.relation.each(function(tuple){
+
+                    // Create the tuple we are going to add
+                    var newTuple = new Tuple();
+
+                    // Copy the attributes from the base tuple
+                    newTuple.copy(tuple);
+
+                    _.forEach(that.expressions, function(expression){
+
+                        // This is the new attribute name
+                        var attributeName = Object.keys(expression)[0];
+
+                        // This is the evaluation expression
+                        var attributeExpression = expression[attributeName];
+
+                        attributeExpression.assignTuple(newTuple);
+
+                        // This is the new value
+                        var expressionValue = attributeExpression.value();
+
+                        // Let's set the new value in the tuple
+                        newTuple.set(attributeName, expressionValue);
+
+                    });
+
+                    that.add(newTuple);
+
+                })
 
             });
 
@@ -404,7 +572,7 @@ module.exports = RExtend;</pre>
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha8</a>
-		on Sat Jun 21st 2014 using the <a
+		on Mon Jun 23rd 2014 using the <a
 			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>
