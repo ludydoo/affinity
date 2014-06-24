@@ -136,46 +136,54 @@ A Tuple is a single entry in a Relation. It is an ordered set (attribute1 : valu
 **Functions**
 -------------
 
-| **Function**         | **Shortcut**  | **Class**       |
+| **Function**         | **Shortcut**  | **Returns**     |
 |:---------------------|:--------------|:----------------|
 |**Connectives**                                       |||
-|And                   |`and`          |And              |
-|Or                    |`or`           |Or               |
-|Not                   |`not`          |Not              |
+|And                   |`and`          |Boolean          |
+|Or                    |`or`           |Boolean          |
+|Not                   |`not`          |Boolean          |
+|**Tuple                                                 |
+|TupleValue            |`value`        |*                |
 |**Comparison**                                        |||
-|Equal                 |`eq`           |Equal            |
-|Greater Than          |`gt`           |GreaterThan      |
-|Greater Than or Equal |`gte`          |GreaterThanEqual |
-|Smaller Than          |`st`           |SmallerThan      |
-|Smaller Than or Equal |`ste`          |SmallerThanEqual |
+|Equal                 |`eq`           |Boolean          |
+|Greater Than          |`gt`           |Boolean          |
+|Greater Than or Equal |`gte`          |Boolean          |
+|Smaller Than          |`st`           |Boolean          |
+|Smaller Than or Equal |`ste`          |Boolean          |
 |**Numeric Functions**                                 |||
-|Absolute              |`abs`          |Absolute         |
-|Ceil                  |`ceil`         |Ceil             |
-|Cosine                |`cos`          |Cosine           |
-|Division              |`div`          |Division         |
-|Exponential           |`exp`          |Exponential      |
-|Minus                 |`minus`        |Minus            |
-|Modulo                |`mod`          |Modulo           |
-|Multiplication        |`times`        |Multiplication   |
-|Plus                  |`plus`         |Plus             |
-|Power                 |`pow`          |Pow              |
-|Roof                  |`roof`         |Roof             |
-|Round                 |`round`        |Round            |
-|Sine                  |`sin`          |Sine             |
-|Square Root           |`sqrt`         |Sqrt             |
+|Absolute              |`abs`          |Numeric          |
+|Ceil                  |`ceil`         |Numeric          |
+|Cosine                |`cos`          |Numeric          |
+|Division              |`div`          |Numeric          |
+|Exponential           |`exp`          |Numeric          |
+|Minus                 |`minus`        |Numeric          |
+|Modulo                |`mod`          |Numeric          |
+|Multiplication        |`times`        |Numeric          |
+|Plus                  |`plus`         |Numeric          |
+|Power                 |`pow`          |Numeric          |
+|Roof                  |`roof`         |Numeric          |
+|Round                 |`round`        |Numeric          |
+|Sine                  |`sin`          |Numeric          |
+|Square Root           |`sqrt`         |Numeric          |
 |**String Functions**                                  |||
-|Length                |`length`       |Length           |
-|Lowercase             |`lowercase`    |Lowercase        |
-|Matching              |`matching`     |Matching         |
-|Substring             |`substr`       |Substring        |
-|Uppercase             |`uppercase`    |Uppercase        |
+|Length                |`length`       |Integer          |
+|Lowercase             |`lowercase`    |String           |
+|Matching              |`matching`     |Boolean          |
+|Substring             |`substr`       |String           |
+|Uppercase             |`uppercase`    |String           |
 |**Date Functions**                                    |||
-|Day of Month          |`monthDay`     |MonthDay         |
-|Day of Week           |`weekDay`      |WeekDay          |
-|Day of Year           |`yearDay`      |YearDay          |
-|Month                 |`month`        |Month            |
-|Timestamp             |`timestamp`    |TimeStamp        |
-|Week of Year          |`yearWeek`     |YearWeek         |
+|Day of Month          |`dayOfMonth`   |Integer          |
+|Day of Week           |`dayOfWeek`    |Integer          |
+|Day of Year           |`dayOfYear`    |Integer          |
+|Week of Year          |`weekOfYear`   |Integer          |
+|Year                  |`year`         |Integer          |
+|Month                 |`month`        |Integer          |
+|Hours                 |`hours`        |Integer          |
+|Minutes               |`minutes`      |Integer          |
+|Seconds               |`seconds`      |Integer          |
+|Milliseconds          |`milliseconds` |Integer          |
+|Timestamp             |`ts`           |Integer          |
+
 
 ##Usage##
                 
@@ -449,47 +457,6 @@ Result :
 +------+--------+----------+
 </pre>
 
-The predicate can be built with the following arguments : 
-
-```
-// Connectives
-and // And
-or  // Or
-not // Not
-
-// Comparatives
-eq  // Equals
-lt  // Larger Than
-lte // Larger Than or Equals
-gt  // Greater Than
-gte // Greater Than or Equals
-
-// Numeric functions
-plus       // Plus
-minus      // Minus
-times      // Multiplication
-div        // Division
-abs        // Absolute
-ceil       // Ceil
-floor      // Floor
-round      // Round
-mod        // Modulo  
-sin        // Sinus
-cos        // Cosinus
-tan        // Tangent
-sqrt       // Square Root
-pow        // Power
-exp        // Exponential
-uplus      // Unary Plus
-uminus     // Unary Minus
-
-// Date Functions
-dayOfMonth // Day of the month
-dayOfWeek  // Day of the week
-dayOfYear  // Day of the year
-month      // Month number
-timeStamp  // Unix Timestamp
-weekOfYear // Week of the year
 
 Example : 
 
