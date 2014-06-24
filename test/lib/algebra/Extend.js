@@ -1,6 +1,7 @@
 var affinity = require('./../../../index.js');
 var should = require('should');
 var debug = require('./../../../lib/helpers/debug');
+var _ = require('lodash');
 
 var relation = new affinity.Relation([
     {born: { type: affinity.Integer}},
@@ -12,8 +13,19 @@ var relation = new affinity.Relation([
     [1800, 1860]
 ]);
 
+var relation2 = new affinity.Relation([
+    {born: { type: affinity.Date}}
+], [
+    [new Date(1945,4,10)],
+    [new Date(1920,2,23)],
+    [new Date(1920,8,2)],
+    [new Date(1820,10,14)]
+]);
+
 var born = relation.get('born');
 var died = relation.get('died');
+
+var born2 = relation2.get('born');
 
 describe('Extend Class', function () {
 
@@ -21,8 +33,9 @@ describe('Extend Class', function () {
 
         it('Should be able to extend the relation if the equation refers to an existing field', function (done) {
 
-            var extended = relation.extend([
-                {lived: died.minus(born)}
+            var extended = relation2.extend([
+                {day: born2.dayOfMonth()},
+                {month: born2.month()},
             ]).compute();
 
             debug.reldump.debug(extended.toString());
