@@ -1,4 +1,3 @@
-
 # Affinity #
 
 Relational Algebra Library written in JavaScript
@@ -33,7 +32,213 @@ For Documentation, install the library with `npm install affinity` and access `<
 
 Alternatively, the source is extensively documented.
 
-##Basics##
+## Methods ##
+
+```
+
+// Declare new relations
+
+var relation = new affinity.Relation([
+    {    id: { type: affinity.Integer}},
+    {  name: { type: affinity.String }},
+    {exists: { type: affinity.Boolean}}
+],[
+    [1, 'Nicolas',  true ],
+    [2, 'Lancelot', false],
+    [3, 'Marie',    true ],
+    ...
+]);
+
+relation.print();
+
+// +--------------+---------------+------------------+
+// | id : Integer | name : String | exists : Boolean |
+// +==============+===============+==================+
+// | 1            | Nicolas       | true             |
+// +--------------+---------------+------------------+
+// | 2            | Lancelot      | false            |
+// +--------------+---------------+------------------+
+// | 3            | Marie         | true             |
+// +--------------+---------------+------------------+
+
+
+
+// Composition
+// Like a Join, but removes common attributes
+
+var composed = relation.compose(relation2);
+
+
+
+// Difference
+// Get tuples in A that are not in B
+
+var difference = relation.difference(relation2);
+
+
+
+// Extension
+// Adds calculated columns to a relation
+
+var extended = relation.extend([{ newCol : id.plus(name.length())}]);
+
+extended.print();
+
+// +--------------+---------------+------------------+------------------+
+// | id : Integer | name : String | exists : Boolean | newCol : Integer |
+// +==============+===============+==================+==================+
+// | 1            | Nicolas       | true             | 8                |
+// +--------------+---------------+------------------+------------------+
+// | 2            | Lancelot      | false            | 10               |
+// +--------------+---------------+------------------+------------------+
+// | 3            | Marie         | true             | 8                |
+// +--------------+---------------+------------------+------------------+
+
+
+
+// Group
+// Groups columns into a RVA (Relation-Valued-Attribute)
+
+var grouped = relation.group('persons', ['id', 'exists']);
+
+grouped.print();
+
+// +---------------+------------------------------------+
+// | name : String | persons : Relation                 |
+// +===============+====================================+
+// | Nicolas       | +--------------+------------------+|
+// |               | | id : Integer | exists : Boolean ||
+// |               | +==============+==================+|
+// |               | | 1            | true             ||
+// |               | +--------------+------------------+|
+// +---------------+------------------------------------+
+// | Lancelot      | +--------------+------------------+|
+// |               | | id : Integer | exists : Boolean ||
+// |               | +==============+==================+|
+// |               | | 2            | false            ||
+// |               | +--------------+------------------+|
+// +---------------+------------------------------------+
+// | Marie         | +--------------+------------------+|
+// |               | | id : Integer | exists : Boolean ||
+// |               | +==============+==================+|
+// |               | | 3            | true             ||
+// |               | +--------------+------------------+|
+// +---------------+------------------------------------+
+
+// Ungroup
+// Ungroups RVAs
+
+var ungrouped = grouped.ungroup(['persons']);
+
+grouped.print();
+
+// +---------------+------------------------------------+
+// | name : String | persons : Relation                 |
+// +===============+====================================+
+// | Nicolas       | +--------------+------------------+|
+// |               | | id : Integer | exists : Boolean ||
+// |               | +==============+==================+|
+// |               | | 1            | true             ||
+// |               | +--------------+------------------+|
+// +---------------+------------------------------------+
+// | Lancelot      | +--------------+------------------+|
+// |               | | id : Integer | exists : Boolean ||
+// |               | +==============+==================+|
+// |               | | 2            | false            ||
+// |               | +--------------+------------------+|
+// +---------------+------------------------------------+
+// | Marie         | +--------------+------------------+|
+// |               | | id : Integer | exists : Boolean ||
+// |               | +==============+==================+|
+// |               | | 3            | true             ||
+// |               | +--------------+------------------+|
+// +---------------+------------------------------------+
+
+
+
+// Intersection
+// Tuples in B that are also in A
+
+var intersected = relation.intersect(otherRelation);
+
+
+
+// Joined
+// Combinations of tuples in A and B that have the same values for their common attributes
+
+var joined = relation.join(otherRelation);
+
+
+
+// Product
+// All possible combinations of tuples in A and in B
+
+var product = relation.product(otherRelation);
+
+
+
+// Projection
+// Selects columns from a relation
+
+var projected = relation.project(['name', 'exists']);
+
+
+
+// Rename
+// Renames attributes of a relation
+
+var renamed = relation.rename({ name : 'newName', exists : 'newExists' });
+
+
+
+// Restriction
+// Selects tuple that match a given predicate
+
+var restricted = relation.restrict(name.substr(0,1).lowercase().eq('l').or(name.substr(0,1).lowercase().eq('m')));
+
+
+
+// SemiDifference
+// Inverse of SemiJoin : Finds tuples in A that do not have a counterpart in B
+
+var semidifference = relation.semiDifference(otherRelation);
+
+
+
+// SemiJoin
+// Finds tuples in A that have a counterpart in B. Like a Join, but only returns attributes from A
+
+var semijoined = relation.semiJoin(otherRelation);
+
+
+
+// Wrap
+// Wraps given attributes into a TVA (tuple-valued-attribute);
+
+var wrapped = relation.wrap('person', ['id', 'exists']);
+
+wrapped.print();
+
+// +--------------+--------------------------------------------+
+// | id : Integer | person : Tuple                             |
+// +==============+============================================+
+// | 1            | Tuple(name : 'Nicolas', exists : 'true')   |
+// +--------------+--------------------------------------------+
+// | 2            | Tuple(name : 'Lancelot', exists : 'false') |
+// +--------------+--------------------------------------------+
+// | 3            | Tuple(name : 'Marie', exists : 'true')     |
+// +--------------+--------------------------------------------+
+
+
+
+// Unwrap
+// Inverse of Wrap
+
+var unwrapped = relation.unwrap(['person']);
+
+```
+
+##Relational Algebra##
 
 Relational Algebra and Set Theory are the foundation of SQL implementations. The well known SELECT * WHERE ... are relational algebra 
 operations. Though, Relational Algebra (being a superset of Set Theory) is more strict than many SQL implementations. 
@@ -109,29 +314,7 @@ A Tuple is a single entry in a Relation. It is an ordered set (attribute1 : valu
 +---------------+---------------------+--------------------+------------------+----------------+
 ```
 
-##Class List##
 
-###Relational Operators###
-
-| **Operation** | **Shortcut**  |
-|:--------------|:--------------|
-| Base Relation | N/A           |
-| Compose       | `compose`     |
-| Difference    | `difference`  |
-| Extend        | `extend`      |
-| Group         | `group`       |
-| Intersection  | `intersect`   |
-| Join          | `join`        |
-| Product       | `product`     |
-| Projection    | `project`     |
-| Rename        | `rename`      |
-| Restriction   | `restrict`    |
-| SemiDifference| `sdifference` |
-| SemiJoin      | `sjoin`       |
-| UnGroup       | `ungroup`     |
-| Union         | `union`       |
-| UnWrap        | `unwrap`      |
-| Wrap          | `wrap`        |
 
 **Functions**
 -------------
@@ -142,7 +325,7 @@ A Tuple is a single entry in a Relation. It is an ordered set (attribute1 : valu
 |And                   |`and`          |Boolean          |
 |Or                    |`or`           |Boolean          |
 |Not                   |`not`          |Boolean          |
-|**Tuple                                                 |
+|**Tuple**                                               |
 |TupleValue            |`value`        |*                |
 |**Comparison**                                        |||
 |Equal                 |`eq`           |Boolean          |
@@ -460,6 +643,7 @@ Result :
 
 Example : 
 
+```
 var count1 = relation.get('count1');
 var count2 = relation.get('count2');
 var count3 = relation.get('count3');
