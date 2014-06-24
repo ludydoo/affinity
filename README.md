@@ -170,7 +170,9 @@ var renamed = relation.rename({ name : 'newName', exists : 'newExists' });
 // Restriction
 // Selects tuple that match a given predicate
 
-var restricted = relation.restrict(name.substr(0,1).lowercase().eq('l').or(name.substr(0,1).lowercase().eq('m')));
+var restricted = relation.restrict(
+    name.substr(0,1).lowercase().eq('l').or(name.substr(0,1).lowercase().eq('m'))
+);
 
 // +--------------+---------------+------------------+
 // | id : Integer | name : String | exists : Boolean |
