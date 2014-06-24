@@ -303,11 +303,27 @@ var unwrapped = relation.unwrap(['person']);
 ```
 
 
-
-
-
-**Functions**
+**Predicates**
 -------------
+
+For the Restriction and Extension operations, you must pass a predicate 
+that can be composed with the following : 
+
+e.g.:
+
+```
+
+relation.restrict(age.gt(10));  // age > 10
+
+relation.restrict(age.gt(10).or(age.st(50))); // age > 10 || age < 50
+
+relation.extend([
+    { lived : died.minus(born) }
+])
+
+
+```
+
 
 | **Function**         | **Shortcut**  | **Returns**     |
 |:---------------------|:--------------|:----------------|
