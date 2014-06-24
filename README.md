@@ -14,8 +14,8 @@ DEE    http://www.quicksort.co.uk
 * [ ] Implement a DUPLICATE false/true for operators to choose between creating a new relation and only updating one. 
 Currently affinity always creates new relations on every operation.
 * [ ] Implement Summarize operation
-* [ ] Implement comparison operators (lt, gt, eq, ...)
-* [ ] Implement date, string and numeric functions (cos, sin, ...)
+* [x] Implement comparison operators (lt, gt, eq, ...)
+* [x] Implement date, string and numeric functions (cos, sin, ...)
 * [ ] More tests
 * [ ] Review documentation
 
