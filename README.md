@@ -172,6 +172,14 @@ var renamed = relation.rename({ name : 'newName', exists : 'newExists' });
 
 var restricted = relation.restrict(name.substr(0,1).lowercase().eq('l').or(name.substr(0,1).lowercase().eq('m')));
 
+// +--------------+---------------+------------------+
+// | id : Integer | name : String | exists : Boolean |
+// +==============+===============+==================+
+// | 2            | Lancelot      | false            |
+// +--------------+---------------+------------------+
+// | 3            | Marie         | true             |
+// +--------------+---------------+------------------+
+
 
 
 // SemiDifference
