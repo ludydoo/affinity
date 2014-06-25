@@ -74,9 +74,9 @@ describe('Relation class', function () {
                 relation.count().should.be.equal(3);
                 relation.header().count().should.be.equal(3);
 
-                relation.getAt(0).should.be.equal(data[0]);
-                relation.getAt(1).should.be.equal(data[1]);
-                relation.getAt(2).should.be.equal(data[2]);
+                relation.atIndex(0).should.be.equal(data[0]);
+                relation.atIndex(1).should.be.equal(data[1]);
+                relation.atIndex(2).should.be.equal(data[2]);
 
                 debug.reldump.debug(relation.toString());
 
@@ -116,9 +116,9 @@ describe('Relation class', function () {
                 relation.count().should.be.equal(3);
                 relation.header().count().should.be.equal(3);
 
-                relation.getAt(0).should.be.equal(data[0]);
-                relation.getAt(1).should.be.equal(data[1]);
-                relation.getAt(2).should.be.equal(data[2]);
+                relation.atIndex(0).should.be.equal(data[0]);
+                relation.atIndex(1).should.be.equal(data[1]);
+                relation.atIndex(2).should.be.equal(data[2]);
 
                 debug.reldump.debug(relation.toString());
 
@@ -297,7 +297,7 @@ describe('Relation class', function () {
                 relation.count().should.be.equal(1);
                 relation.header().count().should.be.equal(3);
 
-                relation.getAt(0).should.be.equal(tuple);
+                relation.atIndex(0).should.be.equal(tuple);
 
                 debug.reldump.debug(relation.toString());
 
