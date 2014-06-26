@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Type = require(&#39;./../Type&#39;);
+var TBoolean = require(&#39;./Boolean&#39;);
+var _ = require(&#39;lodash&#39;);
+
+var TString = Type.extend({
+
+<span id='Types-String'>    /**
+</span>     * @class Types.String
+     * @param value
+     */
+    constructor: function (value) {
+        Type.apply(this, arguments);
+        this.name = &#39;TString&#39;;
+    },
+
+    valueOf : function(){
+        return this.value;
+    }
+
+}, {
+
+    payload : [
+        require(&#39;./../mixins/comparable&#39;),
+        require(&#39;./../mixins/size-comparable&#39;),
+        require(&#39;./../mixins/connectable&#39;),
+        require(&#39;./../mixins/not&#39;)
+    ],
+
+    equal: function (str1, str2) {
+
+        if(!_.isString(str1)){
+            str1 = str1.value();
+        }
+        if(!_.isString(str2)){
+            str2 = str2.value();
+        }
+
+        return str2 === str1;
+
+    },
+
+    toString: function () {
+        return &#39;TString&#39;
+    },
+
+    primitive : true,
+
+    type : &#39;TString&#39;
+
+});
+
+module.exports = TString;
+
+</pre>
+</body>
+</html>

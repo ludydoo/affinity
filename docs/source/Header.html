@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Attribute = require(&#39;./Attribute.js&#39;);
+var Set = require(&#39;./Set.js&#39;);
+var _ = require(&#39;lodash&#39;);
+var TString = require(&#39;./types/String&#39;);
+var TType = require(&#39;./types/Type&#39;);
+var debug = require(&#39;./helpers/debug.js&#39;);
+
+var Header = Set.extend(
+
+    {
+
+<span id='Header'>        /**
+</span>         * Header object constructor.
+         *
+         * @class Header
+         * @extends Set
+         * @param attributes
+         * @throws The attributes are not passed in Array format
+         *
+         *
+         * A {@link module:Relation~Header Header} is one of the two main parts of a
+         * {@link module:Relation~Relation Relation}, along with the Body (which is a {@link Set}).
+         *
+         * It is a {@link Set} of {@link module:Relation~Attribute Attribute}s. It defines the structure of the
+         * {@link module:Relation~Tuple Tuples} that will be part of the body of the
+         * {@link module:Relation~Relation Relation}. Each {@link module:Relation~Tuple Tuple} in a
+         * {@link module:Relation~Relation Relation} must match its {@link module:Relation~Header Header}
+         *
+         *     var header = new affinity.header([
+         *          {firstname : affinity.string},
+         *          {lastname : affinity.string}
+         *     ])
+         *
+         *     var relation = new affinity.relation(); // create an empty relation without a header and without body
+         *
+         *     relation.header(header); // sets the relation&#39;s header
+         *
+         *     relation.add({firstName : &#39;John&#39;, lastName : &#39;Doe&#39;}); // Add a tuple in the Relation that matches the header
+         *
+         *
+         */
+        constructor: function (attributes) {
+
+            debug.header.trace(&#39;#constructor&#39;);
+
+            var result = [];
+            this._attributes = {};
+            this.orderedDeclaration = false;
+
+            if (attributes) {
+
+                // There are attributes in the arguments
+
+                if(_.isObject(attributes)){
+
+                    // Attributes is either an array or an object
+
+                    if(!_.isArray(attributes)){
+
+                        // Attributes is an Object
+                        // { &lt;name&gt; : {type : &lt;type&gt;}, &lt;name&gt; : {type : &lt;type&gt;}, ... }
+                        // { &lt;name&gt; : &lt;attribute&gt;, &lt;name&gt; : &lt;attribute&gt;, &lt;name&gt; : &lt;attribute&gt;, ... }
+
+                        _.forOwn(attributes, function(attribute, key){
+                            var attr = {};
+                            attr[key] = attribute;
+                            result.push(attr);
+                        });
+
+                    } else {
+
+                        // Attributes is an Array
+                        // [ { &lt;name&gt; : {type : &lt;type&gt;} }, { &lt;name&gt; : {type : &lt;type&gt;} }, ... ]
+                        // [{ &lt;name&gt; : &lt;attribute&gt;}, {&lt;name&gt; : &lt;attribute&gt;}, {&lt;name&gt; : &lt;attribute&gt;}, ... ]
+
+                        this.orderedDeclaration = true;
+
+                        _.forEach(attributes, function (attribute, key) {
+
+                            result.push(attribute);
+
+                        },this)
+
+                    }
+
+                } else {
+                    throw new TypeError(&#39;Unsupported attribute declaration format&#39;);
+                }
+
+            } else {
+
+                result = []
+
+            }
+
+            Set.call(this, {type: Attribute, elements: result});
+
+        },
+
+        bindEvents: function () {
+
+            debug.header.trace(&#39;#bindEvents&#39;);
+
+            var that = this;
+
+            this.ee.on(&#39;beforeAdd&#39;, function (element) {
+
+                if (that._attributes.hasOwnProperty(element.name)) {
+                    throw new Error(&#39;Attribute with name &#39; + element.name + &#39; already exists in header&#39;);
+                }
+
+            });
+
+            this.ee.on(&#39;afterAdd&#39;, function (element, index) {
+                that._attributes[element.name] = index;
+            });
+
+            this.ee.on(&#39;afterRemove&#39;, function (element) {
+                delete that._attributes[element.name];
+                that.refreshAttributes();
+            });
+        },
+
+        refreshAttributes: function () {
+
+            debug.header.trace(&#39;#refreshAttributes&#39;);
+
+            this._attributes = {};
+
+            this.each(function (element, index) {
+
+                if(!_.isUndefined(element)){
+                    this._attributes[element.name] = index;
+                }
+
+            }, this)
+
+        },
+
+        get: function (key) {
+
+            debug.header.trace(&#39;#get&#39;);
+
+            if(key instanceof Attribute){
+
+                if (!this._attributes.hasOwnProperty(key.name)) {
+                    return null;
+                }
+
+                var attr = this.get(key.name);
+
+                if(!attr.equals(key)){
+                    return null;
+                } else {
+                    return attr;
+                }
+
+            } else if (_.isString(key)){
+
+                if (!this._attributes.hasOwnProperty(key)) {
+                    return null;
+                }
+
+                return this.elements()[this._attributes[key]];
+
+            }
+
+        },
+
+        getIndex: function (name) {
+
+            debug.header.trace(&#39;#getIndex&#39;);
+
+            if (!this._attributes.hasOwnProperty(name)) {
+                return null;
+            }
+
+            return this._attributes[name];
+
+        },
+
+        getAt : function(index){
+
+            if(this._elements[index] !== undefined){
+                return this._elements[index];
+            }
+            return null;
+
+        },
+
+        attributes: function (attributes) {
+
+            debug.header.trace(&#39;#attributes&#39;);
+
+            if (attributes) {
+
+                return this.elements(attributes);
+
+            } else {
+
+                return this.elements();
+
+            }
+
+        },
+
+<span id='Header-method-clone'>        /**
+</span>         * Clone a header and its attributes
+         * @returns {Header}
+         */
+        clone: function () {
+
+            debug.header.trace(&#39;#clone&#39;);
+
+            var newHeader = new this.constructor();
+
+            this.each(function (element) {
+
+                if(!_.isUndefined(element)){
+                    newHeader.add(element.clone(), false);
+                }
+
+            });
+
+            return newHeader;
+
+        },
+
+<span id='Header-method-project'>        /**
+</span>         * Project operation on Header object
+         * @param {String[]|Attribute[]} projectedAttributes
+         * @returns {Header}
+         */
+        project: function (projectedAttributes) {
+
+            debug.header.trace(&#39;#project&#39;);
+
+            var resultAttributes = {},
+                a;
+
+            a = projectedAttributes.length;
+
+            while (a--) {
+
+                var projectedAttribute = projectedAttributes[a];
+
+                // If string given, find the attribute with this name
+                if (_.isString(projectedAttribute)) {
+
+                    var attributeName = projectedAttribute;
+
+                    projectedAttribute = this.get(attributeName);
+
+                    if (projectedAttribute === null) {
+                        throw new ReferenceError(&#39;Attribute with name &#39; + attributeName + &#39; not found in header&#39;);
+                    }
+
+                } else if (projectedAttribute instanceof Attribute) {
+
+                    // Find attribute in the header
+
+                    var found = _.find(this.elements(), function (attribute) {
+                        return attribute === projectedAttribute;
+                    });
+
+                    if (!found) {
+                        throw new ReferenceError(&#39;Attribute not found in the header&#39;);
+                    }
+
+                } else {
+                    throw new TypeError(&#39;Wrong format given for attributes in Header project operation&#39;);
+                }
+
+                resultAttributes[projectedAttribute.name] = projectedAttribute.clone();
+            }
+
+            return new Header(resultAttributes);
+        },
+
+
+<span id='Header-method-remove'>        /**
+</span>         * Perform a removal operation on the header
+         * @param {Attribute[]|String[]|Attribute|String} attributesToRemove attributes to remove from the header
+         * @return {Header} the resulting header
+         */
+        remove: function (attributesToRemove) {
+
+            debug.header.trace(&#39;#remove&#39;);
+
+            var resultHeader = this.clone(),
+                a,
+                attribute,
+                attributeName;
+
+            // Coerce the arguments to an array
+            if (_.isString(attributesToRemove) || attributesToRemove instanceof Attribute) {
+
+                attributesToRemove = [attributesToRemove];
+
+            } else if (!_.isArray(attributesToRemove)) {
+
+                throw new TypeError(&#39;Wrong argument type for removal operation&#39;);
+
+            }
+
+            a = attributesToRemove.length;
+
+            // Loop through each given attributes to remove
+
+            while (a--) {
+
+                // Check that given attributesToRemove are in the header
+
+                if (_.isString(attributesToRemove[a])) {
+
+                    // Passed attribute is a string.
+                    // We will check if the attribute name exists.
+
+                    attributeName = attributesToRemove[a];
+
+                    attribute = attributesToRemove[a] = this.get(attributeName);
+
+                    if (attribute === null) {
+                        throw new ReferenceError(&#39;Attribute with name &#39; + attributeName + &#39; not found in header&#39;);
+                    }
+
+                } else {
+
+                    // Passed attribute is an Attribute object
+                    // We will check if it exists in the header
+
+                    attribute = attributesToRemove[a];
+
+                    attributeName = attribute.name;
+
+                    if (!this._attributes.hasOwnProperty(attributeName)) {
+
+                        // The attribute name doesn&#39;t exist in the header
+
+                        throw new ReferenceError(&#39;Attribute with name &#39; + attributeName + &#39; not found in header&#39;);
+
+                    } else if (this.get(attributeName).equal(attribute) === false) {
+
+                        // The attribute is found but doesn&#39;t have the same type
+
+                        throw new ReferenceError(&#39;Attribute object found in the header but not of same type&#39;);
+                    }
+
+                }
+
+                // Delete the found attributes from the resulting header
+
+                resultHeader.removeAt(resultHeader.getIndex(attributeName));
+
+            }
+
+            return resultHeader;
+        },
+
+        rename: function (attributes) {
+
+            debug.header.trace(&#39;#rename&#39;);
+
+            var resultHeader = this.clone(),
+                key;
+
+            if (_.isObject(attributes)) {
+
+                for (key in attributes) {
+
+                    if (attributes.hasOwnProperty(key)) {
+
+                        var newName = attributes[key];
+
+                        // Check if the specified name is a string
+                        if (!_.isString(newName)) {
+                            throw new TypeError(&#39;New name for attribute &#39; + key + &#39; must be a string&#39;);
+                        }
+
+                        var targetAttribute = this.get(key);
+
+                        // Check if the key exists in the current header
+                        if (targetAttribute === null) {
+                            throw new ReferenceError(&#39;Attribute with name &#39; + key + &#39; doesn\&#39;t exist in header&#39;);
+                        }
+
+                        // Check if the renamed operation does not overwrite an existing key in the header
+                        if (this._attributes.hasOwnProperty(newName) &amp;&amp; newName !== key) {
+                            throw new ReferenceError(&#39;New attribute name &#39; + newName + &#39; already exists in the header&#39;);
+                        }
+
+                        // Check if the new name is not the same as the old name
+                        if (newName === key) {
+                            debug.header.warn(&#39;Useless renaming operations : &#39; + key + &#39; -&gt; &#39; + newName);
+                        }
+
+                        // Check if two renamed attributes don&#39;t have the same target name
+                        for (var a in attributes) {
+                            if (attributes.hasOwnProperty(a) &amp;&amp; a !== key) {
+                                if (newName === attributes[a]) {
+                                    throw new ReferenceError(&#39;Two renamed attributes have the same target name&#39;);
+                                }
+                            }
+                        }
+
+                        resultHeader._attributes[newName] = resultHeader._attributes[key];
+
+                        if (key !== newName) {
+                            delete resultHeader._attributes[key];
+                        }
+
+                        resultHeader.get(newName).name = newName;
+
+                    }
+                }
+
+            } else {
+
+                throw new TypeError(&#39;Wrong argument type for rename operation&#39;);
+            }
+
+            return resultHeader;
+
+        },
+
+<span id='Header-method-toRelation'>        /**
+</span>         * @returns {Relation} The relation representation of the header
+         */
+        toRelation: function () {
+
+            debug.header.trace(&#39;#toRelation&#39;);
+
+            var rel = new (require(&#39;./Relation.js&#39;))([
+                {name: {type: TString}},
+                {type: {type: TType}}
+            ]);
+
+            this.each(function (attribute) {
+                rel.add({name: attribute.name, type: attribute.type});
+            });
+
+            return rel;
+
+        },
+
+<span id='Header-method-fromRelation'>        /**
+</span>         * @param relation
+         * @returns {Header}
+         */
+        fromRelation : function(relation){
+
+            // Check that the relation has the right header
+            if(!relation.header().exists({name : &#39;name&#39;, type : TString}) || !relation.header().exists({ name : &#39;type&#39;, type : TType}) || !(relation.header().count()==2)){
+                throw new Error(&#39;Cannot convert relation to header&#39;);
+            }
+
+            relation.each(function(tuple){
+                this.add({name : tuple.get(&#39;name&#39;), type : tuple.get(&#39;type&#39;)}, false);
+            }, this);
+
+            return this;
+
+        },
+
+        copy : function(header, attributesArgument, exclude){
+
+            var that = this;
+
+            if(exclude !== true &amp;&amp; exclude !== false){
+                exclude = false;
+            }
+
+            if (attributesArgument){
+
+                // Coerce the attributesArgument arguments to a header argument
+
+                if(!(attributesArgument instanceof Header)){
+
+                    var tempHeader = new Header();
+
+                    if(attributesArgument instanceof Set){
+
+                        attributesArgument.each(function(attribute){
+                            if(_.isString(attribute)){
+
+
+                                var attr = header.get(attribute);
+
+
+                                if(attr === null){
+                                    throw new Error(&#39;Attribute with name &quot;&#39; + attribute + &#39;&quot; not found in the header&#39;);
+                                }
+
+                                tempHeader.add(header.get(attribute));
+
+
+                            } else if(attribute instanceof Attribute) {
+
+                                if(header.get(attribute.name) === null){
+                                    throw new Error(&#39;Attribute with name &quot;&#39; + attribute.name + &#39;&quot; not found in the header&#39;);
+                                }
+
+                                tempHeader.add(attribute.clone());
+
+                            }
+                        })
+
+                    } else if (_.isArray(attributesArgument)){
+
+                        _.forEach(attributesArgument, function(attribute){
+                            if(_.isString(attribute)){
+
+                                var attr = header.get(attribute);
+
+                                if(attr === null){
+                                    throw new Error(&#39;Attribute with name &quot;&#39; + attribute + &#39;&quot; not found in the header&#39;);
+                                }
+
+                                tempHeader.add(attr);
+
+                            } else if(attribute instanceof Attribute) {
+
+                                if(header.get(attribute.name) === null){
+                                    throw new Error(&#39;Attribute with name &quot;&#39; + attribute.name + &#39;&quot; not found in the header&#39;);
+                                }
+
+                                tempHeader.add(attribute.clone());
+
+                            }
+                        })
+
+                    } else if (_.isString(attributesArgument)){
+
+                        var attr = header.get(attributesArgument);
+
+                        if(attr === null){
+                            throw new Error(&#39;Attribute with name &#39; + attributesArgument + &#39; not found in the header&#39;);
+                        }
+
+                        tempHeader.add(attr);
+
+                    }
+
+                    attributesArgument = tempHeader;
+
+                } else {
+
+                    attributesArgument.each(function(attribute){
+
+                        if(header.get(attribute.name) === null){
+                            throw new Error(&#39;Attribute with name &#39; + attribute.name + &#39; not found in the header&#39;);
+                        }
+
+                    })
+
+                }
+
+            }
+
+            if (exclude &amp;&amp; attributesArgument){
+
+                header.each(function(attribute){
+
+                    var isExcluded = false;
+
+                    attributesArgument.each(function(excludedAttribute){
+                        if(attribute.equal(excludedAttribute)){
+                            isExcluded = true;
+                        }
+                    }, this);
+
+                    if(!isExcluded){
+                        this.add(attribute.clone());
+                    }
+
+                }, this)
+
+
+            } else if (!exclude &amp;&amp; attributesArgument){
+
+                attributesArgument.each(function(includedAttribute){
+
+                    this.add(header.get(includedAttribute.name).clone());
+
+                }, this)
+
+            } else {
+
+                header.each(function(attribute){
+                    this.add(attribute.clone());
+                },this)
+            }
+
+            return this;
+
+        }
+
+
+    }, {
+
+        assertAttributesExist : function(header, attributes){
+
+            var mismatch = false;
+
+            _.forEach(attributes, function(attribute){
+
+                if(_.isString(attribute)){
+                    if(header.get(attribute) === null){
+                        throw new Error(&#39;Attribute with name &#39; + attribute + &#39; does not exist in the header&#39;);
+                    }
+                } else if (attribute instanceof Attribute){
+                    if(!header.exists(attribute)){
+                        throw new Error(&#39;Attribute with name &#39; + attribute.name + &#39; does not exist in the header&#39;);
+                    }
+                } else {
+                    throw new Error(&#39;Attribute is of wrong type&#39;);
+                }
+
+            });
+
+        },
+
+        assertSameNameSameType : function(header1, header2){
+
+            header1.each(function(attribute1){
+
+                header2.each(function(attribute2){
+
+                    if(attribute1.name === attribute2.name &amp;&amp; attribute1.type !== attribute2.type){
+                        throw new Error(&#39;Headers must have same type on attributes of same naem&#39;);
+                    }
+
+                })
+
+            })
+
+        },
+
+        assertUnionCompatible : function(header1, header2){
+
+            if (!this.equal(header1, header2)) {
+                throw new Error(&#39;Relations are not union compatible&#39;);
+            }
+
+        },
+
+        assertDisjoint : function(header1, header2){
+
+            if(!this.disjoint(header1, header2)){
+                throw new Error(&#39;Headers must be disjoint&#39;);
+            }
+
+        },
+
+        commonAttributes : function(header1, header2){
+
+            return header1.setIntersection(header2);
+
+        },
+
+<span id='Header-method-fromRelation'>        /**
+</span>         * Converts a relation into a header.
+         * The relation must have the header only with attributes name : TString and type : TType.
+         * @param relation
+
+         * @returns {Header}
+         */
+        fromRelation : function(relation){
+
+            var header = new Header();
+
+            return header.fromRelation(relation);
+
+        },
+
+        equal: function (header1, header2) {
+
+            debug.header.trace(&#39;Header.equal&#39;);
+
+            if (Object.keys(header1._attributes).length !== Object.keys(header2._attributes).length) {
+                return false;
+            }
+
+            var mismatch = false;
+
+            header1.each(function (attribute1) {
+
+                var attribute1Name = attribute1.name;
+
+                if (!header2._attributes.hasOwnProperty(attribute1Name)) {
+                    mismatch = true;
+                    return false;
+                }
+
+                if (!Attribute.equal(attribute1, header2.get(attribute1.name))) {
+                    mismatch = true;
+                    return false;
+                }
+
+
+            });
+
+            return !mismatch;
+
+        },
+
+        disjoint: function (header1, header2) {
+
+            debug.header.trace(&#39;Header.disjoint&#39;);
+
+            var headers = header1.count() &gt; header2.count() ? [header1,header2] : [header2,header1];
+
+            var different = true;
+
+            // Check that header have no common attribute names
+            headers[0].each(function (attribute1) {
+
+                if (headers[1].get(attribute1.name) !== null) {
+                    different = false;
+                    return false;
+                }
+
+            });
+
+            return different;
+
+        },
+
+        coerce : function(header){
+
+            if(header instanceof this){
+                return header;
+            } else {
+                return new Header(header);
+            }
+        }
+
+    });
+
+module.exports = Header;</pre>
+</body>
+</html>

@@ -1,7 +1,7 @@
 var affinity = require('./../../../index.js');
 var should = require('should');
 var _ = require('lodash');
-var debug = require('./../../../lib/helpers/debug');
+var debug = require('./../../../lib/affinity/helpers/debug');
 
 var relationA = new affinity.Relation([
     { firstName: { type: affinity.String} },

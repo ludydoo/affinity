@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var value = require(&#39;./value&#39;);
+var _ = require(&#39;lodash&#39;);
+var Function = require(&#39;./../Function&#39;);
+var Type = require(&#39;./../Type&#39;);
+
+var equal = function (type, value1, value2) {
+
+    // Get the function return values if applicable
+
+    value1 = value(value1);
+    value2 = value(value2);
+
+    if(_.isUndefined(value1) &amp;&amp; _.isUndefined(value2)){
+        return true;
+    } else if (_.isUndefined(value1) || _.isUndefined(value2)){
+        return false;
+    } else if (_.isNull(value1) &amp;&amp; _.isNull(value2)){
+        return true;
+    } else if (_.isNull(value1) || _.isNull(value2)){
+        return false;
+    }
+
+
+    // Access the type&#39;s equal function
+
+    if(value1.constructor &amp;&amp; value1.constructor.equal){
+        return value1.constructor.equal(value1, value2);
+    }
+
+    if(value2.constructor &amp;&amp; value2.constructor.equal){
+        return value2.constructor.equal(value1, value2);
+    }
+
+
+    // Fallback on good&#39;ol lodash
+
+    return _.isEqual(value1, value2);
+
+
+};
+
+module.exports = equal;</pre>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Relation = require(&#39;./../Relation.js&#39;);
+var Header = require(&#39;./../Header.js&#39;);
+var Tuple = require(&#39;./../Tuple.js&#39;);
+var debug = require(&#39;./../helpers/debug&#39;);
+
+var _ = require(&#39;lodash&#39;);
+
+
+
+var Join = Relation.extend(
+
+    {
+
+<span id='Operators-Join'>        /**
+</span>         * @class Operators.Join
+         * @param {Relation} relationA
+         * @param {Relation} relationB
+         * @extends Relation
+         * The Join operation returns all possible combinations of tuples from relationA and relationB where
+         * the tuples have the same value for their common attributes.
+         *
+         *     var relationA = new affinity.Relation([
+         *              {characterId: { type: affinity.Integer}},
+         *              {firstName: { type: affinity.String}},
+         *              {lastName: { type: affinity.String}}
+         *          ],[
+         *              [1, &#39;John&#39;, &#39;Doe&#39;],
+         *              [2, &#39;Mary&#39;, &#39;Poppins&#39;],
+         *              [3, &#39;Lucky&#39;, &#39;Luke&#39;]
+         *          ]);
+         *
+         *     var relationB = new affinity.Relation([
+         *              {characterId: { type: affinity.Integer}},
+         *              {fan: { type: affinity.String}}
+         *          ],[
+         *              [1, &#39;Mr X&#39;],
+         *              [1, &#39;Miss Dibble&#39;],
+         *              [2, &#39;Nat Bibble&#39;]
+         *          ]);
+         *
+         *     var relationC = relationA.join(relationB);
+         *
+         *     // or
+         *
+         *     var relationC = new affinity.Join(relationA, relationB)
+         *
+         *     // &lt;---COMMON ATTRIBUTE----&gt;
+         *     // +------------------------+---------------------+--------------------+---------------+
+         *     // | characterId : TInteger | firstName : TString | lastName : TString | fan : TString |
+         *     // +========================+=====================+====================+===============+
+         *     // | 1                      | John                | Doe                | Mr X          |
+         *     // +------------------------+---------------------+--------------------+---------------+
+         *     // | 2                      | John                | Doe                | Miss Dibble   |
+         *     // +------------------------+---------------------+--------------------+---------------+
+         *     // | 3                      | Mary                | Poppins            | Nat Bibble    |
+         *     // +------------------------+---------------------+--------------------+---------------+
+         *     //
+         *
+         */
+        constructor: function (relationA, relationB) {
+
+            this.rels = [relationA, relationB];
+            this._commonAttributes = [];
+
+            Relation.call(this);
+
+            var that = this;
+
+        },
+
+        bindEvents: function () {
+
+            debug.join.trace(&#39;#bindEvents&#39;);
+
+            Join.__super__.bindEvents.call(this);
+
+            var that = this;
+
+            var rel1 = that.rels[0];
+            var rel2 = that.rels[1];
+
+            // BeforeGetHeader
+
+            this.ee.once(&#39;beforeGetHeader&#39;, function () {
+
+                debug.join.trace(&#39;beforeGetHeader&#39;);
+
+                var header1 = rel1.header();
+                var header2 = rel2.header();
+
+                Header.assertSameNameSameType(header1, header2);
+
+                that.commonAttributes = Header.commonAttributes(header1, header2);
+
+                that.header().copy(header1);
+                that.header().copy(header2);
+
+            });
+
+
+            // BeforeGetBody
+
+            this.ee.once(&#39;beforeGetBody&#39;, function () {
+
+                that.header();
+
+                debug.join.trace(&#39;beforeGetBody&#39;);
+
+                // Loop through each body of the first relation
+                rel1.each(function (tuple1) {
+
+                    // Loop through each tuples of the second relation
+                    rel2.each(function (tuple2) {
+
+                        var match = Tuple.matchOnAttributes(tuple1, tuple2, that.commonAttributes);
+
+                        // If a match was detected
+                        if (match) {
+
+                            // Clone the first tuple
+                            var newTuple = new Tuple();
+
+                            // Copy the joined tuple attributes
+                            newTuple.copy(tuple1);
+                            newTuple.copy(tuple2);
+
+                            // Then add it to the relation
+                            that.add(newTuple, false);
+                        }
+
+                    }, that);
+
+                }, that)
+
+            });
+
+
+        }
+
+    });
+
+module.exports = Join;</pre>
+</body>
+</html>

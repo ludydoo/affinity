@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var log4js = require(&#39;log4js&#39;);
+
+log4js.configure({
+    appenders: [
+        { type: &#39;console&#39; }
+    ]
+});
+
+log4js.setGlobalLogLevel(log4js.levels.DEBUG);
+
+var Set = module.exports.set = log4js.getLogger(&#39;Set&#39;);
+var Relation = module.exports.relation = log4js.getLogger(&#39;Relation&#39;);
+var Header = module.exports.header = log4js.getLogger(&#39;Header&#39;);
+
+var Compose = module.exports.compose = log4js.getLogger(&#39;Compose&#39;);
+var Difference = module.exports.difference = log4js.getLogger(&#39;Difference&#39;);
+var Extend = module.exports.extend = log4js.getLogger(&#39;Extend&#39;);
+var Group = module.exports.group = log4js.getLogger(&#39;Group&#39;);
+var Intersection = module.exports.intersection = log4js.getLogger(&#39;Intersection&#39;);
+var Join = module.exports.join = log4js.getLogger(&#39;Join&#39;);
+var Product = module.exports.product = log4js.getLogger(&#39;Product&#39;);
+var Projection = module.exports.projection = log4js.getLogger(&#39;Projection&#39;);
+var Rename = module.exports.rename = log4js.getLogger(&#39;Rename&#39;);
+var Restriction = module.exports.restriction = log4js.getLogger(&#39;Restriction&#39;);
+var SemiJoin = module.exports.semiJoin = log4js.getLogger(&#39;SemiJoin&#39;);
+var SemiDifference = module.exports.semiDifference = log4js.getLogger(&#39;SemiDifference&#39;);
+var Ungroup = module.exports.ungroup = log4js.getLogger(&#39;Ungroup&#39;);
+var Union = module.exports.union = log4js.getLogger(&#39;Union&#39;);
+var Unwrap = module.exports.unwrap = log4js.getLogger(&#39;Unwrap&#39;);
+var Wrap = module.exports.wrap = log4js.getLogger(&#39;Wrap&#39;);
+var TableDump = module.exports.reldump = log4js.getLogger(&#39;TableDump&#39;);
+var Test = module.exports.test = log4js.getLogger(&#39;Test&#39;);
+
+
+</pre>
+</body>
+</html>

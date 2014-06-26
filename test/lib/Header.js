@@ -226,7 +226,6 @@ describe('Header Class', function () {
                 var removalHeader = header.remove([attribute1, attribute2]);
 
                 removalHeader.count().should.be.equal(1);
-                removalHeader.elements().should.be.an.Array.and.have.length(1);
 
                 removalHeader._attributes.should.have.property('attribute3');
 
@@ -251,7 +250,6 @@ describe('Header Class', function () {
                 var removalHeader = header.remove(['attribute1', 'attribute2']);
 
                 removalHeader.count().should.be.equal(1);
-                removalHeader.elements().should.be.an.Array.and.have.length(1);
 
                 removalHeader._attributes.should.have.property('attribute3');
 
@@ -276,7 +274,6 @@ describe('Header Class', function () {
                 var removalHeader = header.remove(attribute1);
 
                 removalHeader.count().should.be.equal(2);
-                removalHeader.elements().should.be.an.Array.and.have.length(2);
 
                 removalHeader._attributes.should.have.property('attribute2');
                 removalHeader._attributes.should.have.property('attribute3');
@@ -303,7 +300,6 @@ describe('Header Class', function () {
                 var removalHeader = header.remove('attribute1');
 
                 removalHeader.count().should.be.equal(2);
-                removalHeader.elements().should.be.an.Array.and.have.length(2);
 
                 removalHeader._attributes.should.have.property('attribute2');
                 removalHeader._attributes.should.have.property('attribute3');
@@ -330,7 +326,6 @@ describe('Header Class', function () {
                 var removalHeader = header.remove(['attribute1', attribute2]);
 
                 removalHeader.count().should.be.equal(1);
-                removalHeader.elements().should.be.an.Array.and.have.length(1);
 
                 removalHeader._attributes.should.have.property('attribute3');
 

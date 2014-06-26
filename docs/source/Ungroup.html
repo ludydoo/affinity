@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Relation = require(&#39;./../Relation.js&#39;);
+var Header = require(&#39;./../Header.js&#39;);
+var Tuple = require(&#39;./../Tuple.js&#39;);
+var _ = require(&#39;lodash&#39;);
+var debug = require(&#39;./../helpers/debug&#39;);
+
+
+
+var Ungroup = Relation.extend(
+    {
+
+<span id='Operators-Ungroup'>        /**
+</span>         * @class Operators.Ungroup
+         * @extends Relation
+         * @param {Relation} relation The relation to ungroup
+         * @param {String[]} groupedAttributes The grouped attribute names to ungroup
+         * The Ungroup operation will ungroup the specified grouped attributes.
+         *
+         *     var relationA = new affinity.Relation([
+         *              {a: { type: affinity.Integer}},
+         *              {b: { type: affinity.Integer}},
+         *              {c: { type: affinity.Integer}}
+         *          ],[
+         *              [1, 2, 3],
+         *              [4, 5, 6],
+         *              [4, 9, 9],
+         *              [7, 8, 9]
+         *          ]);
+         *
+         *     var relationB = relationA.group(&#39;groupedAttribute&#39;, [&#39;b&#39;, &#39;c&#39;])
+         *
+         *     // +--------------+---------------------------------+
+         *     // | a : TInteger | groupedAttribute : Relation     |
+         *     // +==============+=================================+
+         *     // | 1            | +--------------+--------------+ |
+         *     // |              | | b : TInteger | c : TInteger | |
+         *     // |              | +==============+==============+ |
+         *     // |              | | 2            | 3            | |
+         *     // |              | +--------------+--------------+ |
+         *     // +--------------+---------------------------------+
+         *     // | 4            | +--------------+--------------+ |
+         *     // |              | | b : TInteger | c : TInteger | |
+         *     // |              | +==============+==============+ |
+         *     // |              | | 5            | 6            | |
+         *     // |              | +--------------+--------------+ |
+         *     // |              | | 9            | 9            | |
+         *     // |              | +--------------+--------------+ |
+         *     // +--------------+---------------------------------+
+         *     // | 7            | +--------------+--------------+ |
+         *     // |              | | b : TInteger | c : TInteger | |
+         *     // |              | +==============+==============+ |
+         *     // |              | | 8            | 9            | |
+         *     // |              | +--------------+--------------+ |
+         *     // +--------------+---------------------------------+
+         *
+         *     var relationC = relationB.ungroup([&#39;groupedAttribute&#39;]);
+         *
+         *     //                 &lt;----UNGROUPED ATTRIBUTES----&gt;
+         *     // +--------------+--------------+--------------+
+         *     // | a : TInteger | b : TInteger | c : TInteger |
+         *     // +==============+==============+==============+
+         *     // | 1            | 2            | 3            |
+         *     // +--------------+--------------+--------------+
+         *     // | 4            | 5            | 6            |
+         *     // +--------------+--------------+--------------+
+         *     // | 4            | 9            | 9            |
+         *     // +--------------+--------------+--------------+
+         *     // | 7            | 8            | 9            |
+         *     // +--------------+--------------+--------------+
+         *
+         *     relationC.equal(relationA) // true
+         */
+        constructor: function (relation, groupedAttributes) {
+
+            debug.ungroup.trace(&#39;#constructor&#39;);
+
+            this.relation = relation;
+            this.groupedAttributeNames = groupedAttributes;
+
+            Relation.call(this);
+
+        },
+
+        bindEvents: function () {
+
+            debug.ungroup.trace(&#39;#bindEvents&#39;);
+
+            // Calling the parent bindEvents
+            Ungroup.__super__.bindEvents.call(this);
+
+            var that = this;
+
+            // BeforeGetHeader
+            this.ee.once(&#39;beforeGetHeader&#39;, function () {
+
+                debug.ungroup.trace(&#39;beforeGetHeader&#39;);
+
+                // Let&#39;s &quot;flatten&quot; the headers. We will add the nested relation header attributes
+                // to this relation
+
+                _.forEach(that.groupedAttributeNames, function(groupedAttributeName){
+
+                    // A RVA (relation-valued attribute) stores a copy of the header of it&#39;s nested relations
+                    // in the attribute.relationHeader property.
+                    var relationHeader = that.relation.header().get(groupedAttributeName).relationHeader;
+
+                    that.header().copy(relationHeader);
+
+                });
+
+                // Let&#39;s add all the other non-grouped attributes to the header
+
+                that.relation.header().each(function(attribute){
+
+                    var grouped = _.any(that.groupedAttributeNames, function(groupedAttributeName){
+
+                        return groupedAttributeName === attribute.name;
+
+                    });
+
+                    if(!grouped){
+
+                        that.header().add(attribute.clone());
+
+                    }
+
+                });
+
+            });
+
+            // BeforeGetBody
+            this.ee.once(&#39;beforeGetBody&#39;, function () {
+
+                debug.ungroup.trace(&#39;beforeGetBody&#39;);
+
+                that.relation.each(function(tuple){
+
+                    _.forEach(that.groupedAttributeNames, function(groupedAttributeName){
+
+                        tuple.get(groupedAttributeName).each(function(nestedTuple){
+
+                            var newTuple = new Tuple();
+
+                            // Copy the non grouped attributes from the root tuple
+                            newTuple.copy(tuple, that.groupedAttributeNames, true);
+
+                            // Copy the attributes from the nested tuple
+
+                            newTuple.copy(nestedTuple);
+
+                            that.add(newTuple, false);
+
+                        })
+
+                    })
+
+                })
+
+            });
+
+        }
+
+    });
+
+module.exports = Ungroup;</pre>
+</body>
+</html>

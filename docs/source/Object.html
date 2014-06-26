@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Type = require(&#39;./../Type&#39;);
+var _ = require(&#39;lodash&#39;);
+
+var TObject = Type.extend({
+
+<span id='Types-Object'>    /**
+</span>     * @class Types.Object
+     * @param value
+     */
+    constructor: function (value) {
+
+        Type.apply(this, Array.prototype.slice.call(arguments, 0));
+
+        this.name = &#39;TObject&#39;;
+    },
+
+    toString: function () {
+
+        return &#39;Object&#39;
+
+    }
+
+}, {
+
+    coerce : function(value){
+
+        return value;
+
+    },
+
+    payload : [
+        require(&#39;./../mixins/comparable&#39;),
+        require(&#39;./../mixins/connectable&#39;),
+        require(&#39;./../mixins/not&#39;)
+    ],
+
+    value : function(numeric){
+
+        if(_.isNumber(numeric)){
+            return numeric;
+        } else {
+            return numeric.value();
+        }
+
+    },
+
+    equal: function (numeric1, numeric2) {
+
+        if(!_.isNumber(numeric1)){
+            numeric1 = numeric1.value()
+        }
+        if(!_.isNumber(numeric2)){
+            numeric2 = numeric2.value();
+        }
+
+        return (numeric1 === numeric2);
+
+    },
+
+    toString: function () {
+        return &#39;TObject&#39;
+    },
+
+    primitive : false,
+
+    type : &#39;TObject&#39;
+
+});
+
+
+module.exports = TObject;
+
+</pre>
+</body>
+</html>

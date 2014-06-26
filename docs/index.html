@@ -1,1060 +1,204 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html>
 <head>
-	<meta charset="utf-8">
-	<title>Affinity Index</title>
+  <title>Documentation - JSDuck</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="fragment" content="!">
 
-	<!--[if lt IE 9]>
-	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+  
 
-	<link type="text/css" rel="stylesheet" href="styles/site.journal.css">
+  <link rel="shortcut icon" type="image/ico" href="favicon.ico" />
+  <link rel="stylesheet" href="resources/css/app-4689d2a5522dcd3c9e9923ca59c33f27.css" type="text/css" />
+  <link rel="stylesheet" href="styles-3eba09980fa05ead185cb17d9c0deb0f.css" type="text/css" />
+
+  <script type="text/javascript" src="extjs/ext-all.js"></script>
+  <script type="text/javascript" src="data-234b9e2585517f63b39dc999de8a9a6d.js"></script>
+
+  <script type="text/javascript" src="app-0c945a27f43452df695771ddb60b3d14.js"></script>
+
+  
 
 </head>
-
-<body>
-<div class="container-fluid">
-	<div class="navbar navbar-fixed-top navbar-inverse">
-		<div class="navbar-inner">
-			<a class="brand" href="index.html">Affinity</a>
-			<ul class="nav">
-				
-				<li class="dropdown">
-					<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b
-						class="caret"></b></a>
-
-					<ul class="dropdown-menu ">
-						
-						<li>
-							<a href="module-affinity.html">affinity</a>
-						</li>
-						
-
-					</ul>
-				</li>
-				
-				<li class="dropdown">
-					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
-						class="caret"></b></a>
-
-					<ul class="dropdown-menu ">
-						
-						<li>
-							<a href="Attribute.html">Attribute</a>
-						</li>
-						
-						<li>
-							<a href="FAbsolute.html">FAbsolute</a>
-						</li>
-						
-						<li>
-							<a href="FAnd.html">FAnd</a>
-						</li>
-						
-						<li>
-							<a href="FCeil.html">FCeil</a>
-						</li>
-						
-						<li>
-							<a href="FCos.html">FCos</a>
-						</li>
-						
-						<li>
-							<a href="FDayOfMonth.html">FDayOfMonth</a>
-						</li>
-						
-						<li>
-							<a href="FDayOfWeek.html">FDayOfWeek</a>
-						</li>
-						
-						<li>
-							<a href="FDayOfYear.html">FDayOfYear</a>
-						</li>
-						
-						<li>
-							<a href="FDivision.html">FDivision</a>
-						</li>
-						
-						<li>
-							<a href="FEqual.html">FEqual</a>
-						</li>
-						
-						<li>
-							<a href="FExp.html">FExp</a>
-						</li>
-						
-						<li>
-							<a href="FHours.html">FHours</a>
-						</li>
-						
-						<li>
-							<a href="FLargerThan.html">FLargerThan</a>
-						</li>
-						
-						<li>
-							<a href="FLargerThanEqual.html">FLargerThanEqual</a>
-						</li>
-						
-						<li>
-							<a href="FMilliseconds.html">FMilliseconds</a>
-						</li>
-						
-						<li>
-							<a href="FMinus.html">FMinus</a>
-						</li>
-						
-						<li>
-							<a href="FMinutes.html">FMinutes</a>
-						</li>
-						
-						<li>
-							<a href="FModulo.html">FModulo</a>
-						</li>
-						
-						<li>
-							<a href="FMonth.html">FMonth</a>
-						</li>
-						
-						<li>
-							<a href="FMultiplication.html">FMultiplication</a>
-						</li>
-						
-						<li>
-							<a href="FNot.html">FNot</a>
-						</li>
-						
-						<li>
-							<a href="FOr.html">FOr</a>
-						</li>
-						
-						<li>
-							<a href="FPlus.html">FPlus</a>
-						</li>
-						
-						<li>
-							<a href="FPow.html">FPow</a>
-						</li>
-						
-						<li>
-							<a href="FRound.html">FRound</a>
-						</li>
-						
-						<li>
-							<a href="FSeconds.html">FSeconds</a>
-						</li>
-						
-						<li>
-							<a href="FSin.html">FSin</a>
-						</li>
-						
-						<li>
-							<a href="FSmallerThan.html">FSmallerThan</a>
-						</li>
-						
-						<li>
-							<a href="FSmallerThanEqual.html">FSmallerThanEqual</a>
-						</li>
-						
-						<li>
-							<a href="FSquareRoot.html">FSquareRoot</a>
-						</li>
-						
-						<li>
-							<a href="FTan.html">FTan</a>
-						</li>
-						
-						<li>
-							<a href="FTimestamp.html">FTimestamp</a>
-						</li>
-						
-						<li>
-							<a href="Function.html">Function</a>
-						</li>
-						
-						<li>
-							<a href="FWeekOfYear.html">FWeekOfYear</a>
-						</li>
-						
-						<li>
-							<a href="FYear.html">FYear</a>
-						</li>
-						
-						<li>
-							<a href="Header.html">Header</a>
-						</li>
-						
-						<li>
-							<a href="RCompose.html">RCompose</a>
-						</li>
-						
-						<li>
-							<a href="RCompose_constructor.html">constructor</a>
-						</li>
-						
-						<li>
-							<a href="RDifference.html">RDifference</a>
-						</li>
-						
-						<li>
-							<a href="RDifference_constructor.html">constructor</a>
-						</li>
-						
-						<li>
-							<a href="Relation_constructor.html">constructor</a>
-						</li>
-						
-						<li>
-							<a href="RExtend.html">RExtend</a>
-						</li>
-						
-						<li>
-							<a href="RExtend_constructor.html">constructor</a>
-						</li>
-						
-						<li>
-							<a href="RGroup.html">RGroup</a>
-						</li>
-						
-						<li>
-							<a href="RGroup_constructor.html">constructor</a>
-						</li>
-						
-						<li>
-							<a href="RIntersection_constructor.html">constructor</a>
-						</li>
-						
-						<li>
-							<a href="RIntersection_constructor_constructor.html">constructor</a>
-						</li>
-						
-						<li>
-							<a href="RJoin.html">RJoin</a>
-						</li>
-						
-						<li>
-							<a href="RJoin_constructor.html">constructor</a>
-						</li>
-						
-						<li>
-							<a href="RProduct.html">RProduct</a>
-						</li>
-						
-						<li>
-							<a href="RProduct_constructor.html">constructor</a>
-						</li>
-						
-						<li>
-							<a href="RProjection.html">RProjection</a>
-						</li>
-						
-						<li>
-							<a href="RProjection_constructor.html">constructor</a>
-						</li>
-						
-						<li>
-							<a href="RRename.html">RRename</a>
-						</li>
-						
-						<li>
-							<a href="RRename_constructor.html">constructor</a>
-						</li>
-						
-						<li>
-							<a href="RRestriction.html">RRestriction</a>
-						</li>
-						
-						<li>
-							<a href="RRestriction_constructor.html">constructor</a>
-						</li>
-						
-						<li>
-							<a href="RSemiDifference.html">RSemiDifference</a>
-						</li>
-						
-						<li>
-							<a href="RSemiDifference_constructor.html">constructor</a>
-						</li>
-						
-						<li>
-							<a href="RSemiJoin.html">RSemiJoin</a>
-						</li>
-						
-						<li>
-							<a href="RSemiJoin_constructor.html">constructor</a>
-						</li>
-						
-						<li>
-							<a href="RUngroup.html">RUngroup</a>
-						</li>
-						
-						<li>
-							<a href="RUngroup_constructor.html">constructor</a>
-						</li>
-						
-						<li>
-							<a href="RUnion.html">RUnion</a>
-						</li>
-						
-						<li>
-							<a href="RUnion_constructor.html">constructor</a>
-						</li>
-						
-						<li>
-							<a href="RUnwrap.html">RUnwrap</a>
-						</li>
-						
-						<li>
-							<a href="RUnwrap_constructor.html">constructor</a>
-						</li>
-						
-						<li>
-							<a href="RWrap.html">RWrap</a>
-						</li>
-						
-						<li>
-							<a href="RWrap_constructor.html">constructor</a>
-						</li>
-						
-						<li>
-							<a href="Set.html">Set</a>
-						</li>
-						
-						<li>
-							<a href="Tuple.html">Tuple</a>
-						</li>
-						
-						<li>
-							<a href="Type.html">Type</a>
-						</li>
-						
-
-					</ul>
-				</li>
-				
-			</ul>
-		</div>
-	</div>
-
-	<div class="row-fluid">
-
-		
-		<div class="span8">
-			
-				<div id="main">
-					
-
-
-	
-	<span class="page-title">Index</span>
-	
-	
-
-
-
-
-
-
-
-
-
-
-
-
-	
-	
-
-
-
-
-
-    <section class="readme-section">
-        <article><h1>Affinity</h1><p>Relational Algebra Library written in JavaScript</p>
-<p>Inspired from</p>
-<p>Axiom  https://github.com/dkubb/axiom</p>
-<p>DEE    http://www.quicksort.co.uk</p>
-<p>Relational Algebra is the foundation of SQL implementations. To further my understanding of it, I wanted to implement
-a relational algebra library in javascript.</p>
-<h2>Installation</h2><pre class="prettyprint source"><code>npm install('affinity')
-var affinity = require('affinity');</code></pre><h2>Basics</h2><p>A Set is a collection of distinct objects (no duplicates)</p>
-<p>A Relation is composed of a Header and a Body.</p>
-<p>A Header is a Set of Attributes.</p>
-<p>An Attribute is a pair (name, type)</p>
-<p>A Type can be anything (String, Boolean, Object, Vector, Array, even Tuple, Function, Relation, Set, Header...)</p>
-<p>A Body is a Set of Tuples having the same Attributes as the Relation.</p>
-<p>A Tuple is a single entry in a Relation. It is an ordered set (attribute1 : value, attribute2 : value...)</p>
-<h2>Class List</h2><h3>Relational Operators</h3><table>
-<thead>
-<tr>
-<th style="text-align:left"><strong>Operation</strong></th>
-<th style="text-align:left"><strong>Shortcut</strong></th>
-<th style="text-align:left"><strong>Class</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Base Relation</td>
-<td style="text-align:left">N/A</td>
-<td style="text-align:left"><a href="Relation.html">Relation</a></td>
-</tr>
-<tr>
-<td style="text-align:left">Compose</td>
-<td style="text-align:left"><code>compose</code></td>
-<td style="text-align:left">Compose</td>
-</tr>
-<tr>
-<td style="text-align:left">Difference</td>
-<td style="text-align:left"><code>difference</code></td>
-<td style="text-align:left">Difference</td>
-</tr>
-<tr>
-<td style="text-align:left">Extend</td>
-<td style="text-align:left"><code>extend</code></td>
-<td style="text-align:left">Extend</td>
-</tr>
-<tr>
-<td style="text-align:left">Group</td>
-<td style="text-align:left"><code>group</code></td>
-<td style="text-align:left">Group</td>
-</tr>
-<tr>
-<td style="text-align:left">Intersection</td>
-<td style="text-align:left"><code>intersect</code></td>
-<td style="text-align:left">Intersection</td>
-</tr>
-<tr>
-<td style="text-align:left">Join</td>
-<td style="text-align:left"><code>join</code></td>
-<td style="text-align:left">Join</td>
-</tr>
-<tr>
-<td style="text-align:left">Product</td>
-<td style="text-align:left"><code>product</code></td>
-<td style="text-align:left">CrossProduct</td>
-</tr>
-<tr>
-<td style="text-align:left">Projection</td>
-<td style="text-align:left"><code>project</code></td>
-<td style="text-align:left">Projection</td>
-</tr>
-<tr>
-<td style="text-align:left">Rename</td>
-<td style="text-align:left"><code>rename</code></td>
-<td style="text-align:left">Rename</td>
-</tr>
-<tr>
-<td style="text-align:left">Restriction</td>
-<td style="text-align:left"><code>restrict</code></td>
-<td style="text-align:left">Restriction</td>
-</tr>
-<tr>
-<td style="text-align:left">SemiDifference</td>
-<td style="text-align:left"><code>sdifference</code></td>
-<td style="text-align:left">Restriction</td>
-</tr>
-<tr>
-<td style="text-align:left">SemiJoin</td>
-<td style="text-align:left"><code>sjoin</code></td>
-<td style="text-align:left">Restriction</td>
-</tr>
-<tr>
-<td style="text-align:left">UnGroup</td>
-<td style="text-align:left"><code>ungroup</code></td>
-<td style="text-align:left">Ungroup</td>
-</tr>
-<tr>
-<td style="text-align:left">Union</td>
-<td style="text-align:left"><code>union</code></td>
-<td style="text-align:left">Union</td>
-</tr>
-<tr>
-<td style="text-align:left">UnWrap</td>
-<td style="text-align:left"><code>unwrap</code></td>
-<td style="text-align:left">Restriction</td>
-</tr>
-<tr>
-<td style="text-align:left">Wrap</td>
-<td style="text-align:left"><code>wrap</code></td>
-<td style="text-align:left">Wrap</td>
-</tr>
-</tbody>
-</table>
-<h2><strong>Functions</strong></h2><table>
-<thead>
-<tr>
-<th style="text-align:left"><strong>Function</strong></th>
-<th style="text-align:left"><strong>Shortcut</strong></th>
-<th style="text-align:left"><strong>Class</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><strong>Connectives</strong></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">And</td>
-<td style="text-align:left"><code>and</code></td>
-<td style="text-align:left">And</td>
-</tr>
-<tr>
-<td style="text-align:left">Or</td>
-<td style="text-align:left"><code>or</code></td>
-<td style="text-align:left">Or</td>
-</tr>
-<tr>
-<td style="text-align:left">Not</td>
-<td style="text-align:left"><code>not</code></td>
-<td style="text-align:left">Not</td>
-</tr>
-<tr>
-<td style="text-align:left"><strong>Comparison</strong></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">Equal</td>
-<td style="text-align:left"><code>eq</code></td>
-<td style="text-align:left">Equal</td>
-</tr>
-<tr>
-<td style="text-align:left">Larger Than</td>
-<td style="text-align:left"><code>lt</code></td>
-<td style="text-align:left">LargerThan</td>
-</tr>
-<tr>
-<td style="text-align:left">Larger Than or Equal</td>
-<td style="text-align:left"><code>lte</code></td>
-<td style="text-align:left">LargerThanEqual</td>
-</tr>
-<tr>
-<td style="text-align:left">Smaller Than</td>
-<td style="text-align:left"><code>st</code></td>
-<td style="text-align:left">SmallerThan</td>
-</tr>
-<tr>
-<td style="text-align:left">Smaller Than or Equal</td>
-<td style="text-align:left"><code>ste</code></td>
-<td style="text-align:left">SmallerThanEqual</td>
-</tr>
-<tr>
-<td style="text-align:left"><strong>Numeric Functions</strong></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">Absolute</td>
-<td style="text-align:left"><code>abs</code></td>
-<td style="text-align:left">Absolute</td>
-</tr>
-<tr>
-<td style="text-align:left">Ceil</td>
-<td style="text-align:left"><code>ceil</code></td>
-<td style="text-align:left">Ceil</td>
-</tr>
-<tr>
-<td style="text-align:left">Cosine</td>
-<td style="text-align:left"><code>cos</code></td>
-<td style="text-align:left">Cosine</td>
-</tr>
-<tr>
-<td style="text-align:left">Division</td>
-<td style="text-align:left"><code>div</code></td>
-<td style="text-align:left">Division</td>
-</tr>
-<tr>
-<td style="text-align:left">Exponential</td>
-<td style="text-align:left"><code>exp</code></td>
-<td style="text-align:left">Exponential</td>
-</tr>
-<tr>
-<td style="text-align:left">Minus</td>
-<td style="text-align:left"><code>minus</code></td>
-<td style="text-align:left">Minus</td>
-</tr>
-<tr>
-<td style="text-align:left">Modulo</td>
-<td style="text-align:left"><code>mod</code></td>
-<td style="text-align:left">Modulo</td>
-</tr>
-<tr>
-<td style="text-align:left">Multiplication</td>
-<td style="text-align:left"><code>times</code></td>
-<td style="text-align:left">Multiplication</td>
-</tr>
-<tr>
-<td style="text-align:left">Plus</td>
-<td style="text-align:left"><code>plus</code></td>
-<td style="text-align:left">Plus</td>
-</tr>
-<tr>
-<td style="text-align:left">Power</td>
-<td style="text-align:left"><code>pow</code></td>
-<td style="text-align:left">Pow</td>
-</tr>
-<tr>
-<td style="text-align:left">Roof</td>
-<td style="text-align:left"><code>roof</code></td>
-<td style="text-align:left">Roof</td>
-</tr>
-<tr>
-<td style="text-align:left">Round</td>
-<td style="text-align:left"><code>round</code></td>
-<td style="text-align:left">Round</td>
-</tr>
-<tr>
-<td style="text-align:left">Sine</td>
-<td style="text-align:left"><code>sine</code></td>
-<td style="text-align:left">Sine</td>
-</tr>
-<tr>
-<td style="text-align:left">Square Root</td>
-<td style="text-align:left"><code>sqrt</code></td>
-<td style="text-align:left">Sqrt</td>
-</tr>
-<tr>
-<td style="text-align:left">Unary Minus</td>
-<td style="text-align:left"><code>uminus</code></td>
-<td style="text-align:left">UnaryMinus</td>
-</tr>
-<tr>
-<td style="text-align:left">Unary Plus</td>
-<td style="text-align:left"><code>uplus</code></td>
-<td style="text-align:left">UnaryPlus</td>
-</tr>
-<tr>
-<td style="text-align:left"><strong>Date Functions</strong></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">Day of Month</td>
-<td style="text-align:left"><code>monthDay</code></td>
-<td style="text-align:left">MonthDay</td>
-</tr>
-<tr>
-<td style="text-align:left">Day of Week</td>
-<td style="text-align:left"><code>weekDay</code></td>
-<td style="text-align:left">WeekDay</td>
-</tr>
-<tr>
-<td style="text-align:left">Day of Year</td>
-<td style="text-align:left"><code>yearDay</code></td>
-<td style="text-align:left">YearDay</td>
-</tr>
-<tr>
-<td style="text-align:left">Month</td>
-<td style="text-align:left"><code>month</code></td>
-<td style="text-align:left">Month</td>
-</tr>
-<tr>
-<td style="text-align:left">Timestamp</td>
-<td style="text-align:left"><code>ts</code></td>
-<td style="text-align:left">TimeStamp</td>
-</tr>
-<tr>
-<td style="text-align:left">Week of Year</td>
-<td style="text-align:left"><code>yearWeek</code></td>
-<td style="text-align:left">YearWeek</td>
-</tr>
-</tbody>
-</table>
-<h2>Usage</h2><h3>Difference</h3><p>The difference of A in B is the relation containing tuples in A that are not present in B.</p>
-<pre class="prettyprint source"><code>var people = new affinity.Relation([
-                    {    id: { type: affinity.Integer}},
-                    {  name: { type: affinity.String }},
-                    {exists: { type: affinity.Boolean}}
-                ],[
-                    [1, 'Nicolas',  true ],
-                    [2, 'Lancelot', false],
-                    [3, 'Marie',    true ]
-                ]);
-
-
-var otherPeople = new affinity.Relation([
-                    {    id: { type: affinity.Integer}},
-                    {  name: { type: affinity.String }},
-                    {exists: { type: affinity.Boolean}}
-                ],[
-                    [1, 'Nicolas',  true ],
-                    [2, 'Raymond',  true ],
-                    [3, 'Banane',   true ]
-                ]);
-
-var difference = people.difference(otherPeople);</code></pre><p>Result : </p>
-<pre>
-+------+----------+----------+
-|  id  |   name   |  exists  |
-+======+==========+==========+
-|  2   | Lancelot |   false  |
-+------+----------+----------+
-|  3   |  Marie   |   true   |
-+------+----------+----------+
-</pre>
-
-
-<h3>Intersection</h3><p>The intersection of A and B is the relation containing tuples that are both in A and B.</p>
-<pre class="prettyprint source"><code>
-var people = new affinity.Relation([
-                    {    id: { type: affinity.Integer}},
-                    {  name: { type: affinity.String }},
-                    {exists: { type: affinity.Boolean}}
-                ], [
-                    [1, 'Nicolas',  true ],
-                    [2, 'Lancelot', false],
-                    [3, 'Marie',    true ]
-                ]);
-
-
-var otherPeople = new affinity.Relation([
-                    {    id: { type: affinity.Integer}},
-                    {  name: { type: affinity.String }},
-                    {exists: { type: affinity.Boolean}}
-                ], [
-                    [1, 'Nicolas',  true ],
-                    [2, 'Raymond',  true ],
-                    [3, 'Banane',   true ]
-                ]);
-
-var difference = people.intersect(otherPeople);</code></pre><pre>
-+------+--------+----------+
-|  id  |  name  |  exists  |
-+======+========+==========+
-|  1   | Nicolas|   true   |
-+------+--------+----------+
-</pre>
-
-<h3>Join</h3><p>The join of two relations returns a relation containing all possible combinations of tuples that are equal
-on their common attributes.</p>
-<pre class="prettyprint source"><code>var people = new affinity.Relation([
-                    { name : { type : affinity.String  }},
-                    { dept : { type : affinity.String  }},
-                ],[
-                    ['Nicolas',  'Sales'        ],
-                    ['Lancelot', 'R&D'          ],
-                    ['Marie',    'Communication'],
-                ]);
-
-var depts = new affinity.Relation([
-                   { dept  : { type : affinity.String  }},
-                   { level : { type : affinity.Integer  }},
-               ],[
-                   ['Sales'        , 2],
-                   ['R&D'          , 2],
-                   ['Communication', 3],
-               ]);
-
-var join = people.join(depts);`</code></pre><p>Result : </p>
-<pre>
-+-----------+---------------+---------+
-|    name   |  dept         |  stage  |
-+===========+===============+=========+
-|  Nicolas  | Sales         |   2     |
-+-----------+---------------+---------+
-|  Lancelot | R&D           |   2     |
-+-----------+---------------+---------+
-|   Marie   | Communication |   3     |
-+-----------+---------------+---------+              
-</pre>
-
-<h3>Product</h3><p>The product of relations A and B is a relation containing all possible combinations of tuples in A and B</p>
-<pre class="prettyprint source"><code>var people = new affinity.Relation([
-                    { name   : { type : affinity.String  }},
-                    { salary : { type : affinity.Integer  }},
-                ],[
-                    ['Nicolas',  100 ],
-                    ['Lancelot', 200 ],
-                    ['Marie',    250 ],
-                ]);
-
-var depts = new affinity.Relation([
-                   { dept  : { type : affinity.String  }},
-                   { level : { type : affinity.Integer  }},
-               ],[
-                   ['Sales'        , 2],
-                   ['R&D'          , 2],
-                   ['Communication', 3],
-               ]);
-
-var product = people.product(depts);`</code></pre><p>Result:</p>
-<pre>
-+-----------+---------+----------------+-------+
-|  name     |  salary |  dept          | level |
-+===========+=========+================+=======+
-|  Nicolas  |   100   |  Sales         |  2    |
-+-----------+---------+----------------+-------+
-|  Nicolas  |   100   |  R&D           |  2    |
-+-----------+---------+----------------+-------+
-|  Nicolas  |   100   |  Communication |  3    |
-+-----------+---------+----------------+-------+
-|  Lancelot |   200   |  Sales         |  2    |
-+-----------+---------+----------------+-------+
-|  Lancelot |   200   |  R&D           |  2    |
-+-----------+---------+----------------+-------+
-|  Lancelot |   200   |  Communication |  3    |
-+-----------+---------+----------------+-------+
-|   Marie   |   250   |  Sales         |  2    |
-+-----------+---------+----------------+-------+
-|   Marie   |   250   |  R&D           |  2    |
-+-----------+---------+----------------+-------+
-|   Marie   |   250   |  Communication |  3    |
-+-----------+---------+----------------+-------+
-</pre>
-
-<h3>Projection</h3><p>The projection of a relation on specified attributes is a relation containing only the specified attributes.</p>
-<pre class="prettyprint source"><code>var people = new affinity.Relation([
-                    {    id: { type: affinity.Integer}},
-                    {  name: { type: affinity.String }},
-                    {exists: { type: affinity.Boolean}}
-                ], [
-                    [1, 'Nicolas',  true ],
-                    [2, 'Lancelot', false],
-                    [3, 'Marie',    true ]
-                ]);
-
-var projection = people.project(['id', 'name']);</code></pre><p>Result : </p>
-<pre>
-+------+----------+
-|  id  |   name   |
-+======+==========+
-|  1   | Nicolas  |
-+------+----------+
-|  2   | Lancelot |
-+------+----------+
-|  3   |  Marie   |
-+------+----------+
-</pre>
-
-<h3>Rename</h3><p>The rename operator renames attributes of a relation.</p>
-<pre class="prettyprint source"><code>var people = new affinity.Relation([
-                    {    id: { type: affinity.Integer}},
-                    {  name: { type: affinity.String }},
-                    {exists: { type: affinity.Boolean}}
-                ], [
-                    [1, 'Nicolas',  true ],
-                    [2, 'Lancelot', false],
-                    [3, 'Marie',    true ]
-                ]);
-
-var rename = people.rename({ name : 'pseudo'})</code></pre><p>Result : </p>
-<pre>
-+------+----------+----------+
-|  id  |  pseudo  |  exists  |
-+======+==========+==========+
-|  1   | Nicolas  |   true   |
-+------+----------+----------+
-|  2   | Lancelot |   false  |
-+------+----------+----------+
-|  3   |  Marie   |   true   |
-+------+----------+----------+
-</pre>
-
-
-
-<h3>Restriction</h3><p>The Restriction operator returns a relation containing the tuples for which the specified predicate holds.</p>
-<pre class="prettyprint source"><code>var people = new affinity.Relation([
-                    {    id: { type: affinity.Integer}},
-                    {  name: { type: affinity.String }},
-                    {exists: { type: affinity.Boolean}}
-                ], [
-                    [1, 'Nicolas',  true ],
-                    [2, 'Lancelot', false],
-                    [3, 'Marie',    true ]
-                ]);
-
-var restricted = people.restrict(relation.get('exists).equal(true));</code></pre><p>Result : </p>
-<pre>
-+------+--------+----------+
-|  id  |  name  |  exists  |
-+======+========+==========+
-|  1   | Nicolas|   true   |
-+------+--------+----------+
-|  3   | Marie  |   true   |
-+------+--------+----------+
-</pre>
-
-<p>The predicate can be built with the following arguments : </p>
-<pre class="prettyprint source"><code>// Connectives
-and // And
-or  // Or
-not // Not
-
-// Comparatives
-eq  // Equals
-lt  // Larger Than
-lte // Larger Than or Equals
-gt  // Greater Than
-gte // Greater Than or Equals
-
-// Numeric functions
-plus       // Plus
-minus      // Minus
-times      // Multiplication
-div        // Division
-abs        // Absolute
-ceil       // Ceil
-floor      // Floor
-round      // Round
-mod        // Modulo  
-sin        // Sinus
-cos        // Cosinus
-tan        // Tangent
-sqrt       // Square Root
-pow        // Power
-exp        // Exponential
-uplus      // Unary Plus
-uminus     // Unary Minus
-
-// Date Functions
-dayOfMonth // Day of the month
-dayOfWeek  // Day of the week
-dayOfYear  // Day of the year
-month      // Month number
-timeStamp  // Unix Timestamp
-weekOfYear // Week of the year
-
-Example : 
-
-relation.restrict(
-    (relation.get('count1').plus(relation.get('count2')))
-    .equals(relation.get('count3').div(relation.get('count4')))
-)
-
-// (count1 + count2 == count3 / count4)</code></pre><h3>Union</h3><p>The Union operator returns a relation containing all tuples from both relations. </p>
-<pre class="prettyprint source"><code>var friends = new affinity.Relation([
-                    {    id: { type: affinity.Integer}},
-                    {  name: { type: affinity.String }},
-                    {exists: { type: affinity.Boolean}}
-                ], [
-                    [1, 'Nicolas',  true ],
-                    [2, 'Lancelot', false],
-                    [3, 'Marie',    true ]
-                ]);
-
-var family = new affinity.Relation([
-                    {    id: { type: affinity.Integer}},
-                    {  name: { type: affinity.String }},
-                    {exists: { type: affinity.Boolean}}
-                ], [
-                    [1, 'Raymond',     true ],
-                    [2, 'Michele',     true ],
-                    [3, 'Andreanne',   true ]
-                ]);
-
-var union = friends.union(family);</code></pre><p>Result : </p>
-<pre>
-+------+-----------+----------+
-|  id  |  name     |  exists  |
-+======+===========+==========+
-|  1   | Lancelot  |  false   |
-+------+-----------+----------+
-|  1   | Nicolas   |   true   |
-+------+-----------+----------+
-|  3   | Marie     |   true   |
-+------+-----------+----------+
-|  1   | Raymond   |   true   |
-+------+-----------+----------+
-|  2   | Michele   |   true   |
-+------+-----------+----------+
-|  3   | Andreanne |   true   |
-+------+-----------+----------+
-</pre></article>
-    </section>
-
-
-
-
-
-
-
-				</div>
-
-				<div class="clearfix"></div>
-				<footer>
-					
-					
-		<span class="copyright">
-		Ludovic Cléroux © 2012-2014.
-		</span>
-					<br />
-					
-		<span class="jsdoc-message">
-		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha8</a>
-		on Tue Jun 24th 2014 using the <a
-			href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
-		</span>
-				</footer>
-			</div>
-
-			
-			<div class="span3">
-				<div id="toc"></div>
-			</div>
-			
-			<br clear="both">
-		</div>
-
-	</div>
-	<!--<script src="scripts/sunlight.js"></script>-->
-	<script src="scripts/docstrap.lib.js"></script>
-	<script src="scripts/bootstrap-dropdown.js"></script>
-	<script src="scripts/toc.js"></script>
-
-	<script>
-		$( function () {
-			$( "#toc" ).toc( {
-				anchorName  : function ( i, heading, prefix ) {
-					return $( heading ).attr( "id" ) || ( prefix + i );
-				},
-				selectors   : "h1,h2,h3,h4",
-				showAndHide : false,
-				scrollTo    : 60
-			} );
-			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
-			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
-			$('.dropdown-toggle').dropdown();
-//			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
-
-			$( ".tutorial-section pre, .readme-section pre" ).each( function () {
-				var $this = $( this );
-
-				var example = $this.find("code" );
-				exampleText = example.html();
-				var lang = /{@lang (.*?)}/.exec( exampleText );
-				if ( lang && lang[1] ) {
-					exampleText = exampleText.replace( lang[0], "" );
-					example.html(exampleText);
-					lang = lang[1];
-				} else {
-					lang = "javascript";
-				}
-
-				if ( lang ) {
-
-					$this
-						.addClass( "sunlight-highlight-" + lang )
-						.addClass( "linenums" )
-						.html( example.html() );
-
-				}
-			} );
-
-			Sunlight.highlightAll( {
-				lineNumbers : true,
-				showMenu:true,
-				enableDoclinks:true
-		} );
-		} );
-
-	</script>
-
-	<!--Google Analytics-->
-	
-
-	<!--Navigation and Symbol Display-->
-	
+<body id="ext-body">
+
+  <div id="loading"><span class="title">Documentation - JSDuck</span><span class="logo"></span></div>
+
+  <div id="header-content"><strong>Documentation</strong> JSDuck</div>
+  
+            <div id='categories-content' style='display:none'>
+            <div class='section'>
+<h1>Functions</h1>
+<div class='left-column'>
+<h3>Comparable</h3>
+<ul class='links'>
+<li><a href="#!/api/Functions.Comparable.Equal" rel="Functions.Comparable.Equal" class="docClass">Functions.Comparable.Equal</a></li>
+<li><a href="#!/api/Functions.Comparable.LargerThan" rel="Functions.Comparable.LargerThan" class="docClass">Functions.Comparable.LargerThan</a></li>
+<li><a href="#!/api/Functions.Comparable.LargerThanEqual" rel="Functions.Comparable.LargerThanEqual" class="docClass">Functions.Comparable.LargerThanEqual</a></li>
+<li><a href="#!/api/Functions.Comparable.SmallerThan" rel="Functions.Comparable.SmallerThan" class="docClass">Functions.Comparable.SmallerThan</a></li>
+<li><a href="#!/api/Functions.Comparable.SmallerThanEqual" rel="Functions.Comparable.SmallerThanEqual" class="docClass">Functions.Comparable.SmallerThanEqual</a></li>
+</ul>
+<h3>Connective</h3>
+<ul class='links'>
+<li><a href="#!/api/Functions.Connective.And" rel="Functions.Connective.And" class="docClass">Functions.Connective.And</a></li>
+<li><a href="#!/api/Functions.Connective.Not" rel="Functions.Connective.Not" class="docClass">Functions.Connective.Not</a></li>
+<li><a href="#!/api/Functions.Connective.Or" rel="Functions.Connective.Or" class="docClass">Functions.Connective.Or</a></li>
+</ul>
+<h3>Date</h3>
+<ul class='links'>
+<li><a href="#!/api/Functions.Date.DayOfMonth" rel="Functions.Date.DayOfMonth" class="docClass">Functions.Date.DayOfMonth</a></li>
+<li><a href="#!/api/Functions.Date.DayOfWeek" rel="Functions.Date.DayOfWeek" class="docClass">Functions.Date.DayOfWeek</a></li>
+<li><a href="#!/api/Functions.Date.DayOfYear" rel="Functions.Date.DayOfYear" class="docClass">Functions.Date.DayOfYear</a></li>
+<li><a href="#!/api/Functions.Date.Hours" rel="Functions.Date.Hours" class="docClass">Functions.Date.Hours</a></li>
+<li><a href="#!/api/Functions.Date.Milliseconds" rel="Functions.Date.Milliseconds" class="docClass">Functions.Date.Milliseconds</a></li>
+<li><a href="#!/api/Functions.Date.Minutes" rel="Functions.Date.Minutes" class="docClass">Functions.Date.Minutes</a></li>
+<li><a href="#!/api/Functions.Date.Month" rel="Functions.Date.Month" class="docClass">Functions.Date.Month</a></li>
+<li><a href="#!/api/Functions.Date.Seconds" rel="Functions.Date.Seconds" class="docClass">Functions.Date.Seconds</a></li>
+<li><a href="#!/api/Functions.Date.Timestamp" rel="Functions.Date.Timestamp" class="docClass">Functions.Date.Timestamp</a></li>
+<li><a href="#!/api/Functions.Date.WeekOfYear" rel="Functions.Date.WeekOfYear" class="docClass">Functions.Date.WeekOfYear</a></li>
+<li><a href="#!/api/Functions.Date.Year" rel="Functions.Date.Year" class="docClass">Functions.Date.Year</a></li>
+</ul>
+</div>
+<div class='middle-column'>
+<h3>Numeric</h3>
+<ul class='links'>
+<li><a href="#!/api/Functions.Numeric.Absolute" rel="Functions.Numeric.Absolute" class="docClass">Functions.Numeric.Absolute</a></li>
+<li><a href="#!/api/Functions.Numeric.Ceil" rel="Functions.Numeric.Ceil" class="docClass">Functions.Numeric.Ceil</a></li>
+<li><a href="#!/api/Functions.Numeric.Cosine" rel="Functions.Numeric.Cosine" class="docClass">Functions.Numeric.Cosine</a></li>
+<li><a href="#!/api/Functions.Numeric.Division" rel="Functions.Numeric.Division" class="docClass">Functions.Numeric.Division</a></li>
+<li><a href="#!/api/Functions.Numeric.Exponential" rel="Functions.Numeric.Exponential" class="docClass">Functions.Numeric.Exponential</a></li>
+<li><a href="#!/api/Functions.Numeric.Minus" rel="Functions.Numeric.Minus" class="docClass">Functions.Numeric.Minus</a></li>
+<li><a href="#!/api/Functions.Numeric.Modulo" rel="Functions.Numeric.Modulo" class="docClass">Functions.Numeric.Modulo</a></li>
+<li><a href="#!/api/Functions.Numeric.Multiplication" rel="Functions.Numeric.Multiplication" class="docClass">Functions.Numeric.Multiplication</a></li>
+<li><a href="#!/api/Functions.Numeric.Plus" rel="Functions.Numeric.Plus" class="docClass">Functions.Numeric.Plus</a></li>
+<li><a href="#!/api/Functions.Numeric.Power" rel="Functions.Numeric.Power" class="docClass">Functions.Numeric.Power</a></li>
+<li><a href="#!/api/Functions.Numeric.Round" rel="Functions.Numeric.Round" class="docClass">Functions.Numeric.Round</a></li>
+<li><a href="#!/api/Functions.Numeric.Sine" rel="Functions.Numeric.Sine" class="docClass">Functions.Numeric.Sine</a></li>
+<li><a href="#!/api/Functions.Numeric.SquareRoot" rel="Functions.Numeric.SquareRoot" class="docClass">Functions.Numeric.SquareRoot</a></li>
+<li><a href="#!/api/Functions.Numeric.Tangent" rel="Functions.Numeric.Tangent" class="docClass">Functions.Numeric.Tangent</a></li>
+</ul>
+</div>
+<div class='right-column'>
+<h3>String</h3>
+<ul class='links'>
+<li><a href="#!/api/Functions.String.Length" rel="Functions.String.Length" class="docClass">Functions.String.Length</a></li>
+<li><a href="#!/api/Functions.String.Lowercase" rel="Functions.String.Lowercase" class="docClass">Functions.String.Lowercase</a></li>
+<li><a href="#!/api/Functions.String.Matching" rel="Functions.String.Matching" class="docClass">Functions.String.Matching</a></li>
+<li><a href="#!/api/Functions.String.Substring" rel="Functions.String.Substring" class="docClass">Functions.String.Substring</a></li>
+<li><a href="#!/api/Functions.String.Uppercase" rel="Functions.String.Uppercase" class="docClass">Functions.String.Uppercase</a></li>
+</ul>
+<h3>Others...</h3>
+<ul class='links'>
+<li><a href="#!/api/Functions.Tuple.AttributeValue" rel="Functions.Tuple.AttributeValue" class="docClass">Functions.Tuple.AttributeValue</a></li>
+</ul>
+</div>
+<div style='clear:both'></div>
+</div>
+<div class='section'>
+<h1>Mixins</h1>
+<div class='left-column'>
+<h3>Others...</h3>
+<ul class='links'>
+<li><a href="#!/api/Mixins.Chainable" rel="Mixins.Chainable" class="docClass">Mixins.Chainable</a></li>
+<li><a href="#!/api/Mixins.Comparable" rel="Mixins.Comparable" class="docClass">Mixins.Comparable</a></li>
+<li><a href="#!/api/Mixins.Negatable" rel="Mixins.Negatable" class="docClass">Mixins.Negatable</a></li>
+<li><a href="#!/api/Mixins.SizeComparable" rel="Mixins.SizeComparable" class="docClass">Mixins.SizeComparable</a></li>
+</ul>
+</div>
+<div class='middle-column'>
+</div>
+<div class='right-column'>
+</div>
+<div style='clear:both'></div>
+</div>
+<div class='section'>
+<h1>Operators</h1>
+<div class='left-column'>
+<h3>Others...</h3>
+<ul class='links'>
+<li><a href="#!/api/Operators.Compose" rel="Operators.Compose" class="docClass">Operators.Compose</a></li>
+<li><a href="#!/api/Operators.Difference" rel="Operators.Difference" class="docClass">Operators.Difference</a></li>
+<li><a href="#!/api/Operators.Extend" rel="Operators.Extend" class="docClass">Operators.Extend</a></li>
+<li><a href="#!/api/Operators.Group" rel="Operators.Group" class="docClass">Operators.Group</a></li>
+<li><a href="#!/api/Operators.Intersection" rel="Operators.Intersection" class="docClass">Operators.Intersection</a></li>
+<li><a href="#!/api/Operators.Join" rel="Operators.Join" class="docClass">Operators.Join</a></li>
+<li><a href="#!/api/Operators.Product" rel="Operators.Product" class="docClass">Operators.Product</a></li>
+<li><a href="#!/api/Operators.Projection" rel="Operators.Projection" class="docClass">Operators.Projection</a></li>
+<li><a href="#!/api/Operators.Rename" rel="Operators.Rename" class="docClass">Operators.Rename</a></li>
+<li><a href="#!/api/Operators.Restriction" rel="Operators.Restriction" class="docClass">Operators.Restriction</a></li>
+<li><a href="#!/api/Operators.SemiDifference" rel="Operators.SemiDifference" class="docClass">Operators.SemiDifference</a></li>
+<li><a href="#!/api/Operators.SemiJoin" rel="Operators.SemiJoin" class="docClass">Operators.SemiJoin</a></li>
+<li><a href="#!/api/Operators.Ungroup" rel="Operators.Ungroup" class="docClass">Operators.Ungroup</a></li>
+<li><a href="#!/api/Operators.Union" rel="Operators.Union" class="docClass">Operators.Union</a></li>
+<li><a href="#!/api/Operators.Unwrap" rel="Operators.Unwrap" class="docClass">Operators.Unwrap</a></li>
+<li><a href="#!/api/Operators.Wrap" rel="Operators.Wrap" class="docClass">Operators.Wrap</a></li>
+</ul>
+</div>
+<div class='middle-column'>
+</div>
+<div class='right-column'>
+</div>
+<div style='clear:both'></div>
+</div>
+<div class='section'>
+<h1>Types</h1>
+<div class='left-column'>
+<h3>Others...</h3>
+<ul class='links'>
+<li><a href="#!/api/Types.Boolean" rel="Types.Boolean" class="docClass">Types.Boolean</a></li>
+<li><a href="#!/api/Types.Date" rel="Types.Date" class="docClass">Types.Date</a></li>
+<li><a href="#!/api/Types.Float" rel="Types.Float" class="docClass">Types.Float</a></li>
+<li><a href="#!/api/Types.Integer" rel="Types.Integer" class="docClass">Types.Integer</a></li>
+<li><a href="#!/api/Types.Numeric" rel="Types.Numeric" class="docClass">Types.Numeric</a></li>
+<li><a href="#!/api/Types.Object" rel="Types.Object" class="docClass">Types.Object</a></li>
+<li><a href="#!/api/Types.String" rel="Types.String" class="docClass">Types.String</a></li>
+<li><a href="#!/api/Types.Type" rel="Types.Type" class="docClass">Types.Type</a></li>
+</ul>
+</div>
+<div class='middle-column'>
+</div>
+<div class='right-column'>
+</div>
+<div style='clear:both'></div>
+</div>
+<div class='section'>
+<h1>Others...</h1>
+<div class='left-column'>
+<h3>Others...</h3>
+<ul class='links'>
+<li><a href="#!/api/" rel="" class="docClass"></a></li>
+<li><a href="#!/api/Attribute" rel="Attribute" class="docClass">Attribute</a></li>
+<li><a href="#!/api/Header" rel="Header" class="docClass">Header</a></li>
+<li><a href="#!/api/Index" rel="Index" class="docClass">Index</a></li>
+<li><a href="#!/api/Key" rel="Key" class="docClass">Key</a></li>
+<li><a href="#!/api/Relation" rel="Relation" class="docClass">Relation</a></li>
+<li><a href="#!/api/Set" rel="Set" class="docClass">Set</a></li>
+<li><a href="#!/api/Tuple" rel="Tuple" class="docClass">Tuple</a></li>
+<li><a href="#!/api/Type" rel="Type" class="docClass">Type</a></li>
+<li><a href="#!/api/constructor" rel="constructor" class="docClass">constructor</a></li>
+<li><a href="#!/api/global" rel="global" class="docClass">global</a></li>
+</ul>
+</div>
+<div class='middle-column'>
+</div>
+<div class='right-column'>
+</div>
+<div style='clear:both'></div>
+</div>
+          </div>
+
+  
+  
+  <div id='footer-content' style='display: none'>Generated on Thu 26 Jun 2014 00:06:35 by <a href='https://github.com/senchalabs/jsduck'>JSDuck</a> 5.3.4.</div>
+
+  
+
+  <script type="text/javascript">
+  (function(){
+    var protocol = (document.location.protocol === "https:") ? "https:" : "http:";
+    document.write("<link href='"+protocol+"//fonts.googleapis.com/css?family=Exo' rel='stylesheet' type='text/css' />");
+  })();
+  </script>
 
 </body>
 </html>

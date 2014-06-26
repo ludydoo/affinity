@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Base = require(&#39;./Base.js&#39;);
+var _ = require(&#39;lodash&#39;);
+var Attribute = require(&#39;./Attribute&#39;);
+
+var Function = Base.extend(
+
+    {
+
+<span id='constructor'>        /**
+</span>         * @class Function
+         * @param parameters
+         * @property [*[]] param
+         */
+        constructor: function (parameters) {
+
+<span id='constructor-property-parameters'>            /**
+</span>             * @type {Array}
+             */
+            this.parameters = [];
+
+
+            for (var i = 0, j = arguments.length; i &lt; j; i++) {
+
+                this.parameters.push(arguments[i]);
+
+            }
+
+            Base.apply(this, arguments);
+
+        },
+
+<span id='constructor-method-set'>        /**
+</span>         * Sets the function&#39;s parameter
+         * @param {Object} param The parameter of the function to set
+         * @returns {Function} Returns this to chain call
+         */
+        set: function (param) {
+
+            for (var a in param) {
+                if (param.hasOwnProperty(a))
+                    this[a] = param[a];
+            }
+
+            _.forEach(this.args, function (arg) {
+                if (arg instanceof Function) {
+                    arg.set(param);
+                }
+            });
+
+            return this;
+
+        },
+
+<span id='constructor-method-convertAttributeToTuple'>        /**
+</span>         * Helper function used to convert attributes objects into functions that will get the tuple
+         * value for that attribute
+         */
+        convertAttributeToTuple: function () {
+
+            _.forEach(this.parameters, function (parameter, index) {
+
+                if (_.isFunction(parameter.convertAttributeToTuple)) {
+                    parameter.convertAttributeToTuple();
+                }
+
+                if (parameter instanceof Attribute) {
+
+                    var newFunc = new (require(&#39;./functions/tuple/Attribute&#39;))(parameter.name);
+
+                    newFunc.type = parameter.type;
+
+                    this.parameters[index] = newFunc;
+                }
+
+            }, this)
+
+        },
+
+        assignTuple : function(tuple){
+
+            _.forEach(this.parameters, function (parameter, index) {
+
+                if (parameter instanceof Function) {
+
+                    parameter.assignTuple(tuple);
+
+                }
+
+            }, this);
+
+            return this;
+
+        },
+
+
+        type : function(type){
+
+            if(type){
+
+                this._type = type;
+
+                _.forIn(type.payload, function (mix) {
+
+                    _.forIn(mix, function(mixin, key){
+
+                        this[key] = mixin;
+
+                    }, this)
+
+                }, this)
+
+            } else {
+                return this._type;
+            }
+
+        }
+
+    });
+
+module.exports = Function;</pre>
+</body>
+</html>

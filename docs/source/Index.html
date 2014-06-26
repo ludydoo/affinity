@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Base = require(&#39;./Base&#39;);
+
+var Index = Base.extend(
+<span id=''>    /**
+</span>     * @lends Index.prototype
+     */
+    {
+
+<span id='Index'>        /**
+</span>         * The Index class is a simple utility class allowing tuples to be indexed.
+         * It speeds up operations on relations as iterations are reduced.
+         * @class Index
+         * @extends Base
+         */
+        constructor: function (header) {
+
+            this.header = header;
+            this.levels = header.count();
+            this.elements = {};
+
+            this.headerLevels = [];
+
+            var targetHeader = this.header;
+
+            for(var k = 0; k &lt; this.levels; k++){
+
+                this.headerLevels[k] = targetHeader;
+                targetHeader = targetHeader.remove(targetHeader.first());
+
+            }
+
+        },
+
+<span id='Index-method-add'>        /**
+</span>         * Adds a tuple to the index
+         * @param {Tuple} tuple
+         * @param {int} index
+         */
+        add: function (tuple, index) {
+
+            var context = this;
+
+            var headerCount = this.header.count();
+
+            for (var a = 0; a &lt;= headerCount - 1; a++) {
+
+                var attribute = context.header.first();
+                var tupleAttributeValue;
+
+                if(!attribute.type.primitive){
+                    tupleAttributeValue = attribute.type.serialize(tuple.get(attribute.name));
+                } else {
+                    tupleAttributeValue = tuple.get(attribute.name);
+                }
+
+                if (a === headerCount - 1) {
+
+                    context.elements[tupleAttributeValue] = index
+
+                } else {
+
+                    if (!context.elements.hasOwnProperty(tupleAttributeValue)) {
+
+                        var newIndex = new Index(this.headerLevels[a+1]);
+
+                        context.elements[tupleAttributeValue] = newIndex;
+
+                        context = newIndex;
+
+                    } else {
+
+                        context = context.elements[tupleAttributeValue];
+
+                    }
+
+                }
+
+            }
+
+        },
+
+<span id='Index-method-getIndex'>        /**
+</span>         * Get the index for a tuple
+         * @param {Tuple} tuple
+         * @returns {int|null}
+         */
+        getIndex: function (tuple) {
+
+            var context = this;
+
+            var headerCount = this.header.count();
+
+            for (var a = 0; a &lt;= headerCount - 1; a++) {
+
+                var attribute = context.header.first();
+                var tupleAttributeValue;
+
+                if(!attribute.type.primitive){
+                    tupleAttributeValue = attribute.type.serialize(tuple.get(attribute.name));
+                } else {
+                    tupleAttributeValue = tuple.get(attribute.name);
+                }
+
+                if (a === headerCount - 1) {
+
+                    if (!context.elements.hasOwnProperty(tupleAttributeValue)) {
+                        return null;
+                    }
+
+                    return context.elements[tupleAttributeValue];
+
+                } else {
+
+                    if (!context.elements.hasOwnProperty(tupleAttributeValue)) {
+
+                        return null;
+
+                    }
+
+                    context = context.elements[tupleAttributeValue];
+
+
+                }
+
+            }
+
+        },
+
+<span id='Index-method-remove'>        /**
+</span>         * Removes a tuple from the index
+         * @param {Tuple} tuple
+         * @returns {boolean} True if removed, false otherwise
+         */
+        remove: function (tuple) {
+
+            var context = this;
+
+            var headerCount = this.header.count();
+
+            for (var a = 0; a &lt;= headerCount - 1; a++) {
+
+                var attribute = context.header.first();
+                var tupleAttributeValue;
+
+                if(!attribute.type.primitive){
+                    tupleAttributeValue = attribute.type.serialize(tuple.get(attribute.name));
+                } else {
+                    tupleAttributeValue = tuple.get(attribute.name);
+                }
+
+                if (a === headerCount - 1) {
+
+                    if (!context.elements.hasOwnProperty(tupleAttributeValue)) {
+                        return false;
+                    }
+
+                    delete context.elements[tupleAttributeValue];
+
+                    return true;
+
+                } else {
+
+                    if (!context.elements.hasOwnProperty(tupleAttributeValue)) {
+
+                        return false;
+
+                    }
+
+                    context = context.elements[tupleAttributeValue];
+
+                }
+
+            }
+
+        }
+
+    });
+
+module.exports = Index;</pre>
+</body>
+</html>

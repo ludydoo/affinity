@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Relation = require(&#39;./../Relation.js&#39;);
+var Header = require(&#39;./../Header.js&#39;);
+var Tuple = require(&#39;./../Tuple.js&#39;);
+var _ = require(&#39;lodash&#39;);
+var debug = require(&#39;./../helpers/debug&#39;);
+var equal = require(&#39;./../helpers/equal&#39;);
+
+
+
+var SemiDifference = Relation.extend(
+
+    {
+
+<span id='Operators-SemiDifference'>        /**
+</span>         * @class Operators.SemiDifference
+         * @extends Relation
+         * @param {Relation} relationA The relation from which to seek tuples with no counterpart
+         * @param {Relation} relationB The relation containing the counterparts
+         * The SemiDifference will find all tuples in A that do not have a counterpart in B on their common attributes
+         *
+         *     // Find the characters that do not have fans
+         *
+         *     var relationA = new affinity.Relation([
+         *              {characterId: { type: affinity.Integer}},
+         *              {firstName: { type: affinity.String}},
+         *              {lastName: { type: affinity.String}}
+         *          ],[
+         *              [1, &#39;John&#39;, &#39;Doe&#39;],
+         *              [2, &#39;Mary&#39;, &#39;Poppins&#39;],
+         *              [3, &#39;Lucky&#39;, &#39;Luke&#39;]
+         *          ]);
+         *
+         *     var relationB = new affinity.Relation([
+         *              {characterId: { type: affinity.Integer}},
+         *              {fan: { type: affinity.String}}
+         *          ],[
+         *              [1, &#39;Mr X&#39;],
+         *              [1, &#39;Miss Dibble&#39;],
+         *              [2, &#39;Nat Bibble&#39;]
+         *          ]);
+         *
+         *     var relationC = relationA.sdifference(relationB);
+         *
+         *     // or
+         *
+         *     var relationC = new affinity.SemiDifference(relationA, relationB)
+         *
+         *     // +------------------------+---------------------+--------------------+
+         *     // | characterId : TInteger | firstName : TString | lastName : TString |
+         *     // +========================+=====================+====================+
+         *     // | 3                      | Lucky               | Luke               |
+         *     // +------------------------+---------------------+--------------------+
+         *     //
+         *     // Lucky Luke is the only character without a fan
+         *
+         */
+        constructor: function (relationA, relationB) {
+
+            debug.semiDifference.trace(&#39;#constructor&#39;);
+
+            this.rels = [relationA, relationB];
+
+            Relation.call(this);
+
+        },
+
+        bindEvents: function () {
+
+            debug.semiDifference.trace(&#39;#bindEvents&#39;);
+
+            // Calling the parent bindEvents
+            SemiDifference.__super__.bindEvents.call(this);
+
+            var that = this;
+
+            // BeforeGetHeader
+            this.ee.once(&#39;beforeGetHeader&#39;, function () {
+
+                debug.semiDifference.trace(&#39;beforeGetHeader&#39;);
+
+                Header.assertSameNameSameType(that.rels[0].header(), that.rels[1].header());
+
+                that.commonAttributes = that.rels[0].header().setIntersection(that.rels[1].header());
+
+                that.header().copy(that.rels[0].header());
+
+            });
+
+
+            // BeforeGetBody
+            this.ee.once(&#39;beforeGetBody&#39;, function () {
+
+                that.header();
+
+                debug.semiDifference.trace(&#39;beforeGetBody&#39;);
+
+                var rel1 = that.rels[0];
+                var rel2 = that.rels[1];
+
+                rel1.each(function(tuple1){
+
+                    var counterpart = false;
+
+                    if(that.commonAttributes.count() &gt; 0){
+
+                        rel2.each(function(tuple2){
+
+                            // Check if tuple1 has same common attributes as tuple2
+
+                            var match = Tuple.matchOnAttributes(tuple1, tuple2, that.commonAttributes);
+
+                            if(match){
+                                counterpart = true;
+                                return false;
+                            }
+
+                        });
+
+                    }
+
+                    if(!counterpart){
+                        that.add(tuple1.clone(), false);
+                    }
+
+                })
+
+            });
+
+        }
+
+    });
+
+module.exports = SemiDifference;</pre>
+</body>
+</html>

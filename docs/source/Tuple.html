@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Type = require(&#39;./Type.js&#39;);
+var Header = require(&#39;./Type.js&#39;);
+var TString = require(&#39;./types/String.js&#39;);
+var Attribute = require(&#39;./Attribute.js&#39;);
+var _ = require(&#39;lodash&#39;);
+var equal = require(&#39;./helpers/equal&#39;);
+var Set = require(&#39;./Set.js&#39;);
+var Tuple = Type.extend(
+    {
+
+<span id='Tuple'>        /**
+</span>         * @class Tuple
+         * @param attributes
+         * @extends Type
+         */
+        constructor: function (attributes) {
+
+            this.attributes = {};
+
+            if (attributes) {
+
+                if (!_.isObject(attributes)) {
+                    throw new TypeError(&#39;Tuple attributes in wrong format&#39;)
+                }
+
+                var a;
+
+                for (a in attributes) {
+
+                    if (attributes.hasOwnProperty(a)) {
+                        this.set(a, attributes[a]);
+                    }
+
+                }
+            }
+
+            Type.apply(this, arguments);
+
+        },
+
+
+<span id='Tuple-method-each'>        /**
+</span>         * Iterator function that loops through each of the tuple attributes
+         * @param {Function} callback Callback function
+         * @param {Object} context Execution context of the callback
+         */
+        each : function(callback, context){
+            _.forIn(this.attributes, callback, context);
+        },
+
+<span id='Tuple-method-copy'>        /**
+</span>         * Copies attribtues from another tuple
+         * @param {Tuple} tuple Tuple to copy attributes from
+         * @param {Header|Attribute[]|Set|String[]} [attributesArgument] Attributes to copy
+         * @param {boolean} exclude Do we exclude or include the specified arguments
+         */
+        copy : function(tuple, attributesArgument, exclude){
+
+            if (exclude !== true &amp;&amp; exclude !== false){
+                exclude = false;
+            }
+
+            if (!_.isUndefined(attributesArgument) &amp;&amp; !_.isNull(attributesArgument)) {
+
+                var result = new Set({type: TString});
+
+                // Coerce the attributes argument to Set of string
+                if (attributesArgument instanceof Header) {
+                    attributesArgument.each(function (attribute) {
+                        result.add(attribute.name);
+                    })
+                } else if (attributesArgument instanceof Set) {
+                    attributesArgument.each(function (attributeArgument) {
+
+                        if (attributeArgument instanceof Attribute) {
+                            result.add(attributeArgument.name);
+                        } else if (_.isString(attributeArgument)) {
+                            result.add(attributeArgument);
+                        }
+
+                    })
+                } else if (_.isArray(attributesArgument)) {
+                    _.forEach(attributesArgument, function (attributeArgument) {
+                        if (attributeArgument instanceof Attribute) {
+                            result.add(attributeArgument.name);
+                        } else if (_.isString(attributeArgument)) {
+                            result.add(attributeArgument);
+                        }
+                    })
+                } else if (_.isString(attributesArgument)) {
+                    result.add(attributesArgument);
+                }
+
+                attributesArgument = result;
+
+            }
+
+            if(attributesArgument &amp;&amp; exclude === false){
+
+                attributesArgument.each(function(copiedAttribute){
+
+                    this.set(copiedAttribute.value(), tuple.get(copiedAttribute.value()));
+
+                }, this)
+
+            } else {
+
+                _.forEach(tuple.attributes, function (tupleAttribute, tupleAttributeKey) {
+
+                    if (attributesArgument &amp;&amp; exclude === true){
+
+                        var isExcludedAttribute = false;
+
+                        attributesArgument.each(function(excludedAttribute){
+
+                            if (equal(TString, excludedAttribute, tupleAttributeKey)){
+                                isExcludedAttribute = true;
+                                return false;
+                            }
+
+                        });
+
+                        if(!isExcludedAttribute){
+                           this.set(tupleAttributeKey, tupleAttribute);
+                        }
+
+                    } else {
+                        this.set(tupleAttributeKey, tupleAttribute);
+                    }
+
+                }, this)
+
+            }
+
+        },
+
+<span id='Tuple-method-equals'>        /**
+</span>         * Test for equality with another tuple
+         * @param {Tuple} tuple
+         * @instance
+         * @returns {boolean}
+         */
+        equals: function (tuple) {
+            return Tuple.equal(this, tuple);
+        },
+
+<span id='Tuple-method-set'>        /**
+</span>         * Sets an attribute value
+         * @instance
+         * @param {String} attributeName Name of the attribute
+         * @param {*} value Value of the attribute
+         */
+        set: function (attributeName, value) {
+
+            if(this.collection){
+                this.collection.ee.emit(&#39;beforeUpdate&#39;, this, attributeName, value);
+            }
+
+
+            this.attributes[attributeName] = value;
+
+
+            if(this.collection){
+                this.collection.ee.emit(&#39;afterUpdate&#39;, this, attributeName, value);
+            }
+
+
+        },
+
+<span id='Tuple-method-get'>        /**
+</span>         * Gets and attribute value
+         * @param {Attribute|String} attributeName Name of the attribute
+         * @returns {*}
+         */
+        get: function (attributeName) {
+
+            return this.attributes[attributeName];
+
+        },
+
+<span id='Tuple-method-delete'>        /**
+</span>         * Deletes an attribute from the tuple
+         * @param {String} attributeName The attribute name to delete
+         */
+        delete: function (attributeName) {
+            delete this.attributes[attributeName];
+        },
+
+<span id='Tuple-method-clone'>        /**
+</span>         * Clones a tuple
+         * @returns {Tuple}
+         */
+        clone: function () {
+
+            var attr,
+                newTuple = new this.constructor();
+
+            _.forEach(this.attributes, function (attribute, key) {
+
+                if (_.isFunction(attribute.clone)) {
+                    attr = attribute.clone();
+                } else {
+                    attr = attribute;
+                }
+
+                newTuple.set(key, attr);
+
+            }, this);
+
+            return newTuple;
+
+        },
+
+<span id='Tuple-method-toString'>        /**
+</span>         * String representation of the tuple
+         * @returns {string}
+         */
+        toString : function(){
+
+            var count = 0;
+
+            var attrLength = Object.keys(this.attributes).length
+            var attrs = [&#39;Tuple({&#39;];
+
+            this.each(function(attribute, key){
+
+                attrs.push(key.toString()+ &#39; : &#39; + attribute.toString());
+
+                if(count !== attrLength-1){
+                    attrs.push(&#39;, &#39;)
+                }
+
+                count++;
+
+            },this);
+
+            attrs.push(&#39;})&#39;)
+
+            return attrs.join(&#39;&#39;);
+
+        }
+
+
+    }, {
+
+        type: &#39;Tuple&#39;,
+
+        toString: function () {
+            return &#39;Tuple&#39;
+        },
+
+<span id='Tuple-static-method-equal'>        /**
+</span>         * Test for equality between two tuples
+         * @param {Tuple} tuple1
+         * @param {Tuple} tuple2
+         * @returns {boolean}
+         * @static
+
+         */
+        equal: function (tuple1, tuple2) {
+
+            var key;
+
+            if (!(tuple1 instanceof Tuple) || !(tuple2 instanceof Tuple)) {
+                throw new Error(&#39;Provided tuples are of the wrong type&#39;);
+            }
+
+            var match = true;
+
+            tuple1.each(function(attr, key){
+
+                if(tuple2.get(key) === null){
+                    match = false;
+                    return false;
+                }
+
+                if(!equal(null, attr, tuple2.get(key))){
+                    match = false;
+                    return false;
+                }
+
+            });
+
+            return match;
+
+        },
+
+<span id='Tuple-static-method-matchOnAttributes'>        /**
+</span>         * Check that two tuples match on the given attributes
+         * @param {Tuple} tuple1
+         * @param {Tuple} tuple2
+         * @param {Attribute[]} attributes
+         * @returns {boolean}
+         * @static
+
+         */
+        matchOnAttributes : function(tuple1, tuple2, attributes){
+
+            var match = true;
+
+            attributes.each(function(attribute){
+
+               var attributeName = attribute.name;
+
+                if(!equal(null, tuple1.get(attributeName), tuple2.get(attributeName))){
+                    match = false;
+                    return false;
+                }
+
+            });
+
+            return match;
+
+        },
+
+<span id='Tuple-static-method-coerce'>        /**
+</span>         * Coerces an arbitrary object to type Tuple
+         * @param {Object|Tuple} tuple
+         * @returns {Tuple}
+         * @static
+
+         */
+        coerce: function (tuple, collection) {
+
+
+            if(tuple instanceof Tuple){
+
+                // Given tuple is of type Tuple.
+
+                return tuple;
+
+            } else {
+
+                if(!_.isObject(tuple)){
+
+                    // It is not an object. It can&#39;t be coerced.
+
+                    throw new TypeError(&#39;Wrong parameter type. Expected an object or a Tuple&#39;)
+                }
+
+                // It is not a Tuple instance. Check if it might be coerced.
+                if (_.isArray(tuple)) {
+
+                    if (_.isUndefined(collection) || _.isNull(collection)) {
+                        throw new Error(&#39;Cannot coerce array-declared tuple if no collection is specified&#39;)
+                    }
+
+                    if (_.isFunction(collection.header)) {
+
+                        // Collection has header
+
+                        var header = collection.header(),
+                            headerCount = header.count();
+
+                        if (headerCount &gt; 0) {
+
+                            // Header has one or more attributes
+
+                            if(!header.orderedDeclaration){
+                                throw new Error(&#39;Cannot coerce an array declared tuple if the header has not been declared in array format&#39;)
+                            }
+
+                            if(headerCount !== tuple.length){
+                                throw new Error(&#39;Cannot coerse Tuple, it does not have the same number of attributes as the header&#39;);
+                            }
+
+                            var newTuple = new Tuple();
+
+                            // Iterate through each attributes of the header in order
+
+                            header.each(function(attribute, index){
+
+                                // Set the corresponding tuple attribute
+
+                                newTuple.set(attribute.name, tuple[index]);
+
+                            });
+
+                            return newTuple;
+
+                        }
+
+                    }
+
+                }
+
+                tuple = new Tuple(tuple);
+
+                return tuple;
+
+            }
+
+        }
+
+    });
+
+module.exports = Tuple;</pre>
+</body>
+</html>

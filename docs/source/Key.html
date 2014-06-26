@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Base = require(&#39;./Base&#39;);
+var Index = require(&#39;./Index&#39;);
+var Header = require(&#39;./Header&#39;);
+var _ = require(&#39;lodash&#39;);
+
+var Key = Base.extend({
+
+<span id='Key'>        /**
+</span>         * @class Key
+         * @extends Base
+         *
+         * The Key class represents keys to a relation.
+         *
+         * When keys are not defined on a relation, a key is assumed on all attributes of the relation.
+         * Though, when a key is defined on a subset of a relation&#39;s attributes, the uniqueness
+         * of the tuples will be calculated only on those attributes.
+         *
+         * Also, a Key will index the tuples for its attributes, making operations a lot faster.
+         *
+         *
+         *     var relation = new affinity.Relation([
+         *          {attribute1 : {type : affinity.Integer}},
+         *          {attribute2 : {type : affinity.Integer}},
+         *          {attribute3 : {type : affinity.Integer}},
+         *      ],[
+         *          [1, 2, 3],
+         *          [4, 2, 3], // -&gt; Will fail to be added, as it does not respects the unique key constraint
+         *          [1, 8, 9], // -&gt; Will fail to ba added, as it does not respected the pk constraint
+         *          [10, 11, 12],
+         *      ],{
+         *          pk : [&#39;attribute1&#39;],
+         *          unique : [[&#39;attribute2&#39;, &#39;attribute3&#39;]]
+         *      });
+         */
+        constructor: function (relation, attributes) {
+
+            if(!_.isArray(attributes)){
+                attributes = [attributes];
+            }
+
+<span id='Key-property-header'>            /**
+</span>             * @property {Header} header
+             */
+            var header = this.header = new Header();
+
+            header.copy(relation.header(),attributes);
+
+<span id='Key-property-index'>            /**
+</span>             * @property {Index} index
+             */
+            var index = this.index = new Index(this.header);
+
+            relation.ee.on(&#39;afterAdd&#39;, function(tuple, tupleIndex){
+
+                index.add(tuple, tupleIndex);
+
+            });
+
+            relation.ee.on(&#39;beforeDelete&#39;, function(tuple, tupleIndex){
+
+                index.remove(tuple, tupleIndex);
+
+            });
+
+            relation.ee.on(&#39;beforeUpdate&#39;, function(tuple, attributeName){
+
+                if(header.get(attributeName) !== null){
+                    var tupleIndex = index.getIndex(tuple);
+                    index.remove(tuple, tupleIndex);
+                }
+
+            });
+
+            relation.ee.on(&#39;afterUpdate&#39;, function(tuple, attributeName){
+
+                if(header.get(attributeName) !== null){
+                    var tupleIndex = index.getIndex(tuple);
+                    index.add(tuple, tupleIndex);
+                }
+
+            });
+
+        }
+
+
+
+    });
+
+module.exports = Key;</pre>
+</body>
+</html>

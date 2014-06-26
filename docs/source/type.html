@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var value = require(&#39;./value&#39;);
+var _ = require(&#39;lodash&#39;);
+var Function = require(&#39;./../Function&#39;);
+var Attribute = require(&#39;./../Attribute&#39;);
+var Type = require(&#39;./../Type&#39;);
+
+var TBoolean = require(&#39;./../types/Boolean&#39;);
+var TString = require(&#39;./../types/String&#39;);
+var TDate = require(&#39;./../types/Date&#39;);
+var TInteger = require(&#39;./../types/Integer&#39;);
+var TNumeric = require(&#39;./../types/Numeric&#39;);
+var TFloat = require(&#39;./../types/Float&#39;);
+
+
+var type = function(thang){
+
+    if(thang instanceof Attribute){
+        return thang.type;
+    }
+
+    if(thang instanceof Type){
+        return thang.constructor;
+    }
+
+    if(thang instanceof Function){
+        return thang.type();
+    }
+
+    if(_.isBoolean(thang)){
+        return TBoolean;
+    }
+
+    if(_.isNumber(thang)){
+        return TNumeric;
+    }
+
+    if(_.isDate(thang)){
+        return TDate;
+    }
+
+};
+
+module.exports = type;
+
+</pre>
+</body>
+</html>

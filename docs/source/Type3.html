@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Type = require(&#39;./../Type&#39;);
+var TBoolean = require(&#39;./Boolean&#39;);
+
+var TType = Type.extend({
+
+<span id='Types-Type'>    /**
+</span>     * @class Types.Type
+     * @param value
+     */
+    constructor: function (value) {
+
+        Type.apply(this, arguments);
+
+    }
+
+}, {
+
+    equal: function (type1, type2) {
+
+        return (type1.value().prototype === type2.value().prototype);
+
+    },
+
+    toString: function () {
+        return &#39;TType&#39;
+    },
+
+    type : &#39;TType&#39;
+
+});
+
+module.exports = TType;
+
+</pre>
+</body>
+</html>

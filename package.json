@@ -1,31 +1,33 @@
 {
-    "name": "affinity",
-    "version": "0.0.17",
-    "description": "Relational algebra library",
-    "main": "index.js",
-    "scripts": {
-        "test": "./node_modules/.bin/_mocha --recursive --reporter list --ui bdd test",
-        "jsdoc": "./node_modules/.bin/jsdoc -c jsdoc.json"
-    },
-    "author": "Ludovic Cleroux <ludydoo@gmail.com>",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/ludydoo/affinity.git"
-    },
-    "homepage": "https://github.com/ludydoo/affinity",
-    "license": "ISC",
-    "dependencies": {
-        "debug": "^1.0.2",
-        "eventemitter2": "^0.4.13",
-        "lodash": "^2.4.1",
-        "log4js": "^0.6.14"
-    },
-    "devDependencies": {
-        "benchmark": "^1.0.0",
-        "ink-docstrap": "^0.4.5",
-        "jsdoc": "^3.3.0-alpha8",
-        "microtime": "^0.6.0",
-        "mocha": "^1.20.1",
-        "should": "^4.0.4"
-    }
+  "name": "affinity",
+  "version": "0.0.18",
+  "description": "Relational algebra library",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/_mocha --recursive --reporter list --ui bdd test",
+    "jsdoc": "./node_modules/.bin/jsdoc -c jsdoc.json",
+    "jsduck" : "jsduck lib/ --output docs"
+  },
+  "author": "Ludovic Cleroux <ludydoo@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ludydoo/affinity.git"
+  },
+  "homepage": "https://github.com/ludydoo/affinity",
+  "license": "ISC",
+  "dependencies": {
+    "debug": "^1.0.2",
+    "eventemitter2": "^0.4.13",
+    "lodash": "^2.4.1",
+    "log4js": "^0.6.14"
+  },
+  "devDependencies": {
+    "benchmark": "^1.0.0",
+    "ink-docstrap": "^0.4.5",
+    "jsdoc": "^3.3.0-alpha8",
+    "microtime": "^0.6.0",
+    "mocha": "^1.20.1",
+    "should": "^4.0.4",
+    "sinon": "^1.10.2"
+  }
 }

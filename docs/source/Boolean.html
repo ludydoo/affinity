@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Type = require(&#39;./../Type&#39;);
+var _ = require(&#39;lodash&#39;);
+
+var TBoolean = Type.extend({
+
+<span id='Types-Boolean'>    /**
+</span>     * @class Types.Boolean
+     * @param value
+     */
+    constructor: function (value) {
+        Type.apply(this, arguments);
+    },
+
+    valueOf: function () {
+
+        return this.value;
+
+    }
+
+}, {
+
+    equal: function (boolean1, boolean2) {
+
+        if(!_.isBoolean(boolean1)){
+            boolean1 = boolean1.value();
+        }
+        if(!_.isBoolean(boolean2)){
+            boolean2 = boolean2.value();
+        }
+
+        return boolean1 === boolean2;
+
+    },
+
+    toString: function () {
+        return &#39;TBoolean&#39;
+    },
+
+    value : function(boolean){
+
+        if(_.isBoolean(boolean)){
+            return boolean;
+        } else {
+            return boolean.value();
+        }
+
+    },
+
+    payload : [
+        require(&#39;./../mixins/comparable&#39;),
+        require(&#39;./../mixins/connectable&#39;),
+        require(&#39;./../mixins/not&#39;)
+    ],
+
+    type : &#39;TBoolean&#39;
+
+});
+
+module.exports = TBoolean;
+
+</pre>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Relation = require(&#39;./../Relation.js&#39;);
+var Header = require(&#39;./../Header.js&#39;);
+var _ = require(&#39;lodash&#39;);
+var debug = require(&#39;./../helpers/debug&#39;);
+var Function = require(&#39;./../Function.js&#39;);
+
+
+
+var Restriction = Relation.extend(
+
+    {
+
+<span id='Operators-Restriction'>        /**
+</span>         * @class Operators.Restriction
+         * @param {Relation} relation
+         * @param {Function} predicate
+         * @extends Relation
+         *
+         *     var relationA = new affinity.Relation([
+         *              {characterId: { type: affinity.Integer}},
+         *              {firstName: { type: affinity.String}},
+         *              {lastName: { type: affinity.String}}
+         *          ],[
+         *              [1, &#39;John&#39;, &#39;Doe&#39;],
+         *              [2, &#39;Mary&#39;, &#39;Poppins&#39;],
+         *              [3, &#39;Lucky&#39;, &#39;Luke&#39;]
+         *          ]);
+         *
+         *     var characterId = relationA.get(&#39;characterId&#39;)
+         *     var firstName = relationA.get(&#39;firstName&#39;)
+         *     var lastName = relationA.get(&#39;lastName&#39;)
+         *
+         *
+         *
+         *     var relationC = relationA.restrict(characterId.equals(1))
+         *
+         *     // or
+         *
+         *     var relationC = new affinity.Projection(relationA, characterId.equals(1));
+         *
+         *     // +------------------------+---------------------+--------------------+
+         *     // | characterId : TInteger | firstName : TString | lastName : TString |
+         *     // +========================+=====================+====================+
+         *     // | 1                      | John                | Doe                |
+         *     // +------------------------+---------------------+--------------------+
+         *
+         */
+        constructor: function (relation, predicate) {
+
+            this.rel = relation;
+            this.predicate = predicate;
+            Relation.call(this);
+
+        },
+
+        bindEvents: function () {
+
+            debug.restriction.trace(&#39;#bindEvents&#39;);
+
+            Restriction.__super__.bindEvents.call(this);
+
+            var that = this;
+
+            that.ee.once(&#39;beforeGetBody&#39;, function () {
+
+                that.header();
+
+                debug.restriction.trace(&#39;beforeGetBody&#39;);
+
+                if(that.predicate instanceof Function){
+
+                    that.predicate.convertAttributeToTuple();
+
+                    that.rel.each(function (tuple) {
+
+                        if (that.predicate.assignTuple(tuple).value() === true) {
+                            that.add(tuple.clone(), false);
+                        }
+
+                    }, that)
+
+                } else if (_.isFunction(that.predicate)) {
+                    that.rel.each(function(tuple){
+
+                        if(that.predicate(tuple)){
+                            that.add(tuple.clone(), false);
+                        }
+
+                    })
+                } else {
+                    throw new TypeError(&#39;Unsupported predicate type&#39;)
+                }
+
+            });
+
+            that.ee.once(&#39;beforeGetHeader&#39;, function () {
+
+                debug.restriction.trace(&#39;beforeGetHeader&#39;);
+
+                that.header().copy(that.rel.header());
+
+            });
+
+        }
+
+    });
+
+module.exports = Restriction;</pre>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Function = require(&#39;./../../Function.js&#39;);
+var TInteger = require(&#39;./../../types/Integer.js&#39;);
+var value = require(&#39;./../../helpers/value&#39;);
+
+var FMilliseconds = Function.extend(
+<span id=''>    /**
+</span>     * @lends FMilliseconds.prototype
+     */
+    {
+
+<span id='Functions-Date-Milliseconds'>        /**
+</span>         * @class Functions.Date.Milliseconds
+         * @extends Function
+         */
+        constructor: function () {
+
+            Function.apply(this, Array.prototype.slice.call(arguments, 0));
+
+            this.type(TInteger);
+
+            this.name = &#39;Milliseconds&#39;;
+
+        },
+
+<span id='-method-value'>        value: function () {
+</span>
+            return value(this.parameters[0]).getMilliseconds();
+
+        }
+
+    },{
+
+
+    });
+
+module.exports = FMilliseconds;</pre>
+</body>
+</html>

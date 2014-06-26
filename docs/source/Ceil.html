@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Function = require(&#39;./../../Function.js&#39;);
+var TNumeric = require(&#39;./../../types/Numeric.js&#39;);
+var value = require(&#39;./../../helpers/value&#39;);
+
+var FCeil = Function.extend(
+<span id=''>    /**
+</span>     * @lends FCeil.prototype
+     */
+    {
+
+<span id='Functions-Numeric-Ceil'>        /**
+</span>         * @class Functions.Numeric.Ceil
+         * @extends Function
+         */
+        constructor: function () {
+
+            Function.apply(this, Array.prototype.slice.call(arguments, 0));
+
+            this.type(TNumeric);
+
+            this.name = &#39;Ceil&#39;;
+
+        },
+
+<span id='-method-value'>        value: function () {
+</span>
+            return Math.ceil(value(this.parameters[0]));
+
+        }
+
+    });
+
+FCeil.mixin(require(&#39;./../../mixins/numeric&#39;));
+FCeil.mixin(require(&#39;./../../mixins/comparable&#39;));
+FCeil.mixin(require(&#39;./../../mixins/size-comparable&#39;));
+
+module.exports = FCeil;</pre>
+</body>
+</html>

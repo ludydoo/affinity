@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Mixins-SizeComparable'>/**
+</span> * @class Mixins.SizeComparable
+ */
+
+<span id='Mixins-SizeComparable-method-gt'>/**
+</span> * @member Mixins.SizeComparable
+ */
+module.exports.gt = function (attr) {
+    var GreaterThan = require(&#39;./../functions/comparable/LargerThan.js&#39;);
+    return new GreaterThan(this, attr);
+};
+
+<span id='Mixins-SizeComparable-method-gte'>/**
+</span> * @member Mixins.SizeComparable
+ */
+module.exports.gte = function (attr) {
+    var GreaterThanEqual = require(&#39;./../functions/comparable/LargerThanEqual.js&#39;);
+    return new GreaterThanEqual(this, attr);
+};
+
+<span id='Mixins-SizeComparable-method-st'>/**
+</span> * @member Mixins.SizeComparable
+ */
+module.exports.st = function (attr) {
+    var SmallerThan = require(&#39;./../functions/comparable/SmallerThan.js&#39;);
+    return new SmallerThan(this, attr);
+};
+
+<span id='Mixins-SizeComparable-method-ste'>/**
+</span> * @member Mixins.SizeComparable
+ */
+module.exports.ste = function (attr) {
+    var SmallerThanEqual = require(&#39;./../functions/comparable/SmallerThanEqual.js&#39;);
+    return new SmallerThanEqual(this, attr);
+};</pre>
+</body>
+</html>

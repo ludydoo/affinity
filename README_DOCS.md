@@ -20,44 +20,43 @@ var affinity = require('affinity');
 
 ##Basics##
 
-A Set is a collection of distinct objects (no duplicates)
+A {@link Set} is a collection of distinct objects (no duplicates)
 
-A Relation is composed of a Header and a Body.
+A {@link Relation} is composed of a Header and a Body.
 
-A Header is a Set of Attributes.
+A {@link Header} is a Set of Attributes.
 
-An Attribute is a pair (name, type)
+An {@link Attribute} is a pair (name, type)
 
-A Type can be anything (String, Boolean, Object, Vector, Array, even Tuple, Function, Relation, Set, Header...)
+A {@link Type} can be anything (String, Boolean, Object, Vector, Array, even Tuple, Function, Relation, Set, Header...)
 
-A Body is a Set of Tuples having the same Attributes as the Relation.
+A Body is a {@link Set} of {@link Tuple}s having the same {@link Attribute}s as the {@link Relation}.
 
-A Tuple is a single entry in a Relation. It is an ordered set (attribute1 : value, attribute2 : value...)
+A {@link Tuple} is a single entry in a {@link Relation}. It is an ordered set (attribute1 : value, attribute2 : value...)
 
 ##Class List##
 
 ###Relational Operators###
 
-| **Operation** | **Shortcut**  | **Class**            |
-|:--------------|:--------------|:---------------------|
-| Base Relation | N/A           |{@link Relation}      |
-| Compose       | `compose`     |{@link Compose}       |
-| Difference    | `difference`  |{@link Difference}    |
-| Extend        | `extend`      |{@link Extend}        |
-| Group         | `group`       |{@link Group}         |
-| Intersection  | `intersect`   |{@link Intersection}  |
-| Join          | `join`        |{@link Join}          |
-| Product       | `product`     |{@link CrossProduct}  |
-| Projection    | `project`     |{@link Projection}    |
-| Rename        | `rename`      |{@link Rename}        |
-| Restriction   | `restrict`    |{@link Restriction}   |
-| SemiDifference| `sdifference` |{@link Restriction}   |
-| SemiJoin      | `sjoin`       |{@link Restriction}   |
-| UnGroup       | `ungroup`     |{@link Ungroup}       |
-| Union         | `union`       |{@link Union}         |
-| UnWrap        | `unwrap`      |{@link Restriction}   |
-| Wrap          | `wrap`        |{@link Wrap}          |
-
+| **Class**                                                          | **Shortcut**  |
+|:-------------------------------------------------------------------|:--------------|
+|{@link Relation}                                                    | N/A           |
+|{@link module:RelationalOperations~Compose Compose}                 | `compose`     |
+|{@link module:RelationalOperations~Compose Difference}              | `difference`  |
+|{@link module:RelationalOperations~Extend Extend}                   | `extend`      |
+|{@link module:RelationalOperations~Group Group}                     | `group`       |
+|{@link module:RelationalOperations~Intersection Intersection}       | `intersect`   |
+|{@link module:RelationalOperations~Join Join}                       | `join`        |
+|{@link module:RelationalOperations~Product Product}                 | `product`     |
+|{@link module:RelationalOperations~Projection Projection}           | `project`     |
+|{@link module:RelationalOperations~Rename Rename}                   | `rename`      |
+|{@link module:RelationalOperations~Restriction Restriction}         | `restrict`    |
+|{@link module:RelationalOperations~SemiDifference SemiDifference}   | `sdifference` |
+|{@link module:RelationalOperations~SemiJoin SemiJoin}               | `sjoin`       |
+|{@link module:RelationalOperations~Ungroup Ungroup}                 | `ungroup`     |
+|{@link module:RelationalOperations~Union Union}                     | `union`       |
+|{@link module:RelationalOperations~Unwrap Unwrap}                   | `unwrap`      |
+|{@link module:RelationalOperations~Wrap Wrap}                       | `wrap`        |
 
 
 **Functions**

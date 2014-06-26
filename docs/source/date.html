@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">module.exports.dayOfMonth = function () {
+
+    var DayOfMonth = require(&#39;./../functions/date/DayOfMonth.js&#39;);
+
+    if (this._checkNegatedAttribute) {
+        return this._checkNegatedAttribute(new DayOfMonth(this));
+    }
+
+    return new DayOfMonth(this);
+
+};
+
+module.exports.dayOfWeek = function () {
+
+    var DayOfWeek = require(&#39;./../functions/date/DayOfWeek.js&#39;);
+
+    if (this._checkNegatedAttribute) {
+        return this._checkNegatedAttribute(new DayOfWeek(this));
+    }
+
+    return new DayOfWeek(this);
+
+};
+
+module.exports.dayOfYear = function () {
+
+    var DayOfYear = require(&#39;./../functions/date/DayOfYear.js&#39;);
+
+    if (this._checkNegatedAttribute) {
+        return this._checkNegatedAttribute(new DayOfYear(this));
+    }
+
+    return new DayOfYear(this);
+
+};
+
+
+module.exports.month = function () {
+
+    var Month = require(&#39;./../functions/date/Month.js&#39;);
+
+    if (this._checkNegatedAttribute) {
+        return this._checkNegatedAttribute(new Month(this));
+    }
+
+    return new Month(this);
+
+};
+
+module.exports.ts = function () {
+
+    var Timestamp = require(&#39;./../functions/date/Timestamp.js&#39;);
+
+    if (this._checkNegatedAttribute) {
+        return this._checkNegatedAttribute(new Timestamp(this));
+    }
+
+    return new Timestamp(this);
+
+};
+
+module.exports.weekOfYear = function () {
+
+    var WeekOfYear = require(&#39;./../functions/date/WeekOfYear.js&#39;);
+
+    if (this._checkNegatedAttribute) {
+        return this._checkNegatedAttribute(new WeekOfYear(this));
+    }
+
+    return new WeekOfYear(this);
+
+};
+
+module.exports.year = function () {
+
+    var Year = require(&#39;./../functions/date/Year.js&#39;);
+
+    if (this._checkNegatedAttribute) {
+        return this._checkNegatedAttribute(new Year(this));
+    }
+
+    return new Year(this);
+
+};</pre>
+</body>
+</html>

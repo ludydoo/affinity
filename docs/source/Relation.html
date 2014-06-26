@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Header = require(&#39;./Header.js&#39;);
+var Tuple = require(&#39;./Tuple.js&#39;);
+var Type = require(&#39;./Type.js&#39;);
+var _ = require(&#39;lodash&#39;);
+var Set = require(&#39;./Set&#39;);
+var debug = require(&#39;./helpers/debug&#39;);
+var Key = require(&#39;./Key&#39;);
+
+
+var Relation = Set.extend(
+    {
+
+<span id='Relation'>        /**
+</span>         *
+         * @class Relation
+         * @param {Header|Object[]|Attribute[]} header Header of the Relation
+         * @param {Tuple[]|Object[]} body Body of the Relation
+         * @param {Object} constraints Constraints for the relation
+         * @param {String[]} constraints.pk Fields that will constitute primary key
+         * @param {{String[]}[]} constraints.unique Unique field definition
+         * @param {Object[]} constraints.fk Foreign key definitions
+         * @extends Set
+         *
+         * Relation constructor
+         *
+         * A Relation is basically a {@link Set}, implementing the basic set operators (Union, Difference, Intersection, Product)
+         * and adding more operators. It also has a {@link Header}, and adds constraints to the basic {@link Set} behavior.
+         *
+         *     var relation = new affinity.Relation([
+         *          {id : {type : affinity.Integer}},
+         *          {name : {type : affinity.String}},
+         *          {born : {type : affinity.Date}},
+         *     ],[
+         *          [1, &#39;John Doe&#39;, new Date(1934, 10, 20)],
+         *          [2, &#39;John Wilson&#39;, new Date(1922, 7, 5)],
+         *     ]);
+         */
+        constructor: function (header, body, constraints) {
+
+            debug.relation.trace(&#39;#constructor&#39;);
+
+<span id='Relation-property-_constraintArguments'>            /**
+</span>             * @property {{pk: String[], unique: {String[]}[], fk: Object[]}} _constraintArguments
+             */
+            this._constraintArguments = constraints;
+
+<span id='Relation-property-_pk'>            /**
+</span>             * @property {Key} _pk The Primary Key for the Relation
+             */
+            this._pk = null;
+
+<span id='Relation-property-_uks'>            /**
+</span>             * @property {Key[]} _uks The Primary Keys for the Relation
+             */
+            this._uks = [];
+
+<span id='Relation-property-_fks'>            /**
+</span>             * @property {Key[]} _fks The Foreign Keys for the Relation
+             */
+            this._fks = [];
+
+
+<span id='Relation-property-_header'>            /**
+</span>             * @property {Header} _header The relation header
+             */
+            this._header = Header.coerce(header);
+
+            this._header.relation = this;
+
+            var that = this;
+
+            Set.call(this, {type: Tuple, elements: body});
+
+
+        },
+
+        bindEvents: function () {
+
+            debug.relation.trace(&#39;#bindEvents&#39;);
+
+            var that = this;
+
+            this.ee.on(&#39;beforeGetElements&#39;, function () {
+                that.ee.emit(&#39;beforeGetBody&#39;);
+            });
+
+            this.ee.on(&#39;beforeAdd&#39;, function (tuple, index) {
+
+                // Check that the tuple is union-compatible with the relation
+                if (!that.isCompatible(tuple)) {
+                    throw new Error(&#39;Tuple is not union compatible&#39;);
+                }
+
+            });
+
+            this.ee.once(&#39;beforeGetElements&#39;, function () {
+
+                var constraintArguments = that._constraintArguments;
+
+                // Parse constraint arguments
+                if (constraintArguments) {
+
+                    // Parse primary key argument
+                    if (constraintArguments.pk) {
+                        that._pk = new Key(that, constraintArguments.pk);
+                    }
+
+                    // Parse foreign key arguments
+                    if (constraintArguments.fk) {
+                        _.forEach(constraintArguments.fk, function (fk) {
+                            that._fks.push(fk);
+                        })
+                    }
+
+                    // Parse unique key arguments
+                    if (constraintArguments.unique) {
+
+                        _.forEach(constraintArguments.unique, function (unique) {
+                            that._uks.push(new Key(that, unique));
+                        }, that);
+
+                    }
+
+                }
+
+                // Check that constraints are irreducible
+
+                var constraints = _.union(that._pk === null ? undefined : [that._pk], that._uks);
+
+                _.forEach(constraints,
+
+                        function (constraint, index) {
+
+                        // Check that if the constraint applies on an object, that
+                        // its type has the serialize method
+
+                        constraint.header.each(
+
+                            function (attribute) {
+                            if (!attribute.type.primitive &amp;&amp; !_.isFunction(attribute.type.serialize)) {
+                                throw new Error(
+                                        &#39;Cannot index attribute &quot;&#39; + attribute.name + &#39;&quot;. &#39; +
+                                        &#39;Its type &quot;&#39; + attribute.type.type + &#39;&quot; must&#39; +
+                                        &#39;have a &quot;serialize&quot; method for it to be indexable.&#39;);
+                            }
+                        });
+
+                        // Further validation for keys
+
+                        for (var a = index + 1, len = constraints.length; a &lt; len; a++) {
+
+                            var checkedKeyHeader = constraints[a].header;
+
+                            // Check that the keys are unique
+                            if (constraint.header.equal(checkedKeyHeader)) {
+                                throw new Error(&#39;Constraints must be unique&#39;);
+                            }
+
+                            // Check that the keys are irreducible
+                            if (constraint.header.setIntersection(checkedKeyHeader).count() !== 0) {
+                                throw new Error(&#39;Constraint must be irreducible&#39;);
+                            }
+
+                        }
+
+                    })
+
+
+            })
+
+        },
+
+        _index: function (element) {
+
+            // Look for the tuple in the PK if it exists
+
+            if (this._pk) {
+                var index = this._pk.index.getIndex(element);
+
+                if (index !== null) {
+                    console.log(&#39;Found by pk&#39;);
+                    return index;
+                }
+
+            }
+
+
+            var result = null;
+
+            _.any(this._uks, function (uniqueConstraint) {
+
+                result = uniqueConstraint.index.getIndex(element);
+                if (result !== null)
+                    return false;
+
+            }, this);
+
+            return result;
+
+        },
+
+<span id='Relation-method-get'>        /**
+</span>         * Gets the specified attribute object by name
+         * @param {String} attribute Attribute name
+         * @returns {Attribute|null} The attribute or null if not found
+         *
+         * @example
+         *
+         * var fn = new affinity.Attribute({name : &#39;firstName&#39;, type : affinity.String})
+         * var ln = new affinity.Attribute({name : &#39;lastName&#39;, type : affinity.String})
+         *
+         * var relation = new affinity.Relation([
+         *          fn,
+         *          ln
+         *      ],[
+         *          [&#39;John&#39;,&#39;Doe&#39;],
+         *          [&#39;Hello&#39;,&#39;World&#39;],
+         *          [&#39;Super&#39;,&#39;Duper&#39;],
+         *      ]);
+         *
+         * relation.get(&#39;firstName&#39;) === fn // true
+         *
+         *
+         */
+        get: function (attribute) {
+
+            debug.relation.trace(&#39;#get&#39;);
+
+            return this.header().get(attribute);
+
+        },
+
+<span id='Relation-method-atIndex'>        /**
+</span>         * Get the tuple at the given index
+         * @param {number} index The index of the tuple
+         * @returns {*|null}
+         * @example
+         * var relation = new affinity.Relation([
+         *          { &#39;firstName&#39; : {type : affinity.String}}
+         *          { &#39;LastName&#39;  : {type : affinity.String}}
+         *      ],[
+         *          [&#39;John&#39;,&#39;Doe&#39;],
+         *          [&#39;Hello&#39;,&#39;World&#39;],
+         *          [&#39;Super&#39;,&#39;Duper&#39;],
+         *      ]);
+         *
+         * relation.each(function(tuple, index){
+         *
+         *      console.log(relation.atIndex(index) === tuple) // true
+         *
+         * })
+         *
+         * console.log(relation.atIndex(0).get(&#39;firstName&#39;)) // John
+         *
+         */
+        atIndex: function (index) {
+
+            debug.relation.trace(&#39;#atIndex&#39;);
+
+            return this.elements()[index];
+
+        },
+
+<span id='Relation-method-remove'>        /**
+</span>         * Removes a tuple from the relation
+         * @param {Tuple|Object} tupleToRemove The tuple to be removed
+         * @return {boolean} True if the tuple was removed, false otherwise
+         * @example
+         * var relation = new affinity.Relation([
+         *          { &#39;firstName&#39; : {type : affinity.String}}
+         *          { &#39;LastName&#39;  : {type : affinity.String}}
+         *      ],[
+         *          [&#39;John&#39;,&#39;Doe&#39;],
+         *          [&#39;Hello&#39;,&#39;World&#39;],
+         *          [&#39;Super&#39;,&#39;Duper&#39;],
+         *      ]);
+         *
+         * relation.remove({firstName : &#39;John&#39;, &#39;LastName&#39;, &#39;Doe&#39;}); //true
+         *
+         * var tuple = relation.atIndex(0) // Tuple(firstName: &#39;Hello&#39;, lastName : &#39;World&#39;);
+         *
+         * relation.remove(tuple) // true
+         *
+         * relation.remove(tuple) // false, it was already removed
+         *
+         */
+        remove: function (tupleToRemove) {
+
+            debug.relation.trace(&#39;#remove&#39;);
+
+            var tuple, index;
+
+            tuple = Tuple.coerce(tupleToRemove);
+
+            // Find the index of the tuple
+            index = this.index(tuple);
+
+            // If found, remove it.
+            if (index !== null) {
+                this.body().splice(index, 1);
+                return true;
+            }
+
+            return false;
+
+        },
+
+<span id='Relation-method-body'>        /**
+</span>         * Getter/Setter for the body property
+         *
+         * You will more likely always use the getter (Relation.body()) than the setter
+         * (Relation.body(body)) part for this method.
+         *
+         * @param {Set} [tuples] The new set of body
+         * @returns {Set|Relation} The body/null if getter, this if setter
+         * @example
+         *
+         * var relation = new affinity.Relation([
+         *          { &#39;firstName&#39; : {type : affinity.String}}
+         *          { &#39;LastName&#39;  : {type : affinity.String}}
+         *      ]);
+         *
+         * var set = new affinity.Set();
+         *
+         * set.add(new affinity.Tuple({firstName : &#39;John&#39;, lastName : &#39;Doe&#39;}))
+         * set.add(new affinity.Tuple({firstName : &#39;Hello&#39;, lastName : &#39;World&#39;}))
+         * set.add(new affinity.Tuple({firstName : &#39;John&#39;, lastName : &#39;Cage&#39;}))
+         *
+         * relation.body(set); // Sets the relation&#39;s body
+         *
+         * relation.body() // Gets the relation&#39;s body
+         *
+         * console.log(relation.body() === set) // true
+         *
+         */
+        body: function (tuples) {
+
+            debug.relation.trace(&#39;#body&#39;);
+
+            if (tuples) {
+
+                this.elements(tuples);
+
+                return this
+
+            } else {
+
+                this.ee.emit(&#39;beforeGetBody&#39;);
+
+                return this.elements();
+
+            }
+
+        },
+
+<span id='Relation-method-compute'>        /**
+</span>         * Calculates the relation. Because the relations are only calculated when their header or their body
+         * are requested, you must explicitly call compute() if you want to calculate a relation.
+         *
+         * You should not need to use this function. Calling body() or header() calculates the relation
+         * automatically
+         *
+         * @return {Relation} Returns this for chaining
+         * @example
+         *
+         * var product = relation1.product(relation2);
+         *
+         * // At this point, nothing has been calculated.
+         *
+         * product.header() // Because we requested the header, it is calculated
+         *
+         * product.body() // Because we requested the body, it is calculated
+         *
+         * var product2 = relation1.product(relation2);
+         *
+         * product2.compute(); // Calculates the header and the body;
+         *
+         */
+        compute: function () {
+
+            debug.relation.trace(&#39;#compute&#39;);
+
+            this.header();
+            this.body();
+
+            return this;
+
+        },
+
+<span id='Relation-method-header'>        /**
+</span>         * Gets or sets the relation&#39;s header
+         * @param {Header} [header]
+         * @returns {null|{Header}}
+         */
+        header: function (header) {
+
+            if (header) {
+
+                debug.relation.trace(&#39;#header (set)&#39;);
+
+                this._header = header;
+
+            } else {
+
+                debug.relation.trace(&#39;#header (get)&#39;);
+
+                this.ee.emit(&#39;beforeGetHeader&#39;);
+
+                return this._header;
+
+            }
+
+        },
+
+<span id='Relation-method-isCompatible'>        /**
+</span>         * Check if a tuple is compatible with the relation
+         * @param {Tuple|Object} tuple
+         * @returns {boolean}
+         */
+        isCompatible: function (tuple) {
+
+            debug.relation.trace(&#39;#isCompatible&#39;);
+
+            tuple = Tuple.coerce(tuple);
+
+            var tupleKeys = Object.keys(tuple.attributes);
+            var tupleKeyCount = tupleKeys.length;
+            var headerKeys = Object.keys(this.header()._attributes);
+            var headerKeyCount = headerKeys.length;
+
+
+            /// Check if the given tuple has the same header as the relation
+
+            // Header and Tuple must have the same number of attributes
+            if (tupleKeyCount !== headerKeyCount) {
+                return false;
+            }
+
+            // Header and Tuple must have the same attribute names
+            return !_.some(headerKeys, function (headerAttribute) {
+
+                // Loop through each attributes of the tuple
+                return !_.some(tupleKeys, function (tupleAttribute) {
+
+                    // Found a match
+                    return (tupleAttribute === headerAttribute);
+
+                });
+
+            });
+
+        },
+
+<span id='Relation-method-equal'>        /**
+</span>         * Tests if the relation is equal to another one
+         * @param {Relation} relation The relation to compare to
+         * @returns {boolean} If the relations are equal or not
+         */
+        equal: function (relation) {
+
+            debug.relation.trace(&#39;#equal&#39;);
+
+            return this.constructor.equal(this, relation);
+        },
+
+<span id='Relation-method-print'>        /**
+</span>         * Prints the printable representation of the Relation to console
+         */
+        print: function () {
+
+            debug.relation.trace(&#39;#print&#39;);
+
+            console.log(this.toString());
+        },
+
+<span id='Relation-method-toString'>        /**
+</span>         * Gets the
+         * @returns {String} The string print representation of the relation
+         */
+        toString: function () {
+
+            var hspacing = 1,
+                vspacing = 1,
+                arr = this.arr = [],
+                headerRow = [],
+                maxWidths = [],
+                maxHeights = [];
+
+            debug.relation.trace(&#39;#getPrintString&#39;);
+
+            this.compute();
+
+            this.header().each(function (attribute) {
+
+                headerRow.push({ width: null, height: null, lines: null, attribute: attribute, string: attribute.toString()})
+
+            }, this);
+
+            // [ {width, height, lines, string},{width, height, lines, string},... ] ]
+
+            arr.push(headerRow);
+
+            this.each(function (tuple) {
+
+                var tupleRow = [];
+
+                _.forEach(headerRow, function (attr) {
+                    tupleRow.push({ width: null, height: null, lines: null, string: tuple.get(attr.attribute.name).toString()})
+                }, this);
+
+                arr.push(tupleRow);
+
+            }, this);
+
+            function findHeight(string) {
+
+                return string.split(&quot;\n&quot;).length;
+
+            }
+
+            function findWidth(string) {
+
+                var lines = string.split(&#39;\n&#39;),
+                    max = 0;
+
+                _.forEach(lines, function (line) {
+
+                    var lineLength = line.length;
+
+                    if (lineLength &gt; max)
+                        max = lineLength;
+
+                }, this);
+
+                return max;
+
+            }
+
+            function findMaxWidth(arr) {
+
+                var max = 0;
+
+                _.forEach(arr, function (obj) {
+
+                    var lineWidth = obj.width;
+
+                    if (lineWidth &gt; max)
+                        max = lineWidth;
+
+                }, this);
+
+                return max;
+            }
+
+            function findMaxHeight(arr) {
+
+                var max = 0;
+
+                _.forEach(arr, function (obj) {
+
+                    var lineHeight = obj.height;
+
+                    if (lineHeight &gt; max)
+                        max = lineHeight;
+
+                }, this);
+
+                return max;
+
+            }
+
+            function parseLines(string) {
+                return string.split(&quot;\n&quot;);
+            }
+
+            // [
+            //   [{width, height, lines, string},{width, height, lines, string},... ],
+            //   [{width, height, lines, string},{width, height, lines, string},... ],
+            //   [{width, height, lines, string},{width, height, lines, string},... ],
+            //   ...
+            // ]
+
+
+            _.forEach(arr, function (row, rowIndex) {
+
+                _.forEach(row, function (col, colIndex) {
+
+                    col.width = findWidth(col.string);
+                    col.height = findHeight(col.string);
+                    col.lines = parseLines(col.string);
+
+                    if (!maxWidths[colIndex] || maxWidths[colIndex] &lt; col.width) {
+                        maxWidths[colIndex] = col.width;
+                    }
+
+                    if (!maxHeights[rowIndex] || maxHeights[rowIndex] &lt; col.height) {
+                        maxHeights[rowIndex] = col.height;
+                    }
+
+                }, this);
+
+            }, this);
+
+            var result = &#39;\n&#39;;
+
+
+            // Printing the top border
+
+            result += &#39;+&#39;;
+
+            _.forEach(maxWidths, function (maxWidth, index) {
+
+                for (var a = 0; a &lt; maxWidths[index] + hspacing * 2 + 2; a++) {
+                    result += &#39;-&#39;
+                }
+
+                result += &#39;+&#39;
+
+            }, this);
+
+            result += &#39;\n&#39;;
+
+            // Printing the attributes
+
+            _.forEach(arr, function (row, rowIndex) {
+
+                var maxHeight = maxHeights[rowIndex];
+
+                for (var a = 0; a &lt; maxHeight; a++) {
+
+                    result += &#39;|&#39;;
+
+                    _.forEach(row, function (col, colIndex) {
+
+                        var maxWidth = maxWidths[colIndex];
+
+                        var line = col.lines[a];
+
+                        if (!line) line = &#39;&#39;;
+
+                        for (var i = 0; i &lt; hspacing; i++) {
+                            result += &#39; &#39;;
+                        }
+
+                        var lineLength = line.length;
+
+                        result += line;
+
+                        for (var k = 0; k &lt; hspacing; k++) {
+                            result += &#39; &#39;;
+                        }
+
+                        for (var b = 0; b &lt; maxWidth - lineLength + 2 * hspacing; b++) {
+                            result += &#39; &#39;;
+                        }
+
+                        result += &#39;|&#39;;
+
+                    }, this);
+
+                    result += &#39;\n&#39;;
+
+                }
+
+                result += &#39;+&#39;;
+
+                _.forEach(maxWidths, function (maxWidth, index) {
+
+                    for (var a = 0; a &lt; maxWidths[index] + hspacing * 2 + 2; a++) {
+                        if (rowIndex === 0) {
+                            result += &#39;=&#39;
+                        } else {
+                            result += &#39;-&#39;
+                        }
+
+                    }
+
+                    result += &#39;+&#39;
+
+                }, this);
+
+
+                if (rowIndex != arr.length - 1) result += &#39;\n&#39;;
+
+
+            }, this);
+
+            return result;
+
+        },
+
+        //region Operations
+<span id='Relation-method-difference'>        /**
+</span>         * Shortcut to create a Difference relation based on this relation and the specified one
+         * @param {Relation} relation The relation to compute difference against
+         * @returns {Operators.Difference} The resulting relation
+         * @example
+         *
+         * var relation1 = new affinity.Relation([
+         *          {firstName : {type : affinity.String}}
+         *          {lastName : {type : affinity.String}}
+         *      ],[
+         *          [&#39;John&#39;,&#39;Doe&#39;],
+         *          [&#39;Lucino&#39;,&#39;Veo&#39;],
+         *          [&#39;Mary&#39;,&#39;Poppins&#39;],
+         *      ]);
+         *
+         * var relation2 = new affinity.Relation([
+         *          {firstName : {type : affinity.String}}
+         *          {lastName : {type : affinity.String}}
+         *      ],[
+         *          [&#39;John&#39;,&#39;Doe&#39;]
+         *      ]);
+         *
+         * var diff = relation1.difference(relation2);
+         *
+         * // +---------------------+--------------------+
+         * // | firstName : TString | lastName : TString |
+         * // +---------------------+--------------------+
+         * // | Lucino              | Veo                |
+         * // +---------------------+--------------------+
+         * // | Mary                | Poppins            |
+         * // +---------------------+--------------------+
+         */
+        difference: function (relation) {
+
+            debug.relation.trace(&#39;#difference&#39;);
+
+            return new (require(&#39;./algebra/Difference&#39;))(this, relation);
+        },
+
+<span id='Relation-method-intersect'>        /**
+</span>         * Shortcut to create an Intersect relation based on this relation and the specified one
+         * @param {Relation} relation The relation to compute intersection against
+         * @returns {Operators.Intersection} The resulting relation
+         * @example
+         *
+         * var relation1 = new affinity.Relation([
+         *          {firstName : {type : affinity.String}}
+         *          {lastName : {type : affinity.String}}
+         *      ],[
+         *          [&#39;John&#39;,&#39;Doe&#39;],
+         *          [&#39;Lucino&#39;,&#39;Veo&#39;],
+         *          [&#39;Mary&#39;,&#39;Poppins&#39;],
+         *      ]);
+         *
+         * var relation2 = new affinity.Relation([
+         *          {firstName : {type : affinity.String}}
+         *          {lastName : {type : affinity.String}}
+         *      ],[
+         *          [&#39;John&#39;,&#39;Doe&#39;]
+         *      ]);
+         *
+         * var intersection = relation1.intersect(relation2);
+         *
+         * // +---------------------+--------------------+
+         * // | firstName : TString | lastName : TString |
+         * // +---------------------+--------------------+
+         * // | John                | Doe                |
+         * // +---------------------+--------------------+
+         */
+        intersect: function (relation) {
+
+            debug.relation.trace(&#39;#intersect&#39;);
+
+            var Intersection = require(&#39;./algebra/Intersection&#39;);
+
+            return new Intersection(this, relation);
+        },
+
+<span id='Relation-method-join'>        /**
+</span>         * Shortcut to create a Join relation based on this relation and the specified one
+         * @param {Relation} relation The relation to compute the join against
+         * @returns {Operators.Join} The resulting relation
+         * @example
+         *
+         * var relation1 = new affinity.Relation([
+         *          {firstName : {type : affinity.String}}
+         *          {lastName : {type : affinity.String}}
+         *      ],[
+         *          [&#39;John&#39;,&#39;Doe&#39;],
+         *          [&#39;Lucino&#39;,&#39;Veo&#39;],
+         *          [&#39;Mary&#39;,&#39;Poppins&#39;],
+         *      ]);
+         *
+         * var relation2 = new affinity.Relation([
+         *          {LastName : {type : affinity.String}}
+         *          {Title    : {type : affinity.String}}
+         *      ],[
+         *          [&#39;Doe&#39;,&#39;Mr&#39;],
+         *          [&#39;Poppins&#39;,&#39;Lady&#39;]
+         *      ]);
+         *
+         * var join = relation1.join(relation2);
+         *
+         * // +---------------------+--------------------+-----------------+
+         * // | firstName : TString | lastName : TString | Title : TString |
+         * // +---------------------+--------------------+-----------------+
+         * // | John                | Doe                | Mr              |
+         * // +---------------------+--------------------+-----------------+
+         * // | Mary                | Poppins            | Lady            |
+         * // +---------------------+--------------------+-----------------+
+         */
+        join: function (relation) {
+
+            debug.relation.trace(&#39;#join&#39;);
+
+            return new (require(&#39;./algebra/Join&#39;))(this, relation);
+        },
+
+<span id='Relation-method-product'>        /**
+</span>         * Shortcut to create a Product relation based on this relation and the specified one
+         * @param {Relation} relation The relation to compute product against
+         * @returns {Operators.Product} The resulting relation
+         * @example
+         *
+         * var relation1 = new affinity.Relation([
+         *          {firstName : {type : affinity.String}}
+         *          {lastName : {type : affinity.String}}
+         *      ],[
+         *          [&#39;John&#39;,&#39;Doe&#39;],
+         *          [&#39;Lucino&#39;,&#39;Veo&#39;],
+         *          [&#39;Mary&#39;,&#39;Poppins&#39;],
+         *      ]);
+         *
+         * var relation2 = new affinity.Relation([
+         *          {title : {type : affinity.String}}
+         *      ],[
+         *          [&#39;Lady&#39;],
+         *          [&#39;Mr&#39;]
+         *      ]);
+         *
+         * var product = relation1.product(relation2);
+         *
+         * // +---------------------+--------------------+-----------------+
+         * // | firstName : TString | lastName : TString | Title : TString |
+         * // +---------------------+--------------------+-----------------+
+         * // | John                | Doe                | Lady            |
+         * // +---------------------+--------------------+-----------------+
+         * // | John                | Doe                | Mr              |
+         * // +---------------------+--------------------+-----------------+
+         * // | Lucino              | Veo                | Lady            |
+         * // +---------------------+--------------------+-----------------+
+         * // | Lucino              | Veo                | Mr              |
+         * // +---------------------+--------------------+-----------------+
+         * // | Mary                | Poppins            | Lady            |
+         * // +---------------------+--------------------+-----------------+
+         * // | Mary                | Poppins            | Mr              |
+         * // +---------------------+--------------------+-----------------+
+         */
+        product: function (relation) {
+
+            debug.relation.trace(&#39;#product&#39;);
+
+            return new (require(&#39;./algebra/Product&#39;))(this, relation);
+        },
+
+<span id='Relation-method-project'>        /**
+</span>         * Shortcut to create a Project relation based on this relation
+         * &lt;p&gt;The attributeNames parameter must be in the format : &lt;/p&gt;
+         * &lt;pre&gt;&lt;code&gt;
+         *
+         *     relation.project([&#39;argument1&#39;, &#39;argument2&#39;]);
+         *
+         * &lt;/code&gt;&lt;/pre&gt;
+         *
+         * @param {String[]} attributeNames The relation to compute intersection against
+         * @returns {Operators.Projection} The resulting relation
+         * @example
+         *          * @example
+         *
+         * var relation1 = new affinity.Relation([
+         *          {firstName : {type : affinity.String}}
+         *          {lastName : {type : affinity.String}}
+         *      ],[
+         *          [&#39;John&#39;,&#39;Doe&#39;],
+         *          [&#39;Lucino&#39;,&#39;Veo&#39;],
+         *          [&#39;Mary&#39;,&#39;Poppins&#39;],
+         *      ]);
+         *
+         * var intersection = relation1.project([&#39;firstName&#39;]);
+         *
+         * // +---------------------+
+         * // | firstName : TString |
+         * // +---------------------+
+         * // | John                |
+         * // +---------------------+
+         * // | Lucino              |
+         * // +---------------------+
+         * // | Mary                |
+         * // +---------------------+
+         */
+        project: function (attributeNames) {
+
+            debug.relation.trace(&#39;#project&#39;);
+
+            return new (require(&#39;./algebra/Projection&#39;))(this, attributeNames);
+        },
+
+<span id='Relation-method-rename'>        /**
+</span>         * Shortcut to create a Rename relation based on this relation
+         * @param {Object} newNames An object containing the new attribute names.
+         * @returns {Operators.Rename} The resulting relation
+         * @example
+         *
+         * var relation1 = new affinity.Relation([
+         *          {firstName : {type : affinity.String}}
+         *          {lastName : {type : affinity.String}}
+         *      ],[
+         *          [&#39;John&#39;,&#39;Doe&#39;],
+         *          [&#39;Lucino&#39;,&#39;Veo&#39;],
+         *          [&#39;Mary&#39;,&#39;Poppins&#39;],
+         *      ]);
+         *
+         * var rename = relation1.rename({lastName : &#39;Boogie&#39;});
+         *
+         * // +---------------------+--------------------+
+         * // | firstName : TString | Boogie : TString   |
+         * // +---------------------+--------------------+
+         * // | John                | Doe                |
+         * // +---------------------+--------------------+
+         * // | Lucino              | Veo                |
+         * // +---------------------+--------------------+
+         * // | Mary                | Poppins            |
+         * // +---------------------+--------------------+
+         */
+        rename: function (newNames) {
+
+            debug.relation.trace(&#39;#rename&#39;);
+
+            return new (require(&#39;./algebra/Rename&#39;))(this, newNames);
+        },
+
+<span id='Relation-method-restrict'>        /**
+</span>         * Shortcut to create a Restrict relation based on this relation
+         * @param {Function} predicate The predicate to test the tuples against
+         * @returns {Operators.Restriction} The resulting relation
+         * @example
+         *
+         * var relation = new affinity.Relation([
+         *          {firstName : {type : affinity.String}}
+         *          {lastName : {type : affinity.String}}
+         *      ],[
+         *          [&#39;John&#39;,&#39;Doe&#39;],
+         *          [&#39;Lucino&#39;,&#39;Veo&#39;],
+         *          [&#39;Mary&#39;,&#39;Poppins&#39;],
+         *          [&#39;Robert&#39;,&#39;Robert&#39;]
+         *      ]);
+         *
+         * // Multiple ways to build a predicate:
+         *
+         * // Compare with static value
+         * relation.restrict(relation.get(&#39;firstName&#39;).equal(&#39;John&#39;));
+         *
+         * // +---------------------+--------------------+
+         * // | firstName : TString | Boogie : TString   |
+         * // +---------------------+--------------------+
+         * // | John                | Doe                |
+         * // +---------------------+--------------------+
+         *
+         * // Compare two attributes
+         * relation.restrict(relation.get(&#39;firstName&#39;).equal(relation.get(&#39;lastName&#39;));
+         *
+         * // +---------------------+--------------------+
+         * // | firstName : TString | Boogie : TString   |
+         * // +---------------------+--------------------+
+         * // | Robert              | Robert             |
+         * // +---------------------+--------------------+
+         *
+         * // Combine with and, or, not
+         * relation.restrict( (relation.get(&#39;firstName&#39;).not().equal(&#39;John&#39;)) .and( relation.get(&#39;lastName&#39;).not().equal(&#39;Veo&#39;) ) )
+         *
+         * // +---------------------+--------------------+
+         * // | firstName : TString | Boogie : TString   |
+         * // +---------------------+--------------------+
+         * // | Mary                | Poppins            |
+         * // +---------------------+--------------------+
+         * // | Robert              | Robert             |
+         * // +---------------------+--------------------+
+         */
+        restrict: function (predicate) {
+
+            debug.relation.trace(&#39;#restrict&#39;);
+
+            return new (require(&#39;./algebra/Restriction&#39;))(this, predicate);
+        },
+
+<span id='Relation-method-union'>        /**
+</span>         * Shortcut to create a Union relation based on this relation and the specified one
+         * @param {Relation} relation The relation to perform Union with
+         * @returns {Operators.Union} The resulting relation
+         */
+        union: function (relation) {
+
+            debug.relation.trace(&#39;#union&#39;);
+
+            return new (require(&#39;./algebra/Union&#39;))(this, relation);
+        },
+
+<span id='Relation-method-compose'>        /**
+</span>         * @param {Relation} relation
+         * @returns {Operators.Compose} The resulting relation
+         */
+        compose: function (relation) {
+
+            debug.relation.trace(&#39;#compose&#39;);
+
+            return new (require(&#39;./algebra/Compose&#39;))(this, relation);
+
+        },
+
+<span id='Relation-method-group'>        /**
+</span>         * @param {String} groupingAttributeName
+         * @param {String[]} groupedAttributeNames
+         * @return {Operators.Group}
+         */
+        group: function (groupingAttributeName, groupedAttributeNames) {
+
+            debug.relation.trace(&#39;#group&#39;);
+
+            return new (require(&#39;./algebra/Group&#39;))(this, groupingAttributeName, groupedAttributeNames);
+
+        },
+
+<span id='Relation-method-ungroup'>        /**
+</span>         * @param {String[]} groupedAttributeNames
+         * @returns {Operators.Ungroup}
+         */
+        ungroup: function (groupedAttributeNames) {
+
+            debug.relation.trace(&#39;#ungroup&#39;);
+
+            return new (require(&#39;./algebra/Ungroup&#39;))(this, groupedAttributeNames);
+
+        },
+
+<span id='Relation-method-sdifference'>        /**
+</span>         * SemiDifference
+         * @returns {Operators.SemiDifference} The resulting relation
+         * @param relation
+         */
+        sdifference: function (relation) {
+
+            debug.relation.trace(&#39;#sdifference&#39;);
+
+            return new (require(&#39;./algebra/Semidifference&#39;))(this, relation);
+
+        },
+
+<span id='Relation-method-sjoin'>        /**
+</span>         * SemiJoin
+         * @returns {Operators.SemiJoin} The Resulting Relation
+         * @param relation
+         */
+        sjoin: function (relation) {
+
+            debug.relation.trace(&#39;#sjoin&#39;);
+
+            return new (require(&#39;./algebra/Semijoin&#39;))(this, relation);
+
+        },
+
+<span id='Relation-method-wrap'>        /**
+</span>         * Shortcut to execute a Wrap operation
+         * @param wrappingAttributeName The name of the new wrapping attribute
+         * @param {String[]} wrappedAttributes The attribute names to be wrapped
+         * @returns {Operators.Wrap} The resulting relation
+         */
+        wrap: function (wrappingAttributeName, wrappedAttributes) {
+
+            debug.relation.trace(&#39;#wrap&#39;);
+
+            return new (require(&#39;./algebra/Wrap&#39;))(this, wrappingAttributeName, wrappedAttributes);
+
+        },
+
+<span id='Relation-method-unwrap'>        /**
+</span>         * Shortcut to execute an Unwrap operation
+         * @param {String[]} wrappedAttributeNames The names of the wrapped attributes to unwrap
+         * @returns {Operators.Unwrap} The resulting relation
+         */
+        unwrap: function (wrappedAttributeNames) {
+
+            debug.relation.trace(&#39;#unwrap&#39;);
+
+            return new (require(&#39;./algebra/Unwrap&#39;))(this, wrappedAttributeNames);
+
+        },
+
+<span id='Relation-method-extend'>        /**
+</span>         * Shortcut to create an Extend operation
+         * @param {Object[]} expressions The expressions to evaluate
+         * @returns {Operators.Extend} The resulting relation
+         */
+        extend: function (expressions) {
+
+            debug.relation.trace(&#39;#extend&#39;);
+
+            return new (require(&#39;./algebra/Extend&#39;))(this, expressions);
+
+        },
+        //endregion
+
+
+    }, {
+
+<span id='Relation-static-method-toString'>        /**
+</span>         * Gets the string representation of the Relation class
+         * @returns {string}
+
+         * @static
+         */
+        toString: function () {
+            return &#39;Relation&#39;
+        },
+
+        type: &#39;Relation&#39;,
+
+<span id='Relation-static-method-equal'>        /**
+</span>         * Tests for equality between two relations
+         * @param {Relation} rel1
+         * @param {Relation} rel2
+
+         * @static
+         * @returns {boolean}
+         */
+        equal: function (rel1, rel2) {
+
+            debug.relation.trace(&#39;Relation.equal&#39;);
+
+            if (!rel1.header().equal(rel2.header())) {
+                return false;
+            }
+
+            rel1.compute();
+            rel2.compute();
+
+            return Set.equal(rel1, rel2);
+
+        }
+
+    });
+
+
+module.exports = Relation;
+</pre>
+</body>
+</html>

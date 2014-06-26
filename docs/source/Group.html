@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Relation = require(&#39;./../Relation.js&#39;);
+var Header = require(&#39;./../Header.js&#39;);
+var Tuple = require(&#39;./../Tuple.js&#39;);
+var Attribute = require(&#39;./../Attribute.js&#39;);
+var _ = require(&#39;lodash&#39;);
+var debug = require(&#39;./../helpers/debug&#39;);
+
+
+
+
+var Group = Relation.extend(
+
+
+
+
+    {
+
+<span id='Operators-Group'>        /**
+</span>         * @class Operators.Group
+         * @extends Relation
+         * @param {Relation} relation The relation to group
+         * @param {String} attributeName The new grouped attribute name
+         * @param {String[]} attributes The attributes to group
+         * The Group operation will group the specified tuple&#39;s attributes into one, and converting all these attributes into one.
+         * The resulting tuples will have an {@link Attribute} whose {@link Type} will be a {@link Relation}. See example.
+         *
+         *     var relationA = new affinity.Relation([
+         *              {a: { type: affinity.Integer}},
+         *              {b: { type: affinity.Integer}},
+         *              {c: { type: affinity.Integer}}
+         *          ],[
+         *              [1, 2, 3],
+         *              [4, 5, 6],
+         *              [4, 9, 9],
+         *              [7, 8, 9]
+         *          ]);
+         *
+         *     var relationB = relationA.group(&#39;groupedAttribute&#39;, [&#39;b&#39;, &#39;c&#39;])
+         *
+         *     //or
+         *
+         *     var relationB = new affinity.Group(relationA, &#39;groupedAttribute&#39;, [&#39;b&#39;,&#39;c&#39;])
+         *
+         *     //                 &lt;----GROUPING ATTRIBUTE----------&gt;
+         *     // +--------------+---------------------------------+
+         *     // | a : TInteger | groupedAttribute : Relation     |
+         *     // +==============+=================================+
+         *     // | 1            | +--------------+--------------+ |
+         *     // |              | | b : TInteger | c : TInteger | |
+         *     // |              | +==============+==============+ |
+         *     // |              | | 2            | 3            | |
+         *     // |              | +--------------+--------------+ |
+         *     // +--------------+---------------------------------+
+         *     // | 4            | +--------------+--------------+ |
+         *     // |              | | b : TInteger | c : TInteger | |
+         *     // |              | +==============+==============+ |
+         *     // |              | | 5            | 6            | |
+         *     // |              | +--------------+--------------+ |
+         *     // |              | | 9            | 9            | |
+         *     // |              | +--------------+--------------+ |
+         *     // +--------------+---------------------------------+
+         *     // | 7            | +--------------+--------------+ |
+         *     // |              | | b : TInteger | c : TInteger | |
+         *     // |              | +==============+==============+ |
+         *     // |              | | 8            | 9            | |
+         *     // |              | +--------------+--------------+ |
+         *     // +--------------+---------------------------------+
+         */
+        constructor: function (relation, attributeName, attributes) {
+
+            debug.group.trace(&#39;#constructor&#39;);
+
+            this.relation = relation;
+            this.groupingAttributeName = attributeName;
+            this.groupedAttributeNames= attributes;
+            this.groupedAttributes = [];
+            this.groupingAttribute = null;
+
+            Relation.call(this);
+
+        },
+
+        bindEvents: function () {
+
+            debug.group.trace(&#39;#bindEvents&#39;);
+
+            // Calling the parent bindEvents
+            Group.__super__.bindEvents.call(this);
+
+            var that = this,
+                groupedAttributeNames = this.groupedAttributeNames,
+                groupingAttributeName = this.groupingAttributeName,
+                relation = this.relation,
+                groupedAttributes = that.groupedAttributes;
+
+            // BeforeGetHeader
+            this.ee.once(&#39;beforeGetHeader&#39;, function () {
+
+                // We want to have this kind of relation
+                //
+                // +----------------+----------------+-------------------------------------+
+                // | attr3 : &lt;type&gt; | attr4 : &lt;type&gt; | groupedAttr : Relation              |
+                // +================+================+=====================================+
+                //
+                // Where attr3 and attr4 are non grouped attributes
+                // and groupedAttr will contain the grouped attributes relations
+                //
+
+                var header = relation.header();
+
+                debug.group.trace(&#39;beforeGetHeader&#39;);
+
+                // Check that the attributes specified in groupedAttributeNames exists in the base header
+                _.forEach(groupedAttributeNames, function(groupedAttributeName){
+                    if(header.get(groupedAttributeName) === null){
+                        throw new Error(&#39;Attribute with name &quot;&#39;+groupedAttributeName+&#39;&quot; does not exist in the header&#39;)
+                    }
+                });
+
+                // Loop through each of the relation&#39;s header attributes
+                header.each(function(attribute){
+
+                    // Check if the attribute is part of the grouped attributes
+
+                    var present = _.any(groupedAttributeNames, function(groupedAttributeName){
+                        return groupedAttributeName === attribute.name;
+                    });
+
+                    if(!present){
+                        // If it is not present, add it to the header.
+                        that.header().add(attribute.clone());
+                    } else {
+                        // If it is present, store it in the groupedAttributeNames array
+                        groupedAttributes.push(attribute);
+                    }
+
+                });
+
+                // Let&#39;s create the groupingAttributeName and add it to the header
+
+                that.groupingAttribute = new Attribute({name : groupingAttributeName, type : Relation});
+
+                that.header().add(that.groupingAttribute);
+
+            });
+
+
+            // BeforeGetBody
+            this.ee.once(&#39;beforeGetBody&#39;, function () {
+
+                debug.group.trace(&#39;beforeGetBody&#39;);
+
+
+                // Make sure the header is computed
+
+                that.header();
+
+
+                // Let&#39;s loop through each of the relation&#39;s tuples
+
+                relation.each(function(tuple){
+
+                    // This variable will store the tuple grouped attribute values
+                    var groupedAttributeValues = {};
+
+                    // This variable will store the tuple non-grouped attribute values
+                    var nonGroupedAttributeValues = {};
+
+                    // Now, we will build these variables
+
+                    // Let&#39;s loop through each of the tuple&#39;s attribute values
+                    tuple.each(function(value, key){
+
+                        // Check if the current tuple attribute is grouped or not grouped
+                        var grouped = _.any(that.groupedAttributes, function(groupedAttribute){
+                            return key === groupedAttribute.name;
+                        });
+
+                        if(grouped){
+
+                            // Tuple attribute is part of the grouped attributes
+
+                            groupedAttributeValues[key] = value;
+
+                        } else {
+
+                            // Tuple attribute is not part of the grouped attributes
+
+                            nonGroupedAttributeValues[key] = value;
+
+                        }
+
+                    });
+
+
+                    // The groupedAttributeValues and nonGroupedAttributeValues are now built
+                    //
+                    // We started with a tuple like
+                    // { attr1 : value, attr2 : value, attr3: value, attr4 : value}
+                    //
+                    // We grouped &#39;attr1&#39; and &#39;attr2&#39;
+                    //
+                    // And we simply divided the tuples into two objects, one containing the attribute values
+                    // that are supposed to be grouped, and another that is not supposed to be grouped
+                    //
+                    // They should look somewhat like :
+                    // groupedAttributeValues : { attr1 : value, attr2 : value, ... }
+                    // nonGroupedAttributeValues : { attr3 : value, attr4 : value, ...}
+
+
+                    // If two tuples have the same non grouped attribute values, what we will do
+                    // is merge their nonGroupedAttributeValues into a &quot;nested relation&quot;, meaning
+                    // that we will have a relation that will contain relations.
+
+
+                    // Let&#39;s loop through each tuple of the being-built relation
+                    // and see if a tuple already exists with the same nonGroupedAttributeValues
+
+
+                    var matchingTuple = null;
+
+                    that.each(function(tuple){
+
+                        var match = true;
+
+                        _.forOwn(nonGroupedAttributeValues, function(value, key){
+
+                            if(tuple.get(key) !== value){
+
+                                match = false;
+                                return false;
+
+                            }
+
+                        });
+
+                        if(match){
+                            matchingTuple = tuple;
+                            return false;
+                        }
+
+                    });
+
+
+                    if (matchingTuple === null){
+
+                        // A tuple with the same non grouped attribute values has not been found.
+                        // We will create it and create the nested relation too.
+
+                        var newTuple = new Tuple(nonGroupedAttributeValues);
+
+
+                        // This tuple should look like
+                        // +----------------+----------------+
+                        // | attr3 : &lt;type&gt; | attr4 : &lt;type&gt; |
+                        // +================+================+
+                        // | value          | value          |
+                        // +----------------+----------------+
+
+
+                        // Creating the relation
+
+                        var newRelation = new Relation();
+
+
+                        // Adding the grouped attributes to the new nested relation header
+
+                        _.forOwn(groupedAttributes, function(attribute){
+
+                            newRelation.header().add(attribute.clone());
+
+                        });
+
+                        // We will store the relation header in the root relation header attribute
+                        // So that we will know what kind of relation this is without having to access
+                        // the body
+
+                        that.groupingAttribute.relationHeader = newRelation.header().clone();
+
+                        // This relation should look like
+                        // +----------------+----------------+
+                        // | attr1 : &lt;type&gt; | attr2 : &lt;type&gt; |
+                        // +================+================+
+
+
+                        // Setting the relation in the tuple grouped attribute
+
+                        newTuple.set(groupingAttributeName, newRelation);
+
+                        // The tuple will now be
+                        // +----------------+----------------+-------------------------------------+
+                        // | attr3 : &lt;type&gt; | attr4 : &lt;type&gt; | groupedAttr : Relation              |
+                        // +================+================+=====================================+
+                        // | value          | value          | +----------------+----------------+ |
+                        // |                |                | | attr1 : &lt;type&gt; | attr2 : &lt;type&gt; | |
+                        // |                |                | +================+================+ |
+                        // +----------------+----------------+-------------------------------------+
+
+
+
+                        // Adding the tuple to the relation
+
+                        that.add(newTuple, false);
+
+
+                        // A matching tuple now exists because we just created it
+
+                        matchingTuple = newTuple;
+
+                    }
+
+                    // We create the tuple that will be inserted in the nested relation
+
+                    var nestedTuple = new Tuple(groupedAttributeValues);
+
+                    // We add this tuple to the nested relation
+
+                    matchingTuple.get(groupingAttributeName).add(nestedTuple, false);
+
+                    // And voilà!
+
+                });
+
+
+            });
+
+        }
+
+    });
+
+module.exports = Group;</pre>
+</body>
+</html>

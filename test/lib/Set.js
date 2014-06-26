@@ -196,7 +196,7 @@ describe('Set Class', function () {
                 var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
 
                 set1.remove(1).should.be.true;
-                set1.elements().should.be.an.Array.and.have.length(2);
+                set1.count().should.equal(2);
 
                 done();
 
@@ -219,43 +219,6 @@ describe('Set Class', function () {
 
         })
 
-
-    });
-
-    describe('Set#_indexByReference', function () {
-
-
-        describe('When provided with an object that exists in the set', function () {
-
-            it('Should return its index', function (done) {
-
-                var obj1 = new Object();
-
-                var set1 = new affinity.Set({type: Object, elements: [obj1]});
-
-                set1._indexByReference(obj1).should.be.equal(0);
-
-                done();
-
-            })
-
-        });
-
-        describe('When provided with an object that does not exists in the set', function () {
-
-            it('Should return null', function (done) {
-
-                var obj1 = new Object();
-
-                var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
-
-                (set1._indexByReference(obj1) === null).should.be.true;
-
-                done();
-
-            })
-
-        })
 
     });
 

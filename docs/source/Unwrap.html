@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Relation = require(&#39;./../Relation.js&#39;);
+var Header = require(&#39;./../Header.js&#39;);
+var Tuple = require(&#39;./../Tuple.js&#39;);
+var Set = require(&#39;./../Set.js&#39;);
+var Attribute = require(&#39;./../Attribute.js&#39;);
+var _ = require(&#39;lodash&#39;);
+var debug = require(&#39;./../helpers/debug&#39;);
+
+
+
+var Unwrap = Relation.extend(
+
+    {
+
+<span id='Operators-Unwrap'>        /**
+</span>         * @class Operators.Unwrap
+         * @extends Relation
+         * @param {Relation} relation The relation to Unwrap
+         * @param {String[]|String|Set|Header} attributeNames The name of the wrapped attributes to unwrap
+         * The Unwrap operator will reverse the {@link Operators.Wrap} operation, converting a tuple-valued attribute into
+         * the attributes of the tuples.
+         *
+         *     var relationA = new affinity.Relation([
+         *              {characterId: { type: affinity.Integer}},
+         *              {firstName: { type: affinity.String}},
+         *              {lastName: { type: affinity.String}}
+         *          ],[
+         *              [1, &#39;John&#39;, &#39;Doe&#39;],
+         *              [2, &#39;Mary&#39;, &#39;Poppins&#39;],
+         *              [3, &#39;Lucky&#39;, &#39;Luke&#39;]
+         *          ]);
+         *
+         *     var relationB = relationA.Unwrap(&#39;UnwrappedAttribute&#39;, [&#39;firstName&#39;,&#39;lastName&#39;]);
+         *
+         *
+         *     // +-------------------------------------------------------------------------+
+         *     // | characterId : TInteger | unwrappedAttribute : Tuple                     |
+         *     // +========================+================================================+
+         *     // | 1                      | Tuple{firstName : &#39;John&#39;, lastName : &#39;Doe&#39;}    |
+         *     // +-------------------------------------------------------------------------+
+         *     // | 2                      | Tuple{firstName : &#39;Mary&#39;, lastName : &#39;Poppins&#39;}|
+         *     // +-------------------------------------------------------------------------+
+         *     // | 3                      | Tuple{firstName : &#39;Lucky&#39;, lastName : &#39;Luke&#39;}  |
+         *     // +-------------------------------------------------------------------------+
+         *     //
+         *
+         *     var relationC = relationB.unwrap(&#39;unwrappedAttribute&#39;);
+         *
+         *     // or
+         *
+         *     var relationC = new affinity.Unwrap(relationB, &#39;unwrappedAttribute&#39;);
+         *
+         *
+         *     //                          &lt;-------UNWRAPPED ATTRIBUTES---------------&gt;
+         *     // +------------------------+---------------------+--------------------+
+         *     // | characterId : TInteger | firstName : TString | lastName : TString |
+         *     // +========================+=====================+====================+
+         *     // | 1                      | John                | Doe                |
+         *     // +------------------------+---------------------+--------------------+
+         *     // | 2                      | Mary                | Poppins            |
+         *     // +------------------------+---------------------+--------------------+
+         *     // | 3                      | Lucky               | Luke               |
+         *     // +------------------------+---------------------+--------------------+
+         *
+         */
+        constructor: function (relation, attributeNames) {
+
+            debug.unwrap.trace(&#39;#constructor&#39;);
+
+            // Check if the relation argument is of good type
+            if(!(relation instanceof Relation)){
+                throw new TypeError(&#39;Specified relation is of wrong type&#39;);
+            }
+
+            // If the attributeNames is a string, coerce it to an array
+            if(_.isString(attributeNames)){
+                attributeNames = [attributeNames];
+            }
+
+            // If the attributeNames is not an array or set, throw an error
+            if(!_.isArray(attributeNames) &amp;&amp; !(attributeNames instanceof Set)){
+                throw new Error(&#39;Unsupported type of specified attributeNames to unwrap&#39;);
+            }
+
+            if(_.isArray(attributeNames) &amp;&amp; attributeNames.length &lt;= 0){
+                throw new Error(&#39;You must specify attributes to unwrap!&#39;);
+            }
+
+            if((attributeNames instanceof Set) &amp;&amp; attributeNames.count() &lt;= 0){
+                throw new Error(&#39;You must specify attributes to unwrap!&#39;);
+            }
+
+            this.attributeNames = attributeNames;
+            this.relation = relation;
+
+            Relation.call(this);
+
+        },
+
+        bindEvents: function () {
+
+            debug.unwrap.trace(&#39;#bindEvents&#39;);
+
+            // Calling the parent bindEvents
+            Unwrap.__super__.bindEvents.call(this);
+
+            var relation = this.relation;
+
+            var that = this;
+
+            // BeforeGetHeader
+            this.ee.once(&#39;beforeGetHeader&#39;, function () {
+
+                debug.unwrap.trace(&#39;beforeGetHeader&#39;);
+
+                // Copy all attributes from the base header that will not be unwrapped
+                that.header().copy(relation.header(), that.attributeNames, true);
+
+                // Get all attributes that were wrapped in the base relation
+                var alreadyWrappedAttributes = new Header();
+                relation.header().each(function(attribute){
+                    if(attribute.wrappedAttributes){
+                        alreadyWrappedAttributes.add(attribute.clone());
+                    }
+                });
+
+                // Get the attributes which will be unwrapped
+                var unwrappedAttributes = new Header();
+                unwrappedAttributes.copy(relation.header(), that.attributeNames);
+                that.unwrappedAttributes = unwrappedAttributes;
+
+                // Get the attributes which will not be unwrapped
+                var nonUnwrappedAttributes = new Header();
+                nonUnwrappedAttributes.copy(relation.header(), that.attributeNames, true);
+                that.nonUnwrappedAttributes = nonUnwrappedAttributes;
+
+                // Check that the attributes to be unwrapped are wrapped. We would not want
+                // to unwrap non-wrapped attributes!
+                if(!unwrappedAttributes.isSubset(alreadyWrappedAttributes)){
+                    throw new Error(&#39;Specified attributes are not all wrapped attributes. Must specify attributes which are wrapped.&#39;);
+                }
+
+                // Add all nested unwrapped attributes in the header
+                unwrappedAttributes.each(function(unwrappedAttribute){
+                    unwrappedAttribute.wrappedAttributes.each(function(wrappedAttribute){
+                        that.header().add(wrappedAttribute.clone());
+                    })
+                })
+
+            });
+
+            // BeforeGetBody
+            this.ee.once(&#39;beforeGetBody&#39;, function () {
+
+                debug.unwrap.trace(&#39;beforeGetBody&#39;);
+
+                // Loop through each tuple of the relation
+                that.relation.each(function(tuple){
+
+                    // Create the tuple to be inserted
+                    var newTuple = new Tuple();
+
+                    // Assign the values to the attributes which will not be unwrapped
+                    that.nonUnwrappedAttributes.each(function(attribute){
+                        newTuple.set(attribute.name, tuple.get(attribute.name));
+                    });
+
+                    // Loop through the attributes to be unwrapped
+                    that.unwrappedAttributes.each(function(unwrappedAttribute){
+
+                        // Loop through the wrapped attribute header
+                        unwrappedAttribute.wrappedAttributes.each(function(wrappedAttribute){
+
+                            // Set the tuple value for this attribute
+                            newTuple.set(wrappedAttribute.name, tuple.get(unwrappedAttribute.name).get(wrappedAttribute.name));
+
+                        })
+
+                    });
+
+                    that.add(newTuple);
+
+                })
+
+            });
+
+        }
+
+    });
+
+module.exports = Unwrap;</pre>
+</body>
+</html>

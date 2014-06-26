@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Relation = require(&#39;./../Relation.js&#39;);
+var Header = require(&#39;./../Header.js&#39;);
+var Tuple = require(&#39;./../Tuple.js&#39;);
+var _ = require(&#39;lodash&#39;);
+var debug = require(&#39;./../helpers/debug&#39;);
+
+
+
+var Product = Relation.extend(
+
+    {
+
+<span id='Operators-Product'>        /**
+</span>         * @class Operators.Product
+         * @param {Relation} relationA
+         * @param {Relation} relationB
+         * @extends Relation
+         *
+         *     var relationA = new affinity.Relation([
+         *              {characterId: { type: affinity.Integer}},
+         *              {firstName: { type: affinity.String}},
+         *              {lastName: { type: affinity.String}}
+         *          ],[
+         *              [1, &#39;John&#39;, &#39;Doe&#39;],
+         *              [2, &#39;Mary&#39;, &#39;Poppins&#39;],
+         *              [3, &#39;Lucky&#39;, &#39;Luke&#39;]
+         *          ]);
+         *
+         *     var relationB = new affinity.Relation([
+         *              {product: { type: affinity.String}}
+         *          ],[
+         *              [&#39;Doll&#39;],
+         *              [&#39;PlayMobile&#39;],
+         *          ]);
+         *
+         *     var relationC = relationA.product(relationB);
+         *
+         *     // or
+         *
+         *     var relationC = new affinity.Product(relationA, relationB)
+         *
+         *     // +------------------------+---------------------+--------------------+-------------------+
+         *     // | characterId : TInteger | firstName : TString | lastName : TString | product : TString |
+         *     // +========================+=====================+====================+===================+
+         *     // | 1                      | John                | Doe                | Doll              |
+         *     // +------------------------+---------------------+--------------------+-------------------+
+         *     // | 2                      | John                | Doe                | PlayMobile        |
+         *     // +------------------------+---------------------+--------------------+-------------------+
+         *     // | 1                      | Mary                | Poppins            | Doll              |
+         *     // +------------------------+---------------------+--------------------+-------------------+
+         *     // | 2                      | Mary                | Poppins            | PlayMobile        |
+         *     // +------------------------+---------------------+--------------------+-------------------+
+         *     // | 1                      | Lucky               | Luke               | Doll              |
+         *     // +------------------------+---------------------+--------------------+-------------------+
+         *     // | 2                      | Lucky               | Luke               | PlayMobile        |
+         *     // +------------------------+---------------------+--------------------+-------------------+
+         *     //
+         *
+         */
+        constructor: function (relationA, relationB) {
+
+            debug.product.trace(&#39;#constructor&#39;);
+
+            this.rels = [relationA, relationB];
+
+            Relation.call(this);
+
+        },
+
+        bindEvents: function () {
+
+            debug.product.trace(&#39;#bindEvents&#39;);
+
+            Product.__super__.bindEvents.call(this);
+
+            var that = this;
+
+            var rel1 = this.rels[0];
+            var rel2 = this.rels[1];
+
+            // BeforeGetHeader
+
+            that.ee.once(&#39;beforeGetHeader&#39;, function () {
+
+                debug.product.trace(&#39;beforeGetHeader&#39;);
+
+                var header1 = rel1.header();
+                var header2 = rel2.header();
+
+                // Check that the two relations have disjoint headers
+                Header.assertDisjoint(header1, header2);
+
+                that.header().copy(header1.setUnion(header2));
+
+            });
+
+
+            // BeforeGetBody
+
+            that.ee.once(&#39;beforeGetBody&#39;, function () {
+
+                debug.product.trace(&#39;beforeGetBody&#39;);
+
+                var tupleSet = rel1.setProduct(rel2);
+
+                tupleSet.each(function (tuplePair) {
+
+                    var newTuple = new Tuple();
+
+                    newTuple.copy(tuplePair.get(&#39;0&#39;));
+                    newTuple.copy(tuplePair.get(&#39;1&#39;));
+
+                    that.add(newTuple, false);
+
+                }, that);
+
+            });
+
+        }
+
+    });
+
+module.exports = Product;</pre>
+</body>
+</html>

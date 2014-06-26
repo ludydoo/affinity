@@ -1,6 +1,6 @@
 var affinity = require('./../../../index.js');
 var should = require('should');
-var debug = require('./../../../lib/helpers/debug');
+var debug = require('./../../../lib/affinity/helpers/debug');
 
 var relationMultiple = new affinity.Relation([
     {firstName: {type: affinity.String}},

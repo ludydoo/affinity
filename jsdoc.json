@@ -27,7 +27,7 @@
         "footer"                : "",
         "copyright"             : "Ludovic Cléroux © 2012-2014.",
         "navType"               : "vertical",
-        "theme"                 : "journal",
+        "theme"                 : "simplex",
         "linenums"              : true,
         "collapseSymbols"       : false,
         "inverseNav"            : true,

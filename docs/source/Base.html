@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var _ = require(&#39;lodash&#39;);
+// Helper function to correctly set up the prototype chain, for subclasses.
+// Similar to `goog.inherits`, but uses a hash of prototype properties and
+// class properties to be extended.
+var extend = function (protoProps, staticProps) {
+
+    var parent = this;
+    var child;
+
+    // The constructor function for the new subclass is either defined by you
+    // (the &quot;constructor&quot; property in your `extend` definition), or defaulted
+    // by us to simply call the parent&#39;s constructor.
+    if (protoProps &amp;&amp; _.has(protoProps, &#39;constructor&#39;)) {
+        child = protoProps.constructor;
+    } else {
+        child = function () {
+            return parent.apply(this, arguments);
+        };
+    }
+
+    // Add static properties to the constructor function, if supplied.
+    _.extend(child, parent, staticProps);
+
+    // Set the prototype chain to inherit from `parent`, without calling
+    // `parent`&#39;s constructor function.
+    var Surrogate = function () {
+        this.constructor = child;
+    };
+    Surrogate.prototype = parent.prototype;
+    child.prototype = new Surrogate;
+
+    // Add prototype properties (instance properties) to the subclass,
+    // if supplied.
+    if (protoProps) _.extend(child.prototype, protoProps);
+
+    // Set a convenience property in case the parent&#39;s prototype is needed
+    // later.
+    child.__super__ = parent.prototype;
+
+    return child;
+
+};
+
+<span id='Base'>/**
+</span> * @class Base
+ * @private
+ */
+var Base = function () {
+
+};
+
+<span id='Base-property-extend'>/**
+</span> * @member Base
+ */
+Base.extend = extend;
+
+<span id='Base-method-mixin'>/**
+</span> * @member Base
+ */
+Base.mixin = function(mixin){
+    _.extend(this.prototype, mixin);
+};
+
+module.exports = Base;</pre>
+</body>
+</html>

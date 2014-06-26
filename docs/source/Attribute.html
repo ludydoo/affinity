@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Base = require(&#39;./Base.js&#39;);
+var Type = require(&#39;./Type.js&#39;);
+var _ = require(&#39;lodash&#39;);
+
+var Attribute = Base.extend(
+
+
+    {
+
+<span id='Attribute'>        /**
+</span>         * @class Attribute
+         * @extends Base
+         * @param {Object} args
+         * @param {String|null} args.name The name of the {@link Attribute}
+         * @param {Type|null} args.type The {@link Type} of the {@link Attribute}
+         *
+         *
+         * A {@link Relation}&#39;s {@link Header} is composed of Attributes.
+         *
+         * An {@link Attribute} is simply an ordered {@link Set} {name : String, type : {@link Type}}
+         *
+         * The {@link Type} of an {@link Attribute} is a class that is mainly used to compare the values of the
+         * Relation&#39;s tuples for this attibute.
+         *
+         * For example,
+         * when running an {@link module:Relation/Operators~Union} on a {@link Relation}, the {@link Tuple}s will be tested for equality so that the
+         * {@link Relation} does not include duplicates (as the mathematical definition of a {@link Set} tells us).
+         * To do this, we compare two {@link Tuple} by comparing the value of their {@link Attribute}s. If for these two
+         * {@link Tuple}s, all their {@link Attribute} values are equal, the two {@link Tuple}s are said to be equal.
+         *
+         * To test the equality of primitive {@link Attribute}s (String, Boolean, Integer...), this is easy.
+         * We test the equality of two {@link Attribute}s with the equality operator &quot;==&quot;.
+         *
+         * Though, when it comes to Object {@link Attribute}s, it is not possible to test the equality with the equality operator
+         * &quot;==&quot;. We need a function that will test the two objects for equality and that will return true/false.
+         *
+         * To resume, the {@link Type} of an {@link Attribute} must implement the methods used to compare the corresponding
+         * {@link Tuple} {@link Attribute} values.
+         *
+         * For {@link TNumeric} {@link Type}s, the {@link Type} will also implement other comparison operators such as LargerThan (.lt()) ...
+         *
+         * For {@link TDate} {@link Type}s, the {@link Type} will also implement other operators such as DayOfWeek, ...
+         *
+         *     var fn = new affinity.Attribute({name : &#39;FirstName&#39;, type : &#39;affinity.String&#39;})
+         *     var ln = new affinity.Attribute({name : &#39;LastName&#39;, type : &#39;affinity.String&#39;})
+         *
+         */
+        constructor: function (args) {
+
+            this.negated = false;
+
+            // Check if the args are given
+            if (args) {
+
+                // Check if the name arg is given
+                if (args.name) {
+
+                    // Check if the name arg is of good type
+                    if (!_.isString(args.name)) {
+
+                        // If the name is not a string, throw
+                        throw new TypeError(&#39;Name is of wrong type&#39;);
+
+                    } else {
+
+                        // Name arg seems to be legit
+                        this.name = args.name;
+                    }
+                } else {
+
+                    // If the name arg is not given, set it to null
+                    this.name = null;
+                }
+
+                // Check if the type arg is given
+                if (args.type) {
+
+                    // Check if the type arg is of good type
+                    if (!(args.type.prototype instanceof Type)) {
+
+                        // If the type arg is not of type Type, throw
+                        throw new TypeError(&#39;Type is of wrong type&#39;)
+
+                    } else {
+                        // Type arg seems to be legit
+                        this.type = args.type;
+
+                        _.forIn(args.type.payload, function(mix){
+
+                            _.forIn(mix, function (mixin, key) {
+
+                                this[key] = mixin;
+
+                            },this)
+
+                        },this);
+
+                    }
+
+                } else {
+                    // If the type arg is not given, set it to null
+                    this.type = null;
+                }
+
+            }
+
+            Base.apply(this, arguments);
+        },
+
+
+<span id='Attribute-method-clone'>        /**
+</span>         * Clones the Attribute object
+         * @return {Attribute} cloned attribute
+         * @example
+         *
+         * var fn = new affinity.Attribute({name : &#39;FirstName&#39;, type: affinity.String});
+         *
+         * var ln = attribute.clone();
+         *
+         * ln.equal(fn) // true
+         *
+         * ln.name = &#39;LastName&#39;;
+         *
+         * ln.equal(fn) // false
+         *
+         *
+         */
+        clone: function () {
+
+            var attr = new this.constructor({type: this.type, name: this.name});
+
+            if (this.relationHeader) {
+                attr.relationHeader = this.relationHeader;
+;           }
+
+            if (this.wrappedAttributes){
+                attr.wrappedAttributes = this.wrappedAttributes;
+            }
+
+            return attr;
+        },
+
+<span id='Attribute-method-_checkNegatedAttribute'>        /**
+</span>         * Checks if the attribute is being negated in a predicate
+         * @param expression
+         * @returns {*}
+         * @private
+         */
+        _checkNegatedAttribute: function (expression) {
+
+            if (this.negated) {
+                this.negated = false;
+                return new (require(&#39;./functions/connective/Not.js&#39;))(expression);
+
+            } else {
+
+                return expression;
+            }
+
+        },
+
+<span id='Attribute-method-toString'>        /**
+</span>         * String representation of the attribute. Used to print a Relation into console
+         * as a Unicode Table.
+
+         * @instance
+         * @private
+         */
+        toString: function () {
+
+            return this.name + &#39; : &#39; + this.type.toString();
+
+        },
+
+<span id='Attribute-method-equal'>        /**
+</span>         * Checks if two attributes are equal
+         * @param attribute
+
+         * @instance
+         * @returns {boolean}
+         */
+        equal : function(attribute){
+
+            return this.constructor.equal(this, attribute);
+
+        }
+
+    }, {
+
+        type : &#39;Attribute&#39;,
+
+<span id='Attribute-method-assertValidName'>        /**
+</span>         * Asserts that a given name is valid for an attribute
+         * @private
+         * @param name
+         */
+        assertValidName : function(name){
+
+            if(!_.isString(name)){
+                throw new Error(&#39;Name must be a string&#39;)
+            }
+
+            if(name === &#39;&#39;){
+                throw new Error(&#39;Attribute name cannot be empty string&#39;);
+            }
+
+        },
+
+<span id='Attribute-static-method-equal'>        /**
+</span>         * Tests for equality between two attributes
+         *
+         * Warning! This method is not the same as {@link Attribute#equals}
+         *
+         * This method returns a Boolean. It cannot be part of a predicate.
+         *
+         * @param {Attribute} attribute1
+         * @param {Attribute} attribute2
+         * @returns {boolean}
+         * @static
+
+         */
+        equal: function (attribute1, attribute2) {
+
+            return ((attribute1.name === attribute2.name) &amp;&amp; (attribute1.type === attribute2.type))
+
+        },
+
+<span id='Attribute-static-method-coerce'>        /**
+</span>         * Coerces an arbitrary object to type Attribute
+         * @param {Attribute|Object} attribute
+         * @returns {Attribute}
+         * @static
+
+         * @example
+         *
+         * var fn1 = new affinity.Attribute({name : &#39;FirstName&#39;, type : affinity.String});
+         *
+         * var fn2 = {name : &#39;FirstName&#39; , type : affinity.String}
+         *
+         * affinity.Attribute.coerce(fn1) === fn1 // true, the object was already an Attribute.
+         * affinity.Attribute.coerce(fn2) === fn2 // false, the object had to be coerced
+         *
+         * affinity.Attribute.coerce(fn2).equal(fn1) // true
+         *
+         */
+        coerce: function (attribute) {
+
+            if (attribute instanceof Attribute) {
+
+                return attribute;
+
+            }
+
+            if(_.isObject(attribute)){
+
+                var name;
+                var type;
+                var attr;
+                var keys;
+
+                // Attribute is of the type {name : &lt;name&gt;, type : &lt;type&gt;}
+                if(attribute.type &amp;&amp; attribute.name){
+
+                    name = attribute.name;
+                    type = attribute.type;
+
+                } else {
+
+                    // Attribute is either
+                    // { &lt;name&gt; : { type : &lt;type&gt; } }
+                    // { &lt;name&gt; : &lt;Attribute&gt; }
+
+                    keys = _.keys(attribute);
+
+                    if (keys.length !== 1){
+                        throw new Error(&#39;Unsupported Attribute declaration&#39;);
+                    }
+
+                    // Name of the Attribute
+                    name = keys[0];
+
+                    // Attribute object
+                    attr = attribute[name];
+
+
+                    if(attr instanceof Attribute){
+
+                        // Attribute is { &lt;name&gt; : &lt;Attribute&gt;}
+
+                        attr.name = name;
+
+                        return attr;
+
+                    } else if(attr.type){
+
+                        // Attribute is { &lt;name&gt; : { type : &lt;type&gt; } }
+
+                        type = attribute[name].type;
+                    }
+
+                }
+
+            }
+
+            return new Attribute({name : name, type : type});
+
+        }
+
+    });
+
+module.exports = Attribute;
+</pre>
+</body>
+</html>

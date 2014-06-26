@@ -1,11 +1,12 @@
 var affinity = require('./../../index.js');
 var should = require('should');
 var _ = require('lodash');
-var debug = require('./../../lib/helpers/debug');
+var debug = require('./../../lib/affinity/helpers/debug');
+var sinon = require('sinon');
 
 describe('Relation class', function () {
 
-    describe('Relation()', function () {
+    describe('Relation#constructor', function () {
 
         describe('When arguments are passed in raw format', function () {
 
@@ -267,6 +268,219 @@ describe('Relation class', function () {
                 should(function () {
                     var relation = new affinity.Relation(header, data);
                 }).throw();
+
+                done();
+
+            });
+
+        });
+
+        describe('When provided with key arguments', function(){
+
+            it('Should be able to index the tuples when one key is defined', function(done){
+
+                var relation = new affinity.Relation([
+                        { a : { type : affinity.Integer} },
+                        { b : { type : affinity.Integer }},
+                        { c : { type : affinity.Integer }},
+                    ],[
+                        [1, 2, 3],
+                        [4, 5, 6],
+                        [7, 8, 9],
+                        [10, 11, 12]
+                    ],{
+                        pk : ['a'],
+                        unique : [['b', 'c']]
+                    }
+                );
+
+                done();
+
+            });
+
+            it('Should be able to index the tuples if multiple keys were defined', function(done){
+
+                var relation = new affinity.Relation([
+                        { a : { type : affinity.Integer} },
+                        { b : { type : affinity.Integer }},
+                        { c : { type : affinity.Integer }},
+                    ],[
+                        [1, 2, 3],
+                        [4, 5, 6],
+                        [7, 8, 9],
+                        [10, 11, 12]
+                    ],{
+                        pk : ['a'],
+                        unique : [['b', 'c']]
+                    }
+                );
+
+                relation.index({a : 1, b : 2, c : 3}).should.be.equal(0);
+
+                done();
+
+            });
+
+            it('Should throw if two keys are not unique', function(done){
+
+                should(function(){
+                    var relation = new affinity.Relation([
+                            { a : { type : affinity.Integer} },
+                            { b : { type : affinity.Integer }},
+                            { c : { type : affinity.Integer }},
+                        ],[
+                            [1, 2, 3],
+                            [4, 5, 6],
+                            [7, 8, 9],
+                            [10, 11, 12]
+                        ],{
+                            pk : ['a'],
+                            unique : [['a']]
+                        }
+                    );
+                }).throw();
+
+                should(function(){
+                    var relation = new affinity.Relation([
+                            { a : { type : affinity.Integer} },
+                            { b : { type : affinity.Integer }},
+                            { c : { type : affinity.Integer }},
+                        ],[
+                            [1, 2, 3],
+                            [4, 5, 6],
+                            [7, 8, 9],
+                            [10, 11, 12]
+                        ],{
+                            pk : ['a', 'b'],
+                            unique : [['b','a']]
+                        }
+                    );
+                }).throw();
+
+                should(function(){
+                    var relation = new affinity.Relation([
+                            { a : { type : affinity.Integer} },
+                            { b : { type : affinity.Integer }},
+                            { c : { type : affinity.Integer }},
+                        ],[
+                            [1, 2, 3],
+                            [4, 5, 6],
+                            [7, 8, 9],
+                            [10, 11, 12]
+                        ],{
+                            pk : ['a', 'b'],
+                            unique : [['b','a'], ['a'], ['b']]
+                        }
+                    );
+                }).throw();
+
+                done();
+
+            });
+
+            it('Should throw if two keys are not irreducible', function(done){
+
+                should(function(){
+                    var relation = new affinity.Relation([
+                            { a : { type : affinity.Integer} },
+                            { b : { type : affinity.Integer }},
+                            { c : { type : affinity.Integer }},
+                        ],[
+                            [1, 2, 3],
+                            [4, 5, 6],
+                            [7, 8, 9],
+                            [10, 11, 12]
+                        ],{
+                            pk : ['a'],
+                            unique : [['a','b']]
+                        }
+                    );
+                }).throw();
+
+                should(function(){
+                    var relation = new affinity.Relation([
+                            { a : { type : affinity.Integer} },
+                            { b : { type : affinity.Integer }},
+                            { c : { type : affinity.Integer }},
+                        ],[
+                            [1, 2, 3],
+                            [4, 5, 6],
+                            [7, 8, 9],
+                            [10, 11, 12]
+                        ],{
+                            pk : ['a', 'b','c'],
+                            unique : [['b','a']]
+                        }
+                    );
+                }).throw();
+
+                should(function(){
+                    var relation = new affinity.Relation([
+                            { a : { type : affinity.Integer} },
+                            { b : { type : affinity.Integer }},
+                            { c : { type : affinity.Integer }},
+                        ],[
+                            [1, 2, 3],
+                            [4, 5, 6],
+                            [7, 8, 9],
+                            [10, 11, 12]
+                        ],{
+                            pk : ['a', 'b'],
+                            unique : [['b','a','c'], ['a'], ['b']]
+                        }
+                    );
+                }).throw();
+
+                done();
+
+            });
+
+            it('Should throw if a key is set on a Object-valued attribute which has no serialize method', function(done){
+
+                should(function(){
+
+                    var relation = new affinity.Relation([
+                        { obj : { type : affinity.Object} }
+                    ],[
+                        [{a : 1, b : 2}],
+                        [{c : 1, d : 2}]
+                    ],{
+                        pk : ['obj']
+                    });
+
+                    done();
+
+                }).throw();
+
+                done();
+
+            });
+
+            it('Should be able to set a key on an Object-valued attribute that has a serialize method', function(done){
+
+                var relation = new affinity.Relation([
+                    { obj : { type : affinity.Date} }
+                ],[
+                    [new Date(2014, 10, 10)],
+                    [new Date(2014, 10, 12)]
+                ],{
+                    pk : ['obj']
+                });
+
+                done();
+
+            });
+
+            it('Should be able to set a key on a Date-valued attribute', function(done){
+
+                var relation = new affinity.Relation([
+                    { date : { type : affinity.Date} }
+                ],[
+                    [new Date(2010, 5, 5)],
+                    [new Date(2014, 10, 10)]
+                ],{
+                    pk : ['date']
+                });
 
                 done();
 

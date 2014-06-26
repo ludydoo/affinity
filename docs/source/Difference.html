@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Relation = require(&#39;./../Relation.js&#39;);
+var Header = require(&#39;./../Header.js&#39;);
+var _ = require(&#39;lodash&#39;);
+var debug = require(&#39;./../helpers/debug&#39;);
+
+var Difference = Relation.extend(
+
+
+
+    {
+
+<span id='Operators-Difference'>        /**
+</span>         * @class Operators.Difference
+         * @extends Relation
+         * @param {Relation} relationA The relation from which to remove the tuples
+         * @param {Relation} relationB The relation that will be substracted from the other
+         * The Difference operation gives the first relation&#39;s tuples minus those that are in the second relation.
+         *
+         *     var relationA = new affinity.Relation([
+         *              {a: { type: affinity.Integer}},
+         *              {b: { type: affinity.Integer}},
+         *              {c: { type: affinity.Integer}}
+         *          ],[
+         *              [1, 2, 3],
+         *              [4, 5, 6],
+         *              [7, 8, 9]
+         *          ]);
+
+         *     var relationB = new affinity.Relation([
+         *              {a: { type: affinity.Integer}},
+         *              {b: { type: affinity.Integer}},
+         *              {c: { type: affinity.Integer}}
+         *          ], [
+         *              [1, 2, 3]
+         *          ]);
+         *
+         *     var rel3 = relationA.difference(relationB);
+         *
+         *     // or
+         *
+         *     var rel4 = new affinity.Difference(relationA, relationB)
+         *
+         *     // +--------------+--------------+--------------+
+         *     // | a : TInteger | b : TInteger | c : TInteger |
+         *     // +==============+==============+==============+
+         *     // | 4            | 5            | 6            |
+         *     // +--------------+--------------+--------------+
+         *     // | 7            | 8            | 9            |
+         *     // +--------------+--------------+--------------+
+         */
+        constructor: function (relationA, relationB) {
+
+            debug.difference.trace(&#39;#constructor&#39;);
+
+            this.rels = [relationA, relationB];
+
+            Relation.call(this);
+
+        },
+
+        bindEvents: function () {
+
+            debug.difference.trace(&#39;#bindEvents&#39;);
+
+            Difference.__super__.bindEvents.call(this);
+
+            var that = this;
+
+            var rel1 = that.rels[0];
+            var rel2 = that.rels[1];
+
+            // BeforeGetHeader
+            this.ee.once(&#39;beforeGetHeader&#39;, function () {
+
+                var header1 = rel1.header();
+                var header2 = rel2.header();
+
+                debug.difference.trace(&#39;beforeGetHeader&#39;);
+
+                Header.assertUnionCompatible(header1, header2);
+
+                that.header().copy(header1);
+
+            });
+
+
+            // BeforeGetBody
+            this.ee.once(&#39;beforeGetBody&#39;, function () {
+
+                debug.difference.trace(&#39;beforeGetBody&#39;);
+
+                rel1.each(function (tuple1) {
+
+                    if (rel2.index(tuple1) === null) {
+                        that.add(tuple1.clone(), false);
+                    }
+
+                });
+
+            });
+
+
+        }
+
+    });
+
+module.exports = Difference;</pre>
+</body>
+</html>

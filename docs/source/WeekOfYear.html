@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Function = require(&#39;./../../Function.js&#39;);
+var TInteger = require(&#39;./../../types/Integer.js&#39;);
+var value = require(&#39;./../../helpers/value&#39;);
+
+var FWeekOfYear = Function.extend(
+<span id=''>    /**
+</span>     * @lends FWeekOfYear.prototype
+     */
+    {
+
+<span id='Functions-Date-WeekOfYear'>        /**
+</span>         * @class Functions.Date.WeekOfYear
+         * @extends Function
+         */
+        constructor: function () {
+
+            Function.apply(this, Array.prototype.slice.call(arguments, 0));
+
+            this.type(TInteger);
+
+            this.name = &#39;WeekOfYear&#39;;
+
+        },
+
+<span id='-method-value'>        value: function () {
+</span>
+            var d = new Date(+value(this.parameters[0]));
+            d.setHours(0,0,0);
+            d.setDate(d.getDate()+4-(d.getDay()||7));
+            return Math.ceil((((d-new Date(d.getFullYear(),0,1))/8.64e7)+1)/7);
+
+        }
+
+    },{
+
+
+    });
+
+module.exports = FWeekOfYear;</pre>
+</body>
+</html>
