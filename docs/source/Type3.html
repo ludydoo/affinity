@@ -22,27 +22,32 @@ var TType = Type.extend({
 
 <span id='Types-Type'>    /**
 </span>     * @class Types.Type
-     * @param value
+     * @extends Type
+     *
+     * Represents a Type Attribute type. Should not be instantiated. It is only
+     * used to represent relation header attribute types or function return types.
+     *
      */
-    constructor: function (value) {
-
-        Type.apply(this, arguments);
-
-    }
 
 }, {
 
+<span id='Types-Type-method-equal'>    /**
+</span>     * Check if two Types are equal
+     * @param {Function} type1
+     * @param {Function} type2
+     * @returns {boolean}
+     */
     equal: function (type1, type2) {
 
-        return (type1.value().prototype === type2.value().prototype);
+        return (type1 === type2);
 
     },
 
     toString: function () {
-        return &#39;TType&#39;
+        return &#39;Type&#39;
     },
 
-    type : &#39;TType&#39;
+    type : &#39;Type&#39;
 
 });
 

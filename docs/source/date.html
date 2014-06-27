@@ -98,6 +98,54 @@ module.exports.year = function () {
 
     return new Year(this);
 
+};
+
+module.exports.hours = function () {
+
+    var Hours = require(&#39;./../functions/date/Hours.js&#39;);
+
+    if (this._checkNegatedAttribute) {
+        return this._checkNegatedAttribute(new Hours(this));
+    }
+
+    return new Hours(this);
+
+};
+
+module.exports.minutes = function () {
+
+    var Minutes = require(&#39;./../functions/date/Minutes.js&#39;);
+
+    if (this._checkNegatedAttribute) {
+        return this._checkNegatedAttribute(new Minutes(this));
+    }
+
+    return new Minutes(this);
+
+};
+
+module.exports.seconds = function () {
+
+    var Seconds = require(&#39;./../functions/date/Seconds.js&#39;);
+
+    if (this._checkNegatedAttribute) {
+        return this._checkNegatedAttribute(new Seconds(this));
+    }
+
+    return new Seconds(this);
+
+};
+
+module.exports.milliseconds = function () {
+
+    var Milliseconds = require(&#39;./../functions/date/Milliseconds.js&#39;);
+
+    if (this._checkNegatedAttribute) {
+        return this._checkNegatedAttribute(new Milliseconds(this));
+    }
+
+    return new Milliseconds(this);
+
 };</pre>
 </body>
 </html>

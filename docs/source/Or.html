@@ -20,14 +20,71 @@ var TBoolean = require(&#39;./../../types/Boolean.js&#39;);
 var _ = require(&#39;lodash&#39;);
 
 var Or = Function.extend(
-<span id=''>    /**
-</span>     * @lends FOr.prototype;
-     */
     {
 
 <span id='Functions-Connective-Or'>        /**
 </span>         * @class Functions.Connective.Or
          * @extends Function
+         *
+         * Function that checks if one of its arguments return true
+         *
+         * When used with an Extension operator :
+         *
+         *      var philosophers = new affinity.Relation([
+         *              {name: { type: affinity.String}},
+         *              {born: { type: affinity.Integer}},
+         *              {died: { type: affinity.Integer}}
+         *          ],[
+         *              [&#39;Aristotle&#39;, -384, -322],
+         *              [&#39;Plato&#39;,     -428, -348],
+         *              [&#39;Socrates&#39;,  -470, -399]
+         *          ]);
+         *
+         *      name = philosophers.get(&#39;name&#39;);
+         *      born = philosophers.get(&#39;born&#39;);
+         *      died = philosophers.get(&#39;died&#39;);
+         *
+         *      var extended = philosophers.extend([{ &quot;born384or428BC&quot; : born.eq(-384).or(born.eq(-428)) }]);
+         *
+         *      // or equivalent :
+         *
+         *      var extended = philosophers.extend([
+         *          { diedIn322BC : new affinity.Or(new affinity.Equal(born, -384), new affinity.Equal(born, -428)) }
+         *      ]);
+         *
+         *      extended.print();
+         *
+         *      // +----------------+-----------------+-----------------+----------------------------+
+         *      // | name : TString | born : TInteger | died : TInteger | born384or428BC : TBoolean  |
+         *      // +================+=================+=================+============================+
+         *      // | Aristotle      | -384            | -322            | true                       |
+         *      // +----------------+-----------------+-----------------+----------------------------+
+         *      // | Plato          | -428            | -348            | true                       |
+         *      // +----------------+-----------------+-----------------+----------------------------+
+         *      // | Socrates       | -470            | -399            | false                      |
+         *      // +----------------+-----------------+-----------------+----------------------------+
+         *
+         *
+         * When used with a Restriction operator :
+         *
+         *      var restricted = philosophers.restrict(born.eq(-384).or(born.eq(-428)));
+         *
+         *      // or equivalent :
+         *
+         *      var restricted = philosophers.restrict(
+         *          new affinity.Or(new affinity.Equal(born, -384), new affinity.Equal(born, -428))
+         *      );
+         *
+         *      restricted.print();
+         *
+         *      // +----------------+-----------------+-----------------+
+         *      // | name : TString | born : TInteger | died : TInteger |
+         *      // +================+=================+=================+
+         *      // | Aristotle      | -384            | -322            |
+         *      // +----------------+-----------------+-----------------+
+         *      // | Plato          | -428            | -348            |
+         *      // +----------------+-----------------+-----------------+
+         *
          */
         constructor: function () {
 
@@ -39,8 +96,8 @@ var Or = Function.extend(
 
         },
 
-<span id='-method-value'>        value: function () {
-</span>
+        value: function () {
+
 
             return _.any(this.parameters, function(parameter){
 

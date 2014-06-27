@@ -25,10 +25,7 @@ describe('Equal class', function () {
 
             it('Should return a truey boolean', function (done) {
 
-                var bool1 = new affinity.Boolean(false);
-                var bool2 = new affinity.Boolean(false);
-
-                var equal = new affinity.Equal(bool1, bool2);
+                var equal = new affinity.Equal(false, false);
 
                 equal.value().should.be.equal(true);
 

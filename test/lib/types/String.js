@@ -25,8 +25,8 @@ describe('TString class', function () {
 
             it('Should return a truey TBoolean', function (done) {
 
-                var str1 = new affinity.String('abc');
-                var str2 = new affinity.String('abc');
+                var str1 = 'abc';
+                var str2 = 'abc';
 
                 var result = affinity.String.equal(str1, str2);
 

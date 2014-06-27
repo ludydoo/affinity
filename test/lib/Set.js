@@ -12,7 +12,7 @@ describe('Set Class', function () {
                 var set1 = new affinity.Set({type: affinity.String});
 
                 set1.type().should.be.equal(affinity.String);
-                set1.equal(new affinity.Set({type: affinity.String})).should.be.true;
+                set1.equal(new affinity.Set({type: affinity.String})).should.be.equal(true);
 
                 done();
 
@@ -230,7 +230,7 @@ describe('Set Class', function () {
 
                 var set1 = new affinity.Set({type: affinity.Integer, elements: [1]});
 
-                set1._indexByEquality(new affinity.Integer(1)).should.be.equal(0);
+                set1._indexByEquality(1).should.be.equal(0);
 
                 done();
 

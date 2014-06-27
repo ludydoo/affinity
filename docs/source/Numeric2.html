@@ -18,27 +18,24 @@
   <pre class="prettyprint lang-js">var Type = require(&#39;./../Type&#39;);
 var _ = require(&#39;lodash&#39;);
 
-var TNumeric = Type.extend({
+var Numeric = Type.extend({
 
 <span id='Types-Numeric'>    /**
 </span>     * @class Types.Numeric
-     * @param value
+     *
+     * Represents a Numeric type. This class should not be instantiated. It is only used
+     * to represent relation header attribute types or function return types.
      */
-    constructor: function (value) {
-
-        Type.apply(this, Array.prototype.slice.call(arguments, 0));
-
-        this.name = &#39;TNumeric&#39;;
-    },
-
-    toString: function () {
-
-        return &#39;Numeric&#39;
-
-    }
 
 }, {
 
+<span id='Types-Numeric-method-coerce'>    /**
+</span>     * @param {*} value
+     * @returns {number}
+     *
+     * Coerces an arbitrary value to type float
+     *
+     */
     coerce : function(value){
 
         if(_.isNumber(value)){
@@ -49,6 +46,9 @@ var TNumeric = Type.extend({
 
     },
 
+<span id='Types-Numeric-property-payload'>    /**
+</span>     * Mixins for Numeric types
+     */
     payload : [
         require(&#39;./../mixins/comparable&#39;),
         require(&#39;./../mixins/size-comparable&#39;),
@@ -57,41 +57,35 @@ var TNumeric = Type.extend({
         require(&#39;./../mixins/not&#39;)
     ],
 
+<span id='Types-Numeric-method-value'>    /**
+</span>     * Returns the value of the Numeric object
+     * @param numeric
+     * @returns {*}
+     */
     value : function(numeric){
 
-        if(_.isNumber(numeric)){
-            return numeric;
-        } else {
-            return numeric.value();
-        }
+        return numeric;
 
     },
 
     equal: function (numeric1, numeric2) {
-
-        if(!_.isNumber(numeric1)){
-            numeric1 = numeric1.value()
-        }
-        if(!_.isNumber(numeric2)){
-            numeric2 = numeric2.value();
-        }
 
         return (numeric1 === numeric2);
 
     },
 
     toString: function () {
-        return &#39;TNumeric&#39;
+        return &#39;Numeric&#39;
     },
 
     primitive : true,
 
-    type : &#39;TNumeric&#39;
+    type : &#39;Numeric&#39;
 
 });
 
 
-module.exports = TNumeric;
+module.exports = Numeric;
 
 </pre>
 </body>

@@ -21,6 +21,7 @@ var TString = require(&#39;./types/String.js&#39;);
 var Attribute = require(&#39;./Attribute.js&#39;);
 var _ = require(&#39;lodash&#39;);
 var equal = require(&#39;./helpers/equal&#39;);
+var value = require(&#39;./helpers/value&#39;);
 var Set = require(&#39;./Set.js&#39;);
 var Tuple = Type.extend(
     {
@@ -116,7 +117,7 @@ var Tuple = Type.extend(
 
                 attributesArgument.each(function(copiedAttribute){
 
-                    this.set(copiedAttribute.value(), tuple.get(copiedAttribute.value()));
+                    this.set(value(copiedAttribute), tuple.get(value(copiedAttribute)));
 
                 }, this)
 

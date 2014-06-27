@@ -45,13 +45,7 @@ describe('And class', function () {
 
             it('Should return a falsey boolean', function (done) {
 
-                var bool1 = new affinity.Boolean(true);
-                var bool2 = new affinity.Boolean(true);
-
-                var bool3 = new affinity.Boolean(false);
-                var bool4 = new affinity.Boolean(false);
-
-                var and = new affinity.And(new affinity.Equal(bool1, bool2), new affinity.Equal(bool3, bool4));
+                var and = new affinity.And(new affinity.Equal(true, true), new affinity.Equal(false, false));
 
                 (and.value()).should.be.equal(true);
 

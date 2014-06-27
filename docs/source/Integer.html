@@ -18,22 +18,23 @@
   <pre class="prettyprint lang-js">var TNumeric = require(&#39;./Numeric.js&#39;);
 var _ = require(&#39;lodash&#39;);
 
-var TInteger = TNumeric.extend({
+var Integer = TNumeric.extend({
 
 <span id='Types-Integer'>    /**
 </span>     * @class Types.Integer
-     * @param value
+     * @extends Types.Numeric
+     *
+     * Represents an Integer type. This class should not be instantiated. It is only used
+     * to represent relation header attribute types or function return types.
      */
-    constructor: function (value) {
-
-        TNumeric.apply(this, Array.prototype.slice.call(arguments,0));
-
-        this.name = &#39;TInteger&#39;;
-
-    }
 
 }, {
 
+<span id='Types-Integer-method-coerce'>    /**
+</span>     * Coerces an arbitrary value to Integer type
+     * @param value
+     * @returns {number}
+     */
     coerce : function(value){
 
         if (_.isNumber(value) || _.isString(value)){
@@ -42,17 +43,21 @@ var TInteger = TNumeric.extend({
 
     },
 
+<span id='Types-Integer-method-toString'>    /**
+</span>     * String representation of the Integer Type
+     * @returns {string}
+     */
     toString: function () {
-        return &#39;TInteger&#39;
+        return &#39;Integer&#39;
     },
 
     primitive : true,
 
-    type : &#39;TInteger&#39;
+    type : &#39;Integer&#39;
 
 });
 
-module.exports = TInteger;
+module.exports = Integer;
 
 </pre>
 </body>

@@ -22,15 +22,28 @@ var TObject = Type.extend({
 
 <span id='Types-Object'>    /**
 </span>     * @class Types.Object
+     * @extends Type
+     */
+
+<span id='Types-Object-method-constructor'>    /**
+</span>     * Creates new Object instances
      * @param value
      */
     constructor: function (value) {
 
         Type.apply(this, Array.prototype.slice.call(arguments, 0));
 
-        this.name = &#39;TObject&#39;;
+        if(_.isObject(value)){
+            _.extend(this, value);
+        }
+
+        this.name = &#39;Object&#39;;
     },
 
+<span id='Types-Object-method-toString'>    /**
+</span>     * String representation of an Object value
+     * @returns {string}
+     */
     toString: function () {
 
         return &#39;Object&#39;
@@ -39,48 +52,63 @@ var TObject = Type.extend({
 
 }, {
 
+<span id='Types-Object-method-coerce'>    /**
+</span>     * Method to coerce an arbitrary value into an Object instance
+     * @param value
+     * @returns {Object}
+     */
     coerce : function(value){
 
         return value;
 
     },
 
+<span id='Types-Object-property-payload'>    /**
+</span>     * Mixins for Object type
+     */
     payload : [
         require(&#39;./../mixins/comparable&#39;),
         require(&#39;./../mixins/connectable&#39;),
         require(&#39;./../mixins/not&#39;)
     ],
 
-    value : function(numeric){
+<span id='Types-Object-method-value'>    /**
+</span>     * Returns the value of the object
+     * @param object
+     * @returns {*}
+     */
+    value : function(object){
 
-        if(_.isNumber(numeric)){
-            return numeric;
-        } else {
-            return numeric.value();
-        }
-
-    },
-
-    equal: function (numeric1, numeric2) {
-
-        if(!_.isNumber(numeric1)){
-            numeric1 = numeric1.value()
-        }
-        if(!_.isNumber(numeric2)){
-            numeric2 = numeric2.value();
-        }
-
-        return (numeric1 === numeric2);
+        return object;
 
     },
 
+<span id='Types-Object-method-equal'>    /**
+</span>     * Tests for equality between two objects
+     * @param object1
+     * @param object2
+     * @returns {boolean}
+     */
+    equal: function (object1, object2) {
+
+        return _.isEqual(object1, object2)
+
+    },
+
+<span id='Types-Object-method-toString'>    /**
+</span>     * String representation of an object
+     * @returns {string}
+     */
     toString: function () {
-        return &#39;TObject&#39;
+        return &#39;Object&#39;
     },
 
+<span id='Types-Object-property-primitive'>    /**
+</span>     * Object is not a primitive type
+     */
     primitive : false,
 
-    type : &#39;TObject&#39;
+    type : &#39;Object&#39;
 
 });
 

@@ -15,31 +15,36 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">var TNumeric = require(&#39;./Numeric.js&#39;);
+  <pre class="prettyprint lang-js">var Numeric = require(&#39;./Numeric.js&#39;);
 
-var TFloat = TNumeric.extend({
+var Float = Numeric.extend({
 
 <span id='Types-Float'>    /**
 </span>     * @class Types.Float
-     * @param value
+     * @extends Types.Numeric
+     *
+     * Represents a Float type. This class should not be instantiated. It is only used
+     * to represent relation header attribute types or function return types.
      */
-    constructor: function (value) {
-        TNumeric.apply(this, arguments);
-    }
 
 }, {
 
+<span id='Types-Float-static-method-toString'>    /**
+</span>     * String representation of the Float type
+     * @static
+     * @returns {string}
+     */
     toString: function () {
-        return &#39;TFloat&#39;
+        return &#39;Float&#39;
     },
 
     primitive : true,
 
-    type : &#39;TFloat&#39;
+    type : &#39;Float&#39;
 
 });
 
-module.exports = TFloat;
+module.exports = Float;
 
 </pre>
 </body>

@@ -38,7 +38,8 @@ var Group = Relation.extend(
          * @param {Relation} relation The relation to group
          * @param {String} attributeName The new grouped attribute name
          * @param {String[]} attributes The attributes to group
-         * The Group operation will group the specified tuple&#39;s attributes into one, and converting all these attributes into one.
+         *
+         * The Group operation will group the specified tuple&#39;s attributes into one.
          * The resulting tuples will have an {@link Attribute} whose {@link Type} will be a {@link Relation}. See example.
          *
          *     var relationA = new affinity.Relation([

@@ -19,23 +19,28 @@
 var TBoolean = require(&#39;./Boolean&#39;);
 var _ = require(&#39;lodash&#39;);
 
-var TString = Type.extend({
+var String = Type.extend({
 
 <span id='Types-String'>    /**
 </span>     * @class Types.String
-     * @param value
+     * @extends Type
+     *
+     * Represents a String Attribute Type. Should not be instantiated. It is only
+     * used to represent relation header attribute types or function return types.
+     *
      */
-    constructor: function (value) {
-        Type.apply(this, arguments);
-        this.name = &#39;TString&#39;;
-    },
-
-    valueOf : function(){
-        return this.value;
-    }
 
 }, {
 
+    coerce : function(value){
+
+        return value;
+
+    },
+
+<span id='Types-String-property-payload'>    /**
+</span>     * Mixins for String types
+     */
     payload : [
         require(&#39;./../mixins/comparable&#39;),
         require(&#39;./../mixins/size-comparable&#39;),
@@ -43,30 +48,36 @@ var TString = Type.extend({
         require(&#39;./../mixins/not&#39;)
     ],
 
+<span id='Types-String-method-equal'>    /**
+</span>     * Checks for equality between two strings
+     * @param str1
+     * @param str2
+     * @returns {boolean}
+     */
     equal: function (str1, str2) {
-
-        if(!_.isString(str1)){
-            str1 = str1.value();
-        }
-        if(!_.isString(str2)){
-            str2 = str2.value();
-        }
 
         return str2 === str1;
 
     },
 
+<span id='Types-String-method-toString'>    /**
+</span>     * String representation of a String Type
+     * @returns {string}
+     */
     toString: function () {
-        return &#39;TString&#39;
+        return &#39;String&#39;
     },
 
+<span id='Types-String-property-primitive'>    /**
+</span>     * String is a primitive
+     */
     primitive : true,
 
     type : &#39;TString&#39;
 
 });
 
-module.exports = TString;
+module.exports = String;
 
 </pre>
 </body>

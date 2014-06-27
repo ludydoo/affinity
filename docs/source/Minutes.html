@@ -28,6 +28,53 @@ var FMinutes = Function.extend(
 <span id='Functions-Date-Minutes'>        /**
 </span>         * @class Functions.Date.Minutes
          * @extends Function
+         *
+         * Function that extracts a date&#39;s minutes component as an integer
+         *
+         *
+         * With extend operation :
+         *
+         *      var quarterToFive = new Date();
+         *      wokeUp.setHours(4);
+         *      wokeUp.setMinutes(45);
+         *
+         *      var five = new Date();
+         *      five.setHours(5)
+         *      five.setMinutes(0);
+         *
+         *      var sixThirty = new Date();
+         *      sixThirty.setHours(6);
+         *      sixThirty.setMinutes(30);
+         *
+         *
+         *      var events = new affinity.Relation([
+         *          {time : {type : affinity.Date}},
+         *          {name : {type : affinity.String}}
+         *      ],[
+         *          [quarterToFive, &#39;Quarter to Five&#39;],
+         *          [five, &#39;Five&#39;],
+         *          [sixThirty, &#39;Six Thirty&#39;]
+         *      ])
+         *
+         *      var time = events.get(&#39;time&#39;)
+         *
+         *      var extended = events.extend([ { minute : time.minutes() } ]);
+         *
+         *      // or equivalent
+         *
+         *      var extended = events.extend([ { minute : new affinity.Minutes(time) } ]);
+         *
+         *      extended.print();
+         *
+         *      // +--------------+------------------------+------------------+
+         *      // | time : Date  | name : String          | minute : Integer |
+         *      // +==============+========================+==================+
+         *      // | 4:45         | Quarter to Five        | 45               |
+         *      // +--------------+------------------------+------------------+
+         *      // | 5:00         | Five                   | 0                |
+         *      // +--------------+------------------------+------------------+
+         *      // | 6:30         | Six Thirty             | 30               |
+         *      // +--------------+------------------------+------------------+
          */
         constructor: function () {
 

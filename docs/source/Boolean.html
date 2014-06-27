@@ -18,58 +18,70 @@
   <pre class="prettyprint lang-js">var Type = require(&#39;./../Type&#39;);
 var _ = require(&#39;lodash&#39;);
 
-var TBoolean = Type.extend({
+<span id='Types-Boolean'>var TBoolean = Type.extend(/**
+</span> * @class Types.Boolean
+ * @extends Type
+ *
+ * Represents a Boolean Type
+ *
+ * This class should not be instantiated. It is only used to define
+ * relation header attribute types or function return types.
+ *
+ */{
 
-<span id='Types-Boolean'>    /**
-</span>     * @class Types.Boolean
-     * @param value
-     */
-    constructor: function (value) {
-        Type.apply(this, arguments);
-    },
 
-    valueOf: function () {
-
-        return this.value;
-
-    }
 
 }, {
 
+<span id='Types-Boolean-static-method-equal'>    /**
+</span>     * @param {boolean|Types.Boolean} boolean1
+     * @param {boolean|Types.Boolean} boolean2
+     * @static
+     * @returns {boolean}
+     *
+     * Method to check if two boolean object are equal
+     *
+     */
     equal: function (boolean1, boolean2) {
-
-        if(!_.isBoolean(boolean1)){
-            boolean1 = boolean1.value();
-        }
-        if(!_.isBoolean(boolean2)){
-            boolean2 = boolean2.value();
-        }
 
         return boolean1 === boolean2;
 
     },
 
+<span id='Types-Boolean-static-method-toString'>    /**
+</span>     * @static
+     * @returns {string}
+     *
+     * String representation of the Boolean type
+     */
     toString: function () {
-        return &#39;TBoolean&#39;
+        return &#39;Boolean&#39;
     },
 
+<span id='Types-Boolean-static-method-value'>    /**
+</span>     * @param {boolean} boolean
+     * @static
+     * @returns {boolean}
+     *
+     * Returns the value of a boolean
+     */
     value : function(boolean){
 
-        if(_.isBoolean(boolean)){
-            return boolean;
-        } else {
-            return boolean.value();
-        }
+        return boolean;
 
     },
 
+<span id='Types-Boolean-static-property-payload'>    /**
+</span>     * Mixins for Booleans
+     * @static
+     */
     payload : [
         require(&#39;./../mixins/comparable&#39;),
         require(&#39;./../mixins/connectable&#39;),
         require(&#39;./../mixins/not&#39;)
     ],
 
-    type : &#39;TBoolean&#39;
+    type : &#39;Boolean&#39;
 
 });
 

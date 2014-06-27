@@ -24,9 +24,65 @@ var FLargerThanEqual = Function.extend(
 
     {
 
-<span id='Functions-Comparable-LargerThanEqual'>        /**
-</span>         * @class Functions.Comparable.LargerThanEqual
+<span id='Functions-Comparable-GreaterThanEqual'>        /**
+</span>         * @class Functions.Comparable.GreaterThanEqual
          * @extends Function
+         *
+         * Function that checks if a value is greater than or equal to another one. It only applies
+         * to types that implement a static &quot;compare&quot; method or to primitives.
+         *
+         * When used with an Extension operator :
+         *
+         *      var philosophers = new affinity.Relation([
+         *              {name: { type: affinity.String}},
+         *              {born: { type: affinity.Integer}},
+         *              {died: { type: affinity.Integer}}
+         *          ],[
+         *              [&#39;Aristotle&#39;, -384, -322],
+         *              [&#39;Plato&#39;,     -428, -348],
+         *              [&#39;Socrates&#39;,  -470, -399]
+         *          ]);
+         *
+         *      name = philosophers.get(&#39;name&#39;);
+         *      born = philosophers.get(&#39;born&#39;);
+         *      died = philosophers.get(&#39;died&#39;);
+         *
+         *      var extended = philosophers.extend([{ diedSince348BC : died.gte(-348) }]);
+         *
+         *      // or equivalent :
+         *
+         *      var extended = philosophers.extend([{ diedSince348BC : new affinity.GreaterThanEqual(died, -348) }]);
+         *
+         *      extended.print();
+         *
+         *      // +----------------+-----------------+-----------------+---------------------------+
+         *      // | name : TString | born : TInteger | died : TInteger | diedSince348BC : TBoolean |
+         *      // +================+=================+=================+===========================+
+         *      // | Aristotle      | -384            | -322            | false                     |
+         *      // +----------------+-----------------+-----------------+---------------------------+
+         *      // | Plato          | -428            | -348            | true                      |
+         *      // +----------------+-----------------+-----------------+---------------------------+
+         *      // | Socrates       | -470            | -399            | true                      |
+         *      // +----------------+-----------------+-----------------+---------------------------+
+         *
+         *
+         * When used with a Restriction operator :
+         *
+         *      var restricted = philosophers.restrict(died.gte(-348));
+         *
+         *      // or equivalent :
+         *
+         *      var restricted = philosophers.restrict(new affinity.GreaterThanEqual(died, -348));
+         *
+         *      restricted.print();
+         *
+         *      // +----------------+-----------------+-----------------+
+         *      // | name : TString | born : TInteger | died : TInteger |
+         *      // +================+=================+=================+
+         *      // | Aristotle      | -384            | -322            |
+         *      // +----------------+-----------------+-----------------+
+         *      // | Plato          | -428            | -348            |
+         *      // +----------------+-----------------+-----------------+
          */
         constructor: function () {
 
@@ -38,6 +94,10 @@ var FLargerThanEqual = Function.extend(
 
         },
 
+<span id='Functions-Comparable-GreaterThanEqual-method-value'>        /**
+</span>         * Gets the result of the function
+         * @returns {boolean}
+         */
         value: function () {
 
             return (compare(null, this.parameters[0], this.parameters[1]) &gt;= 0);

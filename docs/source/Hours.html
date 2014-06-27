@@ -28,6 +28,51 @@ var FHours = Function.extend(
 <span id='Functions-Date-Hours'>        /**
 </span>         * @class Functions.Date.Hours
          * @extends Function
+         *
+         * Function that extracts a date&#39;s hours component as an integer
+         *
+         * Midnight is 0
+         *
+         * With extend operation :
+         *
+         *      var wokeUp = new Date();
+         *      wokeUp.setHours(8);
+         *
+         *      var breakfast = new Date();
+         *      breakfast.setHours(9)
+         *
+         *      var dinner = new Date();
+         *      dinner.setHours(18);
+         *
+         *      var events = new affinity.Relation([
+         *          {time : {type : affinity.Date}},
+         *          {name : {type : affinity.String}}
+         *      ],[
+         *          [wokeUp, &#39;Woke Up&#39;],
+         *          [breakfast, &#39;Breakfast&#39;],
+         *          [dinner, &#39;Dinner&#39;]
+         *      ])
+         *
+         *      var time = events.get(&#39;time&#39;)
+         *
+         *      var extended = events.extend([ { hour : time.hours() } ]);
+         *
+         *      // or equivalent
+         *
+         *      var extended = events.extend([ { hour : new affinity.Hours(time) } ]);
+         *
+         *      extended.print();
+         *
+         *      // +--------------+------------------------+----------------+
+         *      // | time : Date  | name : String          | hour : Integer |
+         *      // +==============+========================+================+
+         *      // | (8 o&#39;clock)  | Woke Up                | 8              |
+         *      // +--------------+------------------------+----------------+
+         *      // | (9 o&#39;clock)  | Breakfast              | 9              |
+         *      // +--------------+------------------------+----------------+
+         *      // | (18 o&#39;clock) | Dinner                 | 18             |
+         *      // +--------------+------------------------+----------------+
+         *
          */
         constructor: function () {
 
@@ -39,8 +84,12 @@ var FHours = Function.extend(
 
         },
 
-<span id='-method-value'>        value: function () {
-</span>
+<span id='Functions-Date-Hours-method-value'>        /**
+</span>         * Gets the function&#39;s return value
+         * @returns {number}
+         */
+        value: function () {
+
             return value(this.parameters[0]).getHours();
 
         }

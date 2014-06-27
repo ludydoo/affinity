@@ -28,6 +28,42 @@ var FMonth = Function.extend(
 <span id='Functions-Date-Month'>        /**
 </span>         * @class Functions.Date.Month
          * @extends Function
+         *
+         * Function that extracts a date&#39;s month number
+         *
+         * January is 0
+         *
+         * With extend operation :
+         *
+         *      var events = new affinity.Relation([
+         *          {date : {type : affinity.Date}},
+         *          {name : {type : affinity.String}}
+         *      ],[
+         *          [new Date(2014, 02, 07), &#39;Sochi&#39;],
+         *          [new Date(2014, 01, 02), &#39;Chocolate rush&#39;],
+         *          [new Date(2014, 04, 15), &#39;Millionth coffee drank&#39;]
+         *      ])
+         *
+         *      var date = events.get(&#39;date&#39;)
+         *
+         *      var extended = events.extend([ { month : date.month() } ]);
+         *
+         *      // or equivalent
+         *
+         *      var extended = events.extend([ { month : new affinity.Month(date) } ]);
+         *
+         *      extended.print();
+         *
+         *      // +-------------+------------------------+-----------------+
+         *      // | date : Date | name : String          | month : Integer |
+         *      // +=============+========================+=================+
+         *      // | 2014/02/07  | Sochi                  | 1               |
+         *      // +-------------+------------------------+-----------------+
+         *      // | 2014/01/02  | Chocolate Rush         | 0               |
+         *      // +-------------+------------------------+-----------------+
+         *      // | 2014/04/15  | Millionth coffee drank | 3               |
+         *      // +-------------+------------------------+-----------------+
+         *      //
          */
         constructor: function () {
 

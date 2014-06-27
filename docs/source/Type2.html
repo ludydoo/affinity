@@ -22,24 +22,14 @@ var Type = Base.extend(
 
 <span id='Type'>        /**
 </span>         * @class Type
-         * @param value
+         * @extends Base
          */
         constructor: function (value) {
 
-            this._value = value;
-
-            this.name = &#39;Type&#39;;
+            //this._value = value;
 
             Base.apply(this, arguments);
 
-        },
-
-        value : function(){
-            return this._value;
-        },
-
-        eval: function () {
-            return this;
         },
 
         clone : function(){

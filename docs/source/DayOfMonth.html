@@ -28,6 +28,40 @@ var FDayOfMonth = Function.extend(
 <span id='Functions-Date-DayOfMonth'>        /**
 </span>         * @class Functions.Date.DayOfMonth
          * @extends Function
+         *
+         * Function that extracts a date&#39;s day of the month
+         *
+         * With extend operation :
+         *
+         *      var events = new affinity.Relation([
+         *          {date : {type : affinity.Date}},
+         *          {name : {type : affinity.String}}
+         *      ],[
+         *          [new Date(2014, 02, 07), &#39;Sochi&#39;],
+         *          [new Date(2014, 01, 02), &#39;Chocolate rush&#39;],
+         *          [new Date(2014, 04, 15), &#39;Millionth coffee drank&#39;]
+         *      ])
+         *
+         *      var date = events.get(&#39;date&#39;)
+         *
+         *      var extended = events.extend([ { day : date.dayOfMonth() } ]);
+         *
+         *      // or equivalent
+         *
+         *      var extended = events.extend([ { day : new affinity.DayOfMonth(date) } ]);
+         *
+         *      extended.print();
+         *
+         *      // +-------------+------------------------+---------------+
+         *      // | date : Date | name : String          | day : Integer |
+         *      // +=============+========================+===============+
+         *      // | 2014/02/07  | Sochi                  | 07            |
+         *      // +-------------+------------------------+---------------+
+         *      // | 2014/01/02  | Chocolate Rush         | 02            |
+         *      // +-------------+------------------------+---------------+
+         *      // | 2014/04/15  | Millionth coffee drank | 15            |
+         *      // +-------------+------------------------+---------------+
+         *      //
          */
         constructor: function () {
 
@@ -39,8 +73,12 @@ var FDayOfMonth = Function.extend(
 
         },
 
-<span id='-method-value'>        value: function () {
-</span>
+<span id='Functions-Date-DayOfMonth-method-value'>        /**
+</span>         * Gets the function&#39;s return value
+         * @returns {number}
+         */
+        value: function () {
+
             return value(this.parameters[0]).getDate();
 
         }

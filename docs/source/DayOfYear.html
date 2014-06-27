@@ -28,6 +28,43 @@ var FDayOfYear = Function.extend(
 <span id='Functions-Date-DayOfYear'>        /**
 </span>         * @class Functions.Date.DayOfYear
          * @extends Function
+         *
+         * Function that extracts a date&#39;s day of the year
+         *
+         * January 1st is 0
+         *
+         * With extend operation :
+         *
+         *      var events = new affinity.Relation([
+         *          {date : {type : affinity.Date}},
+         *          {name : {type : affinity.String}}
+         *      ],[
+         *          [new Date(2014, 02, 07), &#39;Sochi&#39;],
+         *          [new Date(2014, 01, 02), &#39;Chocolate rush&#39;],
+         *          [new Date(2014, 04, 15), &#39;Millionth coffee drank&#39;]
+         *      ])
+         *
+         *      var date = events.get(&#39;date&#39;)
+         *
+         *      var extended = events.extend([ { day : date.dayOfYear() } ]);
+         *
+         *      // or equivalent
+         *
+         *      var extended = events.extend([ { day : new affinity.DayOfYear(date) } ]);
+         *
+         *      extended.print();
+         *
+         *      // +-------------+------------------------+---------------+
+         *      // | date : Date | name : String          | day : Integer |
+         *      // +=============+========================+===============+
+         *      // | 2014/02/07  | Sochi                  | 37            |
+         *      // +-------------+------------------------+---------------+
+         *      // | 2014/01/02  | Chocolate Rush         | 1             |
+         *      // +-------------+------------------------+---------------+
+         *      // | 2014/04/15  | Millionth coffee drank | 104           |
+         *      // +-------------+------------------------+---------------+
+         *      //
+         *
          */
         constructor: function () {
 

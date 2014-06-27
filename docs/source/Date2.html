@@ -18,27 +18,36 @@
   <pre class="prettyprint lang-js">var Object = require(&#39;./Object&#39;);
 var _ = require(&#39;lodash&#39;);
 
-var TDate = Object.extend({
+var Date = Object.extend({
 
 <span id='Types-Date'>    /**
 </span>     * @class Types.Date
-     * @param value
+     * @extends Type
+     *
+     * Represents a Date type. Should not be instantiated. Only used to represent
+     * relation header attribute types or function return types.
      */
-    constructor: function (value) {
-
-        Object.apply(this, Array.prototype.slice.call(arguments, 0));
-
-        this.name = &#39;TDate&#39;;
-    }
 
 }, {
 
+<span id='Types-Date-static-method-serialize'>    /**
+</span>     * Serialize method for Dates.
+     * @param {Date|Types.Date} date
+     * @static
+     * @returns {number}
+     */
     serialize : function(date){
 
         return date.getTime();
 
     },
 
+<span id='Types-Date-static-method-coerce'>    /**
+</span>     * Coerces an arbitrary object into a date
+     * @param {string|number|Date|Types.Date} value
+     * @static
+     * @returns {Date}
+     */
     coerce : function(value){
 
         if(_.isString(value)){
@@ -53,45 +62,55 @@ var TDate = Object.extend({
 
     },
 
+<span id='Types-Date-static-method-equal'>    /**
+</span>     * Check if two dates are equal
+     * @param {Date|Types.Date} date1
+     * @param {Date|Types.Date} date2
+     * @static
+     * @returns {boolean}
+     */
     equal: function (date1, date2) {
-
-        if(!_.isDate(date1)){
-            date1 = date1.value();
-        }
-        if(!_.isDate(date2)){
-            date2 = date2.value();
-        }
 
         return date1 === date2;
 
     },
 
+<span id='Types-Date-static-method-toString'>    /**
+</span>     * String representation of the Date type
+     * @static
+     * @returns {string}
+     */
     toString: function () {
-        return &#39;TDate&#39;
+        return &#39;Date&#39;
     },
 
+<span id='Types-Date-static-method-value'>    /**
+</span>     * Gets the value of a date
+     * @static
+     * @param date
+     * @returns {Date}
+     */
     value : function(date){
 
-        if(_.isDate(date)){
-            return date;
-        } else {
-            return date.value();
-        }
+        return date;
 
     },
 
+<span id='Types-Date-property-payload'>    /**
+</span>     * Mixins for dates
+     */
     payload : [
         require(&#39;./../mixins/comparable&#39;),
         require(&#39;./../mixins/size-comparable&#39;),
         require(&#39;./../mixins/not&#39;),
-        require(&#39;./../mixins/date&#39;),
+        require(&#39;./../mixins/date&#39;)
     ],
 
-    type : &#39;TDate&#39;
+    type : &#39;Date&#39;
 
 });
 
-module.exports = TDate;
+module.exports = Date;
 
 </pre>
 </body>
