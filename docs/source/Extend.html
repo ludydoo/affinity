@@ -166,7 +166,7 @@ var Extend = Relation.extend(
 
                 /// Parse extension attributes
 
-                _.forOwn(that.expressions, function (expression) {
+                _.forOwn(that.expressions, function (expression, key) {
 
                     // Expression must be an object
                     if (!_.isObject(expression)) {
@@ -186,16 +186,33 @@ var Extend = Relation.extend(
                     // This is the expression
                     var extensionParam = expression[extensionName];
 
-                    // Convert the attributes objects to functions that iterate through tuples
-                    extensionParam.convertAttributeToTuple();
+
+                    var type;
+
+                    // Check if the param is only an Attribute
+                    if(extensionParam instanceof Attribute){
+
+                        // Return the same type as the attribute
+                        type = extensionParam.type;
+
+                        // Convert the attribute to TupleAttribute
+                        that.expressions[key][extensionName] = extensionParam = new (require(&#39;./../functions/tuple/Attribute&#39;))(extensionParam.name);
+
+
+                    } else {
+
+                        // Convert the attributes objects to functions that iterate through tuples
+                        extensionParam.convertAttributeToTuple();
+
+                        // Get the return type of the expression
+                        type = extensionParam.type();
+
+                    }
 
                     // Key must not already exist in the current header
                     if (that.header().get(extensionName) !== null) {
                         throw new Error(&#39;Relation extension name already exists in the header&#39;);
                     }
-
-                    // Get the return type of the expression
-                    var type = extensionParam.type();
 
                     // Create the new header attribute
                     var extensionAttribute = new Attribute({type: type, name: extensionName});

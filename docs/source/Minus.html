@@ -29,6 +29,40 @@ var FMinus = Function.extend(
 <span id='Functions-Numeric-Minus'>        /**
 </span>         * @class Functions.Numeric.Minus
          * @extends Function
+         *
+         * Subtracts two numbers
+         *
+         * Example :
+         *
+         *     var relation = new affinity.Relation([
+         *              {A : {type : affinity.Integer}},
+         *              {B : {type : affinity.Integer}}
+         *          ],[
+         *              [1, 2],
+         *              [0, 0],
+         *              [10, 1]
+         *          ]);
+         *
+         *     var A = relation.get(&#39;A&#39;);
+         *     var B = relation.get(&#39;B&#39;);
+         *
+         *     var extended = relation.extend([{ minus : A.minus(B)}])
+         *
+         *     // or equivalent
+         *
+         *     var extended = relation.extend([{minus : new affinity.Minus(A, B)}])
+         *
+         *     extended.print();
+         *
+         *     // +---------------+---------------+-------------------+
+         *     // | A : Integer   | B : Integer   | minus : Integer   |
+         *     // +===============+===============+===================+
+         *     // | 1             | 2             | -1                |
+         *     // +---------------+---------------+-------------------+
+         *     // | 0             | 0             | 0                 |
+         *     // +---------------+---------------+-------------------+
+         *     // | 10            | 1             | 9                 |
+         *     // +---------------+---------------+-------------------+
          */
         constructor: function () {
 
@@ -40,8 +74,12 @@ var FMinus = Function.extend(
 
         },
 
-<span id='-method-value'>        value: function () {
-</span>
+<span id='Functions-Numeric-Minus-method-value'>        /**
+</span>         * Gets the function return value
+         * @returns {number}
+         */
+        value: function () {
+
             return this.type().coerce(value(this.parameters[0])-value(this.parameters[1]));
 
         }

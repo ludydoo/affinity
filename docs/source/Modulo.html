@@ -28,6 +28,44 @@ var FModulo = Function.extend(
 <span id='Functions-Numeric-Modulo'>        /**
 </span>         * @class Functions.Numeric.Modulo
          * @extends Function
+         *
+         * Gets the modulo of two numbers
+         *
+         * Example :
+         *
+         *     var relation = new affinity.Relation([
+         *              {A : {type : affinity.Integer}},
+         *              {B : {type : affinity.Integer}}
+         *          ],[
+         *              [1, 2],
+         *              [0, 0],
+         *              [10, 1],
+         *              [10, 2]
+         *          ]);
+         *
+         *     var A = relation.get(&#39;A&#39;);
+         *     var B = relation.get(&#39;B&#39;);
+         *
+         *     var extended = relation.extend([{modulo : A.mod(B)}]);
+         *
+         *     // or equivalent
+         *
+         *     var extended = relation.extend([{modulo : new affinity.Modulo(A, B)}]);
+         *
+         *     extended.print();
+         *
+         *     // +---------------+---------------+--------------------+
+         *     // | A : Integer   | B : Integer   | modulo : Numeric   |
+         *     // +===============+===============+====================+
+         *     // | 1             | 2             | 1                  |
+         *     // +---------------+---------------+--------------------+
+         *     // | 0             | 0             | NaN                |
+         *     // +---------------+---------------+--------------------+
+         *     // | 10            | 1             | 0                  |
+         *     // +---------------+---------------+--------------------+
+         *     // | 10            | 2             | 0                  |
+         *     // +---------------+---------------+--------------------+
+         *
          */
         constructor: function () {
 

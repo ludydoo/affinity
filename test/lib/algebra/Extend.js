@@ -128,6 +128,17 @@ describe('Extend Class', function () {
 
         });
 
+        it('Should be able to extend when passing only an attribute (copying another attribute)', function(done){
+
+            var extended = relation.extend([
+                {copy : relation.get('born')}
+            ]);
+
+            extended.print();
+
+            done();
+
+        });
     });
 
     describe('When passing invalid attributes', function () {

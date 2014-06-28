@@ -28,6 +28,43 @@ var FCeil = Function.extend(
 <span id='Functions-Numeric-Ceil'>        /**
 </span>         * @class Functions.Numeric.Ceil
          * @extends Function
+         *
+         * Function that rounds a number upwards
+         *
+         * Example with Extend operator :
+         *
+         *      var relation = new affinity.Relation([
+         *          { A :  {type : affinity.Integer} },
+         *      ],[
+         *          [1.01], [-2.85], [3], [3.12], [10.2]]
+         *      ])
+         *
+         *      var A = relation.get(&#39;A&#39;);
+         *
+         *
+         *      var B = relation.extend([{ B : A.ceil() }]);
+         *
+         *      // or
+         *
+         *      var B = relation.extend([{ B : new affinity.Ceil(A) }]);
+         *
+         *      B.print();
+         *
+         *      //+---------------+---------------+
+         *      //| A : Integer   | B : Integer   |
+         *      //+===============+===============+
+         *      //| 1.01          | 2             |
+         *      //+---------------+---------------+
+         *      //| -2.85         | 2             |
+         *      //+---------------+---------------+
+         *      //| 3             | 3             |
+         *      //+---------------+---------------+
+         *      //| 3.12          | 4             |
+         *      //+---------------+---------------+
+         *      //| 10.2          | 11            |
+         *      //+---------------+---------------+
+         *
+         *
          */
         constructor: function () {
 
@@ -39,8 +76,12 @@ var FCeil = Function.extend(
 
         },
 
-<span id='-method-value'>        value: function () {
-</span>
+<span id='Functions-Numeric-Ceil-method-value'>        /**
+</span>         * Gets the function return value
+         * @returns {number}
+         */
+        value: function () {
+
             return Math.ceil(value(this.parameters[0]));
 
         }

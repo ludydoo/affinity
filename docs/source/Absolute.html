@@ -19,17 +19,56 @@
 var TNumeric = require(&#39;./../../types/Numeric.js&#39;);
 var value = require(&#39;./../../helpers/value&#39;);
 
-var FAbsolute = Function.extend(
-<span id=''>    /**
-</span>     * @lends FAbsolute.prototype
-     */
+var Absolute = Function.extend(
     {
 
 <span id='Functions-Numeric-Absolute'>        /**
 </span>         * @class Functions.Numeric.Absolute
          * @extends Function
+         *
+         * Function that extracts the Absolute value of a Number
+         *
+         * Example with Extend operator :
+         *
+         *      var relation = new affinity.Relation([
+         *          { A :  {type : affinity.Integer} },
+         *      ],[
+         *          [-10], [-5], [0], [5], [10]]
+         *      ])
+         *
+         *      var A = relation.get(&#39;A&#39;);
+         *
+         *
+         *      var B = relation.extend([{ B : A.abs() }]);
+         *
+         *      // or
+         *
+         *      var B = relation.extend([{ B : new affinity.Absolute(A) }]);
+         *
+         *      B.print();
+         *
+         *      //+---------------+---------------+
+         *      //| A : Integer   | B : Integer   |
+         *      //+===============+===============+
+         *      //| -10           | 10            |
+         *      //+---------------+---------------+
+         *      //| -5            | 5             |
+         *      //+---------------+---------------+
+         *      //| 0             | 0             |
+         *      //+---------------+---------------+
+         *      //| 5             | 5             |
+         *      //+---------------+---------------+
+         *      //| 10            | 10            |
+         *      //+---------------+---------------+
+         *
          */
-        constructor: function () {
+
+<span id='Functions-Numeric-Absolute-method-constructor'>        /**
+</span>         * @param {Number|Function|Attribute} param The number to absolucize
+         *
+         * Create a new Absolute function
+         */
+        constructor: function (param) {
 
             Function.apply(this, Array.prototype.slice.call(arguments, 0));
 
@@ -39,21 +78,23 @@ var FAbsolute = Function.extend(
 
         },
 
-<span id='-method-value'>        value: function () {
-</span>
+<span id='Functions-Numeric-Absolute-method-value'>        /**
+</span>         * @returns {Number} The result
+         *
+         * Gets the function result
+         */
+        value: function () {
+
             return Math.abs(value(this.parameters[0]));
 
         }
 
-    },{
-
-
     });
 
-FAbsolute.mixin(require(&#39;./../../mixins/numeric&#39;));
-FAbsolute.mixin(require(&#39;./../../mixins/comparable&#39;));
-FAbsolute.mixin(require(&#39;./../../mixins/size-comparable&#39;));
+Absolute.mixin(require(&#39;./../../mixins/numeric&#39;));
+Absolute.mixin(require(&#39;./../../mixins/comparable&#39;));
+Absolute.mixin(require(&#39;./../../mixins/size-comparable&#39;));
 
-module.exports = FAbsolute;</pre>
+module.exports = Absolute;</pre>
 </body>
 </html>
