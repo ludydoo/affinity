@@ -19,15 +19,46 @@
 var TInteger = require(&#39;./../../types/Integer.js&#39;);
 var value = require(&#39;./../../helpers/value&#39;);
 
-var FWeekOfYear = Function.extend(
-<span id=''>    /**
-</span>     * @lends FWeekOfYear.prototype
-     */
+var WeekOfYear = Function.extend(
     {
 
 <span id='Functions-Date-WeekOfYear'>        /**
 </span>         * @class Functions.Date.WeekOfYear
          * @extends Function
+         *
+         * Function that extracts a date&#39;s week number (0-51)
+         *
+         * With extend operation :
+         *
+         *      var events = new affinity.Relation([
+         *          {date : {type : affinity.Date}},
+         *          {name : {type : affinity.String}}
+         *      ],[
+         *          [new Date(2014, 02, 07), &#39;Sochi&#39;],
+         *          [new Date(2014, 01, 02), &#39;Chocolate rush&#39;],
+         *          [new Date(2014, 04, 15), &#39;Millionth coffee drank&#39;]
+         *      ])
+         *
+         *      var date = events.get(&#39;date&#39;)
+         *
+         *      var extended = events.extend([ { week : date.weekOfYear() } ]);
+         *
+         *      // or equivalent
+         *
+         *      var extended = events.extend([ { week : new affinity.weekOfYear(date) } ]);
+         *
+         *      extended.print();
+         *
+         *      // +-------------+------------------------+----------------+
+         *      // | date : Date | name : String          | week : Integer |
+         *      // +=============+========================+================+
+         *      // | 2014/02/07  | Sochi                  | 6              |
+         *      // +-------------+------------------------+----------------+
+         *      // | 2014/01/02  | Chocolate Rush         | 0              |
+         *      // +-------------+------------------------+----------------+
+         *      // | 2014/04/15  | Millionth coffee drank | 15             |
+         *      // +-------------+------------------------+----------------+
+         *      //
          */
         constructor: function () {
 
@@ -39,8 +70,12 @@ var FWeekOfYear = Function.extend(
 
         },
 
-<span id='-method-value'>        value: function () {
-</span>
+<span id='Functions-Date-WeekOfYear-method-value'>        /**
+</span>         * Gets the function return value
+         * @returns {number}
+         */
+        value: function () {
+
             var d = new Date(+value(this.parameters[0]));
             d.setHours(0,0,0);
             d.setDate(d.getDate()+4-(d.getDay()||7));
@@ -53,6 +88,6 @@ var FWeekOfYear = Function.extend(
 
     });
 
-module.exports = FWeekOfYear;</pre>
+module.exports = WeekOfYear;</pre>
 </body>
 </html>

@@ -19,15 +19,47 @@
 var TInteger = require(&#39;./../../types/Integer.js&#39;);
 var value = require(&#39;./../../helpers/value&#39;);
 
-var FYear = Function.extend(
-<span id=''>    /**
-</span>     * @lends FYear.prototype
-     */
+var Year = Function.extend(
     {
 
 <span id='Functions-Date-Year'>        /**
 </span>         * @class Functions.Date.Year
          * @extends Function
+         *
+         *
+         * Function that extracts a date&#39;s full year number
+         *
+         * With extend operation :
+         *
+         *      var events = new affinity.Relation([
+         *          {date : {type : affinity.Date}},
+         *          {name : {type : affinity.String}}
+         *      ],[
+         *          [new Date(2013, 01, 02)],
+         *          [new Date(2011, 06, 30)],
+         *          [new Date(2010, 04, 15)]
+         *      ])
+         *
+         *      var date = events.get(&#39;date&#39;)
+         *
+         *      var extended = events.extend([ { year : date.year() } ]);
+         *
+         *      // or equivalent
+         *
+         *      var extended = events.extend([ { year : new affinity.Year(date) } ]);
+         *
+         *      extended.print();
+         *
+         *      // +-------------+----------------+
+         *      // | date : Date | year : Integer |
+         *      // +=============+================+
+         *      // | 2013/01/02  | 2013           |
+         *      // +-------------+----------------+
+         *      // | 2011/06/30  | 2011           |
+         *      // +-------------+----------------+
+         *      // | 2010/04/15  | 2010           |
+         *      // +-------------+----------------+
+         *      //
          */
         constructor: function () {
 
@@ -39,8 +71,8 @@ var FYear = Function.extend(
 
         },
 
-<span id='-method-value'>        value: function () {
-</span>
+        value: function () {
+
             return value(this.parameters[0]).getFullYear();
 
         }
@@ -50,6 +82,6 @@ var FYear = Function.extend(
 
     });
 
-module.exports = FYear;</pre>
+module.exports = Year;</pre>
 </body>
 </html>

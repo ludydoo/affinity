@@ -19,15 +19,41 @@
 var TInteger = require(&#39;./../../types/Integer.js&#39;);
 var value = require(&#39;./../../helpers/value&#39;);
 
-var FSeconds = Function.extend(
-<span id=''>    /**
-</span>     * @lends FSeconds.prototype
-     */
+var Seconds = Function.extend(
     {
 
 <span id='Functions-Date-Seconds'>        /**
 </span>         * @class Functions.Date.Seconds
          * @extends Function
+         *
+         * Function that extracts a date&#39;s second number
+         *
+         * With extend operation :
+         *
+         *      var events = new affinity.Relation([
+         *          {date : {type : affinity.Date}},
+         *          {name : {type : affinity.String}}
+         *      ],[
+         *          [new Date(), &#39;Now&#39;],
+         *      ])
+         *
+         *      var date = events.get(&#39;date&#39;)
+         *
+         *      var extended = events.extend([ { seconds : date.seconds() } ]);
+         *
+         *      // or equivalent
+         *
+         *      var extended = events.extend([ { seconds : new affinity.Seconds(date) } ]);
+         *
+         *      extended.print();
+         *
+         *      // +-------------+------------------------+-------------------+
+         *      // | date : Date | name : String          | seconds : Integer |
+         *      // +=============+========================+===================+
+         *      // | 2014/06/26  | Now                    | 14                |
+         *      // +-------------+------------------------+-------------------+
+         *      //
+         *
          */
         constructor: function () {
 
@@ -39,8 +65,12 @@ var FSeconds = Function.extend(
 
         },
 
-<span id='-method-value'>        value: function () {
-</span>
+<span id='Functions-Date-Seconds-method-value'>        /**
+</span>         * Gets the function return value
+         * @returns {number}
+         */
+        value: function () {
+
             return value(this.parameters[0]).getSeconds();
 
         }
@@ -50,6 +80,6 @@ var FSeconds = Function.extend(
 
     });
 
-module.exports = FSeconds;</pre>
+module.exports = Seconds;</pre>
 </body>
 </html>

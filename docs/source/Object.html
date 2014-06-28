@@ -23,6 +23,8 @@ var TObject = Type.extend({
 <span id='Types-Object'>    /**
 </span>     * @class Types.Object
      * @extends Type
+     *
+     * Represents an Object Type.
      */
 
 <span id='Types-Object-method-constructor'>    /**
@@ -46,7 +48,7 @@ var TObject = Type.extend({
      */
     toString: function () {
 
-        return &#39;Object&#39;
+        return &#39;Object&#39;;
 
     }
 
@@ -91,7 +93,7 @@ var TObject = Type.extend({
      */
     equal: function (object1, object2) {
 
-        return _.isEqual(object1, object2)
+        return _.isEqual(object1, object2);
 
     },
 
@@ -100,7 +102,9 @@ var TObject = Type.extend({
      * @returns {string}
      */
     toString: function () {
+
         return &#39;Object&#39;
+
     },
 
 <span id='Types-Object-property-primitive'>    /**
