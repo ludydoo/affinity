@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Function = require(&#39;./../../Function.js&#39;);
+var TString = require(&#39;./../../types/String.js&#39;);
+var value = require(&#39;./../../helpers/value&#39;);
+
+var Test = Function.extend({
+
+<span id='Functions-String-Test'>    /**
+</span>     * @class Functions.String.Test
+     *
+     * Tests a regex on a string.
+     *
+     * Example with Extension operator :
+     *
+     *     var affinity = require(&#39;./index.js&#39;);
+     *
+     *     var relation = new affinity.Relation([
+     *          { name : { type : affinity.String}}
+     *     ],[
+     *          [&#39;John Doe&#39;], [&#39;Mark Clinton&#39;], [&#39;Bo Vril&#39;]
+     *     ]);
+     *
+     *     var name = relation.get(&#39;name&#39;);
+     *
+     *     var extended = relation.extend([{test : name.test(/Doe/)}]);
+     *
+     *     extended.print();
+     *
+     *     // +-----------------+----------------+
+     *     // | name : String   | test : Boolean |
+     *     // +=================+================+
+     *     // | John Doe        | true           |
+     *     // +-----------------+----------------+
+     *     // | Mark Clinton    | false          |
+     *     // +-----------------+----------------+
+     *     // | Bo Vril         | false          |
+     *     // +-----------------+----------------+
+     */
+    constructor: function () {
+
+        Function.apply(this, Array.prototype.slice.call(arguments, 0));
+
+        this.type(TString);
+
+        this.name = &#39;Test&#39;;
+
+    },
+
+<span id='Functions-String-Test-method-value'>    /**
+</span>     * Gets the function return value
+     * @returns {boolean}
+     */
+    value: function () {
+
+        var regex = value(this.parameters[1]);
+        return regex.test(value(this.parameters[0]));
+
+    }
+
+});
+
+module.exports = Test;</pre>
+</body>
+</html>

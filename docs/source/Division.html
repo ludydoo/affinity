@@ -20,21 +20,15 @@ var TNumeric = require(&#39;./../../types/Numeric.js&#39;);
 var value = require(&#39;./../../helpers/value&#39;);
 
 var FDivision = Function.extend(
-<span id=''>    /**
-</span>     * @lends FDivision.prototype
-     */
     {
 
 <span id='Functions-Numeric-Division'>        /**
 </span>         * @class Functions.Numeric.Division
          * @extends Function
          *
-         * @class Functions.Numeric.Cosine
-         * @extends Function
-         *
          * Function that returns the result of a division between two numbers
          *
-         * Exemple with Extend operator :
+         * Example with Extend operator :
          *
          *      var relation = new affinity.Relation([
          *          { A :  {type : affinity.Integer} },
@@ -126,8 +120,8 @@ var FDivision = Function.extend(
 
         },
 
-<span id='-method-value'>        value: function () {
-</span>
+        value: function () {
+
             return value(this.parameters[0])/value(this.parameters[1]);
 
         }

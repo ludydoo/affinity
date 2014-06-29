@@ -20,14 +20,53 @@ var TNumeric = require(&#39;./../../types/Numeric.js&#39;);
 var value = require(&#39;./../../helpers/value&#39;);
 
 var FMultiplication = Function.extend(
-<span id=''>    /**
-</span>     * @lends FMultiplication.prototype
-     */
     {
 
 <span id='Functions-Numeric-Multiplication'>        /**
 </span>         * @class Functions.Numeric.Multiplication
          * @extends Function
+         *
+         * Multiplies two numbers
+         *
+         * example :
+         *
+         *     var relation = new affinity.Relation([
+         *          { A : { type : affinity.Integer}},
+         *          { B : { type : affinity.Integer}},
+         *     ],[
+         *          [1, -1],
+         *          [-1, 1],
+         *          [0, 10],
+         *          [1, 10],
+         *          [2, -10],
+         *     ])
+         *
+         *     var A = relation.get(&#39;A&#39;)
+         *     var B = relation.get(&#39;B&#39;)
+         *
+         *     var extended = relation.extend([{ C : A.times(B)}])
+         *
+         *     // or
+         *
+         *     var extended = relation.extend([{ C : new affinity.Multiplication(A, B)}])
+         *
+         *     extended.print()
+         *
+         *     // +---------------+---------------+---------------+
+         *     // | A : Integer   | B : Integer   | C : Numeric   |
+         *     // +===============+===============+===============+
+         *     // | 1             | -1            | -1            |
+         *     // +---------------+---------------+---------------+
+         *     // | -1            | 1             | -1            |
+         *     // +---------------+---------------+---------------+
+         *     // | 0             | 10            | 0             |
+         *     // +---------------+---------------+---------------+
+         *     // | 1             | 10            | 10            |
+         *     // +---------------+---------------+---------------+
+         *     // | 2             | -10           | -20           |
+         *     // +---------------+---------------+---------------+
+         *
+         *
          */
         constructor: function () {
 
@@ -39,8 +78,8 @@ var FMultiplication = Function.extend(
 
         },
 
-<span id='-method-value'>        value : function () {
-</span>
+        value : function () {
+
             return value(this.parameters[0])*value(this.parameters[1]);
 
         }

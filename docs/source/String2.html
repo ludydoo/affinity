@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Type = require(&#39;./../Type&#39;);
+var TBoolean = require(&#39;./Boolean&#39;);
+var _ = require(&#39;lodash&#39;);
+
+var String = Type.extend({
+
+<span id='Types-String'>    /**
+</span>     * @class Types.String
+     * @extends Type
+     *
+     * Represents a String Attribute Type.
+     *
+     * Should not be instantiated. It is only
+     * used to represent relation header attribute types or function return types.
+     *
+     */
+
+}, {
+
+    coerce : function(value){
+
+        return value;
+
+    },
+
+<span id='Types-String-property-payload'>    /**
+</span>     * Mixins for String types
+     */
+    payload : [
+        require(&#39;./../mixins/comparable&#39;),
+        require(&#39;./../mixins/size-comparable&#39;),
+        require(&#39;./../mixins/connectable&#39;),
+        require(&#39;./../mixins/not&#39;),
+        require(&#39;./../mixins/string&#39;),
+    ],
+
+<span id='Types-String-method-equal'>    /**
+</span>     * Checks for equality between two strings
+     * @param str1
+     * @param str2
+     * @returns {boolean}
+     */
+    equal: function (str1, str2) {
+
+        return str2 === str1;
+
+    },
+
+<span id='Types-String-method-toString'>    /**
+</span>     * String representation of a String Type
+     * @returns {string}
+     */
+    toString: function () {
+        return &#39;String&#39;
+    },
+
+<span id='Types-String-property-primitive'>    /**
+</span>     * String is a primitive
+     */
+    primitive : true,
+
+    type : &#39;TString&#39;
+
+});
+
+module.exports = String;
+
+</pre>
+</body>
+</html>

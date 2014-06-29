@@ -15,70 +15,46 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">var Type = require(&#39;./../Type&#39;);
-var TBoolean = require(&#39;./Boolean&#39;);
-var _ = require(&#39;lodash&#39;);
+  <pre class="prettyprint lang-js">
 
-var String = Type.extend({
+module.exports.length = function () {
+    var Length = require(&#39;./../functions/string/Length.js&#39;);
+    if (this._checkNegatedAttribute) {
+        return this._checkNegatedAttribute(new Length(this));
+    }
+    return new Length(this);
+};
 
-<span id='Types-String'>    /**
-</span>     * @class Types.String
-     * @extends Type
-     *
-     * Represents a String Attribute Type. Should not be instantiated. It is only
-     * used to represent relation header attribute types or function return types.
-     *
-     */
+module.exports.lowercase = function () {
+    var Lowercase = require(&#39;./../functions/string/Lowercase.js&#39;);
+    if (this._checkNegatedAttribute) {
+        return this._checkNegatedAttribute(new Lowercase(this));
+    }
+    return new Lowercase(this);
+};
 
-}, {
+module.exports.test = function (regex) {
+    var Test = require(&#39;./../functions/string/Test.js&#39;);
+    if (this._checkNegatedAttribute) {
+        return this._checkNegatedAttribute(new Test(this, regex));
+    }
+    return new Test(this, regex);
+};
 
-    coerce : function(value){
+module.exports.substr = function (index, len) {
+    var Substring = require(&#39;./../functions/string/Substring.js&#39;);
+    if (this._checkNegatedAttribute) {
+        return this._checkNegatedAttribute(new Substring(this, index, len));
+    }
+    return new Substring(this, index, len);
+};
 
-        return value;
-
-    },
-
-<span id='Types-String-property-payload'>    /**
-</span>     * Mixins for String types
-     */
-    payload : [
-        require(&#39;./../mixins/comparable&#39;),
-        require(&#39;./../mixins/size-comparable&#39;),
-        require(&#39;./../mixins/connectable&#39;),
-        require(&#39;./../mixins/not&#39;)
-    ],
-
-<span id='Types-String-method-equal'>    /**
-</span>     * Checks for equality between two strings
-     * @param str1
-     * @param str2
-     * @returns {boolean}
-     */
-    equal: function (str1, str2) {
-
-        return str2 === str1;
-
-    },
-
-<span id='Types-String-method-toString'>    /**
-</span>     * String representation of a String Type
-     * @returns {string}
-     */
-    toString: function () {
-        return &#39;String&#39;
-    },
-
-<span id='Types-String-property-primitive'>    /**
-</span>     * String is a primitive
-     */
-    primitive : true,
-
-    type : &#39;TString&#39;
-
-});
-
-module.exports = String;
-
-</pre>
+module.exports.uppercase = function () {
+    var Uppercase = require(&#39;./../functions/string/Uppercase.js&#39;);
+    if (this._checkNegatedAttribute) {
+        return this._checkNegatedAttribute(new Uppercase(this));
+    }
+    return new Uppercase(this);
+};</pre>
 </body>
 </html>

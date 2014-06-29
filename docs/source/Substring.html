@@ -23,6 +23,34 @@ var Uppercase = Function.extend({
 
 <span id='Functions-String-Substring'>    /**
 </span>     * @class Functions.String.Substring
+     *
+     * Returns a substring from a string
+     *
+     * Example with Extension operator :
+     *
+     *     var affinity = require(&#39;./index.js&#39;);
+     *
+     *     var relation = new affinity.Relation([
+     *          { name : { type : affinity.String}}
+     *     ],[
+     *          [&#39;John Doe&#39;], [&#39;Mark Clinton&#39;], [&#39;Bo Vril&#39;]
+     *     ]);
+     *
+     *     var name = relation.get(&#39;name&#39;);
+     *
+     *     var extended = relation.extend([{sub : name.substr(0, 5)}]);
+     *
+     *     extended.print();
+     *
+     *     // +-----------------+----------------+
+     *     // | name : String   | sub : String   |
+     *     // +=================+================+
+     *     // | John Doe        | John           |
+     *     // +-----------------+----------------+
+     *     // | Mark Clinton    | Mark           |
+     *     // +-----------------+----------------+
+     *     // | Bo Vril         | Bo Vr          |
+     *     // +-----------------+----------------+
      */
     constructor: function () {
 

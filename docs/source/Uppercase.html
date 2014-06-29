@@ -23,6 +23,32 @@ var Uppercase = Function.extend({
 
 <span id='Functions-String-Uppercase'>    /**
 </span>     * @class Functions.String.Uppercase
+     *
+     * Returns the uppercase version of a string
+     *
+     * Example with Extension operator :
+     *
+     *     var affinity = require(&#39;./index.js&#39;);
+     *
+     *     var relation = new affinity.Relation([
+     *          { upcs : { type : affinity.String}}
+     *     ],[
+     *          [&#39;John Doe&#39;], [&#39;Mark Clinton&#39;], [&#39;Bo Vril&#39;]
+     *     ]);
+     *
+     *     var extended = relation.extend([{length : relation.get(&#39;name&#39;).uppercase()}]);
+     *
+     *     extended.print();
+     *
+     *     // +-----------------+-------------------+
+     *     // | name : String   | upcs : String   |
+     *     // +=================+===================+
+     *     // | John Doe        | JOHN DOE          |
+     *     // +-----------------+-------------------+
+     *     // | Mark Clinton    | MARK CLINTON      |
+     *     // +-----------------+-------------------+
+     *     // | Bo Vril         | BO VRIL           |
+     *     // +-----------------+-------------------+
      */
     constructor: function () {
 

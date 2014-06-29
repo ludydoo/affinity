@@ -19,15 +19,55 @@
 var TNumeric = require(&#39;./../../types/Numeric.js&#39;);
 var value = require(&#39;./../../helpers/value&#39;);
 
-var FRound = Function.extend(
-<span id=''>    /**
-</span>     * @lends FRound.prototype
-     */
+var Round = Function.extend(
     {
 
 <span id='Functions-Numeric-Round'>        /**
 </span>         * @class Functions.Numeric.Round
          * @extends Function
+         *
+         * Rounds a number to its closest whole number
+         *
+         * example :
+         *
+         *     var relation = new affinity.Relation([
+         *          { A : { type : affinity.Integer}}
+         *     ],[
+         *          [-10],[-5],[-2],[-1],[0],[1],[2],[5],[10]
+         *     ]);
+         *
+         *     var A = relation.get(&#39;A&#39;);
+         *
+         *     var extended = relation.extend([{B : A.sqrt()}]);
+         *
+         *     var extended2 = extended.extend([{C : extended.get(&#39;B&#39;).round()}]);
+         *
+         *     // or
+         *
+         *     var extended = relation.extend([{C : new affinity.Round(extended.get(&#39;B&#39;0)}]);
+         *
+         *     extended.print();
+         *
+         *     // +---------------+----------------------+---------------+
+         *     // | A : Integer   | B : Numeric          | C : Numeric   |
+         *     // +===============+======================+===============+
+         *     // | -10           | NaN                  | NaN           |
+         *     // +---------------+----------------------+---------------+
+         *     // | -5            | NaN                  | NaN           |
+         *     // +---------------+----------------------+---------------+
+         *     // | -2            | NaN                  | NaN           |
+         *     // +---------------+----------------------+---------------+
+         *     // | -1            | NaN                  | NaN           |
+         *     // +---------------+----------------------+---------------+
+         *     // | 0             | 0                    | 0             |
+         *     // +---------------+----------------------+---------------+
+         *     // | 1             | 1                    | 1             |
+         *     // +---------------+----------------------+---------------+
+         *     // | 2             | 1.4142135623730951   | 1             |
+         *     // +---------------+----------------------+---------------+
+         *     // | 5             | 2.23606797749979     | 2             |
+         *     // +---------------+----------------------+---------------+
+         *
          */
         constructor: function () {
 
@@ -39,18 +79,22 @@ var FRound = Function.extend(
 
         },
 
-<span id='-method-value'>        value: function () {
-</span>
+<span id='Functions-Numeric-Round-method-value'>        /**
+</span>         * Gets the function&#39;s return value
+         * @returns {number}
+         */
+        value: function () {
+
             return Math.round(value(this.parameters[0]));
 
         }
 
     });
 
-FRound.mixin(require(&#39;./../../mixins/numeric&#39;));
-FRound.mixin(require(&#39;./../../mixins/comparable&#39;));
-FRound.mixin(require(&#39;./../../mixins/size-comparable&#39;));
+Round.mixin(require(&#39;./../../mixins/numeric&#39;));
+Round.mixin(require(&#39;./../../mixins/comparable&#39;));
+Round.mixin(require(&#39;./../../mixins/size-comparable&#39;));
 
-module.exports = FRound;</pre>
+module.exports = Round;</pre>
 </body>
 </html>

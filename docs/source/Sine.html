@@ -16,78 +16,77 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">var Function = require(&#39;./../../Function.js&#39;);
-var Numeric = require(&#39;./../../types/Numeric.js&#39;);
+var TNumeric = require(&#39;./../../types/Numeric.js&#39;);
 var value = require(&#39;./../../helpers/value&#39;);
 
-var Cosine = Function.extend(
+var Sine = Function.extend(
     {
 
-<span id='Functions-Numeric-Cosine'>        /**
-</span>         * @class Functions.Numeric.Cosine
+<span id='Functions-Numeric-Sine'>        /**
+</span>         * @class Functions.Numeric.Sine
          * @extends Function
          *
-         * Function that returns the cosine of a number
+         * Function that returns the sine of a number
          *
-         * Exemple with Extend operator :
+         * Example with Extend operator :
          *
          *      var relation = new affinity.Relation([
          *          { A :  {type : affinity.Integer} },
          *      ],[
-         *          [0], [Math.PI/2], [Math.PI], [3*Math.PI/2], [2*Math.PI]]
+         *          [0], [Math.PI/2], [Math.PI], [3*Math.PI/2], [2*Math.PI]
          *      ])
          *
          *      var A = relation.get(&#39;A&#39;);
          *
          *
-         *      var B = relation.extend([{ B : A.cos() }]);
+         *      var B = relation.extend([{ B : A.sin() }]);
          *
          *      // or
          *
-         *      var B = relation.extend([{ B : new affinity.Cosine(A) }]);
+         *      var B = relation.extend([{ B : new affinity.Sine(A) }]);
          *
          *      B.print();
          *
          *      //+---------------+---------------+
          *      //| A : Integer   | B : Integer   |
          *      //+===============+===============+
-         *      //| 0             | 1             |
+         *      //| 0             | 0             |
          *      //+---------------+---------------+
-         *      //| PI/2          | 0             |
+         *      //| PI/2          | 1             |
          *      //+---------------+---------------+
-         *      //| π             | -1            |
+         *      //| π             | 0             |
          *      //+---------------+---------------+
-         *      //| 3π/2          | 0             |
+         *      //| 3π/2          | 1             |
          *      //+---------------+---------------+
-         *      //| 2π            | 1             |
+         *      //| 2π            | 0             |
          *      //+---------------+---------------+
-         *
          */
         constructor: function () {
 
             Function.apply(this, Array.prototype.slice.call(arguments, 0));
 
-            this.type(Numeric);
+            this.type(TNumeric);
 
-            this.name = &#39;Cos&#39;;
+            this.name = &#39;Sine&#39;;
 
         },
 
-<span id='Functions-Numeric-Cosine-method-value'>        /**
-</span>         * Gets the function result
-         * @returns {Number}
+<span id='Functions-Numeric-Sine-method-value'>        /**
+</span>         * Gets the function return value
+         * @returns {number}
          */
         value: function () {
 
-            return Math.cos(value(this.parameters[0]));
+            return Math.sin(value(this.parameters[0]));
 
         }
 
     });
 
-Cosine.mixin(require(&#39;./../../mixins/numeric&#39;));
-Cosine.mixin(require(&#39;./../../mixins/comparable&#39;));
-Cosine.mixin(require(&#39;./../../mixins/size-comparable&#39;));
+Sine.mixin(require(&#39;./../../mixins/numeric&#39;));
+Sine.mixin(require(&#39;./../../mixins/comparable&#39;));
+Sine.mixin(require(&#39;./../../mixins/size-comparable&#39;));
 
-module.exports = Cosine;</pre>
+module.exports = Sine;</pre>
 </body>
 </html>

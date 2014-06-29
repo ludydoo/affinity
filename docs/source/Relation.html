@@ -1022,7 +1022,7 @@ var Relation = Set.extend(
 
             debug.relation.trace(&#39;#compose&#39;);
 
-            return new (require(&#39;./algebra/Compose&#39;))(this, relation);
+            return new (require(&#39;./algebra/Composition&#39;))(this, relation);
 
         },
 
@@ -1113,7 +1113,7 @@ var Relation = Set.extend(
 
             debug.relation.trace(&#39;#extend&#39;);
 
-            return new (require(&#39;./algebra/Extend&#39;))(this, expressions);
+            return new (require(&#39;./algebra/Extension&#39;))(this, expressions);
 
         },
         //endregion

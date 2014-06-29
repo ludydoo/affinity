@@ -31,8 +31,16 @@ module.exports.ceil = function (attr) {
     return Ceil(this);
 };
 
+module.exports.floor = function (attr) {
+    var Floor = require(&#39;./../functions/numeric/Floor.js&#39;);
+    if (this._checkNegatedAttribute) {
+        return this._checkNegatedAttribute(new Ceil(this));
+    }
+    return Floor(this);
+};
+
 module.exports.cos = function (attr) {
-    var Cos = require(&#39;./../functions/numeric/Cos.js&#39;);
+    var Cos = require(&#39;./../functions/numeric/Cosine.js&#39;);
     if (this._checkNegatedAttribute) {
         return this._checkNegatedAttribute(new Cos(this));
     }
@@ -49,7 +57,7 @@ module.exports.div = function (attr) {
 
 
 module.exports.exp = function () {
-    var Exp = require(&#39;./../functions/numeric/Exp.js&#39;);
+    var Exp = require(&#39;./../functions/numeric/Exponential.js&#39;);
     if (this._checkNegatedAttribute) {
         return this._checkNegatedAttribute(new Exp(this));
     }
@@ -94,7 +102,7 @@ module.exports.plus = function (attr) {
 
 
 module.exports.pow = function (attr) {
-    var Pow = require(&#39;./../functions/numeric/Pow.js&#39;);
+    var Pow = require(&#39;./../functions/numeric/Power.js&#39;);
     if (this._checkNegatedAttribute) {
         return this._checkNegatedAttribute(new Pow(this, attr));
     }
@@ -112,7 +120,7 @@ module.exports.round = function () {
 
 
 module.exports.sin = function () {
-    var Sin = require(&#39;./../functions/numeric/Sin.js&#39;);
+    var Sin = require(&#39;./../functions/numeric/Sine.js&#39;);
     if (this._checkNegatedAttribute) {
         return this._checkNegatedAttribute(new Sin(this));
     }
@@ -121,7 +129,7 @@ module.exports.sin = function () {
 
 
 module.exports.sqrt = function () {
-    var Sqrt = require(&#39;./../functions/numeric/Sqrt.js&#39;);
+    var Sqrt = require(&#39;./../functions/numeric/SquareRoot.js&#39;);
     if (this._checkNegatedAttribute) {
         return this._checkNegatedAttribute(new Sqrt(this));
     }
@@ -130,7 +138,7 @@ module.exports.sqrt = function () {
 
 
 module.exports.tan = function () {
-    var Tan = require(&#39;./../functions/numeric/Tan.js&#39;);
+    var Tan = require(&#39;./../functions/numeric/Tangent.js&#39;);
     if (this._checkNegatedAttribute) {
         return this._checkNegatedAttribute(new Tan(this));
     }

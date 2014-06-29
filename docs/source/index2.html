@@ -127,21 +127,26 @@ module.exports.Absolute = require(&#39;./affinity/functions/numeric/Absolute.js&
 </span> * @type {Functions.Numeric.Ceil}
  */
 module.exports.Ceil = require(&#39;./affinity/functions/numeric/Ceil.js&#39;);
-
-<span id='global-property-Cos'>/**
+<span id='global-property-Cosine'>/**
 </span> * @type {Functions.Numeric.Cosine}
  */
-module.exports.Cos = require(&#39;./affinity/functions/numeric/Cos.js&#39;);
+module.exports.Cosine = require(&#39;./affinity/functions/numeric/Cosine.js&#39;);
 
 <span id='global-property-Division'>/**
 </span> * @type {Functions.Numeric.Division}
  */
 module.exports.Division = require(&#39;./affinity/functions/numeric/Division.js&#39;);
 
-<span id='global-property-Exp'>/**
+<span id='global-property-Exponential'>/**
 </span> * @type {Functions.Numeric.Exponential}
  */
-module.exports.Exp = require(&#39;./affinity/functions/numeric/Exp.js&#39;);
+module.exports.Exponential = require(&#39;./affinity/functions/numeric/Exponential.js&#39;);
+
+<span id='global-property-Floor'>/**
+</span> * @type {Functions.Numeric.Floor}
+ */
+module.exports.Floor = require(&#39;./affinity/functions/numeric/Floor.js&#39;);
+
 
 <span id='global-property-Minus'>/**
 </span> * @type {Functions.Numeric.Minus}
@@ -163,30 +168,30 @@ module.exports.Multiplication = require(&#39;./affinity/functions/numeric/Multip
  */
 module.exports.Plus = require(&#39;./affinity/functions/numeric/Plus.js&#39;);
 
-<span id='global-property-Pow'>/**
+<span id='global-property-Power'>/**
 </span> * @type {Functions.Numeric.Power}
  */
-module.exports.Pow = require(&#39;./affinity/functions/numeric/Pow.js&#39;);
+module.exports.Power = require(&#39;./affinity/functions/numeric/Power.js&#39;);
 
 <span id='global-property-Round'>/**
 </span> * @type {Functions.Numeric.Round}
  */
 module.exports.Round = require(&#39;./affinity/functions/numeric/Round.js&#39;);
 
-<span id='global-property-Sin'>/**
+<span id='global-property-Sine'>/**
 </span> * @type {Functions.Numeric.Sine}
  */
-module.exports.Sin = require(&#39;./affinity/functions/numeric/Sin.js&#39;);
+module.exports.Sine = require(&#39;./affinity/functions/numeric/Sine.js&#39;);
 
-<span id='global-property-Sqrt'>/**
+<span id='global-property-SquareRoot'>/**
 </span> * @type {Functions.Numeric.SquareRoot}
  */
-module.exports.Sqrt = require(&#39;./affinity/functions/numeric/Sqrt.js&#39;);
+module.exports.SquareRoot = require(&#39;./affinity/functions/numeric/SquareRoot.js&#39;);
 
-<span id='global-property-Tan'>/**
+<span id='global-property-Tangent'>/**
 </span> * @type {Functions.Numeric.Tangent}
  */
-module.exports.Tan = require(&#39;./affinity/functions/numeric/Tan.js&#39;);
+module.exports.Tangent = require(&#39;./affinity/functions/numeric/Tangent.js&#39;);
 
 <span id='global-method-abs'>/**
 </span> * @param attr
@@ -204,12 +209,20 @@ module.exports.ceil = function(attr){
     return new module.exports.Ceil(attr);
 };
 
+<span id='global-method-floor'>/**
+</span> * @param attr
+ * @returns {Functions.Numeric.Floor}
+ */
+module.exports.floor = function(attr){
+    return new module.exports.Floor(attr);
+};
+
 <span id='global-method-cos'>/**
 </span> * @param attr
  * @returns {Functions.Numeric.Cosine}
  */
 module.exports.cos = function(attr){
-    return new module.exports.Cos(attr);
+    return new module.exports.Cosine(attr);
 };
 
 <span id='global-method-div'>/**
@@ -226,7 +239,7 @@ module.exports.div = function(attr1, attr2){
  * @returns {Functions.Numeric.Exponential}
  */
 module.exports.exp = function(attr){
-    return new module.exports.Exp(attr);
+    return new module.exports.Exponential(attr);
 };
 
 <span id='global-method-minus'>/**
@@ -271,7 +284,7 @@ module.exports.plus = function(attr1, attr2){
  * @returns {Functions.Numeric.Power}
  */
 module.exports.pow = function(attr1, attr2){
-    return new module.exports.Pow(attr1, attr2);
+    return new module.exports.Power(attr1, attr2);
 };
 
 <span id='global-method-round'>/**
@@ -287,7 +300,7 @@ module.exports.round = function(attr){
  * @returns {Functions.Numeric.Sine}
  */
 module.exports.sin = function(attr){
-    return new module.exports.Sin(attr);
+    return new module.exports.Sine(attr);
 };
 
 <span id='global-method-sqrt'>/**
@@ -295,7 +308,7 @@ module.exports.sin = function(attr){
  * @returns {Functions.Numeric.SquareRoot}
  */
 module.exports.sqrt = function(attr){
-    return new module.exports.Sqrt(attr);
+    return new module.exports.SquareRoot(attr);
 };
 
 <span id='global-method-tan'>/**
@@ -303,7 +316,7 @@ module.exports.sqrt = function(attr){
  * @returns {Functions.Numeric.Tangent}
  */
 module.exports.tan = function(attr){
-    return new module.exports.Tan(attr);
+    return new module.exports.Tangent(attr);
 };
 
 // String Functions
@@ -318,10 +331,10 @@ module.exports.Length = require(&#39;./affinity/functions/string/Length.js&#39;)
  */
 module.exports.Lowercase = require(&#39;./affinity/functions/string/Lowercase.js&#39;);
 
-<span id='global-property-Matching'>/**
-</span> * @type {Functions.String.Matching}
+<span id='global-property-Test'>/**
+</span> * @type {Functions.String.Test}
  */
-module.exports.Matching = require(&#39;./affinity/functions/string/Matching.js&#39;);
+module.exports.Test = require(&#39;./affinity/functions/string/Test.js&#39;);
 
 <span id='global-property-Substring'>/**
 </span> * @type {Functions.String.Substring}
@@ -349,13 +362,13 @@ module.exports.lowercase = function(attr){
     return new module.exports.Lowercase(attr);
 };
 
-<span id='global-method-matching'>/**
+<span id='global-method-test'>/**
 </span> * @param attr
  * @param regex
- * @returns {Functions.String.Matching}
+ * @returns {Functions.String.Test}
  */
-module.exports.matching = function(attr, regex){
-    return new module.exports.Matching(attr, regex);
+module.exports.test = function(attr, regex){
+    return new module.exports.Test(attr, regex);
 };
 
 <span id='global-method-substr'>/**
@@ -397,20 +410,20 @@ module.exports.value = function(relation, attributeName){
 
 /// Defining relational operators
 
-<span id='global-property-Compose'>/**
-</span> * @type {Operators.Compose}
+<span id='global-property-Composition'>/**
+</span> * @type {Operators.Composition}
  */
-module.exports.Compose = require(&#39;./affinity/algebra/Compose.js&#39;);
+module.exports.Composition = require(&#39;./affinity/algebra/Composition.js&#39;);
 
 <span id='global-property-Difference'>/**
 </span> * @type {Operators.Difference}
  */
 module.exports.Difference = require(&#39;./affinity/algebra/Difference.js&#39;);
 
-<span id='global-property-Extend'>/**
-</span> * @type {Operators.Extend}
+<span id='global-property-Extension'>/**
+</span> * @type {Operators.Extension}
  */
-module.exports.Extend = require(&#39;./affinity/algebra/Extend.js&#39;);
+module.exports.Extension = require(&#39;./affinity/algebra/Extension.js&#39;);
 
 <span id='global-property-Group'>/**
 </span> * @type {Operators.Group}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Function = require(&#39;./../../Function.js&#39;);
+var TNumeric = require(&#39;./../../types/Numeric.js&#39;);
+var value = require(&#39;./../../helpers/value&#39;);
+
+var Tangent = Function.extend(
+    {
+
+<span id='Functions-Numeric-Tangent'>        /**
+</span>         * @class Functions.Numeric.Tangent
+         * @extends Function
+         *
+         * Function that returns the Tangent of a number
+         *
+         * Example with Extend operator :
+         *
+         *      var relation = new affinity.Relation([
+         *          { A :  {type : affinity.Integer} },
+         *      ],[
+         *          [0], [Math.PI/2], [Math.PI], [3*Math.PI/2], [2*Math.PI]
+         *      ]);
+         *
+         *      var A = relation.get(&#39;A&#39;);
+         *
+         *
+         *      var B = relation.extend([{ B : A.tan() }]);
+         *
+         *      // or
+         *
+         *      var B = relation.extend([{ B : new affinity.Tangent(A) }]);
+         *
+         *      B.print();
+         *
+         *      // The following result shows a bug, but it&#39;s not affinity&#39;s fault.
+         *      // Due to a bug in V8
+         *      // (see this http://stackoverflow.com/questions/24455775/why-does-node-not-evaluate-math-tanmath-pi-2-to-infinity-but-chrome-v8-does)
+         *      // Math.tan(Math.PI/2) won&#39;t evaluate to Infinity.
+         *      // Math.tan(Math.PI) won&#39;t evaluate to 0.
+         *      // And so on. This is due to Math.cos(Math.PI/2) not evaluating to 0.
+         *
+         *      // This will be fixed in node v0.11. as I tested the v0.11.14-pre version.
+         *
+         *      //+---------------+---------------------------+
+         *      //| A : Integer   | B : Numeric               |
+         *      //+===============+===========================+
+         *      //| 0             | 0                         |
+         *      //+---------------+---------------------------+
+         *      //| PI/2          | 16331778728383844         |
+         *      //+---------------+---------------------------+
+         *      //| π             | -1.2246063538223773e-16   |
+         *      //+---------------+---------------------------+
+         *      //| 3π/2          | 5443926242794615          |
+         *      //+---------------+---------------------------+
+         *      //| 2π            | -2.4492127076447545e-16   |
+         *      //+---------------+---------------------------+
+         *
+         */
+        constructor: function () {
+
+            Function.apply(this, Array.prototype.slice.call(arguments, 0));
+
+            this.type(TNumeric);
+
+            this.name = &#39;Tangent&#39;;
+
+        },
+
+<span id='Functions-Numeric-Tangent-method-value'>        /**
+</span>         * Gets the function return value
+         * @returns {number}
+         */
+        value: function () {
+
+            return Math.tan(value(this.parameters[0]));
+
+        }
+
+    });
+
+Tangent.mixin(require(&#39;./../../mixins/numeric&#39;));
+Tangent.mixin(require(&#39;./../../mixins/comparable&#39;));
+Tangent.mixin(require(&#39;./../../mixins/size-comparable&#39;));
+
+module.exports = Tangent;</pre>
+</body>
+</html>

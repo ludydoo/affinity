@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Function = require(&#39;./../../Function.js&#39;);
+var TNumeric = require(&#39;./../../types/Numeric.js&#39;);
+var value = require(&#39;./../../helpers/value&#39;);
+
+var FSquareRoot = Function.extend(
+<span id=''>    /**
+</span>     * @lends FSquareRoot.prototype
+     */
+    {
+
+<span id='Functions-Numeric-SquareRoot'>        /**
+</span>         * @class Functions.Numeric.SquareRoot
+         * @extends Function
+         *
+         *
+         * Returns the square root of a number
+         *
+         * example :
+         *
+         *     var relation = new affinity.Relation([
+         *          { A : { type : affinity.Integer}}
+         *     ],[
+         *          [-10],[-5],[-2],[-1],[0],[1],[2],[5],[10]
+         *     ])
+         *
+         *     var A = relation.get(&#39;A&#39;)
+         *
+         *     var extended = relation.extend([{B : A.sqrt()}]);
+         *
+         *     // or
+         *
+         *     var extended = relation.extend([{ B : new affinity.Sqrt(A)}])
+         *
+         *     extended.print();
+         *
+         *     // +---------------+----------------------+
+         *     // | A : Integer   | B : Numeric          |
+         *     // +===============+======================+
+         *     // | -10           | NaN                  |
+         *     // +---------------+----------------------+
+         *     // | -5            | NaN                  |
+         *     // +---------------+----------------------+
+         *     // | -2            | NaN                  |
+         *     // +---------------+----------------------+
+         *     // | -1            | NaN                  |
+         *     // +---------------+----------------------+
+         *     // | 0             | 0                    |
+         *     // +---------------+----------------------+
+         *     // | 1             | 1                    |
+         *     // +---------------+----------------------+
+         *     // | 2             | 1.4142135623730951   |
+         *     // +---------------+----------------------+
+         *     // | 5             | 2.23606797749979     |
+         *     // +---------------+----------------------+
+         *
+         */
+        constructor: function () {
+
+            Function.apply(this, Array.prototype.slice.call(arguments, 0));
+
+            this.type(TNumeric);
+
+            this.name = &#39;Square Root&#39;;
+
+        },
+
+<span id='-method-value'>        value: function () {
+</span>
+            return Math.sqrt(value(this.parameters[0]));
+
+        }
+
+    });
+
+FSquareRoot.mixin(require(&#39;./../../mixins/numeric&#39;));
+FSquareRoot.mixin(require(&#39;./../../mixins/comparable&#39;));
+FSquareRoot.mixin(require(&#39;./../../mixins/size-comparable&#39;));
+
+module.exports = FSquareRoot;</pre>
+</body>
+</html>

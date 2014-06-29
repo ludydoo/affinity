@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Function = require(&#39;./../../Function.js&#39;);
+var TNumeric = require(&#39;./../../types/Numeric.js&#39;);
+var value = require(&#39;./../../helpers/value&#39;);
+
+var Floor = Function.extend(
+    {
+
+<span id='Functions-Numeric-Floor'>        /**
+</span>         * @class Functions.Numeric.Floor
+         * @extends Function
+         *
+         * Function that rounds a number downwards
+         *
+         * Example with Extend operator :
+         *
+         *      var relation = new affinity.Relation([
+         *          { A :  {type : affinity.Integer} },
+         *      ],[
+         *          [1.01], [-2.85], [3], [3.12], [10.2]]
+         *      ])
+         *
+         *      var A = relation.get(&#39;A&#39;);
+         *
+         *
+         *      var B = relation.extend([{ B : A.Floor() }]);
+         *
+         *      // or
+         *
+         *      var B = relation.extend([{ B : new affinity.floor(A) }]);
+         *
+         *      B.print();
+         *
+         *      //+---------------+---------------+
+         *      //| A : Integer   | B : Integer   |
+         *      //+===============+===============+
+         *      //| 1.01          | 1             |
+         *      //+---------------+---------------+
+         *      //| -2.85         | -3            |
+         *      //+---------------+---------------+
+         *      //| 3             | 3             |
+         *      //+---------------+---------------+
+         *      //| 3.12          | 3             |
+         *      //+---------------+---------------+
+         *      //| 10.2          | 10            |
+         *      //+---------------+---------------+
+         *
+         *
+         */
+        constructor: function () {
+
+            Function.apply(this, Array.prototype.slice.call(arguments, 0));
+
+            this.type(TNumeric);
+
+            this.name = &#39;Floor&#39;;
+
+        },
+
+<span id='Functions-Numeric-Floor-method-value'>        /**
+</span>         * Gets the function return value
+         * @returns {number}
+         */
+        value: function () {
+
+            return Math.floor(value(this.parameters[0]));
+
+        }
+
+    });
+
+Floor.mixin(require(&#39;./../../mixins/numeric&#39;));
+Floor.mixin(require(&#39;./../../mixins/comparable&#39;));
+Floor.mixin(require(&#39;./../../mixins/size-comparable&#39;));
+
+module.exports = Floor;</pre>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Function = require(&#39;./../../Function.js&#39;);
+var TNumeric = require(&#39;./../../types/Numeric.js&#39;);
+var value = require(&#39;./../../helpers/value&#39;);
+
+var FPow = Function.extend(
+    {
+
+<span id='Functions-Numeric-Plus'>        /**
+</span>         * @class Functions.Numeric.Plus
+         * @extends Function
+         *
+         * Returns a number to the power of another number
+         *
+         * example :
+         *
+         *     var relation = new affinity.Relation([
+         *          { A : { type : affinity.Integer}},
+         *          { B : { type : affinity.Integer}},
+         *     ],[
+         *          [1, -1],
+         *          [-1, 1],
+         *          [0, 10],
+         *          [1, 10],
+         *          [2, -10],
+         *     ])
+         *
+         *     var A = relation.get(&#39;A&#39;)
+         *     var B = relation.get(&#39;B&#39;)
+         *
+         *     var extended = relation.extend([{ C : A.pow(B)}])
+         *
+         *     // or
+         *
+         *     var extended = relation.extend([{ C : new affinity.Pow(A, B)}])
+         *
+         *     extended.print()
+         *
+         *     // +---------------+---------------+----------------+
+         *     // | A : Integer   | B : Integer   | C : Numeric    |
+         *     // +===============+===============+================+
+         *     // | 1             | -1            | 1              |
+         *     // +---------------+---------------+----------------+
+         *     // | -1            | 1             | -1             |
+         *     // +---------------+---------------+----------------+
+         *     // | 0             | 10            | 0              |
+         *     // +---------------+---------------+----------------+
+         *     // | 1             | 10            | 1              |
+         *     // +---------------+---------------+----------------+
+         *     // | 2             | -10           | 0.0009765625   |
+         *     // +---------------+---------------+----------------+
+         *
+         */
+        constructor: function () {
+
+            Function.apply(this, Array.prototype.slice.call(arguments, 0));
+
+            this.type(TNumeric);
+
+            this.name = &#39;Power&#39;;
+
+        },
+
+<span id='Functions-Numeric-Plus-method-value'>        /**
+</span>         * Gets the function&#39;s return value;
+         * @returns {number}
+         */
+        value: function () {
+
+            return Math.pow(value(this.parameters[0]),value(this.parameters[1]));
+
+        }
+
+    });
+
+FPow.mixin(require(&#39;./../../mixins/numeric&#39;));
+FPow.mixin(require(&#39;./../../mixins/comparable&#39;));
+FPow.mixin(require(&#39;./../../mixins/size-comparable&#39;));
+
+module.exports = FPow;</pre>
+</body>
+</html>
