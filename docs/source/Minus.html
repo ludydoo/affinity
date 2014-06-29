@@ -43,16 +43,16 @@ var FMinus = Function.extend(
          *     var A = relation.get(&#39;A&#39;);
          *     var B = relation.get(&#39;B&#39;);
          *
-         *     var extended = relation.extend([{ minus : A.minus(B)}])
+         *     var extended = relation.extend([{ &quot;A - B&quot; : A.minus(B)}])
          *
          *     // or equivalent
          *
-         *     var extended = relation.extend([{minus : new affinity.Minus(A, B)}])
+         *     var extended = relation.extend([{&quot;A - B&quot; : new affinity.Minus(A, B)}])
          *
          *     extended.print();
          *
          *     // +---------------+---------------+-------------------+
-         *     // | A : Integer   | B : Integer   | minus : Integer   |
+         *     // | A : Integer   | B : Integer   | A - B : Integer   |
          *     // +===============+===============+===================+
          *     // | 1             | 2             | -1                |
          *     // +---------------+---------------+-------------------+

@@ -39,19 +39,19 @@ var Seconds = Function.extend(
          *
          *      var date = events.get(&#39;date&#39;)
          *
-         *      var extended = events.extend([ { seconds : date.seconds() } ]);
+         *      var extended = events.extend([ { &quot;date.seconds()&quot; : date.seconds() } ]);
          *
          *      // or equivalent
          *
-         *      var extended = events.extend([ { seconds : new affinity.Seconds(date) } ]);
+         *      var extended = events.extend([ { &quot;date.seconds()&quot; : new affinity.Seconds(date) } ]);
          *
          *      extended.print();
          *
-         *      // +-------------+------------------------+-------------------+
-         *      // | date : Date | name : String          | seconds : Integer |
-         *      // +=============+========================+===================+
-         *      // | 2014/06/26  | Now                    | 14                |
-         *      // +-------------+------------------------+-------------------+
+         *      // +-------------------------------------------+-----------------+----------------------------+
+         *      // | date : Date                               | name : String   | date.seconds() : Integer   |
+         *      // +===========================================+=================+============================+
+         *      // | Sun Jun 29 2014 08:51:05 GMT-0400 (EDT)   | Now             | 5                          |
+         *      // +-------------------------------------------+-----------------+----------------------------+
          *      //
          *
          */

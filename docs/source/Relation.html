@@ -279,26 +279,27 @@ var Relation = Set.extend(
         },
 
 <span id='Relation-method-remove'>        /**
-</span>         * Removes a tuple from the relation
-         * @param {Tuple|Object} tupleToRemove The tuple to be removed
+</span>         * @param {Tuple|Object} tupleToRemove The tuple to be removed
          * @return {boolean} True if the tuple was removed, false otherwise
-         * @example
-         * var relation = new affinity.Relation([
-         *          { &#39;firstName&#39; : {type : affinity.String}}
-         *          { &#39;LastName&#39;  : {type : affinity.String}}
-         *      ],[
-         *          [&#39;John&#39;,&#39;Doe&#39;],
-         *          [&#39;Hello&#39;,&#39;World&#39;],
-         *          [&#39;Super&#39;,&#39;Duper&#39;],
-         *      ]);
          *
-         * relation.remove({firstName : &#39;John&#39;, &#39;LastName&#39;, &#39;Doe&#39;}); //true
+         * Removes a tuple from the relation
          *
-         * var tuple = relation.atIndex(0) // Tuple(firstName: &#39;Hello&#39;, lastName : &#39;World&#39;);
+         *     var relation = new affinity.Relation([
+         *              { &#39;firstName&#39; : {type : affinity.String}}
+         *              { &#39;LastName&#39;  : {type : affinity.String}}
+         *          ],[
+         *              [&#39;John&#39;,&#39;Doe&#39;],
+         *              [&#39;Hello&#39;,&#39;World&#39;],
+         *              [&#39;Super&#39;,&#39;Duper&#39;],
+         *          ]);
          *
-         * relation.remove(tuple) // true
+         *     relation.remove({firstName : &#39;John&#39;, &#39;LastName&#39;, &#39;Doe&#39;}); //true
          *
-         * relation.remove(tuple) // false, it was already removed
+         *     var tuple = relation.atIndex(0) // Tuple(firstName: &#39;Hello&#39;, lastName : &#39;World&#39;);
+         *
+         *     relation.remove(tuple) // true
+         *
+         *     relation.remove(tuple) // false, it was already removed
          *
          */
         remove: function (tupleToRemove) {
@@ -323,31 +324,29 @@ var Relation = Set.extend(
         },
 
 <span id='Relation-method-body'>        /**
-</span>         * Getter/Setter for the body property
+</span>         * @param {Set} [tuples] The new set of body
+         * @returns {Set|Relation} The body/null if getter, this if setter
+         *
+         * Getter/Setter for the body property
          *
          * You will more likely always use the getter (Relation.body()) than the setter
          * (Relation.body(body)) part for this method.
+         *     var relation = new affinity.Relation([
+         *              { &#39;firstName&#39; : {type : affinity.String}}
+         *              { &#39;LastName&#39;  : {type : affinity.String}}
+         *          ]);
          *
-         * @param {Set} [tuples] The new set of body
-         * @returns {Set|Relation} The body/null if getter, this if setter
-         * @example
+         *     var set = new affinity.Set();
          *
-         * var relation = new affinity.Relation([
-         *          { &#39;firstName&#39; : {type : affinity.String}}
-         *          { &#39;LastName&#39;  : {type : affinity.String}}
-         *      ]);
+         *     set.add(new affinity.Tuple({firstName : &#39;John&#39;, lastName : &#39;Doe&#39;}))
+         *     set.add(new affinity.Tuple({firstName : &#39;Hello&#39;, lastName : &#39;World&#39;}))
+         *     set.add(new affinity.Tuple({firstName : &#39;John&#39;, lastName : &#39;Cage&#39;}))
          *
-         * var set = new affinity.Set();
+         *     relation.body(set); // Sets the relation&#39;s body
          *
-         * set.add(new affinity.Tuple({firstName : &#39;John&#39;, lastName : &#39;Doe&#39;}))
-         * set.add(new affinity.Tuple({firstName : &#39;Hello&#39;, lastName : &#39;World&#39;}))
-         * set.add(new affinity.Tuple({firstName : &#39;John&#39;, lastName : &#39;Cage&#39;}))
+         *     relation.body() // Gets the relation&#39;s body
          *
-         * relation.body(set); // Sets the relation&#39;s body
-         *
-         * relation.body() // Gets the relation&#39;s body
-         *
-         * console.log(relation.body() === set) // true
+         *     console.log(relation.body() === set) // true
          *
          */
         body: function (tuples) {
@@ -371,26 +370,25 @@ var Relation = Set.extend(
         },
 
 <span id='Relation-method-compute'>        /**
-</span>         * Calculates the relation. Because the relations are only calculated when their header or their body
+</span>         * @return {Relation} Returns this for chaining
+         *
+         * Calculates the relation. Because the relations are only calculated when their header or their body
          * are requested, you must explicitly call compute() if you want to calculate a relation.
          *
          * You should not need to use this function. Calling body() or header() calculates the relation
          * automatically
          *
-         * @return {Relation} Returns this for chaining
-         * @example
+         *     var product = relation1.product(relation2);
          *
-         * var product = relation1.product(relation2);
+         *     // At this point, nothing has been calculated.
          *
-         * // At this point, nothing has been calculated.
+         *     product.header() // Because we requested the header, it is calculated
          *
-         * product.header() // Because we requested the header, it is calculated
+         *     product.body() // Because we requested the body, it is calculated
          *
-         * product.body() // Because we requested the body, it is calculated
+         *     var product2 = relation1.product(relation2);
          *
-         * var product2 = relation1.product(relation2);
-         *
-         * product2.compute(); // Calculates the header and the body;
+         *     product2.compute(); // Calculates the header and the body;
          *
          */
         compute: function () {
@@ -405,9 +403,10 @@ var Relation = Set.extend(
         },
 
 <span id='Relation-method-header'>        /**
-</span>         * Gets or sets the relation&#39;s header
-         * @param {Header} [header]
+</span>         * @param {Header} [header]
          * @returns {null|{Header}}
+         *
+         * Gets or sets the relation&#39;s header
          */
         header: function (header) {
 
@@ -430,9 +429,10 @@ var Relation = Set.extend(
         },
 
 <span id='Relation-method-isCompatible'>        /**
-</span>         * Check if a tuple is compatible with the relation
-         * @param {Tuple|Object} tuple
+</span>         * @param {Tuple|Object} tuple
          * @returns {boolean}
+         *
+         * Check if a tuple is compatible with the relation
          */
         isCompatible: function (tuple) {
 
@@ -469,9 +469,10 @@ var Relation = Set.extend(
         },
 
 <span id='Relation-method-equal'>        /**
-</span>         * Tests if the relation is equal to another one
-         * @param {Relation} relation The relation to compare to
+</span>         * @param {Relation} relation The relation to compare to
          * @returns {boolean} If the relations are equal or not
+         *
+         * Tests if the relation is equal to another one
          */
         equal: function (relation) {
 
@@ -491,7 +492,7 @@ var Relation = Set.extend(
         },
 
 <span id='Relation-method-toString'>        /**
-</span>         * Gets the
+</span>         * Gets the string representation of the relation
          * @returns {String} The string print representation of the relation
          */
         toString: function () {
@@ -708,36 +709,37 @@ var Relation = Set.extend(
 
         //region Operations
 <span id='Relation-method-difference'>        /**
-</span>         * Shortcut to create a Difference relation based on this relation and the specified one
+</span>         *
          * @param {Relation} relation The relation to compute difference against
          * @returns {Operators.Difference} The resulting relation
-         * @example
          *
-         * var relation1 = new affinity.Relation([
-         *          {firstName : {type : affinity.String}}
-         *          {lastName : {type : affinity.String}}
-         *      ],[
-         *          [&#39;John&#39;,&#39;Doe&#39;],
-         *          [&#39;Lucino&#39;,&#39;Veo&#39;],
-         *          [&#39;Mary&#39;,&#39;Poppins&#39;],
-         *      ]);
+         * Shortcut to create a Difference relation based on this relation and the specified one
          *
-         * var relation2 = new affinity.Relation([
-         *          {firstName : {type : affinity.String}}
-         *          {lastName : {type : affinity.String}}
-         *      ],[
-         *          [&#39;John&#39;,&#39;Doe&#39;]
-         *      ]);
+         *     var relation1 = new affinity.Relation([
+         *              {firstName : {type : affinity.String}}
+         *              {lastName : {type : affinity.String}}
+         *          ],[
+         *              [&#39;John&#39;,&#39;Doe&#39;],
+         *              [&#39;Lucino&#39;,&#39;Veo&#39;],
+         *              [&#39;Mary&#39;,&#39;Poppins&#39;],
+         *          ]);
          *
-         * var diff = relation1.difference(relation2);
+         *     var relation2 = new affinity.Relation([
+         *              {firstName : {type : affinity.String}}
+         *              {lastName : {type : affinity.String}}
+         *          ],[
+         *              [&#39;John&#39;,&#39;Doe&#39;]
+         *          ]);
          *
-         * // +---------------------+--------------------+
-         * // | firstName : TString | lastName : TString |
-         * // +---------------------+--------------------+
-         * // | Lucino              | Veo                |
-         * // +---------------------+--------------------+
-         * // | Mary                | Poppins            |
-         * // +---------------------+--------------------+
+         *     var diff = relation1.difference(relation2);
+         *
+         *     // +---------------------+--------------------+
+         *     // | firstName : TString | lastName : TString |
+         *     // +---------------------+--------------------+
+         *     // | Lucino              | Veo                |
+         *     // +---------------------+--------------------+
+         *     // | Mary                | Poppins            |
+         *     // +---------------------+--------------------+
          */
         difference: function (relation) {
 
@@ -747,34 +749,34 @@ var Relation = Set.extend(
         },
 
 <span id='Relation-method-intersect'>        /**
-</span>         * Shortcut to create an Intersect relation based on this relation and the specified one
-         * @param {Relation} relation The relation to compute intersection against
+</span>         * @param {Relation} relation The relation to compute intersection against
          * @returns {Operators.Intersection} The resulting relation
-         * @example
          *
-         * var relation1 = new affinity.Relation([
-         *          {firstName : {type : affinity.String}}
-         *          {lastName : {type : affinity.String}}
-         *      ],[
-         *          [&#39;John&#39;,&#39;Doe&#39;],
-         *          [&#39;Lucino&#39;,&#39;Veo&#39;],
-         *          [&#39;Mary&#39;,&#39;Poppins&#39;],
-         *      ]);
+         * Shortcut to create an Intersect relation based on this relation and the specified one
          *
-         * var relation2 = new affinity.Relation([
-         *          {firstName : {type : affinity.String}}
-         *          {lastName : {type : affinity.String}}
-         *      ],[
-         *          [&#39;John&#39;,&#39;Doe&#39;]
-         *      ]);
+         *     var relation1 = new affinity.Relation([
+         *              {firstName : {type : affinity.String}}
+         *              {lastName : {type : affinity.String}}
+         *          ],[
+         *              [&#39;John&#39;,&#39;Doe&#39;],
+         *              [&#39;Lucino&#39;,&#39;Veo&#39;],
+         *              [&#39;Mary&#39;,&#39;Poppins&#39;],
+         *          ]);
          *
-         * var intersection = relation1.intersect(relation2);
+         *     var relation2 = new affinity.Relation([
+         *              {firstName : {type : affinity.String}}
+         *              {lastName : {type : affinity.String}}
+         *          ],[
+         *              [&#39;John&#39;,&#39;Doe&#39;]
+         *          ]);
          *
-         * // +---------------------+--------------------+
-         * // | firstName : TString | lastName : TString |
-         * // +---------------------+--------------------+
-         * // | John                | Doe                |
-         * // +---------------------+--------------------+
+         *     var intersection = relation1.intersect(relation2);
+         *
+         *     // +---------------------+--------------------+
+         *     // | firstName : TString | lastName : TString |
+         *     // +---------------------+--------------------+
+         *     // | John                | Doe                |
+         *     // +---------------------+--------------------+
          */
         intersect: function (relation) {
 
@@ -786,37 +788,38 @@ var Relation = Set.extend(
         },
 
 <span id='Relation-method-join'>        /**
-</span>         * Shortcut to create a Join relation based on this relation and the specified one
+</span>         *
          * @param {Relation} relation The relation to compute the join against
          * @returns {Operators.Join} The resulting relation
-         * @example
          *
-         * var relation1 = new affinity.Relation([
-         *          {firstName : {type : affinity.String}}
-         *          {lastName : {type : affinity.String}}
-         *      ],[
-         *          [&#39;John&#39;,&#39;Doe&#39;],
-         *          [&#39;Lucino&#39;,&#39;Veo&#39;],
-         *          [&#39;Mary&#39;,&#39;Poppins&#39;],
-         *      ]);
+         * Shortcut to create a Join relation based on this relation and the specified one
          *
-         * var relation2 = new affinity.Relation([
-         *          {LastName : {type : affinity.String}}
-         *          {Title    : {type : affinity.String}}
-         *      ],[
-         *          [&#39;Doe&#39;,&#39;Mr&#39;],
-         *          [&#39;Poppins&#39;,&#39;Lady&#39;]
-         *      ]);
+         *     var relation1 = new affinity.Relation([
+         *              {firstName : {type : affinity.String}}
+         *              {lastName : {type : affinity.String}}
+         *          ],[
+         *              [&#39;John&#39;,&#39;Doe&#39;],
+         *              [&#39;Lucino&#39;,&#39;Veo&#39;],
+         *              [&#39;Mary&#39;,&#39;Poppins&#39;],
+         *          ]);
          *
-         * var join = relation1.join(relation2);
+         *     var relation2 = new affinity.Relation([
+         *              {LastName : {type : affinity.String}}
+         *              {Title    : {type : affinity.String}}
+         *          ],[
+         *              [&#39;Doe&#39;,&#39;Mr&#39;],
+         *              [&#39;Poppins&#39;,&#39;Lady&#39;]
+         *          ]);
          *
-         * // +---------------------+--------------------+-----------------+
-         * // | firstName : TString | lastName : TString | Title : TString |
-         * // +---------------------+--------------------+-----------------+
-         * // | John                | Doe                | Mr              |
-         * // +---------------------+--------------------+-----------------+
-         * // | Mary                | Poppins            | Lady            |
-         * // +---------------------+--------------------+-----------------+
+         *     var join = relation1.join(relation2);
+         *
+         *     // +---------------------+--------------------+-----------------+
+         *     // | firstName : TString | lastName : TString | Title : TString |
+         *     // +---------------------+--------------------+-----------------+
+         *     // | John                | Doe                | Mr              |
+         *     // +---------------------+--------------------+-----------------+
+         *     // | Mary                | Poppins            | Lady            |
+         *     // +---------------------+--------------------+-----------------+
          */
         join: function (relation) {
 
@@ -826,44 +829,45 @@ var Relation = Set.extend(
         },
 
 <span id='Relation-method-product'>        /**
-</span>         * Shortcut to create a Product relation based on this relation and the specified one
+</span>         *
          * @param {Relation} relation The relation to compute product against
          * @returns {Operators.Product} The resulting relation
-         * @example
          *
-         * var relation1 = new affinity.Relation([
-         *          {firstName : {type : affinity.String}}
-         *          {lastName : {type : affinity.String}}
-         *      ],[
-         *          [&#39;John&#39;,&#39;Doe&#39;],
-         *          [&#39;Lucino&#39;,&#39;Veo&#39;],
-         *          [&#39;Mary&#39;,&#39;Poppins&#39;],
-         *      ]);
+         * Shortcut to create a Product relation based on this relation and the specified one
          *
-         * var relation2 = new affinity.Relation([
-         *          {title : {type : affinity.String}}
-         *      ],[
-         *          [&#39;Lady&#39;],
-         *          [&#39;Mr&#39;]
-         *      ]);
+         *     var relation1 = new affinity.Relation([
+         *              {firstName : {type : affinity.String}}
+         *              {lastName : {type : affinity.String}}
+         *          ],[
+         *              [&#39;John&#39;,&#39;Doe&#39;],
+         *              [&#39;Lucino&#39;,&#39;Veo&#39;],
+         *              [&#39;Mary&#39;,&#39;Poppins&#39;],
+         *          ]);
          *
-         * var product = relation1.product(relation2);
+         *     var relation2 = new affinity.Relation([
+         *              {title : {type : affinity.String}}
+         *          ],[
+         *              [&#39;Lady&#39;],
+         *              [&#39;Mr&#39;]
+         *          ]);
          *
-         * // +---------------------+--------------------+-----------------+
-         * // | firstName : TString | lastName : TString | Title : TString |
-         * // +---------------------+--------------------+-----------------+
-         * // | John                | Doe                | Lady            |
-         * // +---------------------+--------------------+-----------------+
-         * // | John                | Doe                | Mr              |
-         * // +---------------------+--------------------+-----------------+
-         * // | Lucino              | Veo                | Lady            |
-         * // +---------------------+--------------------+-----------------+
-         * // | Lucino              | Veo                | Mr              |
-         * // +---------------------+--------------------+-----------------+
-         * // | Mary                | Poppins            | Lady            |
-         * // +---------------------+--------------------+-----------------+
-         * // | Mary                | Poppins            | Mr              |
-         * // +---------------------+--------------------+-----------------+
+         *     var product = relation1.product(relation2);
+         *
+         *     // +---------------------+--------------------+-----------------+
+         *     // | firstName : TString | lastName : TString | Title : TString |
+         *     // +---------------------+--------------------+-----------------+
+         *     // | John                | Doe                | Lady            |
+         *     // +---------------------+--------------------+-----------------+
+         *     // | John                | Doe                | Mr              |
+         *     // +---------------------+--------------------+-----------------+
+         *     // | Lucino              | Veo                | Lady            |
+         *     // +---------------------+--------------------+-----------------+
+         *     // | Lucino              | Veo                | Mr              |
+         *     // +---------------------+--------------------+-----------------+
+         *     // | Mary                | Poppins            | Lady            |
+         *     // +---------------------+--------------------+-----------------+
+         *     // | Mary                | Poppins            | Mr              |
+         *     // +---------------------+--------------------+-----------------+
          */
         product: function (relation) {
 
@@ -873,39 +877,35 @@ var Relation = Set.extend(
         },
 
 <span id='Relation-method-project'>        /**
-</span>         * Shortcut to create a Project relation based on this relation
-         * &lt;p&gt;The attributeNames parameter must be in the format : &lt;/p&gt;
-         * &lt;pre&gt;&lt;code&gt;
+</span>         * @param {String[]} attributeNames The relation to compute intersection against
+         * @returns {Operators.Projection} The resulting relation
+         *
+         * Shortcut to create a Project relation based on this relation
+         *
+         * The attributeNames parameter must be in the format :
          *
          *     relation.project([&#39;argument1&#39;, &#39;argument2&#39;]);
          *
-         * &lt;/code&gt;&lt;/pre&gt;
+         *     var relation1 = new affinity.Relation([
+         *              {firstName : {type : affinity.String}}
+         *              {lastName : {type : affinity.String}}
+         *          ],[
+         *              [&#39;John&#39;,&#39;Doe&#39;],
+         *              [&#39;Lucino&#39;,&#39;Veo&#39;],
+         *              [&#39;Mary&#39;,&#39;Poppins&#39;],
+         *          ]);
          *
-         * @param {String[]} attributeNames The relation to compute intersection against
-         * @returns {Operators.Projection} The resulting relation
-         * @example
-         *          * @example
+         *     var intersection = relation1.project([&#39;firstName&#39;]);
          *
-         * var relation1 = new affinity.Relation([
-         *          {firstName : {type : affinity.String}}
-         *          {lastName : {type : affinity.String}}
-         *      ],[
-         *          [&#39;John&#39;,&#39;Doe&#39;],
-         *          [&#39;Lucino&#39;,&#39;Veo&#39;],
-         *          [&#39;Mary&#39;,&#39;Poppins&#39;],
-         *      ]);
-         *
-         * var intersection = relation1.project([&#39;firstName&#39;]);
-         *
-         * // +---------------------+
-         * // | firstName : TString |
-         * // +---------------------+
-         * // | John                |
-         * // +---------------------+
-         * // | Lucino              |
-         * // +---------------------+
-         * // | Mary                |
-         * // +---------------------+
+         *     // +---------------------+
+         *     // | firstName : TString |
+         *     // +---------------------+
+         *     // | John                |
+         *     // +---------------------+
+         *     // | Lucino              |
+         *     // +---------------------+
+         *     // | Mary                |
+         *     // +---------------------+
          */
         project: function (attributeNames) {
 
@@ -915,31 +915,32 @@ var Relation = Set.extend(
         },
 
 <span id='Relation-method-rename'>        /**
-</span>         * Shortcut to create a Rename relation based on this relation
+</span>         *
          * @param {Object} newNames An object containing the new attribute names.
          * @returns {Operators.Rename} The resulting relation
-         * @example
          *
-         * var relation1 = new affinity.Relation([
-         *          {firstName : {type : affinity.String}}
-         *          {lastName : {type : affinity.String}}
-         *      ],[
-         *          [&#39;John&#39;,&#39;Doe&#39;],
-         *          [&#39;Lucino&#39;,&#39;Veo&#39;],
-         *          [&#39;Mary&#39;,&#39;Poppins&#39;],
-         *      ]);
+         * Shortcut to create a Rename relation based on this relation
          *
-         * var rename = relation1.rename({lastName : &#39;Boogie&#39;});
+         *     var relation1 = new affinity.Relation([
+         *              {firstName : {type : affinity.String}}
+         *              {lastName : {type : affinity.String}}
+         *          ],[
+         *              [&#39;John&#39;,&#39;Doe&#39;],
+         *              [&#39;Lucino&#39;,&#39;Veo&#39;],
+         *              [&#39;Mary&#39;,&#39;Poppins&#39;],
+         *          ]);
          *
-         * // +---------------------+--------------------+
-         * // | firstName : TString | Boogie : TString   |
-         * // +---------------------+--------------------+
-         * // | John                | Doe                |
-         * // +---------------------+--------------------+
-         * // | Lucino              | Veo                |
-         * // +---------------------+--------------------+
-         * // | Mary                | Poppins            |
-         * // +---------------------+--------------------+
+         *     var rename = relation1.rename({lastName : &#39;Boogie&#39;});
+         *
+         *     // +---------------------+--------------------+
+         *     // | firstName : TString | Boogie : TString   |
+         *     // +---------------------+--------------------+
+         *     // | John                | Doe                |
+         *     // +---------------------+--------------------+
+         *     // | Lucino              | Veo                |
+         *     // +---------------------+--------------------+
+         *     // | Mary                | Poppins            |
+         *     // +---------------------+--------------------+
          */
         rename: function (newNames) {
 
@@ -949,51 +950,52 @@ var Relation = Set.extend(
         },
 
 <span id='Relation-method-restrict'>        /**
-</span>         * Shortcut to create a Restrict relation based on this relation
+</span>         *
          * @param {Function} predicate The predicate to test the tuples against
          * @returns {Operators.Restriction} The resulting relation
-         * @example
          *
-         * var relation = new affinity.Relation([
-         *          {firstName : {type : affinity.String}}
-         *          {lastName : {type : affinity.String}}
-         *      ],[
-         *          [&#39;John&#39;,&#39;Doe&#39;],
-         *          [&#39;Lucino&#39;,&#39;Veo&#39;],
-         *          [&#39;Mary&#39;,&#39;Poppins&#39;],
-         *          [&#39;Robert&#39;,&#39;Robert&#39;]
-         *      ]);
+         * Shortcut to create a Restrict relation based on this relation
          *
-         * // Multiple ways to build a predicate:
+         *     var relation = new affinity.Relation([
+         *              {firstName : {type : affinity.String}}
+         *              {lastName : {type : affinity.String}}
+         *          ],[
+         *              [&#39;John&#39;,&#39;Doe&#39;],
+         *              [&#39;Lucino&#39;,&#39;Veo&#39;],
+         *              [&#39;Mary&#39;,&#39;Poppins&#39;],
+         *              [&#39;Robert&#39;,&#39;Robert&#39;]
+         *          ]);
          *
-         * // Compare with static value
-         * relation.restrict(relation.get(&#39;firstName&#39;).equal(&#39;John&#39;));
+         *     // Multiple ways to build a predicate:
          *
-         * // +---------------------+--------------------+
-         * // | firstName : TString | Boogie : TString   |
-         * // +---------------------+--------------------+
-         * // | John                | Doe                |
-         * // +---------------------+--------------------+
+         *     // Compare with static value
+         *     relation.restrict(relation.get(&#39;firstName&#39;).equal(&#39;John&#39;));
          *
-         * // Compare two attributes
-         * relation.restrict(relation.get(&#39;firstName&#39;).equal(relation.get(&#39;lastName&#39;));
+         *     // +---------------------+--------------------+
+         *     // | firstName : TString | Boogie : TString   |
+         *     // +---------------------+--------------------+
+         *     // | John                | Doe                |
+         *     // +---------------------+--------------------+
          *
-         * // +---------------------+--------------------+
-         * // | firstName : TString | Boogie : TString   |
-         * // +---------------------+--------------------+
-         * // | Robert              | Robert             |
-         * // +---------------------+--------------------+
+         *     // Compare two attributes
+         *     relation.restrict(relation.get(&#39;firstName&#39;).equal(relation.get(&#39;lastName&#39;));
          *
-         * // Combine with and, or, not
-         * relation.restrict( (relation.get(&#39;firstName&#39;).not().equal(&#39;John&#39;)) .and( relation.get(&#39;lastName&#39;).not().equal(&#39;Veo&#39;) ) )
+         *     // +---------------------+--------------------+
+         *     // | firstName : TString | Boogie : TString   |
+         *     // +---------------------+--------------------+
+         *     // | Robert              | Robert             |
+         *     // +---------------------+--------------------+
          *
-         * // +---------------------+--------------------+
-         * // | firstName : TString | Boogie : TString   |
-         * // +---------------------+--------------------+
-         * // | Mary                | Poppins            |
-         * // +---------------------+--------------------+
-         * // | Robert              | Robert             |
-         * // +---------------------+--------------------+
+         *     // Combine with and, or, not
+         *     relation.restrict( (relation.get(&#39;firstName&#39;).not().equal(&#39;John&#39;)) .and( relation.get(&#39;lastName&#39;).not().equal(&#39;Veo&#39;) ) )
+         *
+         *     // +---------------------+--------------------+
+         *     // | firstName : TString | Boogie : TString   |
+         *     // +---------------------+--------------------+
+         *     // | Mary                | Poppins            |
+         *     // +---------------------+--------------------+
+         *     // | Robert              | Robert             |
+         *     // +---------------------+--------------------+
          */
         restrict: function (predicate) {
 
@@ -1016,7 +1018,7 @@ var Relation = Set.extend(
 
 <span id='Relation-method-compose'>        /**
 </span>         * @param {Relation} relation
-         * @returns {Operators.Compose} The resulting relation
+         * @returns {Operators.Composition} The resulting relation
          */
         compose: function (relation) {
 
@@ -1115,14 +1117,14 @@ var Relation = Set.extend(
 
             return new (require(&#39;./algebra/Extension&#39;))(this, expressions);
 
-        },
+        }
         //endregion
 
 
     }, {
 
 <span id='Relation-static-method-toString'>        /**
-</span>         * Gets the string representation of the Relation class
+</span>         * Gets the string representation of the Relation type
          * @returns {string}
 
          * @static

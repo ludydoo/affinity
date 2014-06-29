@@ -39,13 +39,13 @@ var Tangent = Function.extend(
          *      var A = relation.get(&#39;A&#39;);
          *
          *
-         *      var B = relation.extend([{ B : A.tan() }]);
+         *      var extended = relation.extend([{ &quot;tan(A)&quot; : A.tan() }]);
          *
          *      // or
          *
-         *      var B = relation.extend([{ B : new affinity.Tangent(A) }]);
+         *      var extended = relation.extend([{ &quot;tan(A)&quot; : new affinity.Tangent(A) }]);
          *
-         *      B.print();
+         *      extended.print();
          *
          *      // The following result shows a bug, but it&#39;s not affinity&#39;s fault.
          *      // Due to a bug in V8
@@ -57,7 +57,7 @@ var Tangent = Function.extend(
          *      // This will be fixed in node v0.11. as I tested the v0.11.14-pre version.
          *
          *      //+---------------+---------------------------+
-         *      //| A : Integer   | B : Numeric               |
+         *      //| A : Integer   | tan(A) : Numeric          |
          *      //+===============+===========================+
          *      //| 0             | 0                         |
          *      //+---------------+---------------------------+

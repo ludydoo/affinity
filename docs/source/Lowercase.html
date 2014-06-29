@@ -36,19 +36,27 @@ var Length = Function.extend({
      *          [&#39;John Doe&#39;], [&#39;Mark Clinton&#39;], [&#39;Bo Vril&#39;]
      *     ]);
      *
-     *     var extended = relation.extend([{lwcs : relation.get(&#39;name&#39;).lowercase()}]);
+     *     var name = relation.get(&#39;name&#39;);
+     *
+     *     var extended = relation.extend([{&quot;name.lowercase()&quot; : name.lowercase()}]);
+     *
+     *     // or
+     *
+     *     var extended = relation.extend([
+     *         { &quot;name.lowercase()&quot; : new affinity.Lowercase(name) }
+     *     ])
      *
      *     extended.print();
      *
-     *     // +-----------------+-------------------+
-     *     // | name : String   | lwcs : String    |
-     *     // +=================+===================+
-     *     // | John Doe        | john doe          |
-     *     // +-----------------+-------------------+
-     *     // | Mark Clinton    | mark clinton      |
-     *     // +-----------------+-------------------+
-     *     // | Bo Vril         | bo vril           |
-     *     // +-----------------+-------------------+
+     *     // +-----------------+---------------------------+
+     *     // | name : String   | name.lowercase() : String |
+     *     // +=================+===========================+
+     *     // | John Doe        | john doe                  |
+     *     // +-----------------+---------------------------+
+     *     // | Mark Clinton    | mark clinton              |
+     *     // +-----------------+---------------------------+
+     *     // | Bo Vril         | bo vril                   |
+     *     // +-----------------+---------------------------+
      */
     constructor: function () {
 

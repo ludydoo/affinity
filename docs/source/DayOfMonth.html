@@ -37,31 +37,30 @@ var FDayOfMonth = Function.extend(
          *          {date : {type : affinity.Date}},
          *          {name : {type : affinity.String}}
          *      ],[
-         *          [new Date(2014, 02, 07), &#39;Sochi&#39;],
-         *          [new Date(2014, 01, 02), &#39;Chocolate rush&#39;],
-         *          [new Date(2014, 04, 15), &#39;Millionth coffee drank&#39;]
+         *          [new Date(2014, 1, 07), &#39;Sochi&#39;],
+         *          [new Date(2014, 0, 02), &#39;Chocolate rush&#39;],
+         *          [new Date(2014, 3, 15), &#39;Millionth coffee drank&#39;]
          *      ])
          *
          *      var date = events.get(&#39;date&#39;)
          *
-         *      var extended = events.extend([ { day : date.dayOfMonth() } ]);
+         *      var extended = events.extend([ { &quot;date.dayOfMonth()&quot; : date.dayOfMonth() } ]);
          *
          *      // or equivalent
          *
-         *      var extended = events.extend([ { day : new affinity.DayOfMonth(date) } ]);
+         *      var extended = events.extend([ { &quot;date.dayOfMonth()&quot; : new affinity.DayOfMonth(date) } ]);
          *
          *      extended.print();
          *
-         *      // +-------------+------------------------+---------------+
-         *      // | date : Date | name : String          | day : Integer |
-         *      // +=============+========================+===============+
-         *      // | 2014/02/07  | Sochi                  | 07            |
-         *      // +-------------+------------------------+---------------+
-         *      // | 2014/01/02  | Chocolate Rush         | 02            |
-         *      // +-------------+------------------------+---------------+
-         *      // | 2014/04/15  | Millionth coffee drank | 15            |
-         *      // +-------------+------------------------+---------------+
-         *      //
+         *      +-------------------------------------------+--------------------------+-------------------------------+
+         *      | date : Date                               | name : String            | date.dayOfMonth() : Integer   |
+         *      +===========================================+==========================+===============================+
+         *      | Fri Feb 07 2014 00:00:00 GMT-0500 (EST)   | Sochi                    | 7                             |
+         *      +-------------------------------------------+--------------------------+-------------------------------+
+         *      | Thu Jan 02 2014 00:00:00 GMT-0500 (EST)   | Chocolate rush           | 2                             |
+         *      +-------------------------------------------+--------------------------+-------------------------------+
+         *      | Tue Apr 15 2014 00:00:00 GMT-0400 (EDT)   | Millionth coffee drank   | 15                            |
+         *      +-------------------------------------------+--------------------------+-------------------------------+
          */
         constructor: function () {
 

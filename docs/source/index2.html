@@ -15,7 +15,8 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">/// Defining Types
+  <pre class="prettyprint lang-js">
+//region Types
 
 <span id='global-property-Index'>/**
 </span> * @type {Index}
@@ -76,16 +77,14 @@ module.exports.Boolean = require(&#39;./affinity/types/Boolean&#39;);
 </span> * @type {Types.Date}
  */
 module.exports.Date = require(&#39;./affinity/types/Date&#39;);
-
-
-/// Defining Functions
+//endregion
 
 <span id='global-property-Function'>/**
 </span> * @type {Function}
  */
 module.exports.Function = require(&#39;./affinity/Function.js&#39;);
 
-// Connective Functions
+//region Connective Functions
 
 <span id='global-property-And'>/**
 </span> * @type {Functions.Connective.And}
@@ -101,8 +100,9 @@ module.exports.Or = require(&#39;./affinity/functions/connective/Or.js&#39;);
 </span> * @type {Functions.Connective.Not}
  */
 module.exports.Not = require(&#39;./affinity/functions/connective/Not.js&#39;);
+//endregion
 
-// Comparatives Functions
+//region Comparative Functions
 
 <span id='global-property-Equal'>/**
 </span> * @type {Functions.Comparable.Equal}
@@ -116,7 +116,61 @@ module.exports.eq = function(attr1, attr2){
     return new module.exports.Equal(attr1, attr2);
 };
 
-// Numeric Functions
+
+<span id='global-property-GreaterThan'>/**
+</span> * @type {Functions.Comparable.GreaterThan}
+ */
+module.exports.GreaterThan = require(&#39;./affinity/functions/comparable/GreaterThan.js&#39;);
+
+<span id='global-property-gt'>/**
+</span> * @type {Functions.Comparable.GreaterThan}
+ */
+module.exports.gt = function(attr1, attr2){
+    return new module.exports.GreaterThan(attr1, attr2);
+};
+
+
+<span id='global-property-GreaterThanEqual'>/**
+</span> * @type {Functions.Comparable.GreaterThanEqual}
+ */
+module.exports.GreaterThanEqual = require(&#39;./affinity/functions/comparable/GreaterThanEqual.js&#39;);
+
+<span id='global-property-gte'>/**
+</span> * @type {Functions.Comparable.GreaterThanEqual}
+ */
+module.exports.gte = function(attr1, attr2){
+    return new module.exports.GreaterThanEqual(attr1, attr2);
+};
+
+
+<span id='global-property-SmallerThan'>/**
+</span> * @type {Functions.Comparable.SmallerThan}
+ */
+module.exports.SmallerThan = require(&#39;./affinity/functions/comparable/SmallerThan.js&#39;);
+
+<span id='global-property-ste'>/**
+</span> * @type {Functions.Comparable.SmallerThan}
+ */
+module.exports.ste = function(attr1, attr2){
+    return new module.exports.SmallerThan(attr1, attr2);
+};
+
+
+<span id='global-property-SmallerThanEqual'>/**
+</span> * @type {Functions.Comparable.SmallerThanEqual}
+ */
+module.exports.SmallerThanEqual = require(&#39;./affinity/functions/comparable/SmallerThanEqual.js&#39;);
+
+<span id='global-property-ste'>/**
+</span> * @type {Functions.Comparable.SmallerThanEqual}
+ */
+module.exports.ste = function(attr1, attr2){
+    return new module.exports.SmallerThanEqual(attr1, attr2);
+};
+
+//endregion
+
+//region Numeric Functions
 
 <span id='global-property-Absolute'>/**
 </span> * @type {Functions.Numeric.Absolute}
@@ -146,7 +200,6 @@ module.exports.Exponential = require(&#39;./affinity/functions/numeric/Exponenti
 </span> * @type {Functions.Numeric.Floor}
  */
 module.exports.Floor = require(&#39;./affinity/functions/numeric/Floor.js&#39;);
-
 
 <span id='global-property-Minus'>/**
 </span> * @type {Functions.Numeric.Minus}
@@ -318,8 +371,9 @@ module.exports.sqrt = function(attr){
 module.exports.tan = function(attr){
     return new module.exports.Tangent(attr);
 };
+//endregion
 
-// String Functions
+//region String Functions
 
 <span id='global-property-Length'>/**
 </span> * @type {Functions.String.Length}
@@ -388,8 +442,9 @@ module.exports.substr = function(attr, start, length){
 module.exports.uppercase = function(attr){
     return new module.exports.Length(attr);
 };
+//endregion
 
-// Tuple functions
+//region Tuple Functions
 
 <span id='global-property-TupleValue'>/**
 </span> * @type {Functions.Tuple.AttributeValue}
@@ -406,9 +461,23 @@ module.exports.value = function(relation, attributeName){
     result.type(relation.header().get(attributeName));
     return result;
 };
+//endregion
 
 
-/// Defining relational operators
+module.exports.DayOfMonth = require(&#39;./affinity/functions/date/DayOfMonth.js&#39;);
+module.exports.DayOfMonth = require(&#39;./affinity/functions/date/DayOfMonth.js&#39;);
+module.exports.DayOfWeek = require(&#39;./affinity/functions/date/DayOfWeek.js&#39;);
+module.exports.DayOfYear = require(&#39;./affinity/functions/date/DayOfYear.js&#39;);
+module.exports.Hours = require(&#39;./affinity/functions/date/Hours.js&#39;);
+module.exports.Milliseconds = require(&#39;./affinity/functions/date/Milliseconds.js&#39;);
+module.exports.Minutes = require(&#39;./affinity/functions/date/Minutes.js&#39;);
+module.exports.Month = require(&#39;./affinity/functions/date/Month.js&#39;);
+module.exports.Seconds = require(&#39;./affinity/functions/date/Seconds.js&#39;);
+module.exports.Timestamp = require(&#39;./affinity/functions/date/Timestamp.js&#39;);
+module.exports.WeekOfYear = require(&#39;./affinity/functions/date/WeekOfYear.js&#39;);
+module.exports.Year = require(&#39;./affinity/functions/date/Year.js&#39;);
+
+//region Relational Operators
 
 <span id='global-property-Composition'>/**
 </span> * @type {Operators.Composition}
@@ -489,9 +558,10 @@ module.exports.Unwrap = require(&#39;./affinity/algebra/Unwrap.js&#39;);
 </span> * @type {Operators.Wrap}
  */
 module.exports.Unwrap = require(&#39;./affinity/algebra/Wrap.js&#39;);
+//endregion
 
 
-/// Defining constants
+//region Constants
 
 <span id='global-property-TABLE_DUM'>/**
 </span> * @type {Relation}
@@ -504,6 +574,7 @@ module.exports.TABLE_DUM = new module.exports.Relation([]);
 module.exports.TABLE_DEE = new module.exports.Relation([], [
     []
 ]);
+//endregion
 </pre>
 </body>
 </html>

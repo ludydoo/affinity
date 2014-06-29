@@ -23,7 +23,7 @@
 </span> * @member Mixins.SizeComparable
  */
 module.exports.gt = function (attr) {
-    var GreaterThan = require(&#39;./../functions/comparable/LargerThan.js&#39;);
+    var GreaterThan = require(&#39;./../functions/comparable/GreaterThan.js&#39;);
     return new GreaterThan(this, attr);
 };
 
@@ -31,7 +31,7 @@ module.exports.gt = function (attr) {
 </span> * @member Mixins.SizeComparable
  */
 module.exports.gte = function (attr) {
-    var GreaterThanEqual = require(&#39;./../functions/comparable/LargerThanEqual.js&#39;);
+    var GreaterThanEqual = require(&#39;./../functions/comparable/GreaterThanEqual.js&#39;);
     return new GreaterThanEqual(this, attr);
 };
 

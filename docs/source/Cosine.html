@@ -39,28 +39,36 @@ var Cosine = Function.extend(
          *      var A = relation.get(&#39;A&#39;);
          *
          *
-         *      var B = relation.extend([{ B : A.cos() }]);
+         *      var extended = relation.extend([{ &quot;cos(A)&quot; : A.cos() }]);
          *
          *      // or
          *
-         *      var B = relation.extend([{ B : new affinity.Cosine(A) }]);
+         *      var extended = relation.extend([{ &quot;cos(A)&quot; : new affinity.Cosine(A) }]);
          *
-         *      B.print();
+         *      extended.print();
          *
-         *      //+---------------+---------------+
-         *      //| A : Integer   | B : Integer   |
-         *      //+===============+===============+
-         *      //| 0             | 1             |
-         *      //+---------------+---------------+
-         *      //| PI/2          | 0             |
-         *      //+---------------+---------------+
-         *      //| π             | -1            |
-         *      //+---------------+---------------+
-         *      //| 3π/2          | 0             |
-         *      //+---------------+---------------+
-         *      //| 2π            | 1             |
-         *      //+---------------+---------------+
+         *      // The following result shows a bug, but it&#39;s not affinity&#39;s fault.
+         *      // Due to a bug in V8
+         *      // (see this http://stackoverflow.com/questions/24455775/why-does-node-not-evaluate-math-tanmath-pi-2-to-infinity-but-chrome-v8-does)
+         *      // Math.tan(Math.PI/2) won&#39;t evaluate to Infinity.
+         *      // Math.tan(Math.PI) won&#39;t evaluate to 0.
+         *      // And so on. This is due to Math.cos(Math.PI/2) not evaluating to 0.
          *
+         *      // This will be fixed in node v0.11. as I tested the v0.11.14-pre version.
+         *
+         *      //+---------------+--------------------------+
+         *      //| A : Integer   | cos(A) : Numeric         |
+         *      //+===============+==========================+
+         *      //| 0             | 1                        |
+         *      //+---------------+--------------------------+
+         *      //| PI/2          | 6.123031769111886e-17    |
+         *      //+---------------+--------------------------+
+         *      //| π             | -1                       |
+         *      //+---------------+--------------------------+
+         *      //| 3π/2          | -1.836909530733566e-16   |
+         *      //+---------------+--------------------------+
+         *      //| 2π            | 1                        |
+         *      //+---------------+--------------------------+
          */
         constructor: function () {
 

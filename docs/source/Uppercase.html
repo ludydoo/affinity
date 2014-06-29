@@ -36,19 +36,25 @@ var Uppercase = Function.extend({
      *          [&#39;John Doe&#39;], [&#39;Mark Clinton&#39;], [&#39;Bo Vril&#39;]
      *     ]);
      *
-     *     var extended = relation.extend([{length : relation.get(&#39;name&#39;).uppercase()}]);
+     *     var extended = relation.extend([{&quot;name.uppercase()&quot; : relation.get(&#39;name&#39;).uppercase()}]);
+     *
+     *     // or
+     *
+     *     var extended = relation.extend([
+     *         { &quot;name.uppercase()&quot; : new affinity.Uppercase(name) }
+     *     ])
      *
      *     extended.print();
      *
-     *     // +-----------------+-------------------+
-     *     // | name : String   | upcs : String   |
-     *     // +=================+===================+
-     *     // | John Doe        | JOHN DOE          |
-     *     // +-----------------+-------------------+
-     *     // | Mark Clinton    | MARK CLINTON      |
-     *     // +-----------------+-------------------+
-     *     // | Bo Vril         | BO VRIL           |
-     *     // +-----------------+-------------------+
+     *     // +-----------------+---------------------------+
+     *     // | name : String   | name.uppercase() : String |
+     *     // +=================+===========================+
+     *     // | John Doe        | JOHN DOE                  |
+     *     // +-----------------+---------------------------+
+     *     // | Mark Clinton    | MARK CLINTON              |
+     *     // +-----------------+---------------------------+
+     *     // | Bo Vril         | BO VRIL                   |
+     *     // +-----------------+---------------------------+
      */
     constructor: function () {
 
@@ -60,6 +66,10 @@ var Uppercase = Function.extend({
 
     },
 
+<span id='Functions-String-Uppercase-method-value'>    /**
+</span>     * Gets the function return value
+     * @returns {string}
+     */
     value: function () {
 
         return value(this.parameters[0]).toUpperCase();
@@ -68,6 +78,9 @@ var Uppercase = Function.extend({
 
 });
 
-module.exports = Uppercase;</pre>
+module.exports = Uppercase;
+
+
+</pre>
 </body>
 </html>

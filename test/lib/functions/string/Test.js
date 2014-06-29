@@ -3,7 +3,7 @@ var should = require('should');
 
 describe('Test class', function(){
 
-    it.only('Should be able to test a string', function(done){
+    it('Should be able to test a string', function(done){
 
         var relation = new affinity.Relation([
                 { name : { type : affinity.String} }

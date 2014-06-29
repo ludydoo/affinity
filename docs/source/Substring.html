@@ -38,19 +38,25 @@ var Uppercase = Function.extend({
      *
      *     var name = relation.get(&#39;name&#39;);
      *
-     *     var extended = relation.extend([{sub : name.substr(0, 5)}]);
+     *     var extended = relation.extend([{&quot;name.substr(0,5)&quot; : name.substr(0, 5)}]);
+     *
+     *     //or
+     *
+     *     var extended = relation.extend([
+     *         { &quot;name.substr(0,5)&quot; : new affinity.Substring(name, 0, 5) }
+     *     ]);
      *
      *     extended.print();
      *
-     *     // +-----------------+----------------+
-     *     // | name : String   | sub : String   |
-     *     // +=================+================+
-     *     // | John Doe        | John           |
-     *     // +-----------------+----------------+
-     *     // | Mark Clinton    | Mark           |
-     *     // +-----------------+----------------+
-     *     // | Bo Vril         | Bo Vr          |
-     *     // +-----------------+----------------+
+     *     // +-----------------+---------------------------+
+     *     // | name : String   | name.substr(0,5) : String |
+     *     // +=================+===========================+
+     *     // | John Doe        | John                      |
+     *     // +-----------------+---------------------------+
+     *     // | Mark Clinton    | Mark                      |
+     *     // +-----------------+---------------------------+
+     *     // | Bo Vril         | Bo Vr                     |
+     *     // +-----------------+---------------------------+
      */
     constructor: function () {
 

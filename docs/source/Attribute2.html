@@ -23,6 +23,21 @@ var TupleAttribute = Function.extend({
 
 <span id='Functions-Tuple-AttributeValue'>    /**
 </span>     * @class Functions.Tuple.AttributeValue
+     * @extends Function
+     *
+     * When building a predicate, you pass the Header Attributes directly like this :
+     *
+     *     var extended = relation.extend(relation.get(&#39;attribute1&#39;).plus(relation.get(&#39;attribute2&#39;)));
+     *
+     * In the documentation for Relation#get, it is specified that it returns an Attribute.
+     *
+     * Though, when building predicates for restriction or extension operators, we convert the passed Attributes
+     * into a function TupleAttribute. So this is the same as the above :
+     *
+     *     var extended = relation.extend(new affinity.TupleAttribute(&#39;attribute1&#39;).plus(new affinity.TupleAttribute(&#39;attribute2&#39;)));
+     *
+     * Directly passing the Header Attribute is just some nice sugar.
+     *
      */
     constructor: function (attributeName) {
 
@@ -34,6 +49,10 @@ var TupleAttribute = Function.extend({
 
     },
 
+<span id='Functions-Tuple-AttributeValue-method-value'>    /**
+</span>     * Gets the function return value
+     * @returns {*}
+     */
     value: function () {
 
         var tuple = this.parameters[0];
@@ -41,13 +60,17 @@ var TupleAttribute = Function.extend({
         var attributeName = this.attributeName;
 
         if(!tuple.attributes.hasOwnProperty(attributeName)){
-            throw new Error(&#39;Unexisting attribute in Tuple&#39;);
+            throw new Error(&#39;Attribute &quot;&#39;+attributeName+&#39;&quot; does not exist in Tuple&#39;);
         }
 
         return tuple.get(attributeName);
 
     },
 
+<span id='Functions-Tuple-AttributeValue-method-assignTuple'>    /**
+</span>     * Assigns a tuple to the function
+     * @param tuple
+     */
     assignTuple : function(tuple){
 
         this.parameters[0] = tuple;

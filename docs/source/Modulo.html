@@ -43,16 +43,16 @@ var FModulo = Function.extend(
          *     var A = relation.get(&#39;A&#39;);
          *     var B = relation.get(&#39;B&#39;);
          *
-         *     var extended = relation.extend([{modulo : A.mod(B)}]);
+         *     var extended = relation.extend([{&quot;A % B&quot; : A.mod(B)}]);
          *
          *     // or equivalent
          *
-         *     var extended = relation.extend([{modulo : new affinity.Modulo(A, B)}]);
+         *     var extended = relation.extend([{&quot;A % B&quot; : new affinity.Modulo(A, B)}]);
          *
          *     extended.print();
          *
          *     // +---------------+---------------+--------------------+
-         *     // | A : Integer   | B : Integer   | modulo : Numeric   |
+         *     // | A : Integer   | B : Integer   | A % B : Numeric    |
          *     // +===============+===============+====================+
          *     // | 1             | 2             | 1                  |
          *     // +---------------+---------------+--------------------+
