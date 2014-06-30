@@ -34,9 +34,9 @@ describe('Projection Class', function () {
 
             var projected = employees.project(['id']);
 
-            projected.header().count().should.be.equal(1);
+            projected.header().length().should.be.equal(1);
 
-            projected.count().should.be.equal(7);
+            projected.length().should.be.equal(7);
 
             (projected.header().get('id') instanceof affinity.Attribute).should.be.equal(true);
 
@@ -50,9 +50,9 @@ describe('Projection Class', function () {
 
             var projected = employees.project(['dept']);
 
-            projected.header().count().should.be.equal(1);
+            projected.header().length().should.be.equal(1);
 
-            projected.count().should.be.equal(3);
+            projected.length().should.be.equal(3);
 
             debug.reldump.debug(projected.toString());
 
@@ -103,9 +103,9 @@ describe('Projection Class', function () {
 
             var projected = employees.project(['firstName', 'lastName']);
 
-            projected.header().count().should.be.equal(2);
+            projected.header().length().should.be.equal(2);
 
-            projected.count().should.be.equal(7);
+            projected.length().should.be.equal(7);
 
             debug.reldump.debug(projected.toString());
 

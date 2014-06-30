@@ -15,9 +15,82 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js"><span id='global-property-'>/**
-</span> * Created by ludydoo on 2014-06-13.
- */
-</pre>
+  <pre class="prettyprint lang-js">var Function = require(&#39;./../../Function&#39;);
+
+var compare = require(&#39;./../../helpers/compare.js&#39;);
+
+var Integer = require(&#39;./../../types/Integer.js&#39;);
+
+var Minimum = Function.extend({
+
+<span id='Functions-Aggregate-Minimum'>    /**
+</span>     * @class Functions.Aggregate.Minimum
+     * @extends Function
+     *
+     * Functions that returns the minimum value of an attribute in a relation.
+     *
+     * Example :
+     *
+     *     var relation = new affinity.Relation([
+     *         { name : { type : affinity.String } },
+     *         { age : { type : affinity.Integer } }
+     *     ],[
+     *         [&#39;John Doe&#39;, 23],
+     *         [&#39;Mark Clinton&#39;, 36],
+     *         [&#39;Super Woman&#39;, 56]
+     *     ]);
+     *
+     *     var age = relation.get(&#39;age&#39;);
+     *
+     *     var min = relation.min(age);
+     *
+     *     console.log(min.value());
+     *
+     *     // 23
+     */
+
+    constructor : function(attribute){
+
+        Function.apply(this, Array.prototype.slice.call(arguments,0));
+
+        this.name = &#39;Minimum&#39;;
+
+        this.type(Integer);
+
+        this.attribute = attribute;
+
+        this.relation = attribute.header.relation;
+
+    },
+
+    value : function(){
+
+        var relation = this.relation;
+
+        var attribute = this.attribute;
+
+        var type = this.attribute.type;
+
+        var min = null;
+
+        relation.each(function(tuple){
+
+            var value = tuple.get(attribute.name);
+
+            if(min === null){
+                min = value;
+            } else if ( compare(type, value, min) &lt; 0 ){
+                min = value;
+            }
+
+        });
+
+        return min;
+
+    }
+
+});
+
+module.exports = Minimum;</pre>
 </body>
 </html>

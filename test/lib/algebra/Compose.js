@@ -129,7 +129,7 @@ describe('Compose Class', function () {
 
             var combined;
 
-            (combined = employees.compose(affinity.TABLE_DUM)).count().should.be.equal(0);
+            (combined = employees.compose(affinity.TABLE_DUM)).length().should.be.equal(0);
 
             var inverse = affinity.TABLE_DUM.compose(employees);
 

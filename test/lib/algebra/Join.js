@@ -114,9 +114,9 @@ describe('Join class', function () {
 
             var joined = employees.join(depts).compute();
 
-            joined.header().count().should.be.equal(employees.header().count() + depts.header().count() - 1);
+            joined.header().length().should.be.equal(employees.header().length() + depts.header().length() - 1);
 
-            joined.count().should.be.equal(7);
+            joined.length().should.be.equal(7);
 
             var resultHeader = employees.header().clone().copy(depts.header(), 'dept', true);
 
@@ -132,7 +132,7 @@ describe('Join class', function () {
 
             var joined = employees.join(scores);
 
-            joined.header().count().should.be.equal(employees.header().count() + scores.header().count() - 2);
+            joined.header().length().should.be.equal(employees.header().length() + scores.header().length() - 2);
 
             var resultHeader = employees.header().clone().copy(scores.header(), ['firstName', 'lastName'], true);
 
@@ -150,7 +150,7 @@ describe('Join class', function () {
 
             joined.header().equal(employees.header()).should.be.equal(true);
 
-            joined.header().count().should.be.equal(employees_2.count());
+            joined.header().length().should.be.equal(employees_2.length());
 
             debug.reldump.debug(joined.toString());
 
@@ -202,7 +202,7 @@ describe('Join class', function () {
 
             joined.header().equal(employees.header()).should.be.equal(true);
 
-            joined.count().should.be.equal(0);
+            joined.length().should.be.equal(0);
 
             debug.reldump.debug(joined.toString());
 

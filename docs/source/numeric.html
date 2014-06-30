@@ -145,6 +145,33 @@ module.exports.tan = function () {
     return new Tan(this);
 };
 
+module.exports.avg = function(){
+
+    var Average = require(&#39;./../functions/aggregate/Average.js&#39;);
+    return new Average(this);
+
+};
+
+module.exports.standardDeviation = function(){
+
+    var StandardDeviation = require(&#39;./../functions/aggregate/StandardDeviation.js&#39;);
+    return new StandardDeviation(this);
+
+};
+
+module.exports.sum = function(){
+
+    var Sum = require(&#39;./../functions/aggregate/Sum.js&#39;);
+    return new Sum(this);
+
+};
+
+module.exports.variance = function(){
+
+    var Variance = require(&#39;./../functions/aggregate/Variance.js&#39;);
+    return new Variance(this);
+
+};
 
 </pre>
 </body>

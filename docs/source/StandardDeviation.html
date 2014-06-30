@@ -15,9 +15,64 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js"><span id='global-property-'>/**
-</span> * Created by ludydoo on 2014-06-13.
- */
-</pre>
+  <pre class="prettyprint lang-js">var Function = require(&#39;./../../Function&#39;);
+
+var Float = require(&#39;./../../types/Float.js&#39;);
+
+var Variance = require(&#39;./Variance.js&#39;);
+
+var StandardDeviation = Function.extend({
+
+<span id='Functions-Aggregate-StandardDeviation'>    /**
+</span>     * @class Functions.Aggregate.StandardDeviation
+     * @extends Function
+     *
+     * Functions that returns the standard deviation
+     * of an attribute in a relation
+     *
+     * Example :
+     *
+     *     var relation = new affinity.Relation([
+     *         { name : { type : affinity.String } },
+     *         { age : { type : affinity.Integer } }
+     *     ],[
+     *         [&#39;John Doe&#39;, 23],
+     *         [&#39;Mark Clinton&#39;, 36],
+     *         [&#39;Super Woman&#39;, 56]
+     *     ]);
+     *
+     *     var age = relation.get(&#39;age&#39;);
+     *
+     *     var stdev = relation.standardDeviation(age)
+     *
+     *     console.log(stdev.value());
+     *
+     *     // 16.6232768531
+     */
+
+    constructor : function(attribute){
+
+        Function.apply(this, Array.prototype.slice.call(arguments,0));
+
+        this.name = &#39;StandardDeviation&#39;;
+
+        this.type(Float);
+
+        this.attribute = attribute;
+
+    },
+
+    value : function(){
+
+        var attribute = this.attribute;
+
+        var variance = new Variance(attribute).value();
+
+        return Math.sqrt(variance);
+
+    }
+});
+
+module.exports = StandardDeviation;</pre>
 </body>
 </html>

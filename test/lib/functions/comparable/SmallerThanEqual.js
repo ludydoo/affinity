@@ -32,7 +32,6 @@ describe('SmallerThanEqual class', function(){
 
             done();
 
-            done();
 
         });
 

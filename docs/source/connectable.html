@@ -22,15 +22,15 @@
 <span id='Mixins-Chainable-method-and'>/**
 </span> * @member Mixins.Chainable
  */
-module.exports.and = function () {
+module.exports.and = function (param) {
 
     var And = require(&#39;./../functions/connective/And.js&#39;);
 
     if (this._checkNegatedAttribute) {
-        return this._checkNegatedAttribute(new And(this));
+        return this._checkNegatedAttribute(new And(this, param));
     }
 
-    return new And(this);
+    return new And(this, param);
 
 };
 

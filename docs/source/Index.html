@@ -32,7 +32,7 @@ var Index = Base.extend(
         constructor: function (header) {
 
             this.header = header;
-            this.levels = header.count();
+            this.levels = header.length();
             this.elements = {};
 
             this.headerLevels = [];
@@ -57,7 +57,7 @@ var Index = Base.extend(
 
             var context = this;
 
-            var headerCount = this.header.count();
+            var headerCount = this.header.length();
 
             for (var a = 0; a &lt;= headerCount - 1; a++) {
 
@@ -105,7 +105,7 @@ var Index = Base.extend(
 
             var context = this;
 
-            var headerCount = this.header.count();
+            var headerCount = this.header.length();
 
             for (var a = 0; a &lt;= headerCount - 1; a++) {
 
@@ -152,7 +152,7 @@ var Index = Base.extend(
 
             var context = this;
 
-            var headerCount = this.header.count();
+            var headerCount = this.header.length();
 
             for (var a = 0; a &lt;= headerCount - 1; a++) {
 

@@ -28,8 +28,8 @@ describe('Relation class', function () {
                     data
                 );
 
-                relation.count().should.be.equal(3);
-                relation.header().count().should.be.equal(3);
+                relation.length().should.be.equal(3);
+                relation.header().length().should.be.equal(3);
 
                 _.forEach(relation.body(), function (tuple, index) {
 
@@ -72,8 +72,8 @@ describe('Relation class', function () {
                 relation.should.have.property('_header');
                 relation.header().should.be.equal(header);
 
-                relation.count().should.be.equal(3);
-                relation.header().count().should.be.equal(3);
+                relation.length().should.be.equal(3);
+                relation.header().length().should.be.equal(3);
 
                 relation.atIndex(0).should.be.equal(data[0]);
                 relation.atIndex(1).should.be.equal(data[1]);
@@ -114,8 +114,8 @@ describe('Relation class', function () {
                 relation.header().should.have.property('attributes');
                 Object.keys(relation.header().attributes()).should.be.an.Array.and.have.length(3);
 
-                relation.count().should.be.equal(3);
-                relation.header().count().should.be.equal(3);
+                relation.length().should.be.equal(3);
+                relation.header().length().should.be.equal(3);
 
                 relation.atIndex(0).should.be.equal(data[0]);
                 relation.atIndex(1).should.be.equal(data[1]);
@@ -508,8 +508,8 @@ describe('Relation class', function () {
 
                 relation.add(tuple);
 
-                relation.count().should.be.equal(1);
-                relation.header().count().should.be.equal(3);
+                relation.length().should.be.equal(1);
+                relation.header().length().should.be.equal(3);
 
                 relation.atIndex(0).should.be.equal(tuple);
 
@@ -561,8 +561,8 @@ describe('Relation class', function () {
 
                 relation.add(tuple);
 
-                relation.count().should.be.equal(1);
-                relation.header().count().should.be.equal(3);
+                relation.length().should.be.equal(1);
+                relation.header().length().should.be.equal(3);
 
                 debug.reldump.debug(relation.toString());
 
@@ -614,8 +614,8 @@ describe('Relation class', function () {
                 relation.add(tuple1);
                 relation.add(tuple2);
 
-                relation.count().should.be.equal(1);
-                relation.header().count().should.be.equal(3);
+                relation.length().should.be.equal(1);
+                relation.header().length().should.be.equal(3);
 
                 debug.reldump.debug(relation.toString());
 
@@ -643,8 +643,8 @@ describe('Relation class', function () {
                 relation.add(tuple1);
                 relation.add(tuple2);
 
-                relation.count().should.be.equal(1);
-                relation.header().count().should.be.equal(3);
+                relation.length().should.be.equal(1);
+                relation.header().length().should.be.equal(3);
 
                 debug.reldump.debug(relation.toString());
 

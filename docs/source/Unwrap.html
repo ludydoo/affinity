@@ -104,7 +104,7 @@ var Unwrap = Relation.extend(
                 throw new Error(&#39;You must specify attributes to unwrap!&#39;);
             }
 
-            if((attributeNames instanceof Set) &amp;&amp; attributeNames.count() &lt;= 0){
+            if((attributeNames instanceof Set) &amp;&amp; attributeNames.length() &lt;= 0){
                 throw new Error(&#39;You must specify attributes to unwrap!&#39;);
             }
 

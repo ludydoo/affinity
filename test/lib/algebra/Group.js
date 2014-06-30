@@ -43,7 +43,7 @@ describe('Group class', function () {
 
             });
 
-            grouped.count().should.be.equal(4);
+            grouped.length().should.be.equal(4);
 
             debug.reldump.debug(grouped.toString());
 
@@ -55,7 +55,7 @@ describe('Group class', function () {
 
             var grouped = relation1.group('newId', ['id']);
 
-            grouped.header().count().should.be.equal(1);
+            grouped.header().length().should.be.equal(1);
 
             grouped.each(function (tuple) {
 
@@ -63,7 +63,7 @@ describe('Group class', function () {
 
                 (subRelation instanceof affinity.Relation).should.be.equal(true);
 
-                subRelation.header().count().should.be.equal(1);
+                subRelation.header().length().should.be.equal(1);
 
                 (subRelation.get('id') instanceof affinity.Attribute).should.be.equal(true);
 

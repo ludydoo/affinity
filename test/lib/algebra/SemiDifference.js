@@ -24,7 +24,7 @@ describe('SemiDifference class', function () {
 
                 var rel3 = rel1.sdifference(rel2);
 
-                rel3.header().count().should.be.equal(3);
+                rel3.header().length().should.be.equal(3);
 
                 debug.reldump.debug(rel3.toString());
 
@@ -97,7 +97,7 @@ describe('SemiDifference class', function () {
 
         describe('When given tuples that have same values for one common attribute', function () {
 
-            it('Should return the tuples in A that have no counterpart', function (done) {
+            it('Should return the tuples in A that have no length()erpart', function (done) {
 
                 var rel1 = new affinity.Relation([
                     {firstName: {type: affinity.String}},
@@ -132,8 +132,8 @@ describe('SemiDifference class', function () {
 
                 debug.reldump.debug(rel3.toString());
 
-                rel3.count().should.be.equal(2);
-                rel3.header().count().should.be.equal(3);
+                rel3.length().should.be.equal(2);
+                rel3.header().length().should.be.equal(3);
                 rel3.equal(result.compute()).should.be.true;
 
                 debug.reldump.debug(rel3.toString());
@@ -146,7 +146,7 @@ describe('SemiDifference class', function () {
 
         describe('When given tuples that have same values for more than one common attribute', function () {
 
-            it('Should return the tuples in A that have no counterpart', function (done) {
+            it('Should return the tuples in A that have no length()erpart', function (done) {
 
                 var rel1 = new affinity.Relation([
                     {firstName: {type: affinity.String}},
@@ -231,7 +231,7 @@ describe('SemiDifference class', function () {
 
         describe('When given tuples that have all common attribute', function () {
 
-            it('Should return tuples in A that have no counterpart', function (done) {
+            it('Should return tuples in A that have no length()erpart', function (done) {
 
                 var rel1 = new affinity.Relation([
                     {a: {type: affinity.Integer}},

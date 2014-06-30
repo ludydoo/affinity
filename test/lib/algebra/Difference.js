@@ -75,7 +75,7 @@ describe('Difference Class', function () {
 
             var difference = relation.difference(relation_1_common);
 
-            difference.count().should.be.equal(relation.count() - 1);
+            difference.length().should.be.equal(relation.length() - 1);
 
             debug.reldump.debug(difference.toString());
 
@@ -87,7 +87,7 @@ describe('Difference Class', function () {
 
             var difference = relation.difference(relation);
 
-            difference.count().should.be.equal(0);
+            difference.length().should.be.equal(0);
 
             debug.reldump.debug(difference.toString());
 

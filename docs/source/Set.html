@@ -371,25 +371,12 @@ var Set = Type.extend(
 
         },
 
-<span id='Set-method-count'>        /**
-</span>         * @returns {number} Number of elements in the set
-         *
-         * Returns the number of elements in the set.
-         */
-        count: function () {
-
-            return this.elements().length-this._deletedCount;
-
-        },
-
 <span id='Set-method-length'>        /**
 </span>         * @returns {number} Number of elements in the set
-         *
-         * Alias for {@link Set#count}
          */
         length: function () {
 
-            return this.count();
+            return this.elements().length-this._deletedCount;
 
         },
 
@@ -627,7 +614,7 @@ var Set = Type.extend(
          * Determines if the set is a proper subset of another set
          */
         isProperSubset : function(aSet){
-            if(this.count() &gt;= aSet.count()){
+            if(this.length() &gt;= aSet.length()){
                 return false;
             }
             return this.isSubset(aSet);

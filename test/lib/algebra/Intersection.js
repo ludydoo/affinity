@@ -88,7 +88,7 @@ describe('Intersection Class', function () {
 
             var intersected = relation.intersect(relation_4_common);
 
-            intersected.count().should.be.equal(4);
+            intersected.length().should.be.equal(4);
 
             debug.reldump.debug(intersected.toString());
 
@@ -100,7 +100,7 @@ describe('Intersection Class', function () {
 
             var intersected = relation.intersect(relation_no_comon);
 
-            intersected.count().should.be.equal(0);
+            intersected.length().should.be.equal(0);
 
             debug.reldump.debug(intersected.toString());
 

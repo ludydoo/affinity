@@ -41,7 +41,7 @@ describe('Restrict class', function () {
 
             var restricted = employees.restrict(dept.gt(2));
 
-            restricted.count().should.be.equal(3);
+            restricted.length().should.be.equal(3);
 
             debug.reldump.debug(restricted.toString());
 
@@ -77,7 +77,7 @@ describe('Restrict class', function () {
 
             restricted.header().equal(employees.header()).should.be.equal(true);
 
-            restricted.count().should.be.equal(0);
+            restricted.length().should.be.equal(0);
 
             debug.reldump.debug(restricted.toString());
 
@@ -93,7 +93,7 @@ describe('Restrict class', function () {
 
             var restricted = employees.restrict(id.eq(1).and(dept.eq(1)));
 
-            restricted.count().should.be.equal(1);
+            restricted.length().should.be.equal(1);
 
             restricted.header().equal(employees.header()).should.be.equal(true);
 
@@ -127,7 +127,7 @@ describe('Restrict class', function () {
 
             });
 
-            restricted.count().should.be.equal(1);
+            restricted.length().should.be.equal(1);
 
             debug.reldump.debug(restricted.toString());
 

@@ -11,9 +11,7 @@ describe('Header Class', function () {
 
                 var header = new affinity.Header();
 
-                header.count().should.be.equal(0);
-
-                (Object.keys(header.attributes)).should.be.an.Array.and.have.length(0);
+                header.length().should.be.equal(0);
 
                 done();
 
@@ -33,8 +31,7 @@ describe('Header Class', function () {
                     {attribute2: attribute2}
                 ]);
 
-                header.count().should.be.equal(2);
-                header.elements().should.be.an.Array.and.have.length(2);
+                header.length().should.be.equal(2);
 
                 header.get('attribute1').should.equal(attribute1);
                 header.get('attribute2').should.equal(attribute2);
@@ -57,8 +54,7 @@ describe('Header Class', function () {
 
                 var clonedHeader = header.clone();
 
-                header.count().should.be.equal(0);
-                Object.keys(clonedHeader.attributes).should.be.an.Array.and.have.length(0);
+                header.length().should.be.equal(0);
 
                 clonedHeader.should.not.be.equal(header);
 
@@ -79,10 +75,9 @@ describe('Header Class', function () {
 
                 var clonedHeader = header.clone();
 
-                clonedHeader.count().should.be.equal(2);
-                Object.keys(clonedHeader.elements()).should.be.an.Array.and.have.length(2);
+                clonedHeader.length().should.be.equal(2);
 
-                (clonedHeader instanceof affinity.Header).should.be.true;
+                (clonedHeader instanceof affinity.Header).should.be.equal(true);
 
                 clonedHeader._attributes.should.have.property('attribute1');
                 clonedHeader._attributes.should.have.property('attribute2');
@@ -124,7 +119,7 @@ describe('Header Class', function () {
 
                 var projectedHeader = header.project([attribute1, attribute2]);
 
-                projectedHeader.count().should.be.equal(2);
+                projectedHeader.length().should.be.equal(2);
 
                 projectedHeader._attributes.should.have.property('attribute1');
                 projectedHeader._attributes.should.have.property('attribute2');
@@ -151,8 +146,7 @@ describe('Header Class', function () {
 
                 var projectedHeader = header.project(['attribute1', 'attribute2']);
 
-                projectedHeader.count().should.be.equal(2);
-                projectedHeader.elements().should.be.an.Array.and.have.length(2);
+                projectedHeader.length().should.be.equal(2);
 
                 projectedHeader._attributes.should.have.property('attribute1');
                 projectedHeader._attributes.should.have.property('attribute2');
@@ -225,7 +219,7 @@ describe('Header Class', function () {
 
                 var removalHeader = header.remove([attribute1, attribute2]);
 
-                removalHeader.count().should.be.equal(1);
+                removalHeader.length().should.be.equal(1);
 
                 removalHeader._attributes.should.have.property('attribute3');
 
@@ -249,7 +243,7 @@ describe('Header Class', function () {
 
                 var removalHeader = header.remove(['attribute1', 'attribute2']);
 
-                removalHeader.count().should.be.equal(1);
+                removalHeader.length().should.be.equal(1);
 
                 removalHeader._attributes.should.have.property('attribute3');
 
@@ -273,7 +267,7 @@ describe('Header Class', function () {
 
                 var removalHeader = header.remove(attribute1);
 
-                removalHeader.count().should.be.equal(2);
+                removalHeader.length().should.be.equal(2);
 
                 removalHeader._attributes.should.have.property('attribute2');
                 removalHeader._attributes.should.have.property('attribute3');
@@ -299,7 +293,7 @@ describe('Header Class', function () {
 
                 var removalHeader = header.remove('attribute1');
 
-                removalHeader.count().should.be.equal(2);
+                removalHeader.length().should.be.equal(2);
 
                 removalHeader._attributes.should.have.property('attribute2');
                 removalHeader._attributes.should.have.property('attribute3');
@@ -325,7 +319,7 @@ describe('Header Class', function () {
 
                 var removalHeader = header.remove(['attribute1', attribute2]);
 
-                removalHeader.count().should.be.equal(1);
+                removalHeader.length().should.be.equal(1);
 
                 removalHeader._attributes.should.have.property('attribute3');
 
@@ -439,7 +433,7 @@ describe('Header Class', function () {
 
                 var attributes = renamedHeader._attributes;
 
-                renamedHeader.count().should.be.equal(3);
+                renamedHeader.length().should.be.equal(3);
                 renamedHeader.elements().should.be.an.Array.and.have.length(3);
 
                 attributes.should.have.property('attr1');
@@ -474,7 +468,7 @@ describe('Header Class', function () {
 
                 var attributes = renamedHeader._attributes;
 
-                renamedHeader.count().should.be.equal(3);
+                renamedHeader.length().should.be.equal(3);
                 renamedHeader.elements().should.be.an.Array.and.have.length(3);
 
                 attributes.should.have.property('attr1');
@@ -509,7 +503,7 @@ describe('Header Class', function () {
 
                 var attributes = renamedHeader._attributes;
 
-                renamedHeader.count().should.be.equal(3);
+                renamedHeader.length().should.be.equal(3);
                 renamedHeader.elements().should.be.an.Array.and.have.length(3);
 
                 attributes.should.have.property('attribute1');
@@ -584,7 +578,7 @@ describe('Header Class', function () {
 
                 var attributes = renamedHeader._attributes;
 
-                renamedHeader.count().should.be.equal(3);
+                renamedHeader.length().should.be.equal(3);
                 renamedHeader.elements().should.be.an.Array.and.have.length(3);
 
                 attributes.should.have.property('attribute1');
@@ -646,7 +640,7 @@ describe('Header Class', function () {
 
                 var headerRel = rel.header().toRelation();
 
-                headerRel.count().should.be.equal(0);
+                headerRel.length().should.be.equal(0);
                 headerRel.body().should.be.an.Array.and.have.length(0);
 
                 done();
@@ -674,7 +668,7 @@ describe('Header Class', function () {
 
                 headerRel.body();
 
-                headerRel.count().should.be.equal(4);
+                headerRel.length().should.be.equal(4);
                 headerRel.body().should.be.an.Array.and.have.length(4);
 
                 done();
@@ -704,7 +698,7 @@ describe('Header Class', function () {
 
                 var header = affinity.Header.fromRelation(relation);
 
-                header.count().should.be.equal(3);
+                header.length().should.be.equal(3);
                 header.get('firstName').should.be.instanceof(affinity.Attribute);
                 header.get('lastName').should.be.instanceof(affinity.Attribute);
                 header.get('age').should.be.instanceof(affinity.Attribute);

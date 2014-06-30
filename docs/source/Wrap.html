@@ -93,7 +93,7 @@ var Wrap = Relation.extend(
                 throw new Error(&#39;There must be at least one attribute to wrap&#39;);
             }
 
-            if(wrappedAttributes instanceof Set &amp;&amp; wrappedAttributes.count() &lt;= 0){
+            if(wrappedAttributes instanceof Set &amp;&amp; wrappedAttributes.length() &lt;= 0){
                 throw new Error(&#39;There must be at least one attribute to wrap&#39;);
             }
 

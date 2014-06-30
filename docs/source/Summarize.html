@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Relation = require(&#39;./../Relation.js&#39;);
+var Header = require(&#39;./../Header.js&#39;);
+var Tuple = require(&#39;./../Tuple.js&#39;);
+var Attribute = require(&#39;./../Attribute.js&#39;);
+var _ = require(&#39;lodash&#39;);
+var debug = require(&#39;./../helpers/debug&#39;);
+
+var Summarize = Relation.extend({
+
+<span id='Operators-Summarize'>    /**
+</span>     * @class Operators.Summarize
+     * @extends Relation
+     *
+     * The Summarize operation will be the result of a projection on a given relation on
+     * the given attributes, while extending this resulting relation with calculated
+     * attributes.
+     *
+     * Example :
+     *
+     *     var relation = new affinity.Relation([
+     *         { id : {type : affinity.Integer} },
+     *         { name : {type : affinity.String} },
+     *         { age : {type : affinity.Integer} },
+     *     ],[
+     *         [1, &#39;John Doe&#39;, 23],
+     *         [2, &#39;John Doe&#39;, 35],
+     *         [3, &#39;John Doe&#39;, 27],
+     *         [4, &#39;Bo Derek&#39;, 12],
+     *         [5, &#39;Bo Derek&#39;, 7],
+     *         [6, &#39;Marilyn Monroe&#39;, 16],
+     *     ]);
+     *
+     *     var age = relation.get(&#39;age&#39;);
+     *
+     *     var summarized = relation.summarize(
+     *         [&#39;name&#39;],
+     *         [
+     *             { &quot;age.avg()&quot; : age.avg()        },
+     *             { &quot;age.sum()&quot; : age.sum()        },
+     *             { &quot;count()&quot;   : affinity.count() }
+     *         ]
+     *     );
+     *
+     *     summarized.print();
+     *
+     *     // +----------------+-------------------+---------------------+-------------------+
+     *     // | name : String  | age.avg() : Float | age.sum() : Integer | count() : Integer |
+     *     // +================+===================+=====================+===================+
+     *     // | John Doe       | 28.3333333333333  | 85                  | 3                 |
+     *     // +----------------+-------------------+---------------------+-------------------+
+     *     // | Bo Derek       | 9.5               | 19                  | 2                 |
+     *     // +----------------+-------------------+---------------------+-------------------+
+     *     // | Marilyn Monroe | 16                | 16                  | 1                 |
+     *     // +----------------+-------------------+---------------------+-------------------+
+     */
+
+<span id='Operators-Summarize-method-constructor'>    /**
+</span>     * Create a new Summary relation
+     * @param {Relation} relation The relation to summarize
+     * @param {Attribute[]|String[]} attributes The attributes to keep
+     * @param {Object[]} summaries The summary expressions
+     */
+    constructor : function(relation, attributes, summaries){
+
+        this.args = {};
+
+        this.args.relation = relation;
+
+        this.args.attributes = attributes;
+
+        this.args.summaries = summaries;
+
+        Relation.call(this);
+
+    },
+
+    bindEvents : function(){
+
+        debug.semiJoin.trace(&#39;#bindEvents&#39;);
+
+        // Calling the parent bindEvents
+        Summarize.__super__.bindEvents.call(this);
+
+        var that = this;
+
+        that.ee.once(&#39;beforeGetHeader&#39;, function(){
+
+            var relation = that.args.relation;
+
+            var header = relation.header();
+
+            var attributes = that.args.attributes;
+
+            var summaries = that.args.summaries;
+
+            // Check that the given attributes exist in the
+            // base header.
+            Header.assertAttributesExist(header, attributes);
+
+            // Copy the given attributes from the base header
+            that.header().copy(relation.header(), attributes);
+
+            // Add the summaries attributes
+            _.forEach(summaries, function(summary){
+
+                var summaryName = Object.keys(summary)[0];
+
+                var summaryExpression = summary[summaryName];
+
+                var summaryType = summaryExpression.type();
+
+                var newAttribute = new Attribute({name : summaryName, type : summaryType});
+
+                that.header().add(newAttribute);
+
+            });
+
+        });
+
+        that.ee.once(&#39;beforeGetBody&#39;, function(){
+
+            var relation = that.args.relation;
+
+            var header = relation.header();
+
+            var attributes = that.args.attributes;
+
+            var summaries = that.args.summaries;
+
+            var instanceAttributes = new Header();
+
+            instanceAttributes.copy(header, attributes);
+
+            // These are the attributes that will be grouped
+            var otherAttributes = header.setDifference(instanceAttributes);
+
+            var otherAttributeNames = [];
+
+            otherAttributes.each(function(otherAttribute){
+                otherAttributeNames.push(otherAttribute.name);
+            });
+
+            // Create an intermediary group relation
+            var grouped = relation.group(&#39;___grouped___&#39;, otherAttributeNames);
+
+            grouped.each(function(groupedTuple){
+
+                // Create the tuple that will be inserted
+                var newTuple = new Tuple();
+
+                // Copy the non-grouped attributes into the new tuple
+                newTuple.copy(groupedTuple, attributes);
+
+                // Get the grouped relation
+                var groupedRelation = groupedTuple.get(&#39;___grouped___&#39;);
+
+                _.forEach(summaries, function(summary){
+
+                    var summaryName = Object.keys(summary)[0];
+
+                    var summaryExpression = summary[summaryName];
+
+                    summaryExpression.relation = groupedRelation;
+
+                    var summaryValue = summaryExpression.value();
+
+                    newTuple.set(summaryName, summaryValue);
+
+                });
+
+                that.add(newTuple);
+
+            });
+
+        })
+
+    }
+
+});
+
+
+module.exports = Summarize;</pre>
+</body>
+</html>

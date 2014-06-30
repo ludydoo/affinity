@@ -76,13 +76,10 @@ var Relation = Set.extend(
              */
             this._fks = [];
 
-
 <span id='Relation-property-_header'>            /**
 </span>             * @property {Header} _header The relation header
              */
-            this._header = Header.coerce(header);
-
-            this._header.relation = this;
+            this.header(Header.coerce(header));
 
             var that = this;
 
@@ -174,7 +171,7 @@ var Relation = Set.extend(
                             }
 
                             // Check that the keys are irreducible
-                            if (constraint.header.setIntersection(checkedKeyHeader).count() !== 0) {
+                            if (constraint.header.setIntersection(checkedKeyHeader).length() !== 0) {
                                 throw new Error(&#39;Constraint must be irreducible&#39;);
                             }
 
@@ -415,6 +412,8 @@ var Relation = Set.extend(
                 debug.relation.trace(&#39;#header (set)&#39;);
 
                 this._header = header;
+
+                header.relation = this;
 
             } else {
 
@@ -708,6 +707,7 @@ var Relation = Set.extend(
         },
 
         //region Operations
+
 <span id='Relation-method-difference'>        /**
 </span>         *
          * @param {Relation} relation The relation to compute difference against
@@ -1117,9 +1117,49 @@ var Relation = Set.extend(
 
             return new (require(&#39;./algebra/Extension&#39;))(this, expressions);
 
-        }
+        },
+
+<span id='Relation-method-summarize'>        /**
+</span>         * Shortcut to the Summarize operation
+         * @param {String[]|Attribute[]} attributes The attributes to summarize
+         * @param {Object} summaries Summary expressions
+         */
+        summarize : function(attributes, summaries){
+            debug.relation.trace(&#39;#summarize&#39;);
+
+            return new (require(&#39;./algebra/Summarize&#39;))(this, attributes, summaries);
+
+        },
+
+
         //endregion
 
+        //region Aggregates
+
+        all : function(predicate){
+
+            var All = require(&#39;./functions/aggregate/All.js&#39;);
+
+            return new All(this, predicate);
+
+        },
+
+        any : function(predicate){
+
+            var Any = require(&#39;./functions/aggregate/Any.js&#39;);
+
+            return new Any(this, predicate);
+
+        },
+
+        count : function(){
+
+            var Count = require(&#39;./functions/aggregate/Count.js&#39;);
+
+            return new Count(this);
+
+        }
+        //endregion
 
     }, {
 

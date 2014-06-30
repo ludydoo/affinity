@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Function = require(&#39;./../../Function&#39;);
+
+var Boolean = require(&#39;./../../types/Boolean.js&#39;);
+
+var _ = require(&#39;lodash&#39;);
+
+var Any = Function.extend({
+
+<span id='Functions-Aggregate-Any'>    /**
+</span>     * @class Functions.Aggregate.Any
+     * @extends Function
+     *
+     * Functions that checks if any of the tuples in a relation match the
+     * given boolean predicate.
+     *
+     * Example :
+     *
+     *     var relation = new affinity.Relation([
+     *         { name : { type : affinity.String } },
+     *         { age : { type : affinity.Integer } }
+     *     ],[
+     *         [&#39;John Doe&#39;, 23],
+     *         [&#39;Mark Clinton&#39;, 36],
+     *         [&#39;Super Woman&#39;, 56]
+     *     ]);
+     *
+     *     var name = relation.get(&#39;name&#39;);
+     *     var age = relation.get(&#39;age&#39;)
+     *
+     *     var any = relation.any(age.gt(50));
+     *
+     *     console.log(any.value());
+     *
+     *     // true
+     */
+
+    constructor : function(relation, predicate){
+
+        Function.apply(this, Array.prototype.slice.call(arguments,0));
+
+        this.name = &#39;Any&#39;;
+
+        this.type(Boolean);
+
+        this.relation = relation;
+
+        this.predicate = predicate;
+
+    },
+
+    value : function(){
+
+        var relation = this.relation;
+
+        var predicate = this.predicate;
+
+        var result = false;
+
+        predicate.convertAttributeToTuple();
+
+        relation.each(function(tuple){
+
+            predicate.assignTuple(tuple);
+
+            if( predicate.value() === true ){
+
+                result = true;
+                return false;
+
+            }
+
+        });
+
+        return result;
+
+    }
+});
+
+module.exports = Any;</pre>
+</body>
+</html>

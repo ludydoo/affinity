@@ -113,9 +113,9 @@ describe('Product Class', function () {
 
             var product = employees.product(pets);
 
-            product.count().should.be.equal(employees.count() * pets.count());
+            product.length().should.be.equal(employees.length() * pets.length());
 
-            product.header().count().should.be.equal(employees.header().count() + pets.header().count());
+            product.header().length().should.be.equal(employees.header().length() + pets.header().length());
 
             debug.reldump.debug(product.toString());
 
@@ -141,7 +141,7 @@ describe('Product Class', function () {
 
             product.header().equal(employees.header());
 
-            product.count().should.be.equal(0);
+            product.length().should.be.equal(0);
 
             debug.reldump.debug(product.toString());
 

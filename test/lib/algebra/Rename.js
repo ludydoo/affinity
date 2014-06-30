@@ -45,7 +45,7 @@ describe('Rename Class', function () {
 
             (renamed.header().get('fn') instanceof affinity.Attribute).should.be.equal(true);
 
-            renamed.header().count().should.be.equal(4);
+            renamed.header().length().should.be.equal(4);
 
             debug.reldump.debug(renamed.toString());
 
@@ -77,7 +77,7 @@ describe('Rename Class', function () {
 
             var renamed = relation1.rename({id: 'newId'});
 
-            renamed.header().count().should.be.equal(1);
+            renamed.header().length().should.be.equal(1);
 
             (renamed.header().get('newId') instanceof affinity.Attribute).should.be.equal(true);
 
@@ -113,7 +113,7 @@ describe('Rename Class', function () {
             (renamed.header().get('newLastName') instanceof affinity.Attribute).should.be.equal(true);
             (renamed.header().get('newDept') instanceof affinity.Attribute).should.be.equal(true);
 
-            renamed.header().count().should.be.equal(4);
+            renamed.header().length().should.be.equal(4);
 
             var revert = renamed.rename({newId: 'id', newFirstName: 'firstName', newLastName: 'lastName', newDept: 'dept'});
 
@@ -134,7 +134,7 @@ describe('Rename Class', function () {
             (renamed.header().get('newLastName') instanceof affinity.Attribute).should.be.equal(true);
             (renamed.header().get('dept') instanceof affinity.Attribute).should.be.equal(true);
 
-            renamed.header().count().should.be.equal(4);
+            renamed.header().length().should.be.equal(4);
 
             var revert = renamed.rename({newId: 'id', newFirstName: 'firstName', newLastName: 'lastName'});
 

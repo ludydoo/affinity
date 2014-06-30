@@ -24,7 +24,7 @@ describe('SemiJoin class', function () {
 
                 var rel3 = rel1.sjoin(rel2);
 
-                rel3.header().count().should.be.equal(3);
+                rel3.header().length().should.be.equal(3);
 
                 rel3.header().equal(rel1.header()).should.be.equal(true);
 
@@ -54,7 +54,7 @@ describe('SemiJoin class', function () {
 
                 var rel3 = rel1.sjoin(rel2);
 
-                rel3.header().count().should.be.equal(3);
+                rel3.header().length().should.be.equal(3);
 
                 debug.reldump.debug(rel3.toString());
 
@@ -98,7 +98,7 @@ describe('SemiJoin class', function () {
 
         describe('When given tuples that have same values for one common attribute', function () {
 
-            it('Should result in the tuples of A that have a counterpart in B', function (done) {
+            it('Should result in the tuples of A that have a length()erpart in B', function (done) {
 
                 var rel1 = new affinity.Relation([
                     {firstName: {type: affinity.String}},
@@ -144,7 +144,7 @@ describe('SemiJoin class', function () {
 
         describe('When given tuples that have same values for more than one common attribute', function () {
 
-            it('Should result in the tuples of A that have a counterpart in B', function (done) {
+            it('Should result in the tuples of A that have a length()erpart in B', function (done) {
 
                 var rel1 = new affinity.Relation([
                     {firstName: {type: affinity.String}},

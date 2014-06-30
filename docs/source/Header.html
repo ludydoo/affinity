@@ -31,7 +31,7 @@ var Header = Set.extend(
          *
          * @class Header
          * @extends Set
-         * @param attributes
+         * @param {Object} [attributes]
          * @throws The attributes are not passed in Array format
          *
          *
@@ -129,7 +129,11 @@ var Header = Set.extend(
             });
 
             this.ee.on(&#39;afterAdd&#39;, function (element, index) {
+
                 that._attributes[element.name] = index;
+
+                element.header = that;
+
             });
 
             this.ee.on(&#39;afterRemove&#39;, function (element) {
@@ -467,7 +471,7 @@ var Header = Set.extend(
         fromRelation : function(relation){
 
             // Check that the relation has the right header
-            if(!relation.header().exists({name : &#39;name&#39;, type : TString}) || !relation.header().exists({ name : &#39;type&#39;, type : TType}) || !(relation.header().count()==2)){
+            if(!relation.header().exists({name : &#39;name&#39;, type : TString}) || !relation.header().exists({ name : &#39;type&#39;, type : TType}) || !(relation.header().length()==2)){
                 throw new Error(&#39;Cannot convert relation to header&#39;);
             }
 
@@ -725,7 +729,7 @@ var Header = Set.extend(
 
             debug.header.trace(&#39;Header.disjoint&#39;);
 
-            var headers = header1.count() &gt; header2.count() ? [header1,header2] : [header2,header1];
+            var headers = header1.length() &gt; header2.length() ? [header1,header2] : [header2,header1];
 
             var different = true;
 

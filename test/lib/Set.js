@@ -42,7 +42,7 @@ describe('Set Class', function () {
 
                 set1.type().should.be.equal(affinity.Integer);
                 set1.elements().should.be.an.Array;
-                set1.count().should.be.equal(4);
+                set1.length().should.be.equal(4);
 
                 done();
 
@@ -73,7 +73,7 @@ describe('Set Class', function () {
                 set1.elements([1, 2, 3, 4]);
 
                 set1.elements().should.be.an.Array;
-                set1.count().should.be.equal(4);
+                set1.length().should.be.equal(4);
                 set1.type().should.be.equal(affinity.Integer);
 
                 done();
@@ -106,13 +106,13 @@ describe('Set Class', function () {
 
             var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3, 4]});
 
-            var count = 0;
+            var length = 0;
 
             set1.each(function (element, index) {
-                count += index;
+                length += index;
             });
 
-            count.should.be.equal(6);
+            length.should.be.equal(6);
 
             done();
 
@@ -122,13 +122,13 @@ describe('Set Class', function () {
 
             var set1 = new affinity.Set({type: Number, elements: []});
 
-            var count = 0;
+            var length = 0;
 
             set1.each(function (element, index) {
-                count += index;
+                length += index;
             });
 
-            count.should.be.equal(0);
+            length.should.be.equal(0);
 
             done();
 
@@ -196,7 +196,7 @@ describe('Set Class', function () {
                 var set1 = new affinity.Set({type: affinity.Integer, elements: [1, 2, 3]});
 
                 set1.remove(1).should.be.true;
-                set1.count().should.equal(2);
+                set1.length().should.equal(2);
 
                 done();
 

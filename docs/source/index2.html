@@ -63,6 +63,11 @@ module.exports.Object = require(&#39;./affinity/types/Object&#39;);
  */
 module.exports.Integer = require(&#39;./affinity/types/Integer&#39;);
 
+<span id='global-property-Float'>/**
+</span> * @type {Types.Float}
+ */
+module.exports.Float = require(&#39;./affinity/types/Float&#39;);
+
 <span id='global-property-String'>/**
 </span> * @type {Types.String}
  */
@@ -463,6 +468,7 @@ module.exports.value = function(relation, attributeName){
 };
 //endregion
 
+//region Date Functions
 
 module.exports.DayOfMonth = require(&#39;./affinity/functions/date/DayOfMonth.js&#39;);
 module.exports.DayOfMonth = require(&#39;./affinity/functions/date/DayOfMonth.js&#39;);
@@ -476,6 +482,7 @@ module.exports.Seconds = require(&#39;./affinity/functions/date/Seconds.js&#39;)
 module.exports.Timestamp = require(&#39;./affinity/functions/date/Timestamp.js&#39;);
 module.exports.WeekOfYear = require(&#39;./affinity/functions/date/WeekOfYear.js&#39;);
 module.exports.Year = require(&#39;./affinity/functions/date/Year.js&#39;);
+//endregion
 
 //region Relational Operators
 
@@ -559,7 +566,6 @@ module.exports.Unwrap = require(&#39;./affinity/algebra/Unwrap.js&#39;);
  */
 module.exports.Unwrap = require(&#39;./affinity/algebra/Wrap.js&#39;);
 //endregion
-
 
 //region Constants
 

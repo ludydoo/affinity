@@ -32,8 +32,6 @@ describe('GreaterThanEqual class', function(){
 
             done();
 
-            done();
-
         });
 
     });

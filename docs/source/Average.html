@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Function = require(&#39;./../../Function&#39;);
+
+var Float = require(&#39;./../../types/Float.js&#39;);
+
+var _ = require(&#39;lodash&#39;);
+
+var Average = Function.extend({
+
+<span id='Functions-Aggregate-Average'>    /**
+</span>     * @class Functions.Aggregate.Average
+     * @extends Function
+     *
+     * Functions that returns the average for a relation
+     * attribute
+     *
+     * Example :
+     *
+     *     var relation = new affinity.Relation([
+     *         { name : { type : affinity.String } },
+     *         { age : { type : affinity.Integer } }
+     *     ],[
+     *         [&#39;John Doe&#39;, 23],
+     *         [&#39;Mark Clinton&#39;, 36],
+     *         [&#39;Super Woman&#39;, 56]
+     *     ]);
+     *
+     *     var age = relation.get(&#39;age&#39;);
+     *
+     *     var max = relation.avg(age)
+     *
+     *     console.log(max.value());
+     *
+     *     // 38.33333333
+     */
+
+    constructor : function(attribute){
+
+        Function.apply(this, Array.prototype.slice.call(arguments,0));
+
+        this.name = &#39;Average&#39;;
+
+        this.type(Float);
+
+        this.attribute = attribute;
+
+        this.relation = attribute.header.relation;
+
+    },
+
+    value : function(){
+
+        var attribute = this.attribute;
+
+        var relation = this.relation;
+
+        var result = 0;
+
+        var length = relation.length();
+
+        relation.each(function(tuple){
+
+            result += tuple.get(attribute.name);
+
+        });
+
+        result = result / length;
+
+        return result;
+
+    }
+});
+
+module.exports = Average;</pre>
+</body>
+</html>
