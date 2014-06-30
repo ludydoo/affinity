@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/_mocha --recursive --reporter list --ui bdd test",
-    "jsdoc": "./node_modules/.bin/jsdoc -c jsdoc.json",
     "jsduck" : "jsduck lib/ --output docs --guides docs-support/guides.json"
   },
   "author": "Ludovic Cleroux <ludydoo@gmail.com>",
