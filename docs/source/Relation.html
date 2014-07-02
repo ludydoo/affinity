@@ -98,7 +98,7 @@ var Relation = Set.extend(
                 that.ee.emit(&#39;beforeGetBody&#39;);
             });
 
-            this.ee.on(&#39;beforeAdd&#39;, function (tuple, index) {
+            this.ee.on(&#39;beforeAdd&#39;, function (tuple) {
 
                 // Check that the tuple is union-compatible with the relation
                 if (!that.isCompatible(tuple)) {
@@ -181,6 +181,11 @@ var Relation = Set.extend(
 
 
             })
+
+            this.ee.on(&#39;afterAdd&#39;, function(tuple, index){
+                tuple.index = index;
+                tuple.relation = that;
+            });
 
         },
 
@@ -272,51 +277,6 @@ var Relation = Set.extend(
             debug.relation.trace(&#39;#atIndex&#39;);
 
             return this.elements()[index];
-
-        },
-
-<span id='Relation-method-remove'>        /**
-</span>         * @param {Tuple|Object} tupleToRemove The tuple to be removed
-         * @return {boolean} True if the tuple was removed, false otherwise
-         *
-         * Removes a tuple from the relation
-         *
-         *     var relation = new affinity.Relation([
-         *              { &#39;firstName&#39; : {type : affinity.String}}
-         *              { &#39;LastName&#39;  : {type : affinity.String}}
-         *          ],[
-         *              [&#39;John&#39;,&#39;Doe&#39;],
-         *              [&#39;Hello&#39;,&#39;World&#39;],
-         *              [&#39;Super&#39;,&#39;Duper&#39;],
-         *          ]);
-         *
-         *     relation.remove({firstName : &#39;John&#39;, &#39;LastName&#39;, &#39;Doe&#39;}); //true
-         *
-         *     var tuple = relation.atIndex(0) // Tuple(firstName: &#39;Hello&#39;, lastName : &#39;World&#39;);
-         *
-         *     relation.remove(tuple) // true
-         *
-         *     relation.remove(tuple) // false, it was already removed
-         *
-         */
-        remove: function (tupleToRemove) {
-
-            debug.relation.trace(&#39;#remove&#39;);
-
-            var tuple, index;
-
-            tuple = Tuple.coerce(tupleToRemove);
-
-            // Find the index of the tuple
-            index = this.index(tuple);
-
-            // If found, remove it.
-            if (index !== null) {
-                this.body().splice(index, 1);
-                return true;
-            }
-
-            return false;
 
         },
 

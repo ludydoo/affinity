@@ -484,6 +484,10 @@ module.exports.WeekOfYear = require(&#39;./affinity/functions/date/WeekOfYear.js
 module.exports.Year = require(&#39;./affinity/functions/date/Year.js&#39;);
 //endregion
 
+module.exports.count = function(){
+    return new (require(&#39;./affinity/functions/aggregate/Count.js&#39;));
+};
+
 //region Relational Operators
 
 <span id='global-property-Composition'>/**

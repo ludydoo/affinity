@@ -66,8 +66,8 @@ var depts2 = new affinity.Relation([
 
 var pets = new affinity.Relation([
     {name: {type: affinity.String}},
+    {animal: {type: affinity.String}},
     {alive: {type: affinity.Boolean}},
-    {animal: {type: affinity.String}}
 ], [
     ['Tommy 1', 'Dog', false],
     ['Tommy 2', 'Dog', false],
@@ -256,6 +256,46 @@ describe('Compose Class', function () {
             done();
 
         })
+
+    });
+
+    describe('When adding tuples from the base relations', function(){
+
+        it('Should be able to add these tuples to the composed relation', function(done){
+
+            var composed = pets.compose(animals);
+
+            composed.compute();
+
+            pets.add({name : 'Zoé2', alive : false, animal : 'Dog'});
+
+            composed.restrict(pets.get('name').eq('Zoé2')).length().should.be.equal(1);
+
+            composed.print();
+
+            done();
+
+        });
+
+    });
+
+    describe('When removing tuples from the base relation', function(){
+
+        it('Should be able to remove these tuples from the resulting relation', function(done){
+
+            var composed = pets.compose(animals);
+
+            composed.compute();
+
+            pets.remove({name : 'Zoé', alive : true, animal : 'Dog'});
+
+            composed.restrict(pets.get('name').eq('Zoé')).length().should.be.equal(0);
+
+            composed.print();
+
+            done();
+
+        });
 
     });
 

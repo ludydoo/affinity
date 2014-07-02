@@ -6,6 +6,12 @@
                 "name": "getting_started",
                 "title": "Getting Started with Affinity",
                 "description": "Learn your way around Affinity."
+            },
+
+            {
+                "name": "updatable_views_proposal",
+                "title": "Proposal for Updatable Views",
+                "description": "Just a thinking section to get things running."
             }
         ]
     }

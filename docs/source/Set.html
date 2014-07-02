@@ -148,7 +148,15 @@ var Set = Type.extend(
 
             debug.set.trace(&#39;#each&#39;);
 
-            _.forEach(this.elements(), callback, context);
+            _.forEach(this.elements(), function(element, index){
+
+                if(element !== undefined){
+                    if(callback.call(context, element, index) === false){
+                        return false;
+                    }
+                }
+
+            });
 
         },
 
@@ -207,17 +215,7 @@ var Set = Type.extend(
 
             var index = this.index(element);
 
-            if (index !== null) {
-
-                this.ee.emit(&#39;beforeRemove&#39;, element, index);
-
-                this.removeAt(index);
-
-                return true;
-
-            } else {
-                return false;
-            }
+            return this.removeAt(index);
 
         },
 
