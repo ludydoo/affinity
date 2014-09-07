@@ -240,6 +240,7 @@ describe('Relation class', function () {
 
                 should(function () {
                     var relation = new affinity.Relation(header, data);
+                    relation.compute();
                 }).throw();
 
                 done();

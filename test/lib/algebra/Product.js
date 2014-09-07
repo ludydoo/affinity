@@ -79,8 +79,8 @@ var depts2 = new affinity.Relation([
 
 var pets = new affinity.Relation([
     {name: {type: affinity.String}},
-    {alive: {type: affinity.Boolean}},
-    {animal: {type: affinity.String}}
+    {animal: {type: affinity.String}},
+    {alive: {type: affinity.Boolean}}
 ], [
     ['Tommy 1', 'Dog', false],
     ['Tommy 2', 'Dog', false],
