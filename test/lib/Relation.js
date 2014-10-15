@@ -657,4 +657,202 @@ describe('Relation class', function () {
 
     });
 
+    describe('Relation#adjustTo', function(){
+
+        it('Should add tuples that exist in the target relation and that do not exist in the base relation', function(done){
+
+            var base = new affinity.Relation([
+                { a : { type : affinity.Integer} }
+            ],[]);
+
+            var target = new affinity.Relation([
+                { a : { type : affinity.Integer} }
+            ],[
+                [1],
+                [2],
+                [3]
+            ]);
+
+            base.adjustTo(target);
+
+            base.print();
+
+            base.equal(target).should.be.equal(true);
+
+            done();
+
+        });
+
+        it('Should delete tuples that exist in the base relation and that do not exist in the target relation', function(done){
+
+            var base = new affinity.Relation([
+                { a : { type : affinity.Integer} }
+            ],[
+                [1],
+                [2],
+                [3]
+            ]);
+
+            var target = new affinity.Relation([
+                { a : { type : affinity.Integer} }
+            ],[
+            ]);
+
+            base.adjustTo(target);
+
+            base.print();
+
+            base.equal(target).should.be.equal(true);
+
+            done();
+
+        });
+
+        it('Should make the base relation the same as the target', function(done){
+
+            var base = new affinity.Relation([
+                { a : { type : affinity.Integer} }
+            ],[
+                [1],
+                [2],
+                [3],
+                [4],
+                [5],
+                [6]
+            ]);
+
+            var target = new affinity.Relation([
+                { a : { type : affinity.Integer} }
+            ],[
+                [1],
+                [2],
+                [3]
+            ]);
+
+            base.adjustTo(target);
+
+            base.print();
+
+            base.equal(target).should.be.equal(true);
+
+            done();
+
+        });
+
+        it('Should be able to act upon calculated fields', function(done){
+
+            var relation = new affinity.Relation([
+                {a: { type: affinity.Integer}},
+                {b: { type: affinity.Integer}}
+            ], [
+                [1, 2],
+                [3, 4],
+                [5, 6],
+                [7, 8]
+            ]);
+
+            var a = relation.get('a');
+            var b = relation.get('b');
+
+            var extension = relation.extend([
+                {c: a.minus(b)}
+            ]).compute();
+
+            var target = new affinity.Relation([
+                {a: { type: affinity.Integer}},
+                {b: { type: affinity.Integer}},
+                {c: { type : affinity.Integer }}
+            ], [
+                [1, 2, -1],
+                [3, 4, -1],
+                [10, 12, -2]
+            ]);
+
+            extension.adjustTo(target);
+
+            extension.print();
+
+            done();
+
+        });
+
+        it('Should be able to act upon tuple typed attributes', function(done){
+
+            var relation = new affinity.Relation([
+                    { a : { type : affinity.Integer }},
+                    { b : { type : affinity.Integer }}
+                ],[
+                    [1, 2],
+                    [1, 3],
+                    [2, 1],
+                    [1, 5]
+                ]);
+
+            var wrapped = relation.wrap('wrapped', ['a', 'b']);
+
+            var target = new affinity.Relation([
+                    { wrapped : { type : affinity.Tuple} }
+                ],[
+                    [new affinity.Tuple({a : 8, b : 1})],
+                    [new affinity.Tuple({a : 1, b : 3})],
+                    [new affinity.Tuple({a : 9, b : 9})]
+                ]);
+
+            wrapped.adjustTo(target);
+
+            wrapped.print();
+
+            done();
+
+        });
+
+        it('Should be able to act upon relation typed attributes', function(done){
+
+            var relation = new affinity.Relation([
+                { a : { type : affinity.Integer }},
+                { b : { type : affinity.Integer }}
+            ],[
+                [1, 2],
+                [1, 3],
+                [2, 1],
+                [1, 5]
+            ]);
+
+            var k = new affinity.Relation([
+                { b : { type : affinity.Integer} }
+            ],[
+                [2],
+                [5],
+                [6],
+                [7]
+            ]);
+
+            var j = new affinity.Relation([
+                { b : { type : affinity.Integer} }
+            ],[
+                [0],
+                [1],
+                [2]
+            ]);
+
+            var target = new affinity.Relation([
+                { a : {type : affinity.Integer}},
+                { wrapped : {type : affinity.Relation}}
+            ],[
+                [1, k],
+                [2, j]
+            ]);
+
+            var grouped = relation.group('wrapped', ['b']);
+
+            grouped.adjustTo(target);
+
+            grouped.print();
+
+            done();
+
+        });
+
+    });
+
 });

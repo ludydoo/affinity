@@ -140,6 +140,8 @@ describe('Group class', function () {
 
             debug.reldump.debug(grouped.toString());
 
+            grouped.print();
+
             done();
 
         });
