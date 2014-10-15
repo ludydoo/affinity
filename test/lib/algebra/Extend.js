@@ -35,7 +35,7 @@ describe('Extend Class', function () {
 
             var extended = relation2.extend([
                 {day: born2.dayOfMonth()},
-                {month: born2.month()},
+                {month: born2.month()}
             ]).compute();
 
             debug.reldump.debug(extended.toString());
@@ -180,5 +180,87 @@ describe('Extend Class', function () {
         });
 
     });
+
+    describe('When adding a tuple to the base relation', function(){
+
+        it('Should add the tuple to the resulting relation', function(done){
+
+            var relationClone = relation.clone();
+
+            var died = relationClone.get('died');
+            var born = relationClone.get('born');
+
+            var extended = relationClone.extend([
+                {lived: died.minus(born)},
+                {since: affinity.minus(2014, died)}
+            ]).compute();
+
+            relationClone.add({born : 1925, died : 1950});
+
+            extended.restrict(born.eq(1925).and(died.eq(1950))).length().should.be.equal(1);
+
+            extended.print();
+
+            done();
+
+        });
+
+    });
+
+    describe('When removing a tuple from the base relation', function(){
+
+        it('Should remove the tuple from the resulting relation', function(done){
+
+            var relationClone = relation.clone();
+
+            var died = relationClone.get('died');
+            var born = relationClone.get('born');
+
+            var extended = relationClone.extend([
+                {lived: died.minus(born)},
+                {since: affinity.minus(2014, died)}
+            ]).compute();
+
+            relationClone.remove({born : 1920, died : 1945});
+
+            extended.restrict(born.eq(1920).and(died.eq(1945))).length().should.be.equal(0);
+
+            extended.print();
+
+            done();
+
+        });
+
+    });
+
+    describe('When updating a tuple from the base relation', function(){
+
+        it('Should update the tuple in the existing relation', function(done){
+
+            var relationClone = relation.clone();
+
+            var died = relationClone.get('died');
+            var born = relationClone.get('born');
+
+            var extended = relationClone.extend([
+                {lived: died.minus(born)},
+                {since: affinity.minus(2014, died)}
+            ]).compute();
+
+            var tuple = relationClone.find({born : 1920, died : 1945});
+
+            tuple.set('died', 1946);
+
+            extended.restrict(born.eq(1920).and(died.eq(1946))).length().should.be.equal(1);
+
+            extended.print();
+
+            done();
+
+        });
+
+    });
+
+
 
 });
