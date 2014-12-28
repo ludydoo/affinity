@@ -299,4 +299,54 @@ describe('Compose Class', function () {
 
     });
 
+    describe('When adding tuples to the base relations', function(){
+
+        it.only('Should add the tuple to the resulting relation if it creates a new combination of attribute values', function(done){
+
+            var left = new affinity.Relation([
+                    { FirstName : { type : affinity.String} },
+                    { MiddleName : { type : affinity.String} }
+                ],[
+                    ['Ludovic', 'Jr'],
+                    ['Ludovic', 'Sr']
+                ]);
+
+            var right = new affinity.Relation([
+                { MiddleName : { type : affinity.String} },
+                { LastName : { type : affinity.String} }
+            ],[
+                ['Jr', 'Cléroux']
+            ]);
+
+            var result = left.compose(right);
+
+            result.compute();
+
+            right.add({MiddleName : 'Sr', LastName : 'Dongle'});
+
+            var fn = result.get('FirstName');
+            var ln = result.get('LastName');
+
+            result.restrict(fn.eq('Ludovic').and(ln.eq('Dongle'))).length().should.be.equal(1);
+
+            result.print();
+
+            done();
+
+        });
+
+    });
+
+    describe('When removing tuples from the base relations', function(){
+
+
+
+    });
+
+    describe('When updating tuples from the base relations', function(){
+
+
+
+    });
+
 });
