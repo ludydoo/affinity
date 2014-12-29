@@ -9,14 +9,13 @@ var data = {};
 data.accountTypes = new a.Relation([
     { accountTypeId : {type : a.Integer}},
     { accountTypeName : {type : a.String}}
-]);
-
-
-// Adding account types
-
-data.accountTypes.add({accountTypeId : 0, accountTypeName : 'Savings'});
-data.accountTypes.add({accountTypeId : 1, accountTypeName : 'Checking'});
-data.accountTypes.add({accountTypeId : 2, accountTypeName : 'Credit Card'});
+],[
+    [0, 'Savings'],
+    [1, 'Checking'],
+    [2, 'Credit Card']
+],{
+    pk : 'accountTypeId'
+});
 
 console.log('\nAccount types : ');
 
@@ -32,7 +31,11 @@ data.accounts = new a.Relation([
 ],[
     [0, 0, 'Desjardins', 0.00, new Date()],
     [1, 2, 'Visa', -12000.00, new Date()]
-]);
+],{
+    fk : [
+        { columnNames : 'accountTypeId', referencedColumnNames : 'accountTypeId', referencedRelation : data.accountTypes}
+    ]
+});
 
 data.accounts.print();
 
@@ -46,7 +49,7 @@ data.transactions = new a.Relation([
     {date : {type : a.Date}}
 ],[
     [0, 0, -20.00, 'Withdrawal', new Date()],
-    [1, 0, -10.00, 'Bought Shoes', new Date()],
+    [1, 1, -10.00, 'Bought Shoes', new Date()],
     [2, 1, 10.00, 'Bought Gifts', new Date()]
 ]);
 
