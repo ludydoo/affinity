@@ -301,7 +301,7 @@ describe('Compose Class', function () {
 
     describe('When adding tuples to the base relations', function(){
 
-        it.only('Should add the tuple to the resulting relation if it creates a new combination of attribute values', function(done){
+        it('Should add the tuple to the resulting relation if it creates a new combination of attribute values', function(done){
 
             var left = new affinity.Relation([
                     { FirstName : { type : affinity.String} },

@@ -100,6 +100,19 @@ describe('Set Class', function () {
 
     });
 
+    describe('Set#destroy', function(){
+
+        it('Should destroy its event listener', function(done){
+
+
+
+            done();
+
+        });
+
+    });
+
+
     describe('Set#each', function () {
 
         it('Should iterate over every element of the set', function (done) {
