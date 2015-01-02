@@ -2,81 +2,95 @@
 
 var a = require('./../../index.js');
 
-
 var data = {};
 
-
 data.accountTypes = new a.Relation([
-    { accountTypeId : {type : a.Integer}},
-    { accountTypeName : {type : a.String}}
+    { id : {type : a.Integer, autoIncrement : true}},
+    { name : {type : a.String}}
 ],[
-    [0, 'Savings'],
-    [1, 'Checking'],
-    [2, 'Credit Card']
+    [undefined, 'Savings'],
+    [undefined, 'Checking'],
+    [undefined, 'Credit Card']
 ],{
-    pk : 'accountTypeId'
+    pk : 'id'
 });
 
-console.log('\nAccount types : ');
+console.log('Account Types : ');
 
 data.accountTypes.print();
 
-
 data.accounts = new a.Relation([
-    {accountId : {type : a.Integer}},
+    {id : {type : a.Integer, autoIncrement : true}},
     {accountTypeId : {type : a.Integer}},
-    {accountName : {type : a.String}},
+    {name : {type : a.String}},
     {initialBalance : {type : a.Float} },
     {added : {type : a.Date}}
 ],[
-    [0, 0, 'Desjardins', 0.00, new Date()],
-    [1, 2, 'Visa', -12000.00, new Date()]
+    [undefined, 0, 'Desjardins', 0.00, new Date()],
+    [undefined, 2, 'Visa', -12000.00, new Date()]
 ],{
+    pk : 'id',
     fk : [
-        { columnNames : 'accountTypeId', referencedColumnNames : 'accountTypeId', referencedRelation : data.accountTypes}
+        {
+            columnNames           : 'accountTypeId',
+            referencedColumnNames : 'id',
+            referencedRelation    : data.accountTypes
+        }
     ]
 });
+
+console.log('Accounts : ');
 
 data.accounts.print();
 
 // Adding transactions
 
 data.transactions = new a.Relation([
-    {transactionId : {type : a.Integer}},
+    {id : {type : a.Integer, autoIncrement : true}},
     {accountId : {type : a.Integer}},
     {amount : {type : a.Float}},
     {description : {type : a.String}},
     {date : {type : a.Date}}
 ],[
-    [0, 0, -20.00, 'Withdrawal', new Date()],
-    [1, 1, -10.00, 'Bought Shoes', new Date()],
-    [2, 1, 10.00, 'Bought Gifts', new Date()]
-]);
+    [undefined, 0,  -20.00, 'Withdrawal',   new Date()],
+    [undefined, 1,  -10.00, 'Bought Shoes', new Date()],
+    [undefined, 1,   10.00, 'Bought Gifts', new Date()],
+    [undefined, 0,  -10.23, 'New Boobs',    new Date()],
+    [undefined, 1, -100.00, 'New Furs',     new Date()]
+],{
+    pk : 'id',
+    fk : [
+        {
+            columnNames           : 'accountId',
+            referencedColumnNames : 'id',
+            referencedRelation    : data.accounts
+        }
+    ]
+});
+
+
+console.log('Transactions : ');
 
 data.transactions.print();
 
-data.transactions.add({
-    transactionId : 3,
-    accountId : 0,
-    amount : -10.23,
-    description : 'New Boobs',
-    date : new Date()
+
+data.transactionTypes = new a.Relation([
+    {id : {type : a.Integer, autoIncrement : true}},
+    {name : {type : a.String}},
+    {parentId : {type : a.Integer}}
+],[
+   [0, 'Root Category', 0]
+],{
+    pk : 'id',
+    fk : [
+        {
+            columnNames : 'parentId',
+            referencedColumnNames : 'id',
+            selfReferenced : true
+        }
+    ]
 });
 
-data.transactions.add({
-    transactionId : 4,
-    accountId : 1,
-    amount : -100,
-    description : 'New Furs',
-    date : new Date()
-});
+console.log('Transaction Types');
 
-var transactionsView = data.transactions
-    .join(data.accounts)
-    .project(['accountId', 'amount', 'date', 'transactionId']);
-
-transactionsView.print();
-
-var transactionsViewGrouped = transactionsView.group('account', ['transactionId', 'date', 'amount']);
-
-transactionsViewGrouped.print();
+data.transactionTypes.print();
