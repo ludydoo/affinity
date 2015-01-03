@@ -86,7 +86,7 @@ data.transactionTypes = new a.Relation([
         {
             columnNames : 'parentId',
             referencedColumnNames : 'id',
-            selfReferenced : true
+            selfReferencing : true
         }
     ]
 });
