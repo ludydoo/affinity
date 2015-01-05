@@ -99,6 +99,9 @@ var Difference = Relation.extend(
 
         },
 
+<span id='Operators-Difference-method-bindEvents'>        /**
+</span>         * @private
+         */
         bindEvents: function () {
 
             debug.difference.trace(&#39;#bindEvents&#39;);
@@ -174,6 +177,7 @@ var Difference = Relation.extend(
 </span>         * Event triggered when tuples are removed from the left relation
          * @param {Relation} relation
          * @param {Tuple} removedTuple
+         * @private
          */
         afterLeftRemove : function(relation, removedTuple){
 
@@ -189,6 +193,7 @@ var Difference = Relation.extend(
 </span>         * Event triggered when tuples are removed from the right relation
          * @param {Relation} relation
          * @param {Tuple} removedTuple
+         * @private
          */
         afterRightRemove : function(relation, removedTuple){
 
@@ -204,6 +209,7 @@ var Difference = Relation.extend(
 </span>         * Event triggered when tuples are added to the left base relation
          * @param {Relation} relation
          * @param {Tuple} addedTuple
+         * @private
          */
         afterLeftAdd : function(relation, addedTuple){
 
@@ -221,6 +227,7 @@ var Difference = Relation.extend(
 </span>         * Event triggered when tuples are added to the right base relation
          * @param {Relation} relation
          * @param {Tuple} addedTuple
+         * @private
          */
         afterRightAdd : function(relation, addedTuple){
 
@@ -241,6 +248,7 @@ var Difference = Relation.extend(
          * @param {String} attributeName
          * @param {*} value
          * @param {*} oldValue
+         * @private
          */
         afterLeftUpdate : function(relation, tuple, attributeName, value, oldValue){
 
@@ -281,6 +289,7 @@ var Difference = Relation.extend(
          * @param {String} attributeName
          * @param {*} value
          * @param {*} oldValue
+         * @private
          */
         afterRightUpdate : function(relation, tuple, attributeName, value, oldValue){
 

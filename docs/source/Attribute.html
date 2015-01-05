@@ -21,15 +21,14 @@ var _ = require(&#39;lodash&#39;);
 
 var Attribute = Base.extend(
 
-
     {
 
 <span id='Attribute'>        /**
 </span>         * @class Attribute
          * @extends Base
          * @param {Object} args
-         * @param {String|null} args.name The name of the {@link Attribute}
-         * @param {Type|null} args.type The {@link Type} of the {@link Attribute}
+         * @param {String|null} [args.name] The name of the {@link Attribute}
+         * @param {Type|null} [args.type] The {@link Type} of the {@link Attribute}
          * @param {*} [args.default] The default value of the Attribute
          *
          *
@@ -65,13 +64,45 @@ var Attribute = Base.extend(
          */
         constructor: function (args) {
 
-            this.negated = false;
+<span id='Attribute-property-_negated'>            /**
+</span>             * Tells if the attribute was _negated in an expression
+             * @private
+             * @type {boolean}
+             */
+            this._negated = false;
 
+<span id='Attribute-property-_default'>            /**
+</span>             * Default value for the attribute
+             * @type {undefined}
+             * @private
+             */
             this._default = undefined;
 
+<span id='Attribute-property-_autoIncrement'>            /**
+</span>             * Tells if the attribute is an auto incrementing attribute
+             * @type {boolean}
+             * @private
+             */
             this._autoIncrement = false;
 
+<span id='Attribute-property-_calculated'>            /**
+</span>             * Tells if the attribute is a calculated attribute
+             * @type {boolean}
+             * @private
+             */
             this._calculated = false;
+
+<span id='Attribute-property-name'>            /**
+</span>             * Name of the attribute
+             * @type {String}
+             */
+            this.name = undefined;
+
+<span id='Attribute-property-type'>            /**
+</span>             * Type of the attribute
+             * @type {Type}
+             */
+            this.type = undefined;
 
             // Check if the args are given
             if (args) {
@@ -188,15 +219,15 @@ var Attribute = Base.extend(
         },
 
 <span id='Attribute-method-_checkNegatedAttribute'>        /**
-</span>         * Checks if the attribute is being negated in a predicate
+</span>         * Checks if the attribute is being _negated in a predicate
          * @param expression
          * @returns {*}
          * @private
          */
         _checkNegatedAttribute: function (expression) {
 
-            if (this.negated) {
-                this.negated = false;
+            if (this._negated) {
+                this._negated = false;
                 return new (require(&#39;./functions/connective/Not.js&#39;))(expression);
 
             } else {

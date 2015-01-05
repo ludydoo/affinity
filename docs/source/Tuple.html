@@ -391,7 +391,7 @@ var Tuple = Type.extend(
 
                             // Header has one or more attributes
 
-                            if(!header.orderedDeclaration){
+                            if(!header._orderedDeclaration){
                                 throw new Error(&#39;Cannot coerce an array declared tuple if the header has not been declared in array format&#39;)
                             }
 

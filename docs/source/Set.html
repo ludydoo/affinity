@@ -39,7 +39,8 @@ var Set = Type.extend(
             debug.set.trace(&#39;#constructor&#39;);
 
 <span id='Set-property-ee'>            /**
-</span>             * @property {Object} ee
+</span>             * @property {EventEmitter} ee
+             * @external
              */
             this.ee = new EventEmitter();
 
@@ -47,24 +48,21 @@ var Set = Type.extend(
 
 <span id='Set-property-_type'>            /**
 </span>             * @property {Type} _type
+             * @private
              */
             this._type = null;
 
 <span id='Set-property-_elements'>            /**
 </span>             * @property {Array} _elements
+             * @private
              */
             this._elements = [];
 
 <span id='Set-property-_deletedCount'>            /**
 </span>             * @property {Number} _deletedCount
+             * @private
              */
             this._deletedCount = 0;
-
-<span id='Set-property-ownsElements'>            /**
-</span>             * If the set owns the elements. If so, if the set is destroyed, they will be destroyed too
-             * @property {boolean} ownsElements
-             */
-            this.ownsElements = true;
 
 
             // Call bindEvents if is defined
@@ -81,10 +79,6 @@ var Set = Type.extend(
 
                 if (args.elements) {
                     this.elements(args.elements);
-                }
-
-                if (args.ownsElements) {
-                    this.ownsElements = args.ownsElements;
                 }
 
             }
@@ -129,15 +123,6 @@ var Set = Type.extend(
             this.each(function(element, index){
 
                 this.removeAt(index);
-
-                if (this.ownsElements){
-
-                    // Calls the object&#39;s destroy function if it exists
-                    if (_.isFunction(element.destroy)) {
-                        element.destroy();
-                    }
-
-                }
 
             });
 

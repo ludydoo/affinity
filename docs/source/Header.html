@@ -62,9 +62,19 @@ var Header = Set.extend(
 
             var result = [];
 
+<span id='Header-property-_attributes'>            /**
+</span>             * Attributes of the relation
+             * @type {Object}
+             * @private
+             */
             this._attributes = {};
 
-            this.orderedDeclaration = false;
+<span id='Header-property-_orderedDeclaration'>            /**
+</span>             * Tells if the relation was declared in an ordered way or not
+             * @type {boolean}
+             * @private
+             */
+            this._orderedDeclaration = false;
 
             if (attributes) {
 
@@ -94,7 +104,7 @@ var Header = Set.extend(
                         // [ { &lt;name&gt; : {type : &lt;type&gt;} }, { &lt;name&gt; : {type : &lt;type&gt;} }, ... ]
                         // [{ &lt;name&gt; : &lt;attribute&gt;}, {&lt;name&gt; : &lt;attribute&gt;}, {&lt;name&gt; : &lt;attribute&gt;}, ... ]
 
-                        this.orderedDeclaration = true;
+                        this._orderedDeclaration = true;
 
                         _.forEach(attributes, function (attribute, key) {
 
@@ -118,6 +128,9 @@ var Header = Set.extend(
 
         },
 
+<span id='Header-method-bindEvents'>        /**
+</span>         * Binds the events for the object
+         */
         bindEvents: function () {
 
             debug.header.trace(&#39;#bindEvents&#39;);
@@ -146,6 +159,9 @@ var Header = Set.extend(
             });
         },
 
+<span id='Header-method-refreshAttributes'>        /**
+</span>         * Refreshes the list of attributes
+         */
         refreshAttributes: function () {
 
             debug.header.trace(&#39;#refreshAttributes&#39;);
@@ -162,6 +178,11 @@ var Header = Set.extend(
 
         },
 
+<span id='Header-method-get'>        /**
+</span>         * Gets one of the header attributes
+         * @param {Attribute|String} key
+         * @returns {Attribute|null}
+         */
         get: function (key) {
 
             debug.header.trace(&#39;#get&#39;);
@@ -192,6 +213,11 @@ var Header = Set.extend(
 
         },
 
+<span id='Header-method-getIndex'>        /**
+</span>         * Gets the index of an attribute in the header
+         * @param {String} name
+         * @returns {null|Attribute}
+         */
         getIndex: function (name) {
 
             debug.header.trace(&#39;#getIndex&#39;);
@@ -204,6 +230,11 @@ var Header = Set.extend(
 
         },
 
+<span id='Header-method-getAt'>        /**
+</span>         * Gets an attribute at the specified index
+         * @param index
+         * @returns {Attribute|null}
+         */
         getAt : function(index){
 
             if(this._elements[index] !== undefined){
@@ -213,6 +244,11 @@ var Header = Set.extend(
 
         },
 
+<span id='Header-method-attributes'>        /**
+</span>         * Gets or sets the header attributes list
+         * @param {*[]} attributes
+         * @returns {undefined|null|Array}
+         */
         attributes: function (attributes) {
 
             debug.header.trace(&#39;#attributes&#39;);
@@ -230,7 +266,7 @@ var Header = Set.extend(
         },
 
 <span id='Header-method-clone'>        /**
-</span>         * Clone a header and its attributes
+</span>         * Clones a header and its attributes
          * @returns {Header}
          */
         clone: function () {
@@ -286,7 +322,7 @@ var Header = Set.extend(
 
                     var found = _.find(this.elements(), function (attribute) {
                         return attribute === projectedAttribute;
-                    });
+                    }, this);
 
                     if (!found) {
                         throw new ReferenceError(&#39;Attribute not found in the header&#39;);
@@ -382,6 +418,14 @@ var Header = Set.extend(
             return resultHeader;
         },
 
+<span id='Header-method-rename'>        /**
+</span>         * Rename operation on the header
+         * @param {Object} attributes
+         * @returns {Header} The new set
+         *
+         *     var newHeader = Header.rename( { oldName : &#39;newName&#39; } );
+         *
+         */
         rename: function (attributes) {
 
             debug.header.trace(&#39;#rename&#39;);
@@ -450,6 +494,21 @@ var Header = Set.extend(
 
 <span id='Header-method-toRelation'>        /**
 </span>         * @returns {Relation} The relation representation of the header
+         *
+         *     var header = new affinity.Header({ a : affinity.String, b : affinity.String });
+         *
+         *     var headerRelation = header.toRelation();
+         *
+         *     headerRelation.print();
+         *
+         *     // +---------------+-------------+
+         *     // | name : String | type : Type |
+         *     // +---------------+-------------+
+         *     // | a             | String      |
+         *     // +---------------+-------------+
+         *     // | b             | String      |
+         *     // +---------------+-------------+
+         *
          */
         toRelation: function () {
 
@@ -469,7 +528,7 @@ var Header = Set.extend(
         },
 
 <span id='Header-method-toNameArray'>        /**
-</span>         * @returns {string[]} An array containing the string names of the attributes
+</span>         * @returns {string[]} An array containing the names of the attributes
          */
         toNameArray : function(){
             var result = [];
@@ -483,7 +542,10 @@ var Header = Set.extend(
         },
 
 <span id='Header-method-fromRelation'>        /**
-</span>         * @param relation
+</span>         *
+         * Converts a relation to a header. The relation must have a name : string and type : type structure.
+         * Inverse of {@link Header#toRelation}
+         * @param relation
          * @returns {Header}
          */
         fromRelation : function(relation){
@@ -501,6 +563,13 @@ var Header = Set.extend(
 
         },
 
+<span id='Header-method-copy'>        /**
+</span>         * Copies attributes from a relation to another
+         * @param {Header} header
+         * @param {Header|string[]|Set} [attributesArgument=[]]
+         * @param {Boolean} [exclude=false]
+         * @returns {Header}
+         */
         copy : function(header, attributesArgument, exclude){
 
             var that = this;

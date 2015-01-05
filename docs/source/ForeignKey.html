@@ -36,26 +36,9 @@ var ForeignKey = Base.extend({
      * @param {string} params.onUpdate
      * @param {string} params.onDelete
      *
-     * The Key class represents foreign keys to a relation.
+     * The ForeignKey class represents foreign keys to a relation.
      *
-     * When keys are not defined on a relation, a key is assumed on all attributes of the relation.
-     * Though, when a key is defined on a subset of a relation&#39;s attributes, the uniqueness
-     * of the tuples will be calculated only on those attributes.
-     *
-     * Also, a Key will index the tuples for its attributes, making operations a lot faster.
-     *
-     *
-     *     var people = new affinity.Relation([
-     *          {id         : {type : affinity.Integer}},
-     *          {name       : {type : affinity.String}}
-     *      ],[
-     *          [0, &#39;Howdy&#39;],
-     *          [1, &#39;Duddy&#39;],
-     *          [2, &#39;James&#39;],
-     *          [3, &#39;Mary&#39;],
-     *      ],{
-     *          pk : [&#39;id&#39;]
-     *      });
+     * The foreign key enforces the relational integrity of different relations.
      *
      *
      *     var dogs = new affinity.Relation([
@@ -70,7 +53,13 @@ var ForeignKey = Base.extend({
      *      ],{
      *          pk : [&#39;id&#39;],
      *          fk : [
-     *              { columns : [&#39;ownerId&#39;], references : [people.get(&#39;id&#39;)], onUpdate : &#39;delete&#39;, onDelete : &#39;cascade&#39;},
+     *              {
+     *                  columnNames           : [&#39;ownerId&#39;],
+     *                  referencedRelation    : people,
+     *                  referencedColumnNames : [&#39;id&#39;],
+     *                  onUpdate              : &#39;cascade&#39;,
+     *                  onDelete              : &#39;restrict&#39;
+ *                  },
      *              ...
      *          ]
      *      });
