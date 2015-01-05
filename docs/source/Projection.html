@@ -89,11 +89,13 @@ var Projection = Relation.extend(
 
             var that = this;
 
+            var relation = this.rel;
+
             that.ee.once(&#39;beforeGetBody&#39;, function () {
 
                 debug.projection.trace(&#39;beforeGetBody&#39;);
 
-                that.rel.each(function (tuple) {
+                relation.each(function (tuple) {
 
                     var newTuple = new Tuple();
 
@@ -109,11 +111,48 @@ var Projection = Relation.extend(
 
                 debug.projection.trace(&#39;beforeGetHeader&#39;);
 
-                that.header().copy(that.rel.header().project(that.args))
+                that.header().copy(relation.header().project(that.args))
 
             });
 
+            // Binds the base relation afterAdd event
+            relation.ee.on(&#39;afterAdd&#39;, function(tuple, index){
+                that.afterAdd(relation, tuple);
+            });
+
+            // Binds the base relation afterRemove event
+            relation.ee.on(&#39;afterRemove&#39;, function(tuple, index){
+                that.afterRemove(relation, tuple);
+            });
+
+            // Binds the base relation afterUpdate event
+            relation.ee.on(&#39;afterUpdate&#39;, function(tuple, attributeName, value, oldValue){
+                that.afterUpdate(relation, tuple, attributeName, value, oldValue);
+            });
+
+        },
+
+        afterAdd : function(relation, tuple){
+            var result = relation.project(this.args);
+            debug.group.trace(&#39;Projection#afterAdd&#39;);
+            this.adjustTo(result);
+        },
+
+        afterRemove : function(relation, tuple){
+            var result = relation.project(this.args);
+            debug.group.trace(&#39;Projection#afterRemove&#39;);
+            this.adjustTo(result);
+        },
+
+        afterUpdate : function(relation, tuple, attributeName, value, oldValue){
+            var result = relation.project(this.args);
+            debug.group.trace(&#39;Projection#afterUpdate&#39;);
+            this.adjustTo(result);
         }
+
+    }, {
+
+        type : &#39;Projection&#39;
 
     });
 

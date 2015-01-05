@@ -176,7 +176,26 @@ var Ungroup = Relation.extend(
 
             });
 
+        },
+
+        afterAdd : function(relation, tuple){
+            var result = this.relation.ungroup(this.groupedAttributeNames);
+            this.adjustTo(result);
+        },
+
+        afterRemove : function(relation, tuple){
+            var result = this.relation.ungroup(this.groupedAttributeNames);
+            this.adjustTo(result);
+        },
+
+        afterUpdate : function(relation, tuple, attributeName, value, oldValue){
+            var result = this.relation.ungroup(this.groupedAttributeNames);
+            this.adjustTo(result);
         }
+
+    }, {
+
+        type : &#39;Ungroup&#39;
 
     });
 

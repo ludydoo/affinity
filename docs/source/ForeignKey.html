@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">var Base = require(&#39;./Base&#39;),
+    Index = require(&#39;./Index&#39;),
+    Header = require(&#39;./Header&#39;),
+    _ = require(&#39;lodash&#39;),
+    Attribute = require(&#39;./Attribute&#39;),
+    Tuple = require(&#39;./Tuple&#39;),
+    debug = require(&#39;./helpers/debug&#39;);
+
+var ForeignKey = Base.extend({
+
+<span id='ForeignKey'>    /**
+</span>     * @class ForeignKey
+     * @extends Base
+     * @param {Object} params
+     * @param {Relation} params.relation
+     * @param {string|string[]|Header} params.columnNames
+     * @param {Relation} params.referencedRelation
+     * @param {string|string[]|Header} params.referencedColumnNames
+     * @param {string} params.onUpdate
+     * @param {string} params.onDelete
+     *
+     * The Key class represents foreign keys to a relation.
+     *
+     * When keys are not defined on a relation, a key is assumed on all attributes of the relation.
+     * Though, when a key is defined on a subset of a relation&#39;s attributes, the uniqueness
+     * of the tuples will be calculated only on those attributes.
+     *
+     * Also, a Key will index the tuples for its attributes, making operations a lot faster.
+     *
+     *
+     *     var people = new affinity.Relation([
+     *          {id         : {type : affinity.Integer}},
+     *          {name       : {type : affinity.String}}
+     *      ],[
+     *          [0, &#39;Howdy&#39;],
+     *          [1, &#39;Duddy&#39;],
+     *          [2, &#39;James&#39;],
+     *          [3, &#39;Mary&#39;],
+     *      ],{
+     *          pk : [&#39;id&#39;]
+     *      });
+     *
+     *
+     *     var dogs = new affinity.Relation([
+     *          {id : {type : affinity.Integer}},
+     *          {ownerId : {type : affinity.Integer}},
+     *          {name : {type : affinity.Integer}},
+     *      ],[
+     *          [0, 0, &#39;Fido&#39;],
+     *          [1, 0, &#39;Bobby&#39;],
+     *          [2, 1, &#39;Stacey&#39;],
+     *          [3, 2, &#39;Ceasar&#39;],
+     *      ],{
+     *          pk : [&#39;id&#39;],
+     *          fk : [
+     *              { columns : [&#39;ownerId&#39;], references : [people.get(&#39;id&#39;)], onUpdate : &#39;delete&#39;, onDelete : &#39;cascade&#39;},
+     *              ...
+     *          ]
+     *      });
+     */
+    constructor: function (params) {
+
+        debug.foreignKey.trace(&#39;#constructor&#39;);
+
+        // relation, columnNames, referencedRelation, referencedColumnNames, onUpdate, onDelete
+
+<span id='ForeignKey-property-columns'>        /** @property {Header} columns */
+</span>        this.columns = null;
+
+<span id='ForeignKey-property-referencedColumns'>        /** @property {Header} referencedColumns */
+</span>        this.referencedColumns = null;
+
+<span id='ForeignKey-property-relation'>        /** @property {Relation} relation */
+</span>        this.relation = params.relation;
+
+<span id='ForeignKey-property-referencedRelation'>        /** @property {Relation} referencedRelation */
+</span>        this.referencedRelation = params.selfReferencing ? this.relation : params.referencedRelation;
+
+        // Validate columnNames parameter
+
+        if (params.columnNames instanceof Header) {
+
+            // columnNames is already a header
+            if (!params.columnNames.isSubset(relation.header()))
+                throw new Error(&#39;Parameter columnNames passed as invalid Header. &#39;);
+
+            this.columns = params.columnNames;
+
+        } else {
+
+            if(!_.isArray(params.columnNames)){
+                params.columnNames = [params.columnNames];
+            }
+
+            this.columns =  this.relation.header().clone().project(params.columnNames);
+
+        }
+
+
+        // Validate referencedColumnNames parameter
+
+        if (params.referencedColumnNames instanceof Header) {
+
+            // referencedColumnNames is already a header
+            if (!params.referencedColumnNames.isSubset(params.referencedRelation.header()))
+                throw new Error(&#39;Parameter referencedColumnNames passed as invalid Header. &#39;);
+
+            this.referencedColumns = params.referencedColumnNames;
+
+        } else {
+
+            if(!_.isArray(params.referencedColumnNames)){
+                params.referencedColumnNames = [params.referencedColumnNames];
+            }
+            this.referencedColumns = this.referencedRelation.header().clone().project(params.referencedColumnNames);
+
+        }
+
+        //todo : Verify onUpdate
+        //todo : Verify onDelete
+
+        var that = this;
+
+
+        // Check that the added tuple respects the foreign key constraint before adding the tuple
+
+        this.relation.ee.on(&#39;afterAdd&#39;, function(tuple, tupleIndex){
+
+            debug.foreignKey.trace(&#39;#beforeAdd&#39;);
+
+            try {
+
+                that.checkForeignKeyConstraint(tuple);
+
+            } catch (err) {
+
+                that.relation.removeAt(tupleIndex);
+
+                throw(err);
+
+            }
+
+        });
+
+        // Remove then add the tuple from index before the tuple update
+
+        this.relation.ee.on(&#39;beforeUpdate&#39;, function(tuple, attributeName, attributeValue){
+
+            debug.foreignKey.trace(&#39;#beforeUpdate&#39;);
+
+            var projectedTuple = tuple.clone();
+
+            projectedTuple.set(attributeName, attributeValue);
+
+            that.checkForeignKeyConstraint(projectedTuple);
+
+        });
+
+    },
+
+    checkForeignKeyConstraint : function(tuple){
+
+        debug.foreignKey.trace(&#39;#checkForeignKeyConstraint&#39;);
+
+        var that = this,
+            keyTuple,
+            temporaryRelation,
+            Relation,
+            projectedReferencedRelation,
+            intersectedRelation;
+
+
+        /// Build a tuple containing the required values for the given referenced columns
+
+        keyTuple = new Tuple();
+
+        that.referencedColumns.each(function(referencedAttribute, attributeIndex){
+
+            var attribute = that.columns.atIndex(attributeIndex);
+
+            keyTuple.set(referencedAttribute.name, tuple.get(attribute.name));
+
+        });
+
+        /// Build a temporary relation that will contain that tuple
+
+        Relation = require(&#39;./Relation&#39;);
+
+
+        //// The temporary relation only contains the attributes on which the foreign key is defined
+
+        temporaryRelation = new Relation(that.referencedColumns.clone());
+
+
+        /// Add into the temporary relation the tuple containing the foreign key values to be checked
+
+        temporaryRelation.add(keyTuple);
+
+
+        /// Now project the referenced relation only on the foreign key attributes
+
+        projectedReferencedRelation = that.referencedRelation.project(temporaryRelation.header().toNameArray());
+
+
+        /// Intersect the two relations to check if there are common attributes
+
+        intersectedRelation = temporaryRelation.intersect(projectedReferencedRelation);
+
+
+        //// Count the number of results to assert a greater than 0 count
+        //todo : only one result required?
+
+        if (intersectedRelation.length() &lt; 1){
+            throw new Error(&#39;Foreign key constraint check fail&#39;)
+        }
+
+
+    }
+
+},{
+
+    cascadeValues : [&#39;cascade&#39;, &#39;prevent&#39;]
+
+});
+
+module.exports = ForeignKey;</pre>
+</body>
+</html>

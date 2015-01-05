@@ -20,6 +20,7 @@ var _ = require(&#39;lodash&#39;);
 var Function = require(&#39;./../Function&#39;);
 var Attribute = require(&#39;./../Attribute&#39;);
 var Type = require(&#39;./../Type&#39;);
+var debug = require(&#39;./debug&#39;);
 
 var TBoolean = require(&#39;./../types/Boolean&#39;);
 var TString = require(&#39;./../types/String&#39;);
@@ -30,6 +31,8 @@ var TFloat = require(&#39;./../types/Float&#39;);
 
 
 var type = function(thang){
+
+    debug.type.trace(&#39;#type&#39;);
 
     if(thang instanceof Attribute){
         return thang.type;

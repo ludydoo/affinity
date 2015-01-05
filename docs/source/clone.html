@@ -16,8 +16,11 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">var _ = require(&#39;lodash&#39;);
+var debug = require(&#39;./debug&#39;);
 
 var clone = function (element) {
+
+    debug.clone.trace(&#39;#clone&#39;);
 
     if (element.clone &amp;&amp; _.isFunction(element.clone)) {
 

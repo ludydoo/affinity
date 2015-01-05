@@ -152,8 +152,72 @@ var Join = Relation.extend(
 
             });
 
+            that.rels[0].ee.on(&#39;afterAdd&#39;, function(tuple, index){
+                that.afterLeftAdd(that.rels[0], tuple, index);
+            });
 
+            that.rels[1].ee.on(&#39;afterAdd&#39;, function(tuple, index){
+                that.afterRightAdd(that.rels[1], tuple, index);
+            });
+
+            that.rels[0].ee.on(&#39;afterRemove&#39;, function(tuple, index){
+                that.afterLeftRemove(that.rels[0], tuple, index);
+            });
+
+            that.rels[1].ee.on(&#39;afterRemove&#39;, function(tuple, index){
+                that.afterRightRemove(that.rels[0], tuple, index);
+            });
+
+            that.rels[0].ee.on(&#39;afterUpdate&#39;, function(tuple, attributeName, value, oldValue){
+                that.afterLeftUpdate(that.rels[0], tuple, attributeName, value, oldValue);
+            });
+
+            that.rels[1].ee.on(&#39;afterUpdate&#39;, function(tuple, attributeName, value, oldValue){
+                that.afterLeftUpdate(that.rels[0], tuple, attributeName, value, oldValue);
+            });
+
+
+        },
+
+        afterLeftAdd : function(relation, tuple){
+            debug.group.trace(&#39;Join#afterLeftAdd&#39;);
+            var result = this.rels[0].join(this.rels[1]);
+            this.adjustTo(result);
+        },
+
+        afterLeftRemove : function(relation, tuple){
+            debug.group.trace(&#39;Join#afterLeftRemove&#39;);
+            var result = this.rels[0].join(this.rels[1]);
+            this.adjustTo(result);
+        },
+
+        afterLeftUpdate : function(relation, tuple, attributeName, value, oldValue){
+            debug.group.trace(&#39;Join#afterLeftUpdate&#39;);
+            var result = this.rels[0].join(this.rels[1]);
+            this.adjustTo(result);
+        },
+
+        afterRightAdd : function(relation, tuple){
+            debug.group.trace(&#39;Join#afterRightAdd&#39;);
+            var result = this.rels[0].join(this.rels[1]);
+            this.adjustTo(result);
+        },
+
+        afterRightRemove : function(relation, tuple){
+            debug.group.trace(&#39;Join#afterRightRemove&#39;);
+            var result = this.rels[0].join(this.rels[1]);
+            this.adjustTo(result);
+        },
+
+        afterRightUpdate : function(relation, tuple, attributeName, value, oldValue){
+            debug.group.trace(&#39;Join#afterRightUpdate&#39;);
+            var result = this.rels[0].join(this.rels[1]);
+            this.adjustTo(result);
         }
+
+    }, {
+
+        type : &#39;Join&#39;
 
     });
 

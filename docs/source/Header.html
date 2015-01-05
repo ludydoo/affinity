@@ -35,13 +35,13 @@ var Header = Set.extend(
          * @throws The attributes are not passed in Array format
          *
          *
-         * A {@link module:Relation~Header Header} is one of the two main parts of a
-         * {@link module:Relation~Relation Relation}, along with the Body (which is a {@link Set}).
+         * A {@link Header} is one of the two main parts of a
+         * {@link Relation}, along with the Body (which is a {@link Set}).
          *
-         * It is a {@link Set} of {@link module:Relation~Attribute Attribute}s. It defines the structure of the
-         * {@link module:Relation~Tuple Tuples} that will be part of the body of the
-         * {@link module:Relation~Relation Relation}. Each {@link module:Relation~Tuple Tuple} in a
-         * {@link module:Relation~Relation Relation} must match its {@link module:Relation~Header Header}
+         * It is a {@link Set} of {@link Attribute}s. It defines the structure of the
+         * {@link Tuple}s that will be part of the body of the
+         * {@link Relation}. Each {@link Tuple} in a
+         * {@link Relation} must match its {@link Header}
          *
          *     var header = new affinity.header([
          *          {firstname : affinity.string},
@@ -61,7 +61,9 @@ var Header = Set.extend(
             debug.header.trace(&#39;#constructor&#39;);
 
             var result = [];
+
             this._attributes = {};
+
             this.orderedDeclaration = false;
 
             if (attributes) {
@@ -79,9 +81,11 @@ var Header = Set.extend(
                         // { &lt;name&gt; : &lt;attribute&gt;, &lt;name&gt; : &lt;attribute&gt;, &lt;name&gt; : &lt;attribute&gt;, ... }
 
                         _.forOwn(attributes, function(attribute, key){
+
                             var attr = {};
                             attr[key] = attribute;
                             result.push(attr);
+
                         });
 
                     } else {
@@ -464,6 +468,20 @@ var Header = Set.extend(
 
         },
 
+<span id='Header-method-toNameArray'>        /**
+</span>         * @returns {string[]} An array containing the string names of the attributes
+         */
+        toNameArray : function(){
+            var result = [];
+
+            this.each(function(attribute){
+                result.push(attribute.name);
+            });
+
+            return result;
+
+        },
+
 <span id='Header-method-fromRelation'>        /**
 </span>         * @param relation
          * @returns {Header}
@@ -512,7 +530,7 @@ var Header = Set.extend(
                                     throw new Error(&#39;Attribute with name &quot;&#39; + attribute + &#39;&quot; not found in the header&#39;);
                                 }
 
-                                tempHeader.add(header.get(attribute));
+                                tempHeader.add(header.get(attribute).clone());
 
 
                             } else if(attribute instanceof Attribute) {
@@ -537,7 +555,7 @@ var Header = Set.extend(
                                     throw new Error(&#39;Attribute with name &quot;&#39; + attribute + &#39;&quot; not found in the header&#39;);
                                 }
 
-                                tempHeader.add(attr);
+                                tempHeader.add(attr.clone());
 
                             } else if(attribute instanceof Attribute) {
 
@@ -619,6 +637,11 @@ var Header = Set.extend(
 
     }, {
 
+<span id='Header-static-method-assertAttributesExist'>        /**
+</span>         * @static
+         * @param {Header} header
+         * @param {string[]|Attribute[]} attributes
+         */
         assertAttributesExist : function(header, attributes){
 
             var mismatch = false;
@@ -641,6 +664,11 @@ var Header = Set.extend(
 
         },
 
+<span id='Header-static-method-assertSameNameSameType'>        /**
+</span>         * @static
+         * @param {Header} header1
+         * @param {Header} header2
+         */
         assertSameNameSameType : function(header1, header2){
 
             header1.each(function(attribute1){
@@ -657,6 +685,11 @@ var Header = Set.extend(
 
         },
 
+<span id='Header-static-method-assertUnionCompatible'>        /**
+</span>         * @static
+         * @param {Header} header1
+         * @param {Header} header2
+         */
         assertUnionCompatible : function(header1, header2){
 
             if (!this.equal(header1, header2)) {
@@ -665,6 +698,11 @@ var Header = Set.extend(
 
         },
 
+<span id='Header-static-method-assertDisjoint'>        /**
+</span>         * @static
+         * @param {Header} header1
+         * @param {Header} header2
+         */
         assertDisjoint : function(header1, header2){
 
             if(!this.disjoint(header1, header2)){
@@ -673,17 +711,23 @@ var Header = Set.extend(
 
         },
 
+<span id='Header-static-method-commonAttributes'>        /**
+</span>         * @static
+         * @param {Header} header1
+         * @param {Header} header2
+         * @returns {Set|*}
+         */
         commonAttributes : function(header1, header2){
 
             return header1.setIntersection(header2);
 
         },
 
-<span id='Header-method-fromRelation'>        /**
+<span id='Header-static-method-fromRelation'>        /**
 </span>         * Converts a relation into a header.
          * The relation must have the header only with attributes name : TString and type : TType.
+         * @static
          * @param relation
-
          * @returns {Header}
          */
         fromRelation : function(relation){
@@ -694,6 +738,12 @@ var Header = Set.extend(
 
         },
 
+<span id='Header-static-method-equal'>        /**
+</span>         * @static
+         * @param {Header} header1
+         * @param {Header} header2
+         * @returns {boolean}
+         */
         equal: function (header1, header2) {
 
             debug.header.trace(&#39;Header.equal&#39;);
@@ -725,6 +775,12 @@ var Header = Set.extend(
 
         },
 
+<span id='Header-static-method-disjoint'>        /**
+</span>         * @static
+         * @param {Header} header1
+         * @param {Header} header2
+         * @returns {boolean}
+         */
         disjoint: function (header1, header2) {
 
             debug.header.trace(&#39;Header.disjoint&#39;);
@@ -747,6 +803,11 @@ var Header = Set.extend(
 
         },
 
+<span id='Header-static-method-coerce'>        /**
+</span>         * @static
+         * @param {Header|*} header
+         * @returns {Header}
+         */
         coerce : function(header){
 
             if(header instanceof this){

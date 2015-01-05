@@ -27,9 +27,6 @@ var debug = require(&#39;./../helpers/debug&#39;);
 
 var Group = Relation.extend(
 
-
-
-
     {
 
 <span id='Operators-Group'>        /**
@@ -86,14 +83,30 @@ var Group = Relation.extend(
          */
         constructor: function (relation, attributeName, attributes) {
 
+<span id='Operators-Group-property-args'>            /**
+</span>             * @property {Object} args
+             * @property {Relation} args.relation
+             * @property {String} args.groupingAttributeName
+             * @property {String[]} args.groupedAttributeNames
+             * @property {Attribute[]} args.groupedAttributes
+             * @property {Attribute} args.groupingAttribute
+             */
+
             debug.group.trace(&#39;#constructor&#39;);
 
-            this.relation = relation;
-            this.groupingAttributeName = attributeName;
-            this.groupedAttributeNames= attributes;
-            this.groupedAttributes = [];
-            this.groupingAttribute = null;
+            this.args = {};
 
+            this.args.relation = relation;
+
+            this.args.groupingAttributeName = attributeName;
+
+            this.args.groupedAttributeNames = attributes;
+
+            this.args.groupedAttributes = [];
+
+            this.args.groupingAttribute = null;
+
+            // Calling the parent constructor
             Relation.call(this);
 
         },
@@ -106,13 +119,13 @@ var Group = Relation.extend(
             Group.__super__.bindEvents.call(this);
 
             var that = this,
-                groupedAttributeNames = this.groupedAttributeNames,
-                groupingAttributeName = this.groupingAttributeName,
-                relation = this.relation,
-                groupedAttributes = that.groupedAttributes;
+                groupedAttributeNames = this.args.groupedAttributeNames,
+                groupingAttributeName = this.args.groupingAttributeName,
+                relation = this.args.relation,
+                groupedAttributes = that.args.groupedAttributes;
 
             // BeforeGetHeader
-            this.ee.once(&#39;beforeGetHeader&#39;, function () {
+            that.ee.once(&#39;beforeGetHeader&#39;, function () {
 
                 // We want to have this kind of relation
                 //
@@ -156,15 +169,15 @@ var Group = Relation.extend(
 
                 // Let&#39;s create the groupingAttributeName and add it to the header
 
-                that.groupingAttribute = new Attribute({name : groupingAttributeName, type : Relation});
+                that.args.groupingAttribute = new Attribute({name : groupingAttributeName, type : Relation});
 
-                that.header().add(that.groupingAttribute);
+                that.header().add(that.args.groupingAttribute);
 
             });
 
 
             // BeforeGetBody
-            this.ee.once(&#39;beforeGetBody&#39;, function () {
+            that.ee.once(&#39;beforeGetBody&#39;, function () {
 
                 debug.group.trace(&#39;beforeGetBody&#39;);
 
@@ -190,7 +203,7 @@ var Group = Relation.extend(
                     tuple.each(function(value, key){
 
                         // Check if the current tuple attribute is grouped or not grouped
-                        var grouped = _.any(that.groupedAttributes, function(groupedAttribute){
+                        var grouped = _.any(that.args.groupedAttributes, function(groupedAttribute){
                             return key === groupedAttribute.name;
                         });
 
@@ -293,7 +306,7 @@ var Group = Relation.extend(
                         // So that we will know what kind of relation this is without having to access
                         // the body
 
-                        that.groupingAttribute.relationHeader = newRelation.header().clone();
+                        that.args.groupingAttribute.relationHeader = newRelation.header().clone();
 
                         // This relation should look like
                         // +----------------+----------------+
@@ -342,7 +355,62 @@ var Group = Relation.extend(
 
             });
 
+            // Binds the base relation afterAdd event
+            that.args.relation.ee.on(&#39;afterAdd&#39;, function(tuple, index){
+                that.afterAdd(relation, tuple);
+            });
+
+            // Binds the base relation afterRemove event
+            that.args.relation.ee.on(&#39;afterRemove&#39;, function(tuple, index){
+                that.afterRemove(relation, tuple);
+            });
+
+            // Binds the base relation afterUpdate event
+            that.args.relation.ee.on(&#39;afterUpdate&#39;, function(tuple, attributeName, value, oldValue){
+                that.afterUpdate(relation, tuple, attributeName, value, oldValue);
+            });
+
+        },
+
+<span id='Operators-Group-method-afterAdd'>        /**
+</span>         * Event handler when a tuple has been added to the base relation
+         * @param {Relation} relation
+         * @param {Tuple} tuple
+         */
+        afterAdd : function(relation, tuple){
+            debug.group.trace(&#39;Group#afterAdd&#39;);
+            var result = this.args.relation.group(this.args.groupingAttributeName, this.args.groupedAttributeNames);
+            this.adjustTo(result);
+        },
+
+<span id='Operators-Group-method-afterRemove'>        /**
+</span>         * Event handler when a tuple has been removed from the base relation
+         * @param {Relation} relation
+         * @param {Tuple} tuple
+         */
+        afterRemove : function(relation, tuple){
+            debug.group.trace(&#39;Group#afterRemove&#39;);
+            var result = this.args.relation.group(this.args.groupingAttributeName, this.args.groupedAttributeNames);
+            this.adjustTo(result);
+        },
+
+<span id='Operators-Group-method-afterUpdate'>        /**
+</span>         * Event handler when a tuple has been updated from the base relation
+         * @param {Relation} relation
+         * @param {Tuple} tuple
+         * @param {String} attributeName
+         * @param {*} value
+         * @param {*} oldValue
+         */
+        afterUpdate : function(relation, tuple, attributeName, value, oldValue){
+            debug.group.trace(&#39;Group#afterUpdate&#39;);
+            var result = this.args.relation.group(this.args.groupingAttributeName, this.args.groupedAttributeNames);
+            this.adjustTo(result);
         }
+
+    }, {
+
+        type : &#39;Group&#39;
 
     });
 

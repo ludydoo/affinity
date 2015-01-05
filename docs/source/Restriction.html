@@ -80,37 +80,6 @@ var Restriction = Relation.extend(
 
             var that = this;
 
-            that.ee.once(&#39;beforeGetBody&#39;, function () {
-
-                that.header();
-
-                debug.restriction.trace(&#39;beforeGetBody&#39;);
-
-                if(that.predicate instanceof Function){
-
-                    that.predicate.convertAttributeToTuple();
-
-                    that.rel.each(function (tuple) {
-
-                        if (that.predicate.assignTuple(tuple).value() === true) {
-                            that.add(tuple.clone(), false);
-                        }
-
-                    }, that)
-
-                } else if (_.isFunction(that.predicate)) {
-                    that.rel.each(function(tuple){
-
-                        if(that.predicate(tuple)){
-                            that.add(tuple.clone(), false);
-                        }
-
-                    })
-                } else {
-                    throw new TypeError(&#39;Unsupported predicate type&#39;)
-                }
-
-            });
 
             that.ee.once(&#39;beforeGetHeader&#39;, function () {
 
@@ -120,7 +89,60 @@ var Restriction = Relation.extend(
 
             });
 
+
+            that.ee.once(&#39;beforeGetBody&#39;, function () {
+
+                that.rel.each( function (tuple) { that.afterAdd(tuple); })
+
+            });
+
+            that.rel.ee.on(&#39;afterAdd&#39;, function(tuple){
+                that.afterAdd(tuple);
+            })
+
+        },
+
+        afterAdd : function(tuple){
+
+            debug.restriction.trace(&#39;afterAdd&#39;);
+
+            var that = this;
+
+            that.header();
+
+            if(that.predicate instanceof Function){
+
+                that.predicate.convertAttributeToTuple();
+
+                if (that.predicate.assignTuple(tuple).value() === true) {
+                    that.add(tuple.clone(), false);
+                }
+
+            } else if (_.isFunction(that.predicate)) {
+
+                if(that.predicate(tuple)){
+                    that.add(tuple.clone(), false);
+                }
+
+            } else {
+                throw new TypeError(&#39;Unsupported predicate type&#39;)
+            }
+
+        },
+
+        afterRemove : function(relation, tuple){
+            var result = this.relation.restrict(this.predicate);
+            this.adjustTo(result);
+        },
+
+        afterUpdate : function(relation, tuple, attributeName, value, oldValue){
+            var result = this.relation.restrict(this.predicate);
+            this.adjustTo(result);
         }
+
+    }, {
+
+        type : &#39;Restriction&#39;
 
     });
 

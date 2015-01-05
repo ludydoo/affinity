@@ -30,6 +30,7 @@ var Attribute = Base.extend(
          * @param {Object} args
          * @param {String|null} args.name The name of the {@link Attribute}
          * @param {Type|null} args.type The {@link Type} of the {@link Attribute}
+         * @param {*} [args.default] The default value of the Attribute
          *
          *
          * A {@link Relation}&#39;s {@link Header} is composed of Attributes.
@@ -40,7 +41,7 @@ var Attribute = Base.extend(
          * Relation&#39;s tuples for this attibute.
          *
          * For example,
-         * when running an {@link module:Relation/Operators~Union} on a {@link Relation}, the {@link Tuple}s will be tested for equality so that the
+         * when running an {@link Operators.Union} on a {@link Relation}, the {@link Tuple}s will be tested for equality so that the
          * {@link Relation} does not include duplicates (as the mathematical definition of a {@link Set} tells us).
          * To do this, we compare two {@link Tuple} by comparing the value of their {@link Attribute}s. If for these two
          * {@link Tuple}s, all their {@link Attribute} values are equal, the two {@link Tuple}s are said to be equal.
@@ -54,9 +55,9 @@ var Attribute = Base.extend(
          * To resume, the {@link Type} of an {@link Attribute} must implement the methods used to compare the corresponding
          * {@link Tuple} {@link Attribute} values.
          *
-         * For {@link TNumeric} {@link Type}s, the {@link Type} will also implement other comparison operators such as LargerThan (.lt()) ...
+         * For {@link Types.Numeric} {@link Type}s, the {@link Type} will also implement other comparison operators such as LargerThan (.lt()) ...
          *
-         * For {@link TDate} {@link Type}s, the {@link Type} will also implement other operators such as DayOfWeek, ...
+         * For {@link Types.Date} {@link Type}s, the {@link Type} will also implement other operators such as DayOfWeek, ...
          *
          *     var fn = new affinity.Attribute({name : &#39;FirstName&#39;, type : &#39;affinity.String&#39;})
          *     var ln = new affinity.Attribute({name : &#39;LastName&#39;, type : &#39;affinity.String&#39;})
@@ -65,6 +66,12 @@ var Attribute = Base.extend(
         constructor: function (args) {
 
             this.negated = false;
+
+            this._default = undefined;
+
+            this._autoIncrement = false;
+
+            this._calculated = false;
 
             // Check if the args are given
             if (args) {
@@ -93,7 +100,7 @@ var Attribute = Base.extend(
                 if (args.type) {
 
                     // Check if the type arg is of good type
-                    if (!(args.type.prototype instanceof Type)) {
+                    if (!(args.type.prototype instanceof Type) &amp;&amp; !(args.type.__proto__ instanceof Type)) {
 
                         // If the type arg is not of type Type, throw
                         throw new TypeError(&#39;Type is of wrong type&#39;)
@@ -119,26 +126,47 @@ var Attribute = Base.extend(
                     this.type = null;
                 }
 
+                if (args.hasOwnProperty(&#39;default&#39;)){
+                    this._default = args.default;
+                }
+
+                if (args.hasOwnProperty(&#39;autoIncrement&#39;)){
+                    this._autoIncrement = args.autoIncrement;
+                }
+
             }
 
             Base.apply(this, arguments);
         },
 
+<span id='Attribute-method-calculated'>        /**
+</span>         * Calculted Property getter setter
+         * @param {Boolean} isCalculated
+         * @return {undefined|Boolean}
+         */
+        calculated : function(isCalculated){
+
+            if(_.isBoolean(isCalculated)){
+                this._calculated = isCalculated;
+            } else {
+                return this._calculated;
+            }
+
+        },
 
 <span id='Attribute-method-clone'>        /**
 </span>         * Clones the Attribute object
          * @return {Attribute} cloned attribute
-         * @example
          *
-         * var fn = new affinity.Attribute({name : &#39;FirstName&#39;,affinity.String});
+         *     var fn = new affinity.Attribute({name : &#39;FirstName&#39;,affinity.String});
          *
-         * var ln = attribute.clone();
+         *     var ln = attribute.clone();
          *
-         * ln.equal(fn) // true
+         *     ln.equal(fn) // true
          *
-         * ln.name = &#39;LastName&#39;;
+         *     ln.name = &#39;LastName&#39;;
          *
-         * ln.equal(fn) // false
+         *     ln.equal(fn) // false
          *
          *
          */
@@ -153,6 +181,8 @@ var Attribute = Base.extend(
             if (this.wrappedAttributes){
                 attr.wrappedAttributes = this.wrappedAttributes;
             }
+
+            attr.calculated(this.calculated());
 
             return attr;
         },
@@ -178,9 +208,7 @@ var Attribute = Base.extend(
 
 <span id='Attribute-method-toString'>        /**
 </span>         * String representation of the attribute. Used to print a Relation into console
-         * as a Unicode Table.
-
-         * @instance
+         * as a Unicode Table
          * @private
          */
         toString: function () {
@@ -192,14 +220,21 @@ var Attribute = Base.extend(
 <span id='Attribute-method-equal'>        /**
 </span>         * Checks if two attributes are equal
          * @param attribute
-
-         * @instance
          * @returns {boolean}
          */
         equal : function(attribute){
 
             return this.constructor.equal(this, attribute);
 
+        },
+
+        default : function(){
+
+            if(this._autoIncrement){
+                return this.header.relation.body().length;
+            }
+
+            return this._default;
         }
 
     }, {
@@ -226,8 +261,6 @@ var Attribute = Base.extend(
 <span id='Attribute-static-method-equal'>        /**
 </span>         * Tests for equality between two attributes
          *
-         * Warning! This method is not the same as {@link Attribute#equals}
-         *
          * This method returns a Boolean. It cannot be part of a predicate.
          *
          * @param {Attribute} attribute1
@@ -247,20 +280,26 @@ var Attribute = Base.extend(
          * @param {Attribute|Object} attribute
          * @returns {Attribute}
          * @static
-
-         * @example
          *
-         * var fn1 = new affinity.Attribute({name : &#39;FirstName&#39;, type : affinity.String});
+         *     var fn1 = new affinity.Attribute({name : &#39;FirstName&#39;, type : affinity.String});
          *
-         * var fn2 = {name : &#39;FirstName&#39; , type : affinity.String}
+         *     var fn2 = {name : &#39;FirstName&#39; , type : affinity.String}
          *
-         * affinity.Attribute.coerce(fn1) === fn1 // true, the object was already an Attribute.
-         * affinity.Attribute.coerce(fn2) === fn2 // false, the object had to be coerced
+         *     affinity.Attribute.coerce(fn1) === fn1 // true, the object was already an Attribute.
+         *     affinity.Attribute.coerce(fn2) === fn2 // false, the object had to be coerced
          *
-         * affinity.Attribute.coerce(fn2).equal(fn1) // true
+         *     affinity.Attribute.coerce(fn2).equal(fn1) // true
          *
          */
         coerce: function (attribute) {
+
+
+            var name;
+            var type;
+            var attr;
+            var keys;
+            var autoIncrement;
+            var defaultValue;
 
             if (attribute instanceof Attribute) {
 
@@ -270,16 +309,13 @@ var Attribute = Base.extend(
 
             if(_.isObject(attribute)){
 
-                var name;
-                var type;
-                var attr;
-                var keys;
-
                 // Attribute is of the type {name : &lt;name&gt;, type : &lt;type&gt;}
                 if(attribute.type &amp;&amp; attribute.name){
 
                     name = attribute.name;
                     type = attribute.type;
+                    autoIncrement = attribute.autoIncrement;
+                    defaultValue = attribute.default;
 
                 } else {
 
@@ -313,13 +349,16 @@ var Attribute = Base.extend(
                         // Attribute is { &lt;name&gt; : { type : &lt;type&gt; } }
 
                         type = attribute[name].type;
+                        autoIncrement = attribute[name].autoIncrement;
+                        defaultValue = attribute[name].default;
+
                     }
 
                 }
 
             }
 
-            return new Attribute({name : name, type : type});
+            return new Attribute({name : name, type : type, autoIncrement : autoIncrement, default : defaultValue});
 
         }
 

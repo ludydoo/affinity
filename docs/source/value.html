@@ -15,9 +15,13 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">var Function = require(&#39;./../Function&#39;);
+  <pre class="prettyprint lang-js">
+var debug = require(&#39;./debug&#39;);
+var Function = require(&#39;./../Function&#39;);
 
 var value = function (value) {
+
+    debug.value.trace(&#39;#value&#39;);
 
     if(value instanceof Function){
 

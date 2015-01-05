@@ -48,6 +48,35 @@ var _ = require(&#39;lodash&#39;);
 
     },
 
+<span id='Types-Boolean-static-method-coerce'>    /**
+</span>     * @param {*} value The variable to coerce to Boolean type
+     * @static
+     * @returns {boolean}
+     */
+    coerce : function(value){
+
+        var lowerCaseValue;
+
+        if(_.isBoolean(value)){
+            return value;
+        } else if (value === 0){
+            return false;
+        } else if (value === 1){
+            return true;
+        } else if (_.isString(value)){
+
+            lowerCaseValue = value.toLowerCase();
+
+            if(lowerCaseValue === &#39;true&#39; || lowerCaseValue === &#39;t&#39;){
+                return true;
+            } else if(lowerCaseValue === &#39;false&#39; || lowerCaseValue === &#39;f&#39;){
+                return false;
+            }
+
+        }
+
+    },
+
 <span id='Types-Boolean-static-method-toString'>    /**
 </span>     * @static
      * @returns {string}

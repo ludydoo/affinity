@@ -21,8 +21,9 @@ var Type = require(&#39;./Type.js&#39;);
 var _ = require(&#39;lodash&#39;);
 var Set = require(&#39;./Set&#39;);
 var debug = require(&#39;./helpers/debug&#39;);
+var coerce = require(&#39;./helpers/coerce&#39;);
 var Key = require(&#39;./Key&#39;);
-
+var ForeignKey = require(&#39;./ForeignKey&#39;);
 
 var Relation = Set.extend(
     {
@@ -34,7 +35,7 @@ var Relation = Set.extend(
          * @param {Tuple[]|Object[]} body Body of the Relation
          * @param {Object} constraints Constraints for the relation
          * @param {String[]} constraints.pk Fields that will constitute primary key
-         * @param {{String[]}[]} constraints.unique Unique field definition
+         * @param {String[][]} constraints.unique Unique field definition
          * @param {Object[]} constraints.fk Foreign key definitions
          * @extends Set
          *
@@ -57,7 +58,7 @@ var Relation = Set.extend(
             debug.relation.trace(&#39;#constructor&#39;);
 
 <span id='Relation-property-_constraintArguments'>            /**
-</span>             * @property {{pk: String[], unique: {String[]}[], fk: Object[]}} _constraintArguments
+</span>             * @property {{pk: String, unique: String[][], fk: Object[]}} _constraintArguments
              */
             this._constraintArguments = constraints;
 
@@ -69,22 +70,19 @@ var Relation = Set.extend(
 <span id='Relation-property-_uks'>            /**
 </span>             * @property {Key[]} _uks The Primary Keys for the Relation
              */
-            this._uks = [];
+            this._uks = new Set({type : Key});
 
 <span id='Relation-property-_fks'>            /**
 </span>             * @property {Key[]} _fks The Foreign Keys for the Relation
              */
-            this._fks = [];
+            this._fks = new Set({type : ForeignKey});
 
 <span id='Relation-property-_header'>            /**
 </span>             * @property {Header} _header The relation header
              */
             this.header(Header.coerce(header));
 
-            var that = this;
-
             Set.call(this, {type: Tuple, elements: body});
-
 
         },
 
@@ -100,10 +98,40 @@ var Relation = Set.extend(
 
             this.ee.on(&#39;beforeAdd&#39;, function (tuple) {
 
+                // Add default values
+                that.header().each(function(attribute){
+
+                    var tupleAttributeValue = tuple.get(attribute.name);
+
+                    if(tupleAttributeValue === null || tupleAttributeValue === undefined || tupleAttributeValue === &#39;&#39;){
+
+                        tuple.set(attribute.name, attribute.default());
+
+                    }
+
+                });
+
+                // Coerce tuple attributes
+                that.header().each(function(attribute){
+
+                    var attributeValue, attributeType;
+
+                    attributeValue = tuple.get(attribute.name);
+
+                    attributeType = attribute.type;
+
+                    attributeValue = coerce(attributeType, attributeValue);
+
+                    tuple.set(attribute.name, attributeValue);
+
+                });
+
                 // Check that the tuple is union-compatible with the relation
                 if (!that.isCompatible(tuple)) {
                     throw new Error(&#39;Tuple is not union compatible&#39;);
                 }
+
+                tuple.relation = that;
 
             });
 
@@ -116,13 +144,14 @@ var Relation = Set.extend(
 
                     // Parse primary key argument
                     if (constraintArguments.pk) {
-                        that._pk = new Key(that, constraintArguments.pk);
+                        that.pk(constraintArguments.pk);
                     }
 
                     // Parse foreign key arguments
                     if (constraintArguments.fk) {
                         _.forEach(constraintArguments.fk, function (fk) {
-                            that._fks.push(fk);
+                            fk.relation = that;
+                            that.fks().add(new ForeignKey(fk));
                         })
                     }
 
@@ -130,7 +159,7 @@ var Relation = Set.extend(
                     if (constraintArguments.unique) {
 
                         _.forEach(constraintArguments.unique, function (unique) {
-                            that._uks.push(new Key(that, unique));
+                            that.uks().add(new Key(that, unique));
                         }, that);
 
                     }
@@ -141,7 +170,13 @@ var Relation = Set.extend(
 
                 var constraints = _.union(that._pk === null ? undefined : [that._pk], that._uks);
 
-                _.forEach(constraints,
+                constraints = that.uks().clone();
+
+                if (that.pk() !== null) {
+                    constraints.add(that.pk());
+                }
+
+                constraints.each(
 
                         function (constraint, index) {
 
@@ -161,9 +196,9 @@ var Relation = Set.extend(
 
                         // Further validation for keys
 
-                        for (var a = index + 1, len = constraints.length; a &lt; len; a++) {
+                        for (var a = index + 1, len = constraints.length(); a &lt; len; a++) {
 
-                            var checkedKeyHeader = constraints[a].header;
+                            var checkedKeyHeader = constraints.atIndex(a).header;
 
                             // Check that the keys are unique
                             if (constraint.header.equal(checkedKeyHeader)) {
@@ -180,11 +215,53 @@ var Relation = Set.extend(
                     })
 
 
-            })
+            });
 
             this.ee.on(&#39;afterAdd&#39;, function(tuple, index){
                 tuple.index = index;
                 tuple.relation = that;
+            });
+
+            
+
+        },
+
+<span id='Relation-method-adjustTo'>        /**
+</span>         * Delete or add tuples to match a given relation
+         * @param {Relation} relation
+         */
+        adjustTo: function(relation){
+
+            this.compute();
+
+            relation.compute();
+
+            var that = this;
+
+            // 1. Delete tuples that do not exist in the given relation
+
+            // Loop through each tuple
+            that.each(function(tuple, index){
+
+                // Check if the tuple exists in the given relation
+                if (!relation.exists(tuple)){
+                    that.removeAt(index);
+                }
+
+            });
+
+            // 2. Add tuples that do not exist in the relation
+
+            // Loop through each tuple of the given relation
+            relation.each(function(tuple){
+
+                // Check if the tuple is present in this relation
+                if (!that.exists(tuple)){
+
+                    that.add(tuple.clone());
+
+                }
+
             });
 
         },
@@ -206,7 +283,7 @@ var Relation = Set.extend(
 
             var result = null;
 
-            _.any(this._uks, function (uniqueConstraint) {
+            this.uks().any(function (uniqueConstraint) {
 
                 result = uniqueConstraint.index.getIndex(element);
                 if (result !== null)
@@ -223,21 +300,19 @@ var Relation = Set.extend(
          * @param {String} attribute Attribute name
          * @returns {Attribute|null} The attribute or null if not found
          *
-         * @example
+         *     var fn = new affinity.Attribute({name : &#39;firstName&#39;, type : affinity.String})
+         *     var ln = new affinity.Attribute({name : &#39;lastName&#39;, type : affinity.String})
          *
-         * var fn = new affinity.Attribute({name : &#39;firstName&#39;, type : affinity.String})
-         * var ln = new affinity.Attribute({name : &#39;lastName&#39;, type : affinity.String})
+         *     var relation = new affinity.Relation([
+         *              fn,
+         *              ln
+         *          ],[
+         *              [&#39;John&#39;,&#39;Doe&#39;],
+         *              [&#39;Hello&#39;,&#39;World&#39;],
+         *              [&#39;Super&#39;,&#39;Duper&#39;],
+         *          ]);
          *
-         * var relation = new affinity.Relation([
-         *          fn,
-         *          ln
-         *      ],[
-         *          [&#39;John&#39;,&#39;Doe&#39;],
-         *          [&#39;Hello&#39;,&#39;World&#39;],
-         *          [&#39;Super&#39;,&#39;Duper&#39;],
-         *      ]);
-         *
-         * relation.get(&#39;firstName&#39;) === fn // true
+         *     relation.get(&#39;firstName&#39;) === fn // true
          *
          *
          */
@@ -253,21 +328,21 @@ var Relation = Set.extend(
 </span>         * Get the tuple at the given index
          * @param {number} index The index of the tuple
          * @returns {*|null}
-         * @example
-         * var relation = new affinity.Relation([
-         *          { &#39;firstName&#39; : {type : affinity.String}}
-         *          { &#39;LastName&#39;  : {type : affinity.String}}
-         *      ],[
-         *          [&#39;John&#39;,&#39;Doe&#39;],
-         *          [&#39;Hello&#39;,&#39;World&#39;],
-         *          [&#39;Super&#39;,&#39;Duper&#39;],
-         *      ]);
          *
-         * relation.each(function(tuple, index){
+         *     var relation = new affinity.Relation([
+         *              { &#39;firstName&#39; : {type : affinity.String}}
+         *              { &#39;LastName&#39;  : {type : affinity.String}}
+         *          ],[
+         *              [&#39;John&#39;,&#39;Doe&#39;],
+         *              [&#39;Hello&#39;,&#39;World&#39;],
+         *              [&#39;Super&#39;,&#39;Duper&#39;],
+         *          ]);
          *
-         *      console.log(relation.atIndex(index) === tuple) // true
+         *     relation.each(function(tuple, index){
          *
-         * })
+         *          console.log(relation.atIndex(index) === tuple) // true
+         *
+         *     })
          *
          * console.log(relation.atIndex(0).get(&#39;firstName&#39;)) // John
          *
@@ -387,6 +462,36 @@ var Relation = Set.extend(
 
         },
 
+<span id='Relation-method-pk'>        /**
+</span>         * Gets / Sets the relation&#39;s primary key
+         * @param {String} [primaryKeyName]
+         */
+        pk : function(primaryKeyName){
+
+            if (primaryKeyName){
+                this._pk = new Key(this, primaryKeyName);
+            } else {
+                return this._pk;
+            }
+
+        },
+
+<span id='Relation-method-fks'>        /**
+</span>         * Gets the foreign keys set
+         * @returns {Set}
+         */
+        fks : function(){
+            return this._fks;
+        },
+
+<span id='Relation-method-uks'>        /**
+</span>         * Gets the unique keys set
+         * @returns {Set}
+         */
+        uks : function(){
+            return this._uks;
+        },
+
 <span id='Relation-method-isCompatible'>        /**
 </span>         * @param {Tuple|Object} tuple
          * @returns {boolean}
@@ -419,7 +524,7 @@ var Relation = Set.extend(
                 return !_.some(tupleKeys, function (tupleAttribute) {
 
                     // Found a match
-                    return (tupleAttribute === headerAttribute);
+                    return (tupleAttribute === headerAttribute &amp;&amp; (tuple.get(tupleAttribute) !== undefined) &amp;&amp; (tuple.get(tupleAttribute) !== null));
 
                 });
 
@@ -438,6 +543,29 @@ var Relation = Set.extend(
             debug.relation.trace(&#39;#equal&#39;);
 
             return this.constructor.equal(this, relation);
+        },
+
+<span id='Relation-method-clone'>        /**
+</span>         * Clones a relation
+         * @param {boolean} [withTuples=true] Copies the tuples
+         * @returns {Relation}
+         */
+        clone : function(withTuples){
+
+            withTuples = !!(withTuples === undefined || withTuples === null);
+
+            var newHeader = this.header().clone();
+
+            var newRelation = new Relation(newHeader);
+
+            if (withTuples){
+                this.each(function(tuple){
+                    newRelation.add(tuple.clone());
+                });
+            }
+
+            return newRelation;
+
         },
 
 <span id='Relation-method-print'>        /**
@@ -663,6 +791,42 @@ var Relation = Set.extend(
             }, this);
 
             return result;
+
+        },
+
+
+<span id='Relation-method-update'>        /**
+</span>         * Updates tuples in the relation
+         * @param predicate
+         * @param values
+         *
+         * Example
+         *
+         *     relation.update(age.gt(20), { age : age.old().plus(10), name : name.old().substr(0,1) });
+         */
+        update : function(predicate, values){
+
+            predicate.convertAttributeToTuple();
+
+            _.forEach(values, function(value){
+                value.convertAttributeToTuple();
+            });
+
+            this.each(function(tuple){
+
+                if(predicate.assignTuple(tuple).value() === true){
+
+                    _.forEach(values, function(expression, key){
+
+                        var value = expression.assignTuple(tuple).value();
+
+                        tuple.set(key, value);
+
+                    })
+
+                }
+
+            })
 
         },
 
@@ -1069,7 +1233,7 @@ var Relation = Set.extend(
 <span id='Relation-method-extend'>        /**
 </span>         * Shortcut to create an Extend operation
          * @param {Object[]} expressions The expressions to evaluate
-         * @returns {Operators.Extend} The resulting relation
+         * @returns {Operators.Extension} The resulting relation
          */
         extend: function (expressions) {
 

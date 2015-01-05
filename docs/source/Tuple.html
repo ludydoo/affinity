@@ -26,10 +26,11 @@ var Set = require(&#39;./Set.js&#39;);
 var Tuple = Type.extend(
     {
 
-<span id='Tuple'>        /**
-</span>         * @class Tuple
+<span id='Tuple-method-constructor'><span id='Tuple'>        /**
+</span></span>         * @class Tuple
          * @param attributes
          * @extends Type
+         * @constructor
          */
         constructor: function (attributes) {
 
@@ -69,8 +70,8 @@ var Tuple = Type.extend(
 <span id='Tuple-method-copy'>        /**
 </span>         * Copies attribtues from another tuple
          * @param {Tuple} tuple Tuple to copy attributes from
-         * @param {Header|Attribute[]|Set|String[]} [attributesArgument] Attributes to copy
-         * @param {boolean} exclude Do we exclude or include the specified arguments
+         * @param {Header|Attribute[]|Set|String[]} [attributesArgument=[]] Attributes to copy
+         * @param {boolean} [exclude=false] Do we exclude or include the specified arguments
          */
         copy : function(tuple, attributesArgument, exclude){
 
@@ -155,7 +156,6 @@ var Tuple = Type.extend(
 <span id='Tuple-method-equals'>        /**
 </span>         * Test for equality with another tuple
          * @param {Tuple} tuple
-         * @instance
          * @returns {boolean}
          */
         equals: function (tuple) {
@@ -164,24 +164,40 @@ var Tuple = Type.extend(
 
 <span id='Tuple-method-set'>        /**
 </span>         * Sets an attribute value
-         * @instance
          * @param {String} attributeName Name of the attribute
          * @param {*} value Value of the attribute
          */
         set: function (attributeName, value) {
 
-            if(this.collection){
-                this.collection.ee.emit(&#39;beforeUpdate&#39;, this, attributeName, value);
+            if(this.relation){
+
+                var clone = this.clone();
+
+                var oldValue = this.attributes[attributeName];
+
+                value = this.relation.header().get(attributeName).type.coerce(value);
+
+                clone.attributes[attributeName] = value;
+
+                if(this.relation.index(clone) !== null){
+
+                    this.relation.remove(this);
+
+                } else {
+
+                    this.relation.ee.emit(&#39;beforeUpdate&#39;, this, attributeName, value);
+
+                    this.attributes[attributeName] = value;
+
+                    this.relation.ee.emit(&#39;afterUpdate&#39;, this, attributeName, value, oldValue);
+
+                }
+
+            } else {
+
+                this.attributes[attributeName] = value;
+
             }
-
-
-            this.attributes[attributeName] = value;
-
-
-            if(this.collection){
-                this.collection.ee.emit(&#39;afterUpdate&#39;, this, attributeName, value);
-            }
-
 
         },
 
@@ -211,7 +227,7 @@ var Tuple = Type.extend(
         clone: function () {
 
             var attr,
-                newTuple = new this.constructor();
+                newTuple = new (this.constructor)();
 
             _.forEach(this.attributes, function (attribute, key) {
 
@@ -252,7 +268,7 @@ var Tuple = Type.extend(
 
             },this);
 
-            attrs.push(&#39;})&#39;)
+            attrs.push(&#39;})&#39;);
 
             return attrs.join(&#39;&#39;);
 
@@ -334,11 +350,12 @@ var Tuple = Type.extend(
 <span id='Tuple-static-method-coerce'>        /**
 </span>         * Coerces an arbitrary object to type Tuple
          * @param {Object|Tuple} tuple
+         * @param relation The Relation to which belongs the tuple.
          * @returns {Tuple}
          * @static
 
          */
-        coerce: function (tuple, collection) {
+        coerce: function (tuple, relation) {
 
 
             if(tuple instanceof Tuple){
@@ -359,15 +376,15 @@ var Tuple = Type.extend(
                 // It is not a Tuple instance. Check if it might be coerced.
                 if (_.isArray(tuple)) {
 
-                    if (_.isUndefined(collection) || _.isNull(collection)) {
-                        throw new Error(&#39;Cannot coerce array-declared tuple if no collection is specified&#39;)
+                    if (_.isUndefined(relation) || _.isNull(relation)) {
+                        throw new Error(&#39;Cannot coerce array-declared tuple if no relation is specified&#39;)
                     }
 
-                    if (_.isFunction(collection.header)) {
+                    if (_.isFunction(relation.header)) {
 
                         // Collection has header
 
-                        var header = collection.header(),
+                        var header = relation.header(),
                             headerCount = header.length();
 
                         if (headerCount &gt; 0) {
@@ -379,7 +396,7 @@ var Tuple = Type.extend(
                             }
 
                             if(headerCount !== tuple.length){
-                                throw new Error(&#39;Cannot coerse Tuple, it does not have the same number of attributes as the header&#39;);
+                                throw new Error(&#39;Cannot coerce Tuple, it does not have the same number of attributes as the header&#39;);
                             }
 
                             var newTuple = new Tuple();

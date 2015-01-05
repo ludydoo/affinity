@@ -28,8 +28,10 @@ var Composition = Relation.extend(
 <span id='Operators-Composition'>        /**
 </span>         * @class Operators.Composition
          * @extends Relation
+         *
          * @param {Relation} relationA The relation A
          * @param {Relation} relationB The relation B
+         *
          *
          * The Composition operator will perform a natural join between A and B while removing the common attributes
          *
@@ -89,26 +91,21 @@ var Composition = Relation.extend(
          */
         constructor: function (relationA, relationB) {
 
-            debug.compose.trace(&#39;#constructor&#39;);
-
 <span id='Operators-Composition-property-args'>            /**
 </span>             * @property {Object} args
+             * @property {Relation} args.left
+             * @property {Relation} args.right
              */
+
+            debug.compose.trace(&#39;#constructor&#39;);
+
             this.args = {};
 
-<span id='Operators-Composition-property-args'>            /**
-</span>             * @property {Relation} args.left
-             */
             this.args.left = relationA;
 
-<span id='Operators-Composition-property-right'>            /**
-</span>             * @type {Relation} args.right
-             */
             this.args.right = relationB;
 
-
             Relation.call(this);
-
 
             this.commonAttributes = null;
 
@@ -151,44 +148,56 @@ var Composition = Relation.extend(
 
                 debug.compose.trace(&#39;beforeGetBody&#39;);
 
-                left.each(function (tuple) { that.afterAdd(left, tuple); });
+                left.each(function (tuple) { that.doAfterAdd(left, tuple); });
 
-                right.each(function (tuple) { that.afterAdd(right, tuple);});
+                right.each(function (tuple) { that.doAfterAdd(right, tuple);});
 
             });
 
             left.ee.on(&#39;afterAdd&#39;, function(tuple){
 
-                that.afterAdd(left, tuple);
+                that.doAfterAdd(left, tuple);
 
             });
 
             right.ee.on(&#39;afterAdd&#39;, function(tuple){
 
-                that.afterAdd(right, tuple);
+                that.doAfterAdd(right, tuple);
 
             });
 
             left.ee.on(&#39;afterRemove&#39;, function(tuple, index){
 
-                that.afterRemove(left, tuple);
+                that.doAfterRemove(left, tuple);
 
             });
 
             right.ee.on(&#39;afterRemove&#39;, function(tuple, index){
 
-                that.afterRemove(right, tuple);
+                that.doAfterRemove(right, tuple);
+
+            });
+
+            left.ee.on(&#39;afterUpdate&#39;, function(tuple, attributeName, value){
+
+                that.doAfterUpdate(left, tuple, attributeName, value);
+
+            });
+
+            right.ee.on(&#39;afterUpdate&#39;, function(tuple, attributeName, value){
+
+                that.doAfterUpdate(right, tuple, attributeName, value);
 
             });
 
         },
 
-<span id='Operators-Composition-method-afterAdd'>        /**
+<span id='Operators-Composition-method-doAfterAdd'>        /**
 </span>         * Event handler when tuples are added to the base relations
          * @param {Relation} relation relation in which the tuple was added
          * @param {Tuple} tuple1 the tuple that was added
          */
-        afterAdd : function(relation, tuple1){
+        doAfterAdd : function(relation, tuple1){
 
             var that = this;
 
@@ -221,12 +230,12 @@ var Composition = Relation.extend(
         },
 
 
-<span id='Operators-Composition-method-afterRemove'>        /**
+<span id='Operators-Composition-method-doAfterRemove'>        /**
 </span>         * Event handler when tuples are removed from the base relations.
          * @param {Relation} relation Relation in which the tuple was removed
          * @param {Tuple} removedTuple The tuple that was removed
          */
-        afterRemove : function(relation, removedTuple){
+        doAfterRemove : function(relation, removedTuple){
 
             var that = this;
 
@@ -246,7 +255,30 @@ var Composition = Relation.extend(
 
             });
 
+        },
+
+<span id='Operators-Composition-method-doAfterUpdate'>        /**
+</span>         * Event handler when tuples are updated in the base relations
+         * @param {Relation} relation The relation where the tuple was updated
+         * @param {Tuple} tuple The tuple that was updated
+         * @param {String} attributeName The name of the attribute that was updated
+         * @param {*} value The new value of the attribute
+         */
+        doAfterUpdate : function(relation, tuple, attributeName, value, oldValue){
+
+            var that = this;
+
+            var otherRelation = (relation === that.args.left ? that.args.right : that.args.left);
+
+            var result = this.args.left.compose(this.args.right);
+
+            that.adjustTo(result);
+
         }
+
+    }, {
+
+        type : &#39;Composition&#39;
 
     });
 

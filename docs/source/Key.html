@@ -15,10 +15,11 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">var Base = require(&#39;./Base&#39;);
-var Index = require(&#39;./Index&#39;);
-var Header = require(&#39;./Header&#39;);
-var _ = require(&#39;lodash&#39;);
+  <pre class="prettyprint lang-js">var Base = require(&#39;./Base&#39;),
+    Index = require(&#39;./Index&#39;),
+    Header = require(&#39;./Header&#39;),
+    _ = require(&#39;lodash&#39;),
+    debug = require(&#39;./helpers/debug&#39;);
 
 var Key = Base.extend({
 
@@ -42,7 +43,7 @@ var Key = Base.extend({
          *      ],[
          *          [1, 2, 3],
          *          [4, 2, 3], // -&gt; Will fail to be added, as it does not respects the unique key constraint
-         *          [1, 8, 9], // -&gt; Will fail to ba added, as it does not respected the pk constraint
+         *          [1, 8, 9], // -&gt; Will fail to be added, as it does not respected the pk constraint
          *          [10, 11, 12],
          *      ],{
          *          pk : [&#39;attribute1&#39;],
@@ -50,6 +51,8 @@ var Key = Base.extend({
          *      });
          */
         constructor: function (relation, attributes) {
+
+            debug.key.trace(&#39;#constructor&#39;);
 
             if(!_.isArray(attributes)){
                 attributes = [attributes];
@@ -59,6 +62,8 @@ var Key = Base.extend({
 </span>             * @property {Header} header
              */
             var header = this.header = new Header();
+            
+            header.relation = relation;
 
             header.copy(relation.header(),attributes);
 
@@ -67,19 +72,30 @@ var Key = Base.extend({
              */
             var index = this.index = new Index(this.header);
 
+            // Add the tuple to the index after it is added in the relation
             relation.ee.on(&#39;afterAdd&#39;, function(tuple, tupleIndex){
+
+                debug.key.trace(&#39;#afterAdd&#39;);
 
                 index.add(tuple, tupleIndex);
 
             });
 
+            // Remove the tuple from the before it is deleted
             relation.ee.on(&#39;beforeDelete&#39;, function(tuple, tupleIndex){
+
+                debug.key.trace(&#39;#beforeDelete&#39;);
 
                 index.remove(tuple, tupleIndex);
 
             });
 
+
+            // Remove then add the tuple from index before the tuple update
+
             relation.ee.on(&#39;beforeUpdate&#39;, function(tuple, attributeName){
+
+                debug.key.trace(&#39;#beforeUpdate&#39;);
 
                 if(header.get(attributeName) !== null){
                     var tupleIndex = index.getIndex(tuple);
@@ -90,6 +106,8 @@ var Key = Base.extend({
 
             relation.ee.on(&#39;afterUpdate&#39;, function(tuple, attributeName){
 
+                debug.key.trace(&#39;#afterUpdate&#39;);
+
                 if(header.get(attributeName) !== null){
                     var tupleIndex = index.getIndex(tuple);
                     index.add(tuple, tupleIndex);
@@ -98,8 +116,6 @@ var Key = Base.extend({
             });
 
         }
-
-
 
     });
 

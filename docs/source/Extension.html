@@ -22,24 +22,15 @@ var Tuple = require(&#39;./../Tuple.js&#39;);
 var _ = require(&#39;lodash&#39;);
 var debug = require(&#39;./../helpers/debug&#39;);
 
-<span id='global-property-name'>/**
-</span> * @typedef {Object} extendParameter
- * @property {String} name The name of the new attribute
- * @property {Function} expressions The expressions to evaluate when setting the attribute value
- */
-
-
-
-
 var Extend = Relation.extend(
     {
 
         constructor: function (relation, expressions) {
-<span id='Operators-Extend'>            /**
-</span>             * @class Operators.Extend
+<span id='Operators-Extension'>            /**
+</span>             * @class Operators.Extension
              * @extends Relation
              * @param {Relation} relation T{he relation from which to remove the tuples
-             * @param {extendParameter[]} expressions The arguments from which to calculate the new attribute value.
+             * @param {Object[]} expressions The arguments from which to calculate the new attribute value.
              *
              * The Extend operation allows the addition of calculated {@link Header} {@link Attribute}s
              *
@@ -122,19 +113,28 @@ var Extend = Relation.extend(
              *
              */
 
-
             debug.extend.trace(&#39;#constructor&#39;);
 
-            this.relation = relation;
-            this.expressions = expressions;
+            /*
+            * @property {Object} args
+            * @property {Relation} args.relation
+            * @property {Array} args.expressions
+            */
+
+            this.args = {};
+
+            this.args.relation = relation;
+
+            this.args.expressions = expressions;
 
             // Coerce the argument to an array if it is not already
 
-            if (!_.isArray(this.expressions)) {
-                this.expressions = [this.expressions];
+            if (!_.isArray(this.args.expressions)) {
+                this.args.expressions = [this.args.expressions];
             }
 
-            if (this.expressions.length === 0) {
+            // Throw an error if the expression array is of length 0
+            if (this.args.expressions.length === 0) {
                 throw new Error(&#39;You must define expressions!&#39;);
             }
 
@@ -151,6 +151,10 @@ var Extend = Relation.extend(
 
             var that = this;
 
+            var expressions = that.args.expressions;
+
+            var relation = that.args.relation;
+
             /// BeforeGetHeader
 
             this.ee.once(&#39;beforeGetHeader&#39;, function () {
@@ -159,12 +163,11 @@ var Extend = Relation.extend(
 
                 // Add the attributes of the base relation
 
-                that.header().copy(that.relation.header());
-
+                that.header().copy(relation.header());
 
                 /// Parse extension attributes
 
-                _.forOwn(that.expressions, function (expression, key) {
+                _.forOwn(expressions, function (expression, key) {
 
                     // Expression must be an object
                     if (!_.isObject(expression)) {
@@ -194,7 +197,7 @@ var Extend = Relation.extend(
                         type = extensionParam.type;
 
                         // Convert the attribute to TupleAttribute
-                        that.expressions[key][extensionName] = extensionParam = new (require(&#39;./../functions/tuple/Attribute&#39;))(extensionParam.name);
+                        expressions[key][extensionName] = extensionParam = new (require(&#39;./../functions/tuple/Attribute&#39;))(extensionParam.name);
 
 
                     } else {
@@ -215,6 +218,9 @@ var Extend = Relation.extend(
                     // Create the new header attribute
                     var extensionAttribute = new Attribute({type: type, name: extensionName});
 
+                    // The attribute is a calculated attribute
+                    extensionAttribute.calculated(true);
+
                     // Add the attribute in the header
                     that.header().add(extensionAttribute);
 
@@ -229,39 +235,118 @@ var Extend = Relation.extend(
 
                 debug.extend.trace(&#39;beforeGetBody&#39;);
 
-                that.relation.each(function (tuple) {
+                relation.each(function (tuple) {
 
-                    // Create the tuple we are going to add
-                    var newTuple = new Tuple();
-
-                    // Copy the attributes from the base tuple
-                    newTuple.copy(tuple);
-
-                    _.forEach(that.expressions, function (expression) {
-
-                        // This is the new attribute name
-                        var attributeName = Object.keys(expression)[0];
-
-                        // This is the evaluation expression
-                        var attributeExpression = expression[attributeName];
-
-                        attributeExpression.assignTuple(newTuple);
-
-                        // This is the new value
-                        var expressionValue = attributeExpression.value();
-
-                        // Let&#39;s set the new value in the tuple
-                        newTuple.set(attributeName, expressionValue);
-
-                    });
-
-                    that.add(newTuple);
+                    that.afterAdd(relation, tuple);
 
                 })
 
             });
 
+            relation.ee.on(&#39;afterAdd&#39;, function(tuple, index){
+                that.afterAdd(that.args.relation, tuple);
+            });
+
+            relation.ee.on(&#39;afterRemove&#39;, function(tuple, index){
+                that.afterRemove(that.args.relation, tuple);
+            });
+
+            relation.ee.on(&#39;afterUpdate&#39;, function(tuple, attributeName, value, oldValue){
+                that.afterUpdate(that.args.relation, tuple, attributeName, value, oldValue);
+            });
+
+        },
+
+<span id='Operators-Extension-method-buildTuple'>        /**
+</span>         * Calculates the extend expressions values for a tuple
+         * @param {Tuple} tuple The tuple to calculate expressions against
+         * @param {Boolean} clone either to return a new instance of the tuple, or the passed instance
+         * @returns {Tuple} The built tuple
+         */
+        buildTuple : function(tuple, clone){
+
+            if (_.isBoolean(clone)){
+                // clone = clone;
+            } else {
+                clone = true;
+            }
+
+            var that = this,
+                newTuple;
+
+            if (clone){
+
+                // Create the tuple we are going to add
+                newTuple = new Tuple();
+
+                // Copy the attributes from the base tuple
+                newTuple.copy(tuple);
+
+            } else {
+
+                newTuple = tuple;
+
+            }
+
+            _.forEach(that.args.expressions, function (expression) {
+
+                // This is the new attribute name
+                var attributeName = Object.keys(expression)[0];
+
+                // This is the evaluation expression
+                var attributeExpression = expression[attributeName];
+
+                attributeExpression.assignTuple(newTuple);
+
+                // This is the new value
+                var expressionValue = attributeExpression.value();
+
+                // Let&#39;s set the new value in the tuple
+                newTuple.set(attributeName, expressionValue);
+
+            });
+
+            return newTuple;
+        },
+
+        afterAdd : function(relation, addedTuple){
+
+            var that = this;
+
+            that.add(that.buildTuple(addedTuple));
+
+        },
+
+        afterRemove : function(relation, tuple, index){
+
+            var myTuple = this.buildTuple(tuple);
+
+            this.remove(myTuple);
+        },
+
+        afterUpdate : function(relation, tuple, attributeName, value, oldValue){
+
+            var that = this;
+
+            var tupleClone = tuple.clone();
+
+            tupleClone.set(attributeName, oldValue);
+
+            tupleClone = that.buildTuple(tupleClone);
+
+            var myTuple =  that.find(tupleClone);
+
+            myTuple = that.find(myTuple);
+
+            myTuple.set(attributeName, value);
+
+            that.buildTuple(myTuple, false);
+
         }
+
+    }, {
+
+        type : &#39;Extension&#39;
 
     });
 

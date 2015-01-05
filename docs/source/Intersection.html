@@ -21,8 +21,6 @@ var _ = require(&#39;lodash&#39;);
 var debug = require(&#39;./../helpers/debug&#39;);
 
 
-
-
 var Intersection = Relation.extend(
 
     {
@@ -114,7 +112,35 @@ var Intersection = Relation.extend(
 
             });
 
+        },
+
+        afterLeftAdd : function(relation, tuple){
+
+        },
+
+        afterLeftRemove : function(relation, tuple){
+
+        },
+
+        afterLeftUpdate : function(relation, tuple, attributeName, value, oldValue){
+
+        },
+
+        afterRightAdd : function(relation, tuple){
+
+        },
+
+        afterRightRemove : function(relation, tuple){
+
+        },
+
+        afterRightUpdate : function(relation, tuple, attributeName, value, oldValue){
+
         }
+
+    }, {
+
+        type : &#39;Intersection&#39;
 
     });
 

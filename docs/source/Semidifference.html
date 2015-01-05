@@ -144,7 +144,35 @@ var SemiDifference = Relation.extend(
 
             });
 
+        },
+
+        afterLeftAdd : function(relation, tuple){
+
+        },
+
+        afterLeftRemove : function(relation, tuple){
+
+        },
+
+        afterLeftUpdate : function(relation, tuple, attributeName, value, oldValue){
+
+        },
+
+        afterRightAdd : function(relation, tuple){
+
+        },
+
+        afterRightRemove : function(relation, tuple){
+
+        },
+
+        afterRightUpdate : function(relation, tuple, attributeName, value, oldValue){
+
         }
+
+    }, {
+
+        type : &#39;SemiDifference&#39;
 
     });
 

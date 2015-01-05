@@ -202,7 +202,26 @@ var Unwrap = Relation.extend(
 
             });
 
+        },
+
+        afterAdd : function(relation, tuple){
+            var result = this.relation.unwrap(this.attributeNames);
+            this.adjustTo(result);
+        },
+
+        afterRemove : function(relation, tuple){
+            var result = this.relation.unwrap(this.attributeNames);
+            this.adjustTo(result);
+        },
+
+        afterUpdate : function(relation, tuple, attributeName, value, oldValue){
+            var result = this.relation.unwrap(this.attributeNames);
+            this.adjustTo(result);
         }
+
+    }, {
+
+        type : &#39;Unwrap&#39;
 
     });
 

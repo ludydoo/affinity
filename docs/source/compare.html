@@ -19,8 +19,11 @@
 var _ = require(&#39;lodash&#39;);
 var Function = require(&#39;./../Function&#39;);
 var Type = require(&#39;./../Type&#39;);
+var debug = require(&#39;./debug&#39;);
 
 var compare = function (type, value1, value2) {
+
+    debug.compare.trace(&#39;#compare&#39;);
 
     // Get the function return values if applicable
 

@@ -23,14 +23,14 @@ var Function = Base.extend(
 
     {
 
-<span id='constructor'>        /**
+<span id='Array'>        /**
 </span>         * @class Function
          * @param parameters
-         * @property [*[]] param
+         * @property [Array] param
          */
         constructor: function (parameters) {
 
-<span id='constructor-property-parameters'>            /**
+<span id='Array-property-parameters'>            /**
 </span>             * @type {Array}
              */
             this.parameters = [];
@@ -46,7 +46,7 @@ var Function = Base.extend(
 
         },
 
-<span id='constructor-method-set'>        /**
+<span id='Array-method-set'>        /**
 </span>         * Sets the function&#39;s parameter
          * @param {Object} param The parameter of the function to set
          * @returns {Function} Returns this to chain call
@@ -68,7 +68,7 @@ var Function = Base.extend(
 
         },
 
-<span id='constructor-method-convertAttributeToTuple'>        /**
+<span id='Array-method-convertAttributeToTuple'>        /**
 </span>         * Helper function used to convert attributes objects into functions that will get the tuple
          * value for that attribute
          */
@@ -89,7 +89,7 @@ var Function = Base.extend(
                     this.parameters[index] = newFunc;
                 }
 
-            }, this)
+            }, this);
 
         },
 

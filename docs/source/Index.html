@@ -16,11 +16,9 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">var Base = require(&#39;./Base&#39;);
+var debug = require(&#39;./helpers/debug&#39;);
 
 var Index = Base.extend(
-<span id=''>    /**
-</span>     * @lends Index.prototype
-     */
     {
 
 <span id='Index'>        /**
@@ -31,11 +29,21 @@ var Index = Base.extend(
          */
         constructor: function (header) {
 
-            this.header = header;
-            this.levels = header.length();
-            this.elements = {};
+            debug.index.trace(&#39;#constructor&#39;);
 
-            this.headerLevels = [];
+<span id='Index-property-header'>            /** @property {Header} header */
+</span>            this.header = header;
+
+<span id='Index-property-levels'>            /** @property {number} levels */
+</span>            this.levels = header.length();
+
+<span id='Index-property-elements'>            /** @property {Object} elements */
+</span>            this.elements = {};
+
+<span id='Index-property-headerLevels'>            /** @property {Array} headerLevels */
+</span>            this.headerLevels = [];
+
+            /* Recursively iterating through the header and populating the headerLevels array*/
 
             var targetHeader = this.header;
 
@@ -51,9 +59,11 @@ var Index = Base.extend(
 <span id='Index-method-add'>        /**
 </span>         * Adds a tuple to the index
          * @param {Tuple} tuple
-         * @param {int} index
+         * @param {number} index
          */
         add: function (tuple, index) {
+
+            debug.index.trace(&#39;#add&#39;);
 
             var context = this;
 
@@ -99,9 +109,11 @@ var Index = Base.extend(
 <span id='Index-method-getIndex'>        /**
 </span>         * Get the index for a tuple
          * @param {Tuple} tuple
-         * @returns {int|null}
+         * @returns {number|null}
          */
         getIndex: function (tuple) {
+
+            debug.index.trace(&#39;#getIndex&#39;);
 
             var context = this;
 
@@ -149,6 +161,8 @@ var Index = Base.extend(
          * @returns {boolean} True if removed, false otherwise
          */
         remove: function (tuple) {
+
+            debug.index.trace(&#39;#remove&#39;);
 
             var context = this;
 

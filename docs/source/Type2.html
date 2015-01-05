@@ -32,9 +32,20 @@ var Type = Base.extend(
 
         },
 
+<span id='Type-method-clone'>        /**
+</span>         * Clones the object
+         * @returns {Type}
+         */
         clone : function(){
 
             return new this.constructor(this._value);
+
+        },
+
+<span id='Type-method-destroy'>        /**
+</span>         * Destroys the object
+         */
+        destroy : function(){
 
         }
 

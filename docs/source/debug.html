@@ -15,15 +15,34 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">var log4js = require(&#39;log4js&#39;);
+  <pre class="prettyprint lang-js">
+var log4js;
 
-log4js.configure({
-    appenders: [
-        { type: &#39;console&#39; }
-    ]
-});
+try {
+    log4js = require(&quot;log4js&quot;);
 
-log4js.setGlobalLogLevel(log4js.levels.DEBUG);
+    log4js.configure({
+        appenders: [
+            { type: &#39;console&#39; }
+        ],
+        replaceConsole: false
+    });
+
+    log4js.setGlobalLogLevel(log4js.levels.ERROR);
+
+} catch(e) {
+    log4js = {};
+
+    var logger = function(){
+        this.trace = this.warn = this.debug = function(){
+            return;
+        }
+    };
+
+    log4js.getLogger = function(){
+        return new logger();
+    };
+}
 
 var Set = module.exports.set = log4js.getLogger(&#39;Set&#39;);
 var Relation = module.exports.relation = log4js.getLogger(&#39;Relation&#39;);
@@ -47,6 +66,18 @@ var Unwrap = module.exports.unwrap = log4js.getLogger(&#39;Unwrap&#39;);
 var Wrap = module.exports.wrap = log4js.getLogger(&#39;Wrap&#39;);
 var TableDump = module.exports.reldump = log4js.getLogger(&#39;TableDump&#39;);
 var Test = module.exports.test = log4js.getLogger(&#39;Test&#39;);
+
+var Index = module.exports.index = log4js.getLogger(&#39;Index&#39;);
+var Key = module.exports.key = log4js.getLogger(&#39;Key&#39;);
+var ForeignKey = module.exports.foreignKey = log4js.getLogger(&#39;ForeignKey&#39;);
+
+
+var Clone = module.exports.clone = log4js.getLogger(&#39;Clone&#39;);
+var Type = module.exports.type = log4js.getLogger(&#39;Type&#39;);
+var Coerce = module.exports.coerce = log4js.getLogger(&#39;Coerce&#39;);
+var Compare = module.exports.compare = log4js.getLogger(&#39;Compare&#39;);
+var Value = module.exports.value = log4js.getLogger(&#39;Value&#39;);
+var Equal = module.exports.equal = log4js.getLogger(&#39;Equal&#39;);
 
 
 </pre>

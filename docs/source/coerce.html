@@ -16,8 +16,11 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">var _ = require(&#39;lodash&#39;);
+var debug = require(&#39;./debug&#39;);
 
 var coerce = function (type, value) {
+
+    debug.coerce.trace(&#39;#coerce&#39;);
 
     if(value instanceof type){
 

@@ -15,454 +15,508 @@
   </script>
 </head>
 <body onload="prettyPrint(); highlight();">
-  <pre class="prettyprint lang-js">
+  <pre class="prettyprint lang-js"><span id='Affinity'>/**
+</span> * @class Affinity
+ * @type {Object} 
+ * @member Affinity
+ */
+var affinity = {};
+
 //region Types
 
-<span id='global-property-Index'>/**
-</span> * @type {Index}
+<span id='Affinity-property-Index'>/**
+</span> * @member Affinity
+ * @type {Index}
  */
-module.exports.Index = require(&#39;./affinity/Index.js&#39;);
+affinity.Index = require(&#39;./affinity/Index.js&#39;);
 
-<span id='global-property-Type'>/**
-</span> * @type {Types.Type}
+<span id='Affinity-property-Type'>/**
+</span> * @type {Types.Type}  
+ * @member Affinity
  */
-module.exports.Type = require(&#39;./affinity/types/Type.js&#39;);
+affinity.Type = require(&#39;./affinity/types/Type.js&#39;);
 
-<span id='global-property-Set'>/**
-</span> * @type {Set}
+<span id='Affinity-property-Set'>/**
+</span> * @type {Set} 
+ * @member Affinity
  */
-module.exports.Set = require(&#39;./affinity/Set.js&#39;);
+affinity.Set = require(&#39;./affinity/Set.js&#39;);
 
-<span id='global-property-Relation'>/**
-</span> * @type {Relation}
+<span id='Affinity-property-Relation'>/**
+</span> * @type {Relation} 
+ * @member Affinity
  */
-module.exports.Relation = require(&#39;./affinity/Relation.js&#39;);
+affinity.Relation = require(&#39;./affinity/Relation.js&#39;);
 
-<span id='global-property-Tuple'>/**
-</span> * @type {Tuple}
+<span id='Affinity-property-Tuple'>/**
+</span> * @type {Tuple} 
+ * @member Affinity
  */
-module.exports.Tuple = require(&#39;./affinity/Tuple.js&#39;);
+affinity.Tuple = require(&#39;./affinity/Tuple.js&#39;);
 
-<span id='global-property-Header'>/**
-</span> * @type {Header}
+<span id='Affinity-property-Header'>/**
+</span> * @type {Header} 
+ * @member Affinity
  */
-module.exports.Header = require(&#39;./affinity/Header.js&#39;);
+affinity.Header = require(&#39;./affinity/Header.js&#39;);
 
-<span id='global-property-Attribute'>/**
-</span> * @type {Attribute}
+<span id='Affinity-property-Attribute'>/**
+</span> * @type {Attribute} 
+ * @member Affinity
  */
-module.exports.Attribute = require(&#39;./affinity/Attribute.js&#39;);
+affinity.Attribute = require(&#39;./affinity/Attribute.js&#39;);
 
-<span id='global-property-Object'>/**
-</span> * @type {Types.Object}
+<span id='Affinity-property-Object'>/**
+</span> * @type {Types.Object} 
+ * @member Affinity
  */
-module.exports.Object = require(&#39;./affinity/types/Object&#39;);
+affinity.Object = require(&#39;./affinity/types/Object&#39;);
 
-<span id='global-property-Integer'>/**
-</span> * @type {Types.Integer}
+<span id='Affinity-property-Integer'>/**
+</span> * @type {Types.Integer} 
+ * @member Affinity
  */
-module.exports.Integer = require(&#39;./affinity/types/Integer&#39;);
+affinity.Integer = require(&#39;./affinity/types/Integer&#39;);
 
-<span id='global-property-Float'>/**
-</span> * @type {Types.Float}
+<span id='Affinity-property-Float'>/**
+</span> * @type {Types.Float} 
+ * @member Affinity
  */
-module.exports.Float = require(&#39;./affinity/types/Float&#39;);
+affinity.Float = require(&#39;./affinity/types/Float&#39;);
 
-<span id='global-property-String'>/**
-</span> * @type {Types.String}
+<span id='Affinity-property-String'>/**
+</span> * @type {Types.String} 
+ * @member Affinity
  */
-module.exports.String = require(&#39;./affinity/types/String&#39;);
+affinity.String = require(&#39;./affinity/types/String&#39;);
 
-<span id='global-property-Boolean'>/**
-</span> * @type {Types.Boolean}
+<span id='Affinity-property-Boolean'>/**
+</span> * @type {Types.Boolean} 
+ * @member Affinity
  */
-module.exports.Boolean = require(&#39;./affinity/types/Boolean&#39;);
+affinity.Boolean = require(&#39;./affinity/types/Boolean&#39;);
 
-<span id='global-property-Date'>/**
-</span> * @type {Types.Date}
+<span id='Affinity-property-Date'>/**
+</span> * @type {Types.Date} 
+ * @member Affinity
  */
-module.exports.Date = require(&#39;./affinity/types/Date&#39;);
+affinity.Date = require(&#39;./affinity/types/Date&#39;);
 //endregion
 
-<span id='global-property-Function'>/**
-</span> * @type {Function}
+<span id='Affinity-property-Function'>/**
+</span> * @type {Function} 
+ * @member Affinity
  */
-module.exports.Function = require(&#39;./affinity/Function.js&#39;);
+affinity.Function = require(&#39;./affinity/Function.js&#39;);
 
 //region Connective Functions
 
-<span id='global-property-And'>/**
-</span> * @type {Functions.Connective.And}
+<span id='Affinity-property-And'>/**
+</span> * @type {Functions.Connective.And} 
+ * @member Affinity
  */
-module.exports.And = require(&#39;./affinity/functions/connective/And.js&#39;);
+affinity.And = require(&#39;./affinity/functions/connective/And.js&#39;);
 
-<span id='global-property-Or'>/**
-</span> * @type {Functions.Connective.Or}
+<span id='Affinity-property-Or'>/**
+</span> * @type {Functions.Connective.Or} 
+ * @member Affinity
  */
-module.exports.Or = require(&#39;./affinity/functions/connective/Or.js&#39;);
+affinity.Or = require(&#39;./affinity/functions/connective/Or.js&#39;);
 
-<span id='global-property-Not'>/**
-</span> * @type {Functions.Connective.Not}
+<span id='Affinity-property-Not'>/**
+</span> * @type {Functions.Connective.Not} 
+ * @member Affinity
  */
-module.exports.Not = require(&#39;./affinity/functions/connective/Not.js&#39;);
+affinity.Not = require(&#39;./affinity/functions/connective/Not.js&#39;);
 //endregion
 
 //region Comparative Functions
 
-<span id='global-property-Equal'>/**
-</span> * @type {Functions.Comparable.Equal}
+<span id='Affinity-property-Equal'>/**
+</span> * @type {Functions.Comparable.Equal} 
+ * @member Affinity
  */
-module.exports.Equal = require(&#39;./affinity/functions/comparable/Equal.js&#39;);
+affinity.Equal = require(&#39;./affinity/functions/comparable/Equal.js&#39;);
 
-<span id='global-property-eq'>/**
-</span> * @type {Functions.Comparable.Equal}
+<span id='Affinity-property-eq'>/**
+</span> * @type {Functions.Comparable.Equal} 
+ * @member Affinity
  */
-module.exports.eq = function(attr1, attr2){
-    return new module.exports.Equal(attr1, attr2);
+affinity.eq = function(attr1, attr2){
+    return new affinity.Equal(attr1, attr2);
 };
 
 
-<span id='global-property-GreaterThan'>/**
-</span> * @type {Functions.Comparable.GreaterThan}
+<span id='Affinity-property-GreaterThan'>/**
+</span> * @type {Functions.Comparable.GreaterThan} 
+ * @member Affinity
  */
-module.exports.GreaterThan = require(&#39;./affinity/functions/comparable/GreaterThan.js&#39;);
+affinity.GreaterThan = require(&#39;./affinity/functions/comparable/GreaterThan.js&#39;);
 
-<span id='global-property-gt'>/**
-</span> * @type {Functions.Comparable.GreaterThan}
+<span id='Affinity-property-gt'>/**
+</span> * @type {Functions.Comparable.GreaterThan} 
+ * @member Affinity
  */
-module.exports.gt = function(attr1, attr2){
-    return new module.exports.GreaterThan(attr1, attr2);
+affinity.gt = function(attr1, attr2){
+    return new affinity.GreaterThan(attr1, attr2);
 };
 
 
-<span id='global-property-GreaterThanEqual'>/**
-</span> * @type {Functions.Comparable.GreaterThanEqual}
+<span id='Affinity-property-GreaterThanEqual'>/**
+</span> * @type {Functions.Comparable.GreaterThanEqual} 
+ * @member Affinity
  */
-module.exports.GreaterThanEqual = require(&#39;./affinity/functions/comparable/GreaterThanEqual.js&#39;);
+affinity.GreaterThanEqual = require(&#39;./affinity/functions/comparable/GreaterThanEqual.js&#39;);
 
-<span id='global-property-gte'>/**
-</span> * @type {Functions.Comparable.GreaterThanEqual}
+<span id='Affinity-property-gte'>/**
+</span> * @type {Functions.Comparable.GreaterThanEqual} 
+ * @member Affinity
  */
-module.exports.gte = function(attr1, attr2){
-    return new module.exports.GreaterThanEqual(attr1, attr2);
+affinity.gte = function(attr1, attr2){
+    return new affinity.GreaterThanEqual(attr1, attr2);
 };
 
 
-<span id='global-property-SmallerThan'>/**
-</span> * @type {Functions.Comparable.SmallerThan}
+<span id='Affinity-property-SmallerThan'>/**
+</span> * @type {Functions.Comparable.SmallerThan} 
+ * @member Affinity
  */
-module.exports.SmallerThan = require(&#39;./affinity/functions/comparable/SmallerThan.js&#39;);
+affinity.SmallerThan = require(&#39;./affinity/functions/comparable/SmallerThan.js&#39;);
 
-<span id='global-property-ste'>/**
-</span> * @type {Functions.Comparable.SmallerThan}
+<span id='Affinity-property-st'>/**
+</span> * @type {Functions.Comparable.SmallerThan} 
+ * @member Affinity
  */
-module.exports.ste = function(attr1, attr2){
-    return new module.exports.SmallerThan(attr1, attr2);
+affinity.st = function(attr1, attr2){
+    return new affinity.SmallerThan(attr1, attr2);
 };
 
 
-<span id='global-property-SmallerThanEqual'>/**
-</span> * @type {Functions.Comparable.SmallerThanEqual}
+<span id='Affinity-property-SmallerThanEqual'>/**
+</span> * @type {Functions.Comparable.SmallerThanEqual} 
+ * @member Affinity
  */
-module.exports.SmallerThanEqual = require(&#39;./affinity/functions/comparable/SmallerThanEqual.js&#39;);
+affinity.SmallerThanEqual = require(&#39;./affinity/functions/comparable/SmallerThanEqual.js&#39;);
 
-<span id='global-property-ste'>/**
-</span> * @type {Functions.Comparable.SmallerThanEqual}
+<span id='Affinity-property-ste'>/**
+</span> * @type {Functions.Comparable.SmallerThanEqual} 
+ * @member Affinity
  */
-module.exports.ste = function(attr1, attr2){
-    return new module.exports.SmallerThanEqual(attr1, attr2);
+affinity.ste = function(attr1, attr2){
+    return new affinity.SmallerThanEqual(attr1, attr2);
 };
 
 //endregion
 
 //region Numeric Functions
 
-<span id='global-property-Absolute'>/**
-</span> * @type {Functions.Numeric.Absolute}
+<span id='Affinity-property-Absolute'>/**
+</span> * @type {Functions.Numeric.Absolute} 
+ * @member Affinity
  */
-module.exports.Absolute = require(&#39;./affinity/functions/numeric/Absolute.js&#39;);
+affinity.Absolute = require(&#39;./affinity/functions/numeric/Absolute.js&#39;);
 
-<span id='global-property-Ceil'>/**
-</span> * @type {Functions.Numeric.Ceil}
+<span id='Affinity-property-Ceil'>/**
+</span> * @type {Functions.Numeric.Ceil} 
+ * @member Affinity
  */
-module.exports.Ceil = require(&#39;./affinity/functions/numeric/Ceil.js&#39;);
-<span id='global-property-Cosine'>/**
-</span> * @type {Functions.Numeric.Cosine}
+affinity.Ceil = require(&#39;./affinity/functions/numeric/Ceil.js&#39;);
+<span id='Affinity-property-Cosine'>/**
+</span> * @type {Functions.Numeric.Cosine} 
+ * @member Affinity
  */
-module.exports.Cosine = require(&#39;./affinity/functions/numeric/Cosine.js&#39;);
+affinity.Cosine = require(&#39;./affinity/functions/numeric/Cosine.js&#39;);
 
-<span id='global-property-Division'>/**
-</span> * @type {Functions.Numeric.Division}
+<span id='Affinity-property-Division'>/**
+</span> * @type {Functions.Numeric.Division} 
+ * @member Affinity
  */
-module.exports.Division = require(&#39;./affinity/functions/numeric/Division.js&#39;);
+affinity.Division = require(&#39;./affinity/functions/numeric/Division.js&#39;);
 
-<span id='global-property-Exponential'>/**
-</span> * @type {Functions.Numeric.Exponential}
+<span id='Affinity-property-Exponential'>/**
+</span> * @type {Functions.Numeric.Exponential} 
+ * @member Affinity
  */
-module.exports.Exponential = require(&#39;./affinity/functions/numeric/Exponential.js&#39;);
+affinity.Exponential = require(&#39;./affinity/functions/numeric/Exponential.js&#39;);
 
-<span id='global-property-Floor'>/**
-</span> * @type {Functions.Numeric.Floor}
+<span id='Affinity-property-Floor'>/**
+</span> * @type {Functions.Numeric.Floor} 
+ * @member Affinity
  */
-module.exports.Floor = require(&#39;./affinity/functions/numeric/Floor.js&#39;);
+affinity.Floor = require(&#39;./affinity/functions/numeric/Floor.js&#39;);
 
-<span id='global-property-Minus'>/**
-</span> * @type {Functions.Numeric.Minus}
+<span id='Affinity-property-Minus'>/**
+</span> * @type {Functions.Numeric.Minus} 
+ * @member Affinity
  */
-module.exports.Minus = require(&#39;./affinity/functions/numeric/Minus.js&#39;);
+affinity.Minus = require(&#39;./affinity/functions/numeric/Minus.js&#39;);
 
-<span id='global-property-Modulo'>/**
-</span> * @type {Functions.Numeric.Modulo}
+<span id='Affinity-property-Modulo'>/**
+</span> * @type {Functions.Numeric.Modulo} 
+ * @member Affinity
  */
-module.exports.Modulo = require(&#39;./affinity/functions/numeric/Modulo.js&#39;);
+affinity.Modulo = require(&#39;./affinity/functions/numeric/Modulo.js&#39;);
 
-<span id='global-property-Multiplication'>/**
-</span> * @type {Functions.Numeric.Multiplication}
+<span id='Affinity-property-Multiplication'>/**
+</span> * @type {Functions.Numeric.Multiplication} 
+ * @member Affinity
  */
-module.exports.Multiplication = require(&#39;./affinity/functions/numeric/Multiplication.js&#39;);
+affinity.Multiplication = require(&#39;./affinity/functions/numeric/Multiplication.js&#39;);
 
-<span id='global-property-Plus'>/**
-</span> * @type {Functions.Numeric.Plus}
+<span id='Affinity-property-Plus'>/**
+</span> * @type {Functions.Numeric.Plus} 
+ * @member Affinity
  */
-module.exports.Plus = require(&#39;./affinity/functions/numeric/Plus.js&#39;);
+affinity.Plus = require(&#39;./affinity/functions/numeric/Plus.js&#39;);
 
-<span id='global-property-Power'>/**
-</span> * @type {Functions.Numeric.Power}
+<span id='Affinity-property-Power'>/**
+</span> * @type {Functions.Numeric.Power} 
+ * @member Affinity
  */
-module.exports.Power = require(&#39;./affinity/functions/numeric/Power.js&#39;);
+affinity.Power = require(&#39;./affinity/functions/numeric/Power.js&#39;);
 
-<span id='global-property-Round'>/**
-</span> * @type {Functions.Numeric.Round}
+<span id='Affinity-property-Round'>/**
+</span> * @type {Functions.Numeric.Round} 
+ * @member Affinity
  */
-module.exports.Round = require(&#39;./affinity/functions/numeric/Round.js&#39;);
+affinity.Round = require(&#39;./affinity/functions/numeric/Round.js&#39;);
 
-<span id='global-property-Sine'>/**
-</span> * @type {Functions.Numeric.Sine}
+<span id='Affinity-property-Sine'>/**
+</span> * @type {Functions.Numeric.Sine} 
+ * @member Affinity
  */
-module.exports.Sine = require(&#39;./affinity/functions/numeric/Sine.js&#39;);
+affinity.Sine = require(&#39;./affinity/functions/numeric/Sine.js&#39;);
 
-<span id='global-property-SquareRoot'>/**
-</span> * @type {Functions.Numeric.SquareRoot}
+<span id='Affinity-property-SquareRoot'>/**
+</span> * @type {Functions.Numeric.SquareRoot} 
+ * @member Affinity
  */
-module.exports.SquareRoot = require(&#39;./affinity/functions/numeric/SquareRoot.js&#39;);
+affinity.SquareRoot = require(&#39;./affinity/functions/numeric/SquareRoot.js&#39;);
 
-<span id='global-property-Tangent'>/**
-</span> * @type {Functions.Numeric.Tangent}
+<span id='Affinity-property-Tangent'>/**
+</span> * @type {Functions.Numeric.Tangent} 
+ * @member Affinity
  */
-module.exports.Tangent = require(&#39;./affinity/functions/numeric/Tangent.js&#39;);
+affinity.Tangent = require(&#39;./affinity/functions/numeric/Tangent.js&#39;);
 
-<span id='global-method-abs'>/**
+<span id='Affinity-method-abs'>/**
 </span> * @param attr
  * @returns {Functions.Numeric.Absolute}
  */
-module.exports.abs = function(attr){
-    return new module.exports.Absolute(attr);
+affinity.abs = function(attr){
+    return new affinity.Absolute(attr);
 };
 
-<span id='global-method-ceil'>/**
+<span id='Affinity-method-ceil'>/**
 </span> * @param attr
  * @returns {Functions.Numeric.Ceil}
  */
-module.exports.ceil = function(attr){
-    return new module.exports.Ceil(attr);
+affinity.ceil = function(attr){
+    return new affinity.Ceil(attr);
 };
 
-<span id='global-method-floor'>/**
+<span id='Affinity-method-floor'>/**
 </span> * @param attr
  * @returns {Functions.Numeric.Floor}
  */
-module.exports.floor = function(attr){
-    return new module.exports.Floor(attr);
+affinity.floor = function(attr){
+    return new affinity.Floor(attr);
 };
 
-<span id='global-method-cos'>/**
+<span id='Affinity-method-cos'>/**
 </span> * @param attr
  * @returns {Functions.Numeric.Cosine}
  */
-module.exports.cos = function(attr){
-    return new module.exports.Cosine(attr);
+affinity.cos = function(attr){
+    return new affinity.Cosine(attr);
 };
 
-<span id='global-method-div'>/**
+<span id='Affinity-method-div'>/**
 </span> * @param attr1
  * @param attr2
  * @returns {Functions.Numeric.Division}
  */
-module.exports.div = function(attr1, attr2){
-    return new module.exports.Division(attr1, attr2);
+affinity.div = function(attr1, attr2){
+    return new affinity.Division(attr1, attr2);
 };
 
-<span id='global-method-exp'>/**
+<span id='Affinity-method-exp'>/**
 </span> * @param attr
  * @returns {Functions.Numeric.Exponential}
  */
-module.exports.exp = function(attr){
-    return new module.exports.Exponential(attr);
+affinity.exp = function(attr){
+    return new affinity.Exponential(attr);
 };
 
-<span id='global-method-minus'>/**
+<span id='Affinity-method-minus'>/**
 </span> * @param attr1
  * @param attr2
  * @returns {Functions.Numeric.Minus}
  */
-module.exports.minus = function(attr1, attr2){
-    return new module.exports.Minus(attr1, attr2);
+affinity.minus = function(attr1, attr2){
+    return new affinity.Minus(attr1, attr2);
 };
 
-<span id='global-method-mod'>/**
+<span id='Affinity-method-mod'>/**
 </span> * @param attr1
  * @param attr2
  * @returns {Functions.Numeric.Modulo}
  */
-module.exports.mod = function(attr1, attr2){
-    return new module.exports.Modulo(attr1, attr2);
+affinity.mod = function(attr1, attr2){
+    return new affinity.Modulo(attr1, attr2);
 };
 
-<span id='global-method-times'>/**
+<span id='Affinity-method-times'>/**
 </span> * @param attr1
  * @param attr2
  * @returns {Functions.Numeric.Multiplication}
  */
-module.exports.times = function(attr1, attr2){
-    return new module.exports.Multiplication(attr1, attr2);
+affinity.times = function(attr1, attr2){
+    return new affinity.Multiplication(attr1, attr2);
 };
 
-<span id='global-method-plus'>/**
+<span id='Affinity-method-plus'>/**
 </span> * @param attr1
  * @param attr2
  * @returns {Functions.Numeric.Plus}
  */
-module.exports.plus = function(attr1, attr2){
-    return new module.exports.Plus(attr1, attr2);
+affinity.plus = function(attr1, attr2){
+    return new affinity.Plus(attr1, attr2);
 };
 
-<span id='global-method-pow'>/**
+<span id='Affinity-method-pow'>/**
 </span> * @param attr1
  * @param attr2
  * @returns {Functions.Numeric.Power}
  */
-module.exports.pow = function(attr1, attr2){
-    return new module.exports.Power(attr1, attr2);
+affinity.pow = function(attr1, attr2){
+    return new affinity.Power(attr1, attr2);
 };
 
-<span id='global-method-round'>/**
+<span id='Affinity-method-round'>/**
 </span> * @param attr
  * @returns {Functions.Numeric.Round}
  */
-module.exports.round = function(attr){
-    return new module.exports.Round(attr);
+affinity.round = function(attr){
+    return new affinity.Round(attr);
 };
 
-<span id='global-method-sin'>/**
+<span id='Affinity-method-sin'>/**
 </span> * @param attr
  * @returns {Functions.Numeric.Sine}
  */
-module.exports.sin = function(attr){
-    return new module.exports.Sine(attr);
+affinity.sin = function(attr){
+    return new affinity.Sine(attr);
 };
 
-<span id='global-method-sqrt'>/**
+<span id='Affinity-method-sqrt'>/**
 </span> * @param attr
  * @returns {Functions.Numeric.SquareRoot}
  */
-module.exports.sqrt = function(attr){
-    return new module.exports.SquareRoot(attr);
+affinity.sqrt = function(attr){
+    return new affinity.SquareRoot(attr);
 };
 
-<span id='global-method-tan'>/**
+<span id='Affinity-method-tan'>/**
 </span> * @param attr
  * @returns {Functions.Numeric.Tangent}
  */
-module.exports.tan = function(attr){
-    return new module.exports.Tangent(attr);
+affinity.tan = function(attr){
+    return new affinity.Tangent(attr);
 };
 //endregion
 
 //region String Functions
 
-<span id='global-property-Length'>/**
-</span> * @type {Functions.String.Length}
+<span id='Affinity-property-Length'>/**
+</span> * @type {Functions.String.Length} 
+ * @member Affinity
  */
-module.exports.Length = require(&#39;./affinity/functions/string/Length.js&#39;);
+affinity.Length = require(&#39;./affinity/functions/string/Length.js&#39;);
 
-<span id='global-property-Lowercase'>/**
-</span> * @type {Functions.String.Lowercase}
+<span id='Affinity-property-Lowercase'>/**
+</span> * @type {Functions.String.Lowercase} 
+ * @member Affinity
  */
-module.exports.Lowercase = require(&#39;./affinity/functions/string/Lowercase.js&#39;);
+affinity.Lowercase = require(&#39;./affinity/functions/string/Lowercase.js&#39;);
 
-<span id='global-property-Test'>/**
-</span> * @type {Functions.String.Test}
+<span id='Affinity-property-Test'>/**
+</span> * @type {Functions.String.Test} 
+ * @member Affinity
  */
-module.exports.Test = require(&#39;./affinity/functions/string/Test.js&#39;);
+affinity.Test = require(&#39;./affinity/functions/string/Test.js&#39;);
 
-<span id='global-property-Substring'>/**
-</span> * @type {Functions.String.Substring}
+<span id='Affinity-property-Substring'>/**
+</span> * @type {Functions.String.Substring} 
+ * @member Affinity
  */
-module.exports.Substring = require(&#39;./affinity/functions/string/Substring.js&#39;);
+affinity.Substring = require(&#39;./affinity/functions/string/Substring.js&#39;);
 
-<span id='global-property-Uppercase'>/**
-</span> * @type {Functions.String.Uppercase}
+<span id='Affinity-property-Uppercase'>/**
+</span> * @type {Functions.String.Uppercase} 
+ * @member Affinity
  */
-module.exports.Uppercase = require(&#39;./affinity/functions/string/Uppercase.js&#39;);
+affinity.Uppercase = require(&#39;./affinity/functions/string/Uppercase.js&#39;);
 
-<span id='global-method-length'>/**
+<span id='Affinity-method-length'>/**
 </span> * @param attr
  * @returns {Functions.String.Length}
  */
-module.exports.length = function(attr){
-    return new module.exports.Length(attr);
+affinity.length = function(attr){
+    return new affinity.Length(attr);
 };
 
-<span id='global-method-lowercase'>/**
+<span id='Affinity-method-lowercase'>/**
 </span> * @param attr
  * @returns {Functions.String.Lowercase}
  */
-module.exports.lowercase = function(attr){
-    return new module.exports.Lowercase(attr);
+affinity.lowercase = function(attr){
+    return new affinity.Lowercase(attr);
 };
 
-<span id='global-method-test'>/**
+<span id='Affinity-method-test'>/**
 </span> * @param attr
  * @param regex
  * @returns {Functions.String.Test}
  */
-module.exports.test = function(attr, regex){
-    return new module.exports.Test(attr, regex);
+affinity.test = function(attr, regex){
+    return new affinity.Test(attr, regex);
 };
 
-<span id='global-method-substr'>/**
+<span id='Affinity-method-substr'>/**
 </span> * @param attr
  * @param start
  * @param length
  * @returns {Functions.String.Substring}
  */
-module.exports.substr = function(attr, start, length){
-    return new module.exports.Length(attr, start, length);
+affinity.substr = function(attr, start, length){
+    return new affinity.Length(attr, start, length);
 };
 
-<span id='global-method-uppercase'>/**
+<span id='Affinity-method-uppercase'>/**
 </span> * @param attr
  * @returns {Functions.String.Uppercase}
  */
-module.exports.uppercase = function(attr){
-    return new module.exports.Length(attr);
+affinity.uppercase = function(attr){
+    return new affinity.Length(attr);
 };
 //endregion
 
 //region Tuple Functions
 
-<span id='global-property-TupleValue'>/**
-</span> * @type {Functions.Tuple.AttributeValue}
+<span id='Affinity-property-TupleValue'>/**
+</span> * @type {Functions.Tuple.AttributeValue} 
+ * @member Affinity
  */
-module.exports.TupleValue = require(&#39;./affinity/functions/tuple/Attribute.js&#39;);
+affinity.TupleValue = require(&#39;./affinity/functions/tuple/Attribute.js&#39;);
 
-<span id='global-method-value'>/**
+<span id='Affinity-method-value'>/**
 </span> * @param relation
  * @param attributeName
  * @returns {Functions.Tuple.AttributeValue}
  */
-module.exports.value = function(relation, attributeName){
-    var result = new module.exports.TupleValue(attributeName);
+affinity.value = function(relation, attributeName){
+    var result = new affinity.TupleValue(attributeName);
     result.type(relation.header().get(attributeName));
     return result;
 };
@@ -470,121 +524,140 @@ module.exports.value = function(relation, attributeName){
 
 //region Date Functions
 
-module.exports.DayOfMonth = require(&#39;./affinity/functions/date/DayOfMonth.js&#39;);
-module.exports.DayOfMonth = require(&#39;./affinity/functions/date/DayOfMonth.js&#39;);
-module.exports.DayOfWeek = require(&#39;./affinity/functions/date/DayOfWeek.js&#39;);
-module.exports.DayOfYear = require(&#39;./affinity/functions/date/DayOfYear.js&#39;);
-module.exports.Hours = require(&#39;./affinity/functions/date/Hours.js&#39;);
-module.exports.Milliseconds = require(&#39;./affinity/functions/date/Milliseconds.js&#39;);
-module.exports.Minutes = require(&#39;./affinity/functions/date/Minutes.js&#39;);
-module.exports.Month = require(&#39;./affinity/functions/date/Month.js&#39;);
-module.exports.Seconds = require(&#39;./affinity/functions/date/Seconds.js&#39;);
-module.exports.Timestamp = require(&#39;./affinity/functions/date/Timestamp.js&#39;);
-module.exports.WeekOfYear = require(&#39;./affinity/functions/date/WeekOfYear.js&#39;);
-module.exports.Year = require(&#39;./affinity/functions/date/Year.js&#39;);
+affinity.DayOfMonth = require(&#39;./affinity/functions/date/DayOfMonth.js&#39;);
+affinity.DayOfMonth = require(&#39;./affinity/functions/date/DayOfMonth.js&#39;);
+affinity.DayOfWeek = require(&#39;./affinity/functions/date/DayOfWeek.js&#39;);
+affinity.DayOfYear = require(&#39;./affinity/functions/date/DayOfYear.js&#39;);
+affinity.Hours = require(&#39;./affinity/functions/date/Hours.js&#39;);
+affinity.Milliseconds = require(&#39;./affinity/functions/date/Milliseconds.js&#39;);
+affinity.Minutes = require(&#39;./affinity/functions/date/Minutes.js&#39;);
+affinity.Month = require(&#39;./affinity/functions/date/Month.js&#39;);
+affinity.Seconds = require(&#39;./affinity/functions/date/Seconds.js&#39;);
+affinity.Timestamp = require(&#39;./affinity/functions/date/Timestamp.js&#39;);
+affinity.WeekOfYear = require(&#39;./affinity/functions/date/WeekOfYear.js&#39;);
+affinity.Year = require(&#39;./affinity/functions/date/Year.js&#39;);
 //endregion
 
-module.exports.count = function(){
+affinity.count = function(){
     return new (require(&#39;./affinity/functions/aggregate/Count.js&#39;));
 };
 
 //region Relational Operators
 
-<span id='global-property-Composition'>/**
-</span> * @type {Operators.Composition}
+<span id='Affinity-property-Composition'>/**
+</span> * @type {Operators.Composition} 
+ * @member Affinity
  */
-module.exports.Composition = require(&#39;./affinity/algebra/Composition.js&#39;);
+affinity.Composition = require(&#39;./affinity/algebra/Composition.js&#39;);
 
-<span id='global-property-Difference'>/**
-</span> * @type {Operators.Difference}
+<span id='Affinity-property-Difference'>/**
+</span> * @type {Operators.Difference} 
+ * @member Affinity
  */
-module.exports.Difference = require(&#39;./affinity/algebra/Difference.js&#39;);
+affinity.Difference = require(&#39;./affinity/algebra/Difference.js&#39;);
 
-<span id='global-property-Extension'>/**
-</span> * @type {Operators.Extension}
+<span id='Affinity-property-Extension'>/**
+</span> * @type {Operators.Extension} 
+ * @member Affinity
  */
-module.exports.Extension = require(&#39;./affinity/algebra/Extension.js&#39;);
+affinity.Extension = require(&#39;./affinity/algebra/Extension.js&#39;);
 
-<span id='global-property-Group'>/**
-</span> * @type {Operators.Group}
+<span id='Affinity-property-Group'>/**
+</span> * @type {Operators.Group} 
+ * @member Affinity
  */
-module.exports.Group = require(&#39;./affinity/algebra/Group.js&#39;);
+affinity.Group = require(&#39;./affinity/algebra/Group.js&#39;);
 
-<span id='global-property-Intersection'>/**
-</span> * @type {Operators.Intersection}
+<span id='Affinity-property-Intersection'>/**
+</span> * @type {Operators.Intersection} 
+ * @member Affinity
  */
-module.exports.Intersection = require(&#39;./affinity/algebra/Intersection.js&#39;);
+affinity.Intersection = require(&#39;./affinity/algebra/Intersection.js&#39;);
 
-<span id='global-property-Join'>/**
-</span> * @type {Operators.Join}
+<span id='Affinity-property-Join'>/**
+</span> * @type {Operators.Join} 
+ * @member Affinity
  */
-module.exports.Join = require(&#39;./affinity/algebra/Join.js&#39;);
+affinity.Join = require(&#39;./affinity/algebra/Join.js&#39;);
 
-<span id='global-property-Product'>/**
-</span> * @type {Operators.Product}
+<span id='Affinity-property-Product'>/**
+</span> * @type {Operators.Product} 
+ * @member Affinity
  */
-module.exports.Product = require(&#39;./affinity/algebra/Product.js&#39;);
+affinity.Product = require(&#39;./affinity/algebra/Product.js&#39;);
 
-<span id='global-property-Projection'>/**
-</span> * @type {Operators.Projection}
+<span id='Affinity-property-Projection'>/**
+</span> * @type {Operators.Projection} 
+ * @member Affinity
  */
-module.exports.Projection = require(&#39;./affinity/algebra/Projection.js&#39;);
+affinity.Projection = require(&#39;./affinity/algebra/Projection.js&#39;);
 
-<span id='global-property-Rename'>/**
-</span> * @type {Operators.Rename}
+<span id='Affinity-property-Rename'>/**
+</span> * @type {Operators.Rename} 
+ * @member Affinity
  */
-module.exports.Rename = require(&#39;./affinity/algebra/Rename.js&#39;);
+affinity.Rename = require(&#39;./affinity/algebra/Rename.js&#39;);
 
-<span id='global-property-Restriction'>/**
-</span> * @type {Operators.Restriction}
+<span id='Affinity-property-Restriction'>/**
+</span> * @type {Operators.Restriction} 
+ * @member Affinity
  */
-module.exports.Restriction = require(&#39;./affinity/algebra/Restriction.js&#39;);
+affinity.Restriction = require(&#39;./affinity/algebra/Restriction.js&#39;);
 
-<span id='global-property-SemiDifference'>/**
-</span> * @type {Operators.SemiDifference}
+<span id='Affinity-property-SemiDifference'>/**
+</span> * @type {Operators.SemiDifference} 
+ * @member Affinity
  */
-module.exports.SemiDifference = require(&#39;./affinity/algebra/SemiDifference.js&#39;);
+affinity.SemiDifference = require(&#39;./affinity/algebra/SemiDifference.js&#39;);
 
-<span id='global-property-SemiJoin'>/**
-</span> * @type {Operators.SemiJoin}
+<span id='Affinity-property-SemiJoin'>/**
+</span> * @type {Operators.SemiJoin} 
+ * @member Affinity
  */
-module.exports.SemiJoin = require(&#39;./affinity/algebra/SemiJoin.js&#39;);
+affinity.SemiJoin = require(&#39;./affinity/algebra/SemiJoin.js&#39;);
 
-<span id='global-property-Ungroup'>/**
-</span> * @type {Operators.Ungroup}
+<span id='Affinity-property-Ungroup'>/**
+</span> * @type {Operators.Ungroup} 
+ * @member Affinity
  */
-module.exports.Ungroup = require(&#39;./affinity/algebra/Ungroup.js&#39;);
+affinity.Ungroup = require(&#39;./affinity/algebra/Ungroup.js&#39;);
 
-<span id='global-property-Union'>/**
-</span> * @type {Operators.Union}
+<span id='Affinity-property-Union'>/**
+</span> * @type {Operators.Union} 
+ * @member Affinity
  */
-module.exports.Union = require(&#39;./affinity/algebra/Union.js&#39;);
+affinity.Union = require(&#39;./affinity/algebra/Union.js&#39;);
 
-<span id='global-property-Unwrap'>/**
-</span> * @type {Operators.Unwrap}
+<span id='Affinity-property-Unwrap'>/**
+</span> * @type {Operators.Unwrap} 
+ * @member Affinity
  */
-module.exports.Unwrap = require(&#39;./affinity/algebra/Unwrap.js&#39;);
+affinity.Unwrap = require(&#39;./affinity/algebra/Unwrap.js&#39;);
 
-<span id='global-property-Unwrap'>/**
-</span> * @type {Operators.Wrap}
+<span id='Affinity-property-Wrap'>/**
+</span> * @type {Operators.Wrap} 
+ * @member Affinity
  */
-module.exports.Unwrap = require(&#39;./affinity/algebra/Wrap.js&#39;);
+affinity.Wrap = require(&#39;./affinity/algebra/Wrap.js&#39;);
 //endregion
 
 //region Constants
 
-<span id='global-property-TABLE_DUM'>/**
-</span> * @type {Relation}
+<span id='Affinity-property-TABLE_DUM'>/**
+</span> * @type {Relation} 
+ * @member Affinity
  */
-module.exports.TABLE_DUM = new module.exports.Relation([]);
+affinity.TABLE_DUM = new affinity.Relation([]);
 
-<span id='global-property-TABLE_DEE'>/**
-</span> * @type {Relation}
+<span id='Affinity-property-TABLE_DEE'>/**
+</span> * @type {Relation} 
+ * @member Affinity
  */
-module.exports.TABLE_DEE = new module.exports.Relation([], [
+affinity.TABLE_DEE = new affinity.Relation([], [
     []
 ]);
 //endregion
-</pre>
+
+module.exports = affinity;</pre>
 </body>
 </html>

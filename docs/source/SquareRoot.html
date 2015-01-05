@@ -20,9 +20,6 @@ var TNumeric = require(&#39;./../../types/Numeric.js&#39;);
 var value = require(&#39;./../../helpers/value&#39;);
 
 var FSquareRoot = Function.extend(
-<span id=''>    /**
-</span>     * @lends FSquareRoot.prototype
-     */
     {
 
 <span id='Functions-Numeric-SquareRoot'>        /**
@@ -81,8 +78,12 @@ var FSquareRoot = Function.extend(
 
         },
 
-<span id='-method-value'>        value: function () {
-</span>
+<span id='Functions-Numeric-SquareRoot-method-value'>        /**
+</span>         * Gets the function result
+         * @returns {number}
+         */
+        value: function () {
+
             return Math.sqrt(value(this.parameters[0]));
 
         }

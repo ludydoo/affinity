@@ -16,6 +16,7 @@
 </head>
 <body onload="prettyPrint(); highlight();">
   <pre class="prettyprint lang-js">var Numeric = require(&#39;./Numeric.js&#39;);
+var _ = require(&#39;lodash&#39;);
 
 var Float = Numeric.extend({
 
@@ -38,6 +39,20 @@ var Float = Numeric.extend({
      */
     toString: function () {
         return &#39;Float&#39;
+    },
+
+
+<span id='Types-Float-method-coerce'>    /**
+</span>     * Coerces an arbitrary value to Float type
+     * @param value
+     * @returns {number}
+     */
+    coerce : function(value){
+
+        if (_.isNumber(value) || _.isString(value)){
+            return parseFloat(value);
+        }
+
     },
 
     primitive : true,
