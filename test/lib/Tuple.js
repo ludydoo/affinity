@@ -1,5 +1,6 @@
 var affinity = require('./../../index.js');
 var should = require('should');
+var _ = require('lodash');
 
 describe('Tuple Class', function () {
 
@@ -168,5 +169,64 @@ describe('Tuple Class', function () {
         });
 
     });
+
+    describe('Tuple.toObject', function(){
+
+        describe('When provided with a tuple', function(){
+
+            it('should return an object', function(done){
+
+                var tuple = new affinity.Tuple({a : 1, b : 1});
+
+                _.isObject(tuple).should.be.true;
+
+                done();
+
+            });
+
+            it('Should add the tuple attributes to the object', function(done){
+
+                var tuple = new affinity.Tuple({a : 1, b : 1});
+
+                var obj = tuple.toObject();
+
+                obj.hasOwnProperty('a').should.be.true;
+                obj.hasOwnProperty('b').should.be.true;
+                obj.a.should.be.equal(1);
+                obj.b.should.be.equal(1);
+                done();
+
+            });
+
+        });
+
+        describe('When provided with a relation tuple', function(){
+
+            it.only('Should be able to recursively convert a tuple to object', function(done){
+
+                var relation = new affinity.Relation([
+                    { tuple : { type : affinity.Tuple } }
+                ],[
+                    [{ a : 1, b : 2 }]
+                ]);
+
+                var result = relation.first().toObject(true);
+
+                var expectedResult = {
+                    tuple : {
+                        a : 1,
+                        b : 2
+                    }
+                };
+
+                _.isEqual(result, expectedResult).should.be.true;
+
+                done();
+
+            })
+
+        });
+
+    })
 
 });
