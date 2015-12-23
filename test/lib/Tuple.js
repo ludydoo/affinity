@@ -202,7 +202,7 @@ describe('Tuple Class', function () {
 
         describe('When provided with a relation tuple', function(){
 
-            it.only('Should be able to recursively convert a tuple to object', function(done){
+            it('Should be able to recursively convert a tuple to object', function(done){
 
                 var relation = new affinity.Relation([
                     { tuple : { type : affinity.Tuple } }
