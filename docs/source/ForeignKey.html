@@ -21,7 +21,8 @@
     _ = require(&#39;lodash&#39;),
     Attribute = require(&#39;./Attribute&#39;),
     Tuple = require(&#39;./Tuple&#39;),
-    debug = require(&#39;./helpers/debug&#39;);
+    debug = require(&#39;./helpers/debug&#39;),
+    equal = require(&#39;./helpers/equal&#39;);
 
 var ForeignKey = Base.extend({
 
@@ -188,38 +189,24 @@ var ForeignKey = Base.extend({
 
         });
 
-        /// Build a temporary relation that will contain that tuple
+        that.referencedRelation.each(function(tuple, index){
 
-        Relation = require(&#39;./Relation&#39;);
+            var result = true;
 
+            keyTuple.each(function(attribute){
 
-        //// The temporary relation only contains the attributes on which the foreign key is defined
+                if (!equal(null, keyTuple.get(attribute), tuple.get(attribute))){
+                    result = false;
+                    return false;
+                }
 
-        temporaryRelation = new Relation(that.referencedColumns.clone());
+            });
 
+            if (result == false){
+                throw new Error(&#39;Foreign key constraint check fail&#39;)
+            }
 
-        /// Add into the temporary relation the tuple containing the foreign key values to be checked
-
-        temporaryRelation.add(keyTuple);
-
-
-        /// Now project the referenced relation only on the foreign key attributes
-
-        projectedReferencedRelation = that.referencedRelation.project(temporaryRelation.header().toNameArray());
-
-
-        /// Intersect the two relations to check if there are common attributes
-
-        intersectedRelation = temporaryRelation.intersect(projectedReferencedRelation);
-
-
-        //// Count the number of results to assert a greater than 0 count
-        //todo : only one result required?
-
-        if (intersectedRelation.length() &lt; 1){
-            throw new Error(&#39;Foreign key constraint check fail&#39;)
-        }
-
+        });
 
     }
 

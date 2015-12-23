@@ -175,11 +175,16 @@ var Tuple = Type.extend(
 
                 var oldValue = this.attributes[attributeName];
 
+                var foundIndex = undefined;
+
                 value = this.relation.header().get(attributeName).type.coerce(value);
 
                 clone.attributes[attributeName] = value;
 
-                if(this.relation.index(clone) !== null){
+                // Let&#39;s check if updating the tuple&#39;s attribute
+                // will cause a duplicate tuple in the relation
+
+                if((foundIndex = this.relation.index(clone)) !== null &amp;&amp; (this.relation.atIndex(foundIndex) !== this)){
 
                     this.relation.remove(this);
 
@@ -253,7 +258,7 @@ var Tuple = Type.extend(
 
             var count = 0;
 
-            var attrLength = Object.keys(this.attributes).length
+            var attrLength = Object.keys(this.attributes).length;
             var attrs = [&#39;Tuple({&#39;];
 
             this.each(function(attribute, key){
@@ -271,6 +276,26 @@ var Tuple = Type.extend(
             attrs.push(&#39;})&#39;);
 
             return attrs.join(&#39;&#39;);
+
+        },
+
+        toObject : function(recursive){
+
+            recursive = typeof(recursive) !== &#39;undefined&#39; ? recursive : false;
+
+            var result = {};
+
+            this.each(function(attribute, key) {
+
+                if(recursive &amp;&amp; !!this.relation &amp;&amp; !!this.relation.get(key) &amp;&amp; (this.relation.get(key).type === Tuple)) {
+                    result[key] = attribute.toObject(true);
+                } else {
+                    result[key] = attribute;
+                }
+
+            }, this);
+
+            return result;
 
         }
 

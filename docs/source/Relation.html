@@ -67,19 +67,19 @@ var Relation = Set.extend(
 </span>             * @property {Key} _pk The Primary Key for the Relation
              * @private
              */
-            this._pk = null;
+            this._pk = undefined;
 
 <span id='Relation-property-_uks'>            /**
-</span>             * @property {Key[]} _uks The Primary Keys for the Relation
+</span>             * @property {Set} _uks The Primary Keys for the Relation
              * @private
              */
-            this._uks = new Set({type : Key});
+            this._uks = undefined;
 
 <span id='Relation-property-_fks'>            /**
-</span>             * @property {Key[]} _fks The Foreign Keys for the Relation
+</span>             * @property {Set} _fks The Foreign Keys for the Relation
              * @private
              */
-            this._fks = new Set({type : ForeignKey});
+            this._fks = undefined;
 
 <span id='Relation-property-_header'>            /**
 </span>             * @property {Header} _header The relation header
@@ -149,76 +149,50 @@ var Relation = Set.extend(
 
                     // Parse primary key argument
                     if (constraintArguments.pk) {
-                        that.pk(constraintArguments.pk);
-                    }
 
-                    // Parse foreign key arguments
-                    if (constraintArguments.fk) {
-                        _.forEach(constraintArguments.fk, function (fk) {
-                            fk.relation = that;
-                            that.fks().add(new ForeignKey(fk));
-                        })
+                        that.pk(constraintArguments.pk);
+
                     }
 
                     // Parse unique key arguments
                     if (constraintArguments.unique) {
 
                         _.forEach(constraintArguments.unique, function (unique) {
+
                             that.uks().add(new Key(that, unique));
+
                         }, that);
 
                     }
 
+                    // Parse foreign key arguments
+                    if (constraintArguments.fk) {
+                        _.forEach(constraintArguments.fk, function (fkArgs) {
+
+                            fkArgs.relation = that;
+
+                            var fk = new ForeignKey(fkArgs);
+
+                            that.fks().add(new ForeignKey(fkArgs));
+                        })
+                    }
+
+
+
                 }
 
-                // Check that constraints are irreducible
+            });
 
-                var constraints = _.union(that._pk === null ? undefined : [that._pk], that._uks);
+            this.uks().ee.on(&#39;beforeAdd&#39;, function(constraint){
 
-                constraints = that.uks().clone();
+                // Insure corresponding key types has serialize method
+                that._assertKeySerialize(constraint);
 
-                if (that.pk() !== null) {
-                    constraints.add(that.pk());
-                }
+                // Check that the keys are unique
+                that._assertKeysUnique(constraint);
 
-                constraints.each(
-
-                        function (constraint, index) {
-
-                        // Check that if the constraint applies on an object, that
-                        // its type has the serialize method
-
-                        constraint.header.each(
-
-                            function (attribute) {
-                            if (!attribute.type.primitive &amp;&amp; !_.isFunction(attribute.type.serialize)) {
-                                throw new Error(
-                                        &#39;Cannot index attribute &quot;&#39; + attribute.name + &#39;&quot;. &#39; +
-                                        &#39;Its type &quot;&#39; + attribute.type.type + &#39;&quot; must&#39; +
-                                        &#39;have a &quot;serialize&quot; method for it to be indexable.&#39;);
-                            }
-                        });
-
-                        // Further validation for keys
-
-                        for (var a = index + 1, len = constraints.length(); a &lt; len; a++) {
-
-                            var checkedKeyHeader = constraints.atIndex(a).header;
-
-                            // Check that the keys are unique
-                            if (constraint.header.equal(checkedKeyHeader)) {
-                                throw new Error(&#39;Constraints must be unique&#39;);
-                            }
-
-                            // Check that the keys are irreducible
-                            if (constraint.header.setIntersection(checkedKeyHeader).length() !== 0) {
-                                throw new Error(&#39;Constraint must be irreducible&#39;);
-                            }
-
-                        }
-
-                    })
-
+                // Check that the keys are irreducible
+                that._assertKeysIrreducible(constraint);
 
             });
 
@@ -227,7 +201,51 @@ var Relation = Set.extend(
                 tuple.relation = that;
             });
 
-            
+        },
+
+        _assertKeySerialize : function(newKey){
+
+            // Check that if the constraint applies on an object, that
+            // its type has the serialize method
+
+            newKey.header.each(
+
+                function (attribute) {
+                    if (!attribute.type.primitive &amp;&amp; !_.isFunction(attribute.type.serialize)) {
+                        throw new Error(
+                            &#39;Cannot index attribute &quot;&#39; + attribute.name + &#39;&quot;. &#39; +
+                            &#39;Its type &quot;&#39; + attribute.type.type + &#39;&quot; must&#39; +
+                            &#39;have a &quot;serialize&quot; method for it to be indexable.&#39;);
+                    }
+                });
+
+        },
+
+        _assertKeysUnique : function(newKey){
+
+            var existingKeys = this.uks();
+
+            existingKeys.each(function(key){
+
+                if (key.header.equal(newKey.header)){
+                    throw new Error(&#39;Constraints must be unique&#39;);
+                }
+
+            });
+
+        },
+
+        _assertKeysIrreducible : function(newKey){
+
+            var existingKeys = this.uks();
+
+            existingKeys.each(function(key){
+
+                if (newKey.header.setIntersection(key.header).length() !== 0) {
+                    throw new Error(&#39;Constraint must be irreducible&#39;);
+                }
+
+            });
 
         },
 
@@ -276,23 +294,26 @@ var Relation = Set.extend(
             // Look for the tuple in the PK if it exists
 
             if (this._pk) {
+
                 var index = this._pk.index.getIndex(element);
 
                 if (index !== null) {
-                    console.log(&#39;Found by pk&#39;);
                     return index;
                 }
 
             }
-
 
             var result = null;
 
             this.uks().any(function (uniqueConstraint) {
 
                 result = uniqueConstraint.index.getIndex(element);
-                if (result !== null)
+
+                if (result !== null){
+                    console.log(&#39;found by uk&#39;);
                     return false;
+                }
+
 
             }, this);
 
@@ -474,9 +495,19 @@ var Relation = Set.extend(
         pk : function(primaryKeyName){
 
             if (primaryKeyName){
+
+                if(this._pk !== undefined){
+                    this.uks().remove(this._pk);
+                }
+
                 this._pk = new Key(this, primaryKeyName);
+
+                this.uks().add(this._pk);
+
             } else {
+
                 return this._pk;
+
             }
 
         },
@@ -486,6 +517,11 @@ var Relation = Set.extend(
          * @returns {Set}
          */
         fks : function(){
+
+            if (this._fks === undefined){
+                this._fks = new Set({ type : ForeignKey});
+            }
+
             return this._fks;
         },
 
@@ -494,6 +530,11 @@ var Relation = Set.extend(
          * @returns {Set}
          */
         uks : function(){
+
+            if (this._uks === undefined){
+                this._uks = new Set({ type : Key});
+            }
+
             return this._uks;
         },
 
@@ -562,6 +603,18 @@ var Relation = Set.extend(
             var newHeader = this.header().clone();
 
             var newRelation = new Relation(newHeader);
+
+            // Clone the pk
+
+            //todo PK Clone
+
+            // Clone the uks
+
+            //todo UKS clone
+
+            // Clone the fks
+
+            //todo FKS clone
 
             if (withTuples){
                 this.each(function(tuple){
@@ -814,7 +867,11 @@ var Relation = Set.extend(
             predicate.convertAttributeToTuple();
 
             _.forEach(values, function(value){
-                value.convertAttributeToTuple();
+
+                if(_.isFunction(value)){
+                    value.convertAttributeToTuple()
+                }
+
             });
 
             this.each(function(tuple){
@@ -823,7 +880,7 @@ var Relation = Set.extend(
 
                     _.forEach(values, function(expression, key){
 
-                        var value = expression.assignTuple(tuple).value();
+                        var value = _.isFunction(expression) ? expression.assignTuple(tuple).value() : expression;
 
                         tuple.set(key, value);
 
@@ -834,6 +891,29 @@ var Relation = Set.extend(
             })
 
         },
+
+<span id='Relation-method-removeWhere'>        /**
+</span>         * Removes tuples from a relation based on a predicate
+         * @param predicate
+         */
+        removeWhere : function(predicate){
+
+            predicate.convertAttributeToTuple();
+
+            var that = this;
+
+            this.each(function(tuple, index){
+
+                if(predicate.assignTuple(tuple).value() === true){
+
+                    that.removeAt(index);
+
+                }
+
+            })
+
+        },
+
 
         //region Operations
 

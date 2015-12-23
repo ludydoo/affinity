@@ -45,7 +45,7 @@ var Index = Base.extend(
 
             /* Recursively iterating through the header and populating the headerLevels array*/
 
-            var targetHeader = this.header;
+            var targetHeader = this.header.clone();
 
             for(var k = 0; k &lt; this.levels; k++){
 

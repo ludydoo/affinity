@@ -262,7 +262,7 @@ var Attribute = Base.extend(
         default : function(){
 
             if(this._autoIncrement){
-                return this.header.relation.body().length;
+                return this.header.relation.length() + this.header.relation._deletedCount;
             }
 
             return this._default;
